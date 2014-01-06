@@ -1,0 +1,5 @@
+formats:
+  kills: "<p>Kills<s>:"
+  sidebar-title: "<p>Ascension"
+  weapon: "<p>You have been given a <s><weapon><p> to kill with."
+  win: "<s>The winner is <p><winner><s>!"

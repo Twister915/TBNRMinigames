@@ -1,0 +1,33 @@
+name: GearzHub
+version: 1.0
+main: net.tbnr.gearz.hub.GearzHub
+description: dat hub
+website: http://tbnr.net
+authors: [Twister915, Thecraftgod, NoyHillel1]
+depend: [Gearz]
+commands:
+  setcannon:
+    description: create a cannon.
+  delcannon:
+    description: delete a cannon.
+  setspawn:
+    description: dat spawn
+  spawn:
+    description: dat spawn
+    aliases: [yolo, s, uwot, wot, hi, yay, noplz, swag]
+  world:
+    description: dat world
+  head:
+    description: dat world
+  setWarp:
+    description: dat warp
+    aliases: [setWarpStar, warpStar]
+  delWarp:
+    description: dat warp deleted
+    aliases: [delWarpStart]
+  clearchat:
+    description: dat clearchat
+    aliases: [cc, cchat, clearc]
+  clearmychat:
+    description: dat clearmychat
+    aliases: [cmc, cmychat]

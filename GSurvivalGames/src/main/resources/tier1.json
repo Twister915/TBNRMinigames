@@ -1,0 +1,63 @@
+{
+    "name": "Tier One",
+    "minimum": 3,
+    "maximum": 7,
+    "data": [{
+        "material":"GOLD_APPLE",
+        "data":0,
+        "chance":15
+    },{
+        "material":"SNOW_BALL",
+        "data":0,
+        "chance":80
+    },{
+        "material":"WOOD_SWORD",
+        "data":0,
+        "chance":35
+    },{
+        "material":"STONE_AXE",
+        "data":0,
+        "chance":25
+    },{
+        "title": "&aTwister's Snack.",
+        "material":"COOKIE",
+        "data":0,
+        "chance":80
+    },{
+        "material":"COOKED_CHICKEN",
+        "data":0,
+        "chance":20
+    },{
+        "material":"CHAIN_HELMET",
+        "data":0,
+        "chance":40
+    },{
+        "material":"CHAIN_BOOTS",
+        "data":0,
+        "chance":40
+    }, {
+        "material":"CHAINMAIL_CHESTPLATE",
+        "data":0,
+        "chance":30
+    },{
+        "material":"CHAINMAIL_LEGGINGS",
+        "data":0,
+        "chance":40
+    }, {
+        "material":"GOLD_HELMET",
+        "data":0,
+        "chance":60
+    },{
+        "material":"GOLD_BOOTS",
+        "data":0,
+        "chance":60
+    },{
+        "material":"STICK",
+        "data":0,
+        "chance":80
+    },{
+        "material":"ARROW",
+        "data":0,
+        "chance":80
+    }]
+}

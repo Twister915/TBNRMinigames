@@ -1,0 +1,9 @@
+formats:
+  give-class: "<s>You have been given the <p><class><s> class!"
+  next-round: "<s>The next round has started! The current leader is <p><leader><s>."
+  win: "<s>The game is over! <p><winner><s> has won the game!"
+  grace-period-start: "<s>There will be a <p><seconds> second<s> grace period!"
+  grace-period-end: "<s>The grace period has ended!"
+  grace-period-bar: "<s>Grace Peroid: <p><seconds><s>."
+  standard-bar: "<s>Kills Left: <p><kills>&3 | <s>Switches: <p><switches>&3 | <s>Class: <p><class>"
+  scoreboard-title: "<p>Kills"

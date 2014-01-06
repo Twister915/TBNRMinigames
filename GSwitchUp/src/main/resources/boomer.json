@@ -1,0 +1,102 @@
+{   
+    "name" : "Boomer",
+    "repItem" : {
+        "item_type" : "AIR"
+    },
+    "items" : [
+        {
+            "item_type" : "TNT",
+            "title" : "&bBoom Box",
+            "lore" : [
+                "&bIt splodes!",
+                "&aBang!"
+            ],
+            "quantity" : 3
+        },
+        {
+            "item_type" : "FLINT_AND_STEEL",
+            "enchants" : [
+                {
+                    "name" : "DURABILITY",
+                    "level" : 20
+                }
+            ],
+            "title" : "The Burner",
+            "lore" : [
+                "&bRain Fire upon them!",
+                "&aMake them burn!!"
+            ]
+        },
+        {
+            "item_type" : "FIRE",
+            "data" : 1,
+            "quantity" : 1,
+            "lore" : [
+                "&bHot Hot!",
+                "&aBURRN!!"
+            ]
+        },
+        {
+            "item_type" : "FIRE",
+            "data" : 2,
+            "quantity" : 1,
+            "lore" : [
+                "&bHot Hot!",
+                "&aBURRN!!"
+            ]
+        },
+        {
+            "item_type" : "FIRE",
+            "data" : 3,
+            "quantity" : 1,
+            "lore" : [
+                "&bHot Hot!",
+                "&aBURRN!!"
+            ]
+        },
+        {
+            "item_type" : "FIRE",
+            "data" : 4,
+            "quantity" : 1,
+            "lore" : [
+                "&bHot Hot!",
+                "&aBURRN!!"
+            ]
+        },
+        {
+            "item_type" : "FIRE",
+            "data" : 5,
+            "quantity" : 1,
+            "lore" : [
+                "&bHot Hot!",
+                "&aBURRN!!"
+            ]
+        },
+        {
+            "item_type" : "FIRE",
+            "data" : 6,
+            "quantity" : 1,
+            "lore" : [
+                "&bHot Hot!",
+                "&aBURRN!!"
+            ]
+        },
+        {
+            "item_type" : "STONE_SWORD",
+            "quantity" : 1,
+            "title" : "&4Dagger"
+        }
+    ],
+    "status_effects" : [
+        {
+            "name" : "FIRE_RESISTANCE",
+            "level" : 10,
+            "ambient" : false
+        }
+    ],
+    "armour" : [
+        {
+            "item_type" : "FIRE"
+        }
+    ]
+}

@@ -1,0 +1,91 @@
+{   
+    "name" : "Juggernaut",
+    "repItem" : {
+        "item_type" : "AIR"
+    },
+    "items" : [
+        {
+            "item_type" : "STICK",
+            "title" : "&bBeat Stick",
+            "lore" : [
+                "&bStand Aside",
+                "&aBe gone!"
+            ],
+            "enchants" : [
+                {
+                    "name" : "KNOCKBACK",
+                    "level" : 3
+                },
+                {
+                    "name" : "FIRE_ASPECT",
+                    "level" : 3
+                }
+            ],
+        }
+    ],
+    "status_effects" : [
+        {
+            "name" : "ABSORPTION",
+            "level" : 3,
+            "ambient" : false
+        }
+    ],
+    "armour" : [
+        {
+            "item_type" : "LEATHER_HELMET",
+            "title" : "&bUnbreaking Helmet",
+            "lore" : [
+                "&bImpervious!"
+            ],
+            "enchants" : [
+                {
+                    "name" : "DURABILITY",
+                    "level" : 20
+                }
+            ],
+            "color" : "#666666"
+        },
+        {
+            "item_type" : "LEATHER_CHESTPLATE",
+            "title" : "&bUnbreaking Helmet",
+            "lore" : [
+                "&bImpervious!"
+            ],
+            "enchants" : [
+                {
+                    "name" : "DURABILITY",
+                    "level" : 20
+                }
+            ],
+            "color" : "#666666"
+        },
+        {
+            "item_type" : "LEATHER_LEGGINS",
+            "title" : "&bUnbreaking Helmet",
+            "lore" : [
+                "&bImpervious!"
+            ],
+            "enchants" : [
+                {
+                    "name" : "DURABILITY",
+                    "level" : 20
+                }
+            ],
+            "color" : "#666666"
+        },
+        {
+            "item_type" : "LEATHER_BOOTS",
+            "title" : "&bUnbreaking Helmet",
+            "lore" : [
+                "&bImpervious!"
+            ],
+            "enchants" : [
+                {
+                    "name" : "DURABILITY",
+                    "level" : 20
+                }
+            ],
+            "color" : "#666666"
+        }
+    ]
+}

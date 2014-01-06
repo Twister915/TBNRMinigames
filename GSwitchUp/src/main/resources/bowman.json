@@ -1,0 +1,74 @@
+{   
+    "name" : "BowmMan",
+    "repItem" : {
+        "item_type" : "AIR"
+    },
+    "items" : [
+        {
+            "item_type" : "BOW",
+            "title" : "&bSturdy Bow",
+            "lore" : [
+                "&bWhat do I do with this?"
+            ],
+            "enchants" : [
+                {
+                    "name" : "KNOCKBACK",
+                    "level" : 2
+                },
+                {
+                    "name" : "DAMAGE_ALL",
+                    "level" : 7
+                }
+            ]
+        },
+        {
+            "item_type" : "ARROW",
+            "title" : "&bUseless Arrow",
+            "lore" : [
+                "&bWhat do I do with this?"
+            ],
+            "enchants" : [
+                {
+                    "name" : "KNOCKBACK",
+                    "level" : 4
+                }
+            ]
+        }
+    ],
+    "armour" : [
+        {
+            "item_type" : "AIR"
+        },
+        {
+            "item_type" : "LEATHER_CHESTPLATE",
+            "title" : "&bArchery Vest",
+            "lore" : [
+                "&bProper Equipment"
+            ],
+            "enchants" : [
+                {
+                    "name" : "DURABILITY",
+                    "level" : 20
+                }
+            ],
+            "color" : "#66FF66"
+        },
+        {
+            "item_type" : "AIR"
+        },
+        {
+            "item_type" : "LEATHER_BOOTS",
+            "title" : "&bArchery Vest",
+            "lore" : [
+                "&bProper Equipment!"
+            ],
+            "enchants" : [
+                {
+                    "name" : "DURABILITY",
+                    "level" : 20
+                }
+            ],
+            "color" : "#66FF66"
+        }
+    ]
+}

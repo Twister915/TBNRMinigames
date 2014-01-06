@@ -1,0 +1,6 @@
+formats:
+  ender-bar-ground: "<s>The <p>cortex<s> is <p><distance><s> blocks away from you!"
+  ender-bar-player: "<p><player><s> currently has the cortex, and is <p><distance><s> blocks away from you!"
+  cortex-pickup: "<p><player><s> has picked up the <p>cortex<s>!"
+  cortex-drop: "<p><player><s> has dropped the <p>cortex<s>!"
+  game-win: "<p><player><s> has placed the <p>cortex<s> in the frame!"

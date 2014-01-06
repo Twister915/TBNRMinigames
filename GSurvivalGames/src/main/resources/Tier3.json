@@ -1,0 +1,114 @@
+{
+    "name": "Tier Three",
+    "minimum": 3,
+    "maximum": 4,
+    "data": [ {
+		"title":"&4&l&oShiny Apple",
+        "material":"GOLD_APPLE",
+        "data":0,
+        "chance":100
+    },{
+		"title":"&4&l&oCull the Meek",
+        "material":"IRON_SWORD",
+        "data":0,
+        "chance":100
+    },{
+		"title":"&4&l&oSturdy Boots",
+        "material":"CHAIN_HELMET",
+        "data":0,
+        "chance":100,
+		"enchants": [
+            {
+                "name":"PROTECTION_ALL",
+                "level":3
+            }
+        ]
+    },{
+		"title":"&4&l&oSturdy Boots",
+        "material":"CHAIN_BOOTS",
+        "data":0,
+        "chance":100,
+		"enchants": [
+            {
+                "name":"PROTECTION_ALL",
+                "level":3
+            }
+        ]
+    }, {
+		"title":"&4&l&oSpiky Chestplate",
+        "material":"CHAIN_CHESTPLATE",
+        "data":0,
+        "chance":100,
+		"enchants": [
+            {
+                "name":"THORNS",
+                "level":3
+            }
+        ]
+    },{
+		"title":"&4&l&oSturdy Leggins",
+        "material":"CHAIN_LEGGINGS",
+        "data":0,
+        "chance":100,
+		"enchants": [
+            {
+                "name":"PROTECTION_ALL",
+                "level":3
+            }
+        ]
+    },{
+		"title":"&4&l&oLongFall Boots",
+        "material":"DIAMOND_BOOTS",
+        "data":0,
+        "chance":100,
+		"enchants": [
+            {
+                "name":"PROTECTION_FALL",
+                "level":3
+            }
+        ]
+    },{
+		"title":"&4&l&oBirthday Cake",
+        "material":"CAKE",
+        "data":0,
+        "chance":100
+    },{
+		"title":"&4&l&oShiny Gem",
+		"material":"DIAMOND",
+        "data":0,
+        "chance":100
+	},{
+		"title":"&4&l&oStand Aside",
+		"material":"STICK",
+        "data":0,
+        "chance":100,
+		"enchants": [
+            {
+                "name":"KNOCKBACK",
+                "level":2
+            }
+        ]
+	},{
+		"title":"&4&l&oScuba Helmet",
+        "material":"DIAMOND_HELMET",
+        "data":0,
+        "chance":100,
+		"enchants": [
+            {
+                "name":"OXYGEN",
+                "level":3
+            }
+        ]
+    },{
+		"title":"&4&l&oCleaver",
+        "material":"GOLD_AXE",
+        "data":0,
+        "chance":100,
+		"enchants": [
+            {
+                "name":"DAMAGE_ALL",
+                "level":2
+            }
+        ]
+    }]
+}

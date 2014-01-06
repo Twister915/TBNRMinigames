@@ -1,0 +1,64 @@
+{   
+    "name" : "Olympian",
+    "repItem" : {
+        "item_type" : "AIR"
+    },
+    "items" : [
+        {
+            "item_type" : "TORCH",
+            "title" : "&bOlympic Torch",
+            "enchants" : [
+                {
+                    "name" : "DAMAGE_ALL",
+                    "level" : 6
+                },
+                {
+                    "name" : "FIRE_ASPECT",
+                    "level" : 2
+                }
+            ]
+        }
+    ],
+    "status_effects" : [
+        {
+            "name" : "SPEED",
+            "level" : 3,
+            "ambient" : false
+        },
+        {
+            "name" : "JUMP",
+            "level" : 2,
+            "ambient" : false
+        }
+    ],
+    "armour" : [
+        {
+            "item_type" : "AIR"
+        },
+        {
+            "item_type" : "AIR"
+        },
+        {
+            "item_type" : "LEATHER_LEGGINGS",
+            "title" : "&bRobe Leggings",
+            "enchants" : [
+                {
+                    "name" : "DURABILITY",
+                    "level" : 20
+                }
+            ],
+            "color" : "#666666"
+        },
+        {
+            "item_type" : "LEATHER_BOOTS",
+            "title" : "&bRobe Sandals",
+            "enchants" : [
+                {
+                    "name" : "DURABILITY",
+                    "level" : 20
+                }
+            ],
+            "color" : "#FFFFFF"
+        }
+    ]
+}

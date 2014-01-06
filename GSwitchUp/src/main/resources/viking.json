@@ -1,0 +1,79 @@
+{   
+    "name" : "Viking",
+    "repItem" : {
+        "item_type" : "AIR"
+    },
+    "items" : [
+        {
+            "item_type" : "IRON_AXE",
+            "title" : "&bHeart Cleaver",
+            "lore" : [
+                "&bAxe!"
+            ],
+            "enchants" : [
+                {
+                    "name" : "DAMAGE_ALL",
+                    "level" : 3
+                }
+            ]
+        }
+    ],
+    "armour" : [
+        {
+            "item_type" : "LEATHER_HELMET",
+            "title" : "&bBATTLE HELM",
+            "lore" : [
+                "&bFor Glory!"
+            ],
+            "enchants" : [
+                {
+                    "name" : "DURABILITY",
+                    "level" : 20
+                }
+            ],
+            "color" : "#FF0000"
+        },
+        {
+            "item_type" : "LEATHER_CHESTPLATE",
+            "title" : "&bBATTLE CHESTPLATE",
+            "lore" : [
+                "&bFor Glory!"
+            ],
+            "enchants" : [
+                {
+                    "name" : "DURABILITY",
+                    "level" : 20
+                }
+            ],
+            "color" : "#FF0000"
+        },
+        {
+            "item_type" : "LEATHER_LEGGINGS",
+            "title" : "&bBATTLE LEGGINGS",
+            "lore" : [
+                "&bFor Glory!"
+            ],
+            "enchants" : [
+                {
+                    "name" : "DURABILITY",
+                    "level" : 20
+                }
+            ],
+            "color" : "#FF0000"
+        },
+        {
+            "item_type" : "LEATHER_BOOTS",
+            "title" : "&bBATTLE BOOTS",
+            "lore" : [
+                "&bFor Glory!"
+            ],
+            "enchants" : [
+                {
+                    "name" : "DURABILITY",
+                    "level" : 20
+                }
+            ],
+            "color" : "#FF0000"
+        }
+    ]
+}

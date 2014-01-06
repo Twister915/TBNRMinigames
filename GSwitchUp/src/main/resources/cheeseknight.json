@@ -1,0 +1,71 @@
+{   
+    "name" : "Cheese Knight",
+    "repItem" : {
+        "item_type" : "AIR"
+    },
+    "items" : [
+        {
+            "item_type" : "SPONGE",
+            "title" : "&bCheese of Fury!",
+            "enchants" : [
+                {
+                    "name" : "DAMAGE_ALL",
+                    "level" : 8
+                }
+            ]
+        }
+    ],
+    "status_effects" : [
+        {
+            "name" : "SPEED",
+            "level" : 3,
+            "ambient" : false
+        }
+    ],
+    "armour" : [
+        {
+            "item_type" : "LEATHER_HELMET",
+            "title" : "&bRobe Hood",
+            "enchants" : [
+                {
+                    "name" : "DURABILITY",
+                    "level" : 20
+                }
+            ],
+            "color" : "#FFFF00"
+        },
+        {
+            "item_type" : "LEATHER_CHESTPLATE",
+            "title" : "&bRobe Vest",
+            "enchants" : [
+                {
+                    "name" : "DURABILITY",
+                    "level" : 20
+                }
+            ],
+            "color" : "#FFFF00"
+        },
+        {
+            "item_type" : "LEATHER_LEGGINGS",
+            "title" : "&bRobe Leggings",
+            "enchants" : [
+                {
+                    "name" : "DURABILITY",
+                    "level" : 20
+                }
+            ],
+            "color" : "#FFFF00"
+        },
+        {
+            "item_type" : "LEATHER_BOOTS",
+            "title" : "&bRobe Sandals",
+            "enchants" : [
+                {
+                    "name" : "DURABILITY",
+                    "level" : 20
+                }
+            ],
+            "color" : "#FFFF00"
+        }
+    ]
+}

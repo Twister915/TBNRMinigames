@@ -1,0 +1,65 @@
+{   
+    "name" : "Archer",
+    "repItem" : {
+        "item_type" : "AIR"
+    },
+    "items" : [
+        {
+            "item_type" : "BOW",
+            "title" : "&bSharpshooter Bow",
+            "lore" : [
+                "&bShootey!"
+            ],
+            "enchants" : [
+                {
+                    "name" : "ARROW_DAMAGE",
+                    "level" : 5
+                }
+            ]
+        },
+        {
+            "item_type" : "ARROW",
+            "title" : "&bSharpshooter Bow",
+            "lore" : [
+                "&bSharp!"
+            ],
+            "quantity" : 8
+        }
+    ],
+    "armour" : [
+        {
+            "item_type" : "AIR"
+        },
+        {
+            "item_type" : "LEATHER_CHESTPLATE",
+            "title" : "&bArchery Vest",
+            "lore" : [
+                "&bProper Equipment"
+            ],
+            "enchants" : [
+                {
+                    "name" : "DURABILITY",
+                    "level" : 20
+                }
+            ],
+            "color" : "#EAEAEA"
+        },
+        {
+            "item_type" : "AIR"
+        },
+        {
+            "item_type" : "LEATHER_BOOTS",
+            "title" : "&bArchery Vest",
+            "lore" : [
+                "&bProper Equipment!"
+            ],
+            "enchants" : [
+                {
+                    "name" : "DURABILITY",
+                    "level" : 20
+                }
+            ],
+            "color" : "#EAEAEA"
+        }
+    ]
+}

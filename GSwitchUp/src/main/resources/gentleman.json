@@ -1,0 +1,72 @@
+{   
+    "name" : "Gentleman",
+    "repItem" : {
+        "item_type" : "AIR"
+    },
+    "items" : [
+        {
+            "item_type" : "RED_ROSE",
+            "title" : "&bTrue Love's Sting",
+            "enchants" : [
+                {
+                    "name" : "DAMAGE_ALL",
+                    "level" : 8
+                }
+            ],
+            "data" : 4
+        }
+    ],
+    "status_effects" : [
+        {
+            "name" : "SPEED",
+            "level" : 1,
+            "ambient" : false
+        }
+    ],
+    "armour" : [
+        {
+            "item_type" : "LEATHER_HELMET",
+            "title" : "&bTop Hat",
+            "enchants" : [
+                {
+                    "name" : "DURABILITY",
+                    "level" : 20
+                }
+            ],
+            "color" : "#000000"
+        },
+        {
+            "item_type" : "LEATHER_CHESTPLATE",
+            "title" : "&bDinner Jacket",
+            "enchants" : [
+                {
+                    "name" : "DURABILITY",
+                    "level" : 20
+                }
+            ],
+            "color" : "#000000"
+        },
+        {
+            "item_type" : "LEATHER_LEGGINGS",
+            "title" : "&bTrousers",
+            "enchants" : [
+                {
+                    "name" : "DURABILITY",
+                    "level" : 20
+                }
+            ],
+            "color" : "#000000"
+        },
+        {
+            "item_type" : "LEATHER_BOOTS",
+            "title" : "&bLoafers",
+            "enchants" : [
+                {
+                    "name" : "DURABILITY",
+                    "level" : 20
+                }
+            ],
+            "color" : "#000000"
+        }
+    ]
+}

@@ -1,0 +1,8 @@
+formats:
+  countdown-bar: "<s>The game will start in <p><seconds><s>."
+  gameplay-bar: "<s>There are <p><current><s>/<p><max><s> tributes remaining."
+  gameplay-start: "<s>The game is starting, <p>may the odds be ever in your favour<s>."
+  winner: "<p><winner><s> has won the survival games!"
+  refill-chests: "<p>The chests have been filled up!"
+  deathmatch-countdown: "<s>The deathmatch will start in <p><seconds><s>."
+  slowness-info: "<s>The slowness potion is for zoom. Take a good look..."

@@ -1,0 +1,6 @@
+name: GEnderzGame
+version: 1.0
+authors: [Twister915]
+depend: [Gearz]
+main: net.tbnr.minigame.eg.GEnderzGame
+description: EnderzGame

@@ -1,0 +1,9 @@
+formats:
+  scoreboard-title: "<p><gname>"
+  hit-player: "<s>You have hit <p><player> <s>with a snowball, and took <p><points> <s>points!"
+  hit-player-stick: "<s>You have hit <p><player> <s>with a stick, and took <p><points> <s>points!"
+  lost-points: "<s>You have lost <p><points> <s>points!"
+  out-of-game: "<p><player> <s>is out of the game!"
+  game-started: "<p>The game has started, you have <time> seconds!"
+  winner: "<s>The winner is <p><name><s>!"
+  time: "<p>Time remaining: <s><time>"

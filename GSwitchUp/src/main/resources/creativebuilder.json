@@ -1,0 +1,96 @@
+{   
+    "name" : "Creative Builder",
+    "repItem" : {
+        "item_type" : "AIR"
+    },
+    "items" : [
+        {
+            "item_type" : "STONE",
+            "title" : "&bStone of Fury",
+            "enchants" : [
+                {
+                    "name" : "DAMAGE_ALL",
+                    "level" : 7
+                }
+            ]
+        },
+        {
+            "item_type" : "COBBLESTONE",
+            "title" : "&bCobbleStone of Luck",
+            "enchants" : [
+                {
+                    "name" : "LUCK",
+                    "level" : 4
+                }
+            ]
+        },
+        {
+            "item_type" : "BRICK",
+            "title" : "&bBrick of Flames",
+            "enchants" : [
+                {
+                    "name" : "FIRE_ASPECT",
+                    "level" : 1
+                }
+            ]
+        },
+        {
+            "item_type" : "DIRT",
+            "title" : "&bDirt of Digging",
+            "enchants" : [
+                {
+                    "name" : "DIG_SPEED",
+                    "level" : 5
+                }
+            ]
+        },
+        {
+            "item_type" : "WOOD",
+            "title" : "&bWood of Anger",
+            "enchants" : [
+                {
+                    "name" : "KNOCKBACK",
+                    "level" : 3
+                }
+            ]
+        },
+        {
+            "item_type" : "LOG",
+            "title" : "&bLog of Unbreaking",
+            "enchants" : [
+                {
+                    "name" : "DURABILITY",
+                    "level" : 6
+                }
+            ]
+        },
+        {
+            "item_type" : "LEAVES",
+            "title" : "&bLeaves of Silk",
+            "enchants" : [
+                {
+                    "name" : "SILK_TOUCH",
+                    "level" : 4
+                }
+            ]
+        },
+        {
+            "item_type" : "TORCH",
+            "title" : "&bTorch of Fire",
+            "enchants" : [
+                {
+                    "name" : "FIRE_ASPECT",
+                    "level" : 1
+                },
+                {
+                    "name" : "DAMAGE_ALL",
+                    "level" : 5
+                }
+            ]
+        },
+        {
+            "item_type" : "STEP",
+            "title" : "&bUseless Step"
+        },
+    ]
+}
