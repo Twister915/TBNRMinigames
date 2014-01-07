@@ -17,6 +17,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.HashMap;
@@ -135,7 +136,7 @@ public class HeadHunterGame extends GearzGame implements GameCountdownHandler {
         SkullMeta itemMeta = (SkullMeta) stack.getItemMeta();
         itemMeta.setOwner(dead.getPlayer().getName());
         stack.setItemMeta(itemMeta);
-        if (killsInInventory(killer) % 5 == 0) stack.setAmount(2);
+        if (killsInInventory(dead) >= 5) stack.setAmount(2);
         dead.getPlayer().getWorld().dropItemNaturally(dead.getPlayer().getLocation(), stack);
         killer.getPlayer().playNote(killer.getPlayer().getLocation(), Instrument.PIANO, Note.sharp(1, Note.Tone.F));
     }
@@ -233,7 +234,7 @@ public class HeadHunterGame extends GearzGame implements GameCountdownHandler {
 
         if (i != 0) {
             item.addUnsafeEnchantment(Enchantment.DAMAGE_ALL, (int) Math.round(Math.sqrt(5 * i) - 1));
-            player.getPlayer().setHealth(Math.min(player.getPlayer().getMaxHealth(), player.getPlayer().getHealth() + 2d));
+            player.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 100, 0));
             if (i % 4 == 0) {
                 int absorbtionLevel = player.getTPlayer().getCurrentPotionLevel(PotionEffectType.HEALTH_BOOST);
                 player.getTPlayer().addInfinitePotionEffect(PotionEffectType.HEALTH_BOOST, absorbtionLevel == -1 ? 1 : absorbtionLevel + 1);
