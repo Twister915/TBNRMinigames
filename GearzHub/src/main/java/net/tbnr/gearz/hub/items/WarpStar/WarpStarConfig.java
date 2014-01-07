@@ -30,6 +30,9 @@ public class WarpStarConfig {
         warps = new ArrayList<>();
         locations = new HashMap<>();
         ConfigurationSection section = GearzHub.getInstance().getConfig().getConfigurationSection("hub.warps");
+        if (section == null) {
+            return;
+        }
         Set<String> keys = section.getKeys(false);
         for (String key : keys) {
             ConfigurationSection forKey = section.getConfigurationSection(key);
