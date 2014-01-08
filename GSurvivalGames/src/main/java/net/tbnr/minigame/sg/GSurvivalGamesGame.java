@@ -298,6 +298,7 @@ public class GSurvivalGamesGame extends GearzGame implements GameCountdownHandle
     private void playerDied(GearzPlayer player) {
         Firework entity = (Firework) sgArena.getWorld().spawnEntity(player.getPlayer().getLocation(), EntityType.FIREWORK);
         entity.getFireworkMeta().addEffects(FireworkEffect.builder().withColor(Color.WHITE).with(FireworkEffect.Type.STAR).flicker(true).trail(true).build());
+        getArena().getWorld().strikeLightningEffect(player.getPlayer().getLocation());
         //long time = sgArena.getSchematic().getWorld().getTime();
         //TODO broadcast them heads of the fallen tributes with cool sounds.
         Bukkit.getScheduler().runTaskLater(getPlugin(), new Runnable() {
