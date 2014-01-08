@@ -203,20 +203,10 @@ public class MultiserverCannons implements Listener, TCommandHandler {
                     break;
                 case SEND:
                     this.state = ProcessState.SENT;
-                    List<net.tbnr.gearz.server.Server> server = ServerManager.getServersWithGame(cannon.getServer());
-                    String serverName = null;
-                    if (server == null) serverName = cannon.getServer();
-                    else {
-                        for (Server s : server) {
-                            GearzHub.getInstance().getLogger().info(s.toString());
-                            if (!s.getStatusString().equals("lobby")) continue;
-                            if (!s.isCanJoin()) continue;
-                            GearzHub.getInstance().getLogger().info(s.toString() + " connecting");
-                            serverName = s.getBungee_name();
-                        }
-                    }
-                    if (serverName == null) serverName = cannon.getServer();
-                    BouncyUtils.sendPlayerToServer(this.player.getPlayer(), serverName);
+                    String serverFor = getServerFor(cannon.getServer(), false);
+                    if (serverFor == null) serverFor = getServerFor(cannon.getServer(), true);
+                    if (serverFor == null) serverFor = cannon.getServer();
+                    BouncyUtils.sendPlayerToServer(this.player.getPlayer(), serverFor);
                     this.player.getPlayer().teleport(GearzHub.getInstance().getSpawn().getSpawn());
                     try {
                         this.player.playParticleEffect(new TPlayer.TParticleEffect(player.getPlayer().getLocation(), Gearz.getRandom().nextFloat(), 1, 10, 2, WrapperPlayServerWorldParticles.ParticleEffect.HEART));
@@ -226,6 +216,20 @@ public class MultiserverCannons implements Listener, TCommandHandler {
                     GearzHub.getInstance().getCannon().actives.remove(player);
                     break;
             }
+        }
+
+        private String getServerFor(String game, boolean allowFulls) {
+            List<net.tbnr.gearz.server.Server> server = ServerManager.getServersWithGame(game);
+            if (server == null) return game;
+            for (Server s : server) {
+                GearzHub.getInstance().getLogger().info(s.toString());
+                if (!s.getStatusString().equals("lobby")) continue;
+                if (!s.isCanJoin()) continue;
+                if (s.getMaximumPlayers() == s.getPlayerCount() && allowFulls) continue;
+                GearzHub.getInstance().getLogger().info(s.toString() + " connecting");
+                return s.getBungee_name();
+            }
+            return null;
         }
 
         private void reregister(int time) {
