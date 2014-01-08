@@ -1,78 +1,68 @@
 {
     "name": "Cornicopia",
     "minimum": 3,
-    "maximum": 5,
-    "data": [ {
-        "material":"GOLDEN_APPLE",
-        "data":0,
-        "chance":25
-    },{
-        "material":"IRON_AXE",
-        "data":0,
-        "chance":20
-    },{
-        "material":"CARROT_ITEM",
-        "data":0,
-        "chance":40
-    },{
-        "material":"COOKED_CHICKEN",
-        "data":0,
-        "chance":30
-    },{
-        "material":"CHAINMAIL_HELMET",
-        "data":0,
-        "chance":25
-    },{
-        "material":"CHAINMAIL_CHESTPLATE",
-        "data":0,
-        "chance":15
-    },{
-        "material":"APPLE",
-        "data":0,
-        "chance":85
-    },{
-        "material":"DIAMOND",
-        "data":0,
-        "chance":25
-    },{
-        "material":"STONE_SWORD",
-        "data":0,
-        "chance":10
-    },{
-        "material":"STONE_AXE",
-        "data":0,
-        "chance":25
-    },{
-        "material":"IRON_SWORD",
-        "data":0,
-        "chance":5
-    },{
-        "material":"CAKE",
-        "data":0,
-        "chance":30
-    },{
-        "material":"BREAD",
-        "data":0,
-        "chance":30
-    },{
-        "material":"BOW",
-        "data":0,
-        "chance":15
-    },{
-        "material":"WOODEN_SWORD",
-        "data":0,
-        "chance":60
-    },{
-        "material":"EXP_BOTTLE",
-        "data":0,
-        "chance":60
-    },{
-        "material":"ARROW",
-        "data":0,
-        "chance":60
-    },{
-        "material":"STICK",
-        "data":0,
-        "chance":80
-    }]
+    "maximum": 6,
+    "data" : [
+        {
+            "material" : "CHAINMAIL_HELMET",
+            "data" : 0,
+            "chance" : 100
+        },{
+            "material" : "CHAINMAIL_CHESTPLATE",
+            "data" : 0,
+            "chance" : 100
+        },{
+            "material" : "CHAINMAIL_BOOTS",
+            "data" : 0,
+            "chance" : 100
+        },{
+            "material" : "CHAINMAIL_LEGGINGS",
+            "data" : 0,
+            "chance" : 100
+        },{
+            "material" : "STONE_SWORD",
+            "data" : 0,
+            "chance" : 100
+        },{
+            "material" : "GOLD_INGOT",
+            "data" : 0,
+            "chance" : 100
+        },{
+            "material" : "IRON_INGOT",
+            "data" : 0,
+            "chance" : 100
+        },{
+            "material" : "DIAMOND",
+            "data" : 0,
+            "chance" : 100
+        },{
+            "material" : "GRILLED_PORK",
+            "data" : 0,
+            "chance" : 100
+        },{
+            "material" : "COOKED_BEEF",
+            "data" : 0,
+            "chance" : 100
+        },{
+            "material" : "GOLDEN_APPLE",
+            "data" : 0,
+            "chance" : 100
+        },{
+            "material" : "COOKED_CHICKEN",
+            "data" : 0,
+            "chance" : 100
+        },{
+            "material" : "PUMPKIN_PIE",
+            "data" : 0,
+            "chance" : 100
+        },{
+            "material" : "IRON_AXE",
+            "data" : 0,
+            "chance" : 100
+        },{
+            "material" : "EXP_BOTTLE",
+            "data" : 0,
+            "chance" : 100
+        }
+    ]
 }
