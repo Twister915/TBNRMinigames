@@ -110,7 +110,6 @@ public class GSurvivalGamesGame extends GearzGame implements GameCountdownHandle
     }
 
     @Override
-
     public void onCountdownStart(Integer max, GameCountdown countdown) {
         this.countdownSecondsRemain = max;
         if (this.state == SGState.DeathmatchCountdown) return;
@@ -328,6 +327,12 @@ public class GSurvivalGamesGame extends GearzGame implements GameCountdownHandle
 
     @Override
     public void removePlayerFromGame(GearzPlayer player) {
+        if (!isPlaying(player)) return;
         playerDied(player);
+    }
+
+    @Override
+    public boolean useEnderBar(GearzPlayer player) {
+        return false;
     }
 }
