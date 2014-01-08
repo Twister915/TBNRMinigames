@@ -222,11 +222,9 @@ public class MultiserverCannons implements Listener, TCommandHandler {
             List<net.tbnr.gearz.server.Server> server = ServerManager.getServersWithGame(game);
             if (server == null) return game;
             for (Server s : server) {
-                GearzHub.getInstance().getLogger().info(s.toString());
                 if (!s.getStatusString().equals("lobby")) continue;
                 if (!s.isCanJoin()) continue;
                 if (s.getMaximumPlayers() == s.getPlayerCount() && allowFulls) continue;
-                GearzHub.getInstance().getLogger().info(s.toString() + " connecting");
                 return s.getBungee_name();
             }
             return null;
