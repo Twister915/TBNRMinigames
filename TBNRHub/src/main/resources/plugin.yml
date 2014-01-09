@@ -1,7 +1,7 @@
 name: TBNRHub
 version: 1.0
 main: net.tbnr.gearz.hub.TBNRHub
-description: dat hub
+description: TBNR Hub
 website: http://tbnr.net
 authors: [Twister915, Thecraftgod, NoyHillel1]
 depend: [Gearz]
@@ -14,7 +14,7 @@ commands:
     description: dat spawn
   spawn:
     description: dat spawn
-    aliases: [yolo, s, uwot, wot, hi, yay, noplz, swag]
+    aliases: [s]
   world:
     description: dat world
   head:
