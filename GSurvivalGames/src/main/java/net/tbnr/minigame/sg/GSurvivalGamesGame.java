@@ -13,6 +13,8 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
@@ -243,14 +245,15 @@ public class GSurvivalGamesGame extends GearzGame implements GameCountdownHandle
     private void updateEnderBar() {
         if (this.state == SGState.Countdown || this.state == SGState.DeathmatchCountdown) {
             for (GearzPlayer player : this.allPlayers()) {
-                if (player == null) continue;
+                if (player == null || !player.isValid()) continue;
                 EnderBar.setTextFor(player, getPluginFormat((state == SGState.Countdown ? "formats.countdown-bar" : "formats.deathmatch-countdown"), false, new String[]{"<seconds>", String.valueOf(countdownSecondsRemain)}));
                 EnderBar.setHealthPercent(player, (float) countdownSecondsRemain / (float) countdownLength);
             }
+            if (this.state == SGState.Countdown) updateArmour();
         } else {
             int size = getPlayers().size();
             for (GearzPlayer player : this.allPlayers()) {
-                if (player == null) continue;
+                if (player == null || !player.isValid()) continue;
                 EnderBar.setTextFor(player, getPluginFormat("formats.gameplay-bar", false, new String[]{"<current>", String.valueOf(size)}, new String[]{"<max>", String.valueOf(this.startingPlayers)}));
                 EnderBar.setHealthPercent(player, (float) size / (float) startingPlayers);
             }
@@ -261,8 +264,9 @@ public class GSurvivalGamesGame extends GearzGame implements GameCountdownHandle
         if (this.state == SGState.Gameplay) {
             broadcast(getPluginFormat("formats.gameplay-start"));
             for (GearzPlayer player : getPlayers()) {
-                player.getTPlayer().removeAllPotionEffects();
+                player.getTPlayer().resetPlayer();
                 player.getPlayer().playNote(player.getPlayer().getLocation(), Instrument.BASS_DRUM, Note.natural(1, Note.Tone.F));
+                player.getTPlayer().playSound(Sound.ENDERDRAGON_GROWL);
             }
         }
         if (this.state == SGState.Deathmatch) {
@@ -330,6 +334,36 @@ public class GSurvivalGamesGame extends GearzGame implements GameCountdownHandle
     public void removePlayerFromGame(GearzPlayer player) {
         if (!isPlaying(player)) return;
         playerDied(player);
+    }
+
+    private void updateArmour() {
+        HashSet<GearzPlayer> players = getPlayers();
+        float percentTime = Math.max(((float) countdownSecondsRemain+1) / (float) countdownLength, countdownLength);
+        int redPlayers = (int) Math.ceil(percentTime * players.size());
+        for (GearzPlayer player : players) {
+            if (player == null || !player.isValid()) continue;
+            Color color;
+            if (redPlayers > 0) {
+                color = Color.RED;
+                redPlayers--;
+            }
+            else {
+                color = Color.YELLOW;
+            }
+            if (countdownSecondsRemain == 1) {
+                color = Color.GREEN;
+            }
+            ItemStack[] armour = new ItemStack[4];
+            armour[0] = new ItemStack(Material.LEATHER_HELMET);
+            armour[1] = new ItemStack(Material.LEATHER_CHESTPLATE);
+            armour[2] = new ItemStack(Material.LEATHER_LEGGINGS);
+            armour[3] = new ItemStack(Material.LEATHER_BOOTS);
+            for (ItemStack itemStack : armour) {
+                LeatherArmorMeta itemMeta = (LeatherArmorMeta) itemStack.getItemMeta();
+                itemMeta.setColor(color);
+            }
+            player.getPlayer().getInventory().setArmorContents(armour);
+        }
     }
 
     @Override
