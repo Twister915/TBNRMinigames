@@ -143,7 +143,12 @@ public class DBGame extends GearzGame implements GameCountdownHandler {
 
     @Override
     protected void removePlayerFromGame(GearzPlayer player) {
-        if (score.containsKey(player)) score.remove(player);
+        if (score.containsKey(player)) {
+            score.remove(player);
+            for (GearzPlayer p : getPlayers()) {
+                p.getTPlayer().removeScoreboardSide(player.getUsername());
+            }
+        }
     }
 
     @Override
@@ -228,8 +233,6 @@ public class DBGame extends GearzGame implements GameCountdownHandler {
 
     private void updateScoreboard() {
         for (GearzPlayer player : getPlayers()) {
-            player.getTPlayer().resetScoreboard();
-            player.getTPlayer().setScoreboardSideTitle(getPluginFormat("formats.scoreboard-title", false));
             for (GearzPlayer player1 : score.keySet()) {
                 player.getTPlayer().setScoreBoardSide(player1.getUsername(), score.get(player1));
             }
