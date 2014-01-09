@@ -239,7 +239,7 @@ public class GSurvivalGamesGame extends GearzGame implements GameCountdownHandle
 
     @Override
     protected boolean allowInventoryChange() {
-        return true;
+        return this.state == SGState.Gameplay || this.state == SGState.Deathmatch;
     }
 
     private void updateEnderBar() {
