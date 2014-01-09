@@ -354,13 +354,14 @@ public class GSurvivalGamesGame extends GearzGame implements GameCountdownHandle
                 color = Color.GREEN;
             }
             ItemStack[] armour = new ItemStack[4];
-            armour[0] = new ItemStack(Material.LEATHER_HELMET);
-            armour[1] = new ItemStack(Material.LEATHER_CHESTPLATE);
-            armour[2] = new ItemStack(Material.LEATHER_LEGGINGS);
-            armour[3] = new ItemStack(Material.LEATHER_BOOTS);
+            armour[3] = new ItemStack(Material.LEATHER_HELMET);
+            armour[2] = new ItemStack(Material.LEATHER_CHESTPLATE);
+            armour[1] = new ItemStack(Material.LEATHER_LEGGINGS);
+            armour[0] = new ItemStack(Material.LEATHER_BOOTS);
             for (ItemStack itemStack : armour) {
                 LeatherArmorMeta itemMeta = (LeatherArmorMeta) itemStack.getItemMeta();
                 itemMeta.setColor(color);
+                itemStack.setItemMeta(itemMeta);
             }
             player.getPlayer().getInventory().setArmorContents(armour);
         }
