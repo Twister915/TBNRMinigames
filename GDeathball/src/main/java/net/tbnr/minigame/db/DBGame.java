@@ -239,7 +239,7 @@ public class DBGame extends GearzGame implements GameCountdownHandler {
 
     private void updateEnderBar() {
         for (GearzPlayer player : getPlayers()) {
-            EnderBar.setTextFor(player, getPluginFormat("formats.time", false, new String[]{"<time>", (countdown.getSeconds() - countdown.getPassed()) + ""}));
+            EnderBar.setTextFor(player, getPluginFormat("formats.time", false, new String[]{"<time>", formatInt(countdown.getSeconds() - countdown.getPassed())}));
             EnderBar.setHealthPercent(player, ((float) countdown.getSeconds() - countdown.getPassed()) / (float) countdown.getSeconds());
         }
     }
@@ -275,5 +275,10 @@ public class DBGame extends GearzGame implements GameCountdownHandler {
             }
         }
         finishGame();
+    }
+
+    private String formatInt(Integer integer) {
+        if (integer < 60) return String.format("%02d", integer);
+        else return String.format("%02d:%02d", (integer / 60), (integer % 60));
     }
 }
