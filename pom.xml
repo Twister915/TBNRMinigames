@@ -17,5 +17,6 @@
         <module>GSurvivalGames</module>
         <module>GSwitchUp</module>
         <module>TBNRHub</module>
+        <module>Commerce</module>
     </modules>
 </project>
