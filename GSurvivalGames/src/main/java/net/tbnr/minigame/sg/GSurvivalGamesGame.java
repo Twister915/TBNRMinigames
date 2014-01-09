@@ -338,7 +338,7 @@ public class GSurvivalGamesGame extends GearzGame implements GameCountdownHandle
 
     private void updateArmour() {
         HashSet<GearzPlayer> players = getPlayers();
-        float percentTime = Math.max(((float) countdownSecondsRemain+1) / (float) countdownLength, countdownLength);
+        float percentTime = Math.min(((float) countdownSecondsRemain+1) / (float) countdownLength, countdownLength);
         int redPlayers = (int) Math.ceil(percentTime * players.size());
         for (GearzPlayer player : players) {
             if (player == null || !player.isValid()) continue;
