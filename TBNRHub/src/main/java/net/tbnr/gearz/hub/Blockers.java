@@ -16,9 +16,9 @@ public class Blockers implements Listener {
         Player player = event.getPlayer();
         if (event.getPlayer().hasPermission("gearz.hub.fall")) return;
         if (player.getLocation().getY() < 0) {
-            player.teleport(GearzHub.getInstance().getSpawn().getSpawn());
-            player.playSound(GearzHub.getInstance().getSpawn().getSpawn(), Sound.CHICKEN_EGG_POP, 20, 1);
-            player.sendMessage(GearzHub.getInstance().getFormat("tpd-spawn", true, new String[]{"<prefix>", GearzHub.getInstance().getChatPrefix()}));
+            player.teleport(TBNRHub.getInstance().getSpawn().getSpawn());
+            player.playSound(TBNRHub.getInstance().getSpawn().getSpawn(), Sound.CHICKEN_EGG_POP, 20, 1);
+            player.sendMessage(TBNRHub.getInstance().getFormat("tpd-spawn", true, new String[]{"<prefix>", TBNRHub.getInstance().getChatPrefix()}));
         }
     }
 
@@ -27,7 +27,7 @@ public class Blockers implements Listener {
     public void onItemDrop(PlayerDropItemEvent event) {
         if (event.getPlayer().hasPermission("gearz.hub.drop")) return;
         if (event.getItemDrop().getItemStack().getType() == Material.SNOW_BALL) return;
-        event.getPlayer().sendMessage(GearzHub.getInstance().getFormat("cant-drop", true, new String[]{"<prefix>", GearzHub.getInstance().getChatPrefix()}));
+        event.getPlayer().sendMessage(TBNRHub.getInstance().getFormat("cant-drop", true, new String[]{"<prefix>", TBNRHub.getInstance().getChatPrefix()}));
         event.setCancelled(true);
     }
 }

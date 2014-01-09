@@ -32,7 +32,7 @@ public class Spawn implements Listener, TCommandHandler {
     @EventHandler
     @SuppressWarnings("unused")
     public void onJoin(TPlayerJoinEvent event) {
-        event.getPlayer().teleport(GearzHub.getInstance().getSpawn().getSpawn());
+        event.getPlayer().teleport(TBNRHub.getInstance().getSpawn().getSpawn());
     }
 
     @TCommand(
@@ -44,7 +44,7 @@ public class Spawn implements Listener, TCommandHandler {
     public TCommandStatus setSpawn(CommandSender sender, TCommandSender type, TCommand meta, Command command, String[] args) {
         Player player = (Player) sender;
         this.setSpawn(player.getLocation());
-        GearzHub.getInstance().saveConfig();
+        TBNRHub.getInstance().saveConfig();
         sender.sendMessage(ChatColor.GREEN + "Set spawn to where you are standing!");
         return TCommandStatus.SUCCESSFUL;
     }
@@ -92,7 +92,7 @@ public class Spawn implements Listener, TCommandHandler {
             } else {
                 worlds = worlds.substring(0, worlds.length() - 2);
             }
-            sender.sendMessage(GearzHub.getInstance().getFormat("formats.world-list", true, new String[]{"<worlds>", worlds}));
+            sender.sendMessage(TBNRHub.getInstance().getFormat("formats.world-list", true, new String[]{"<worlds>", worlds}));
             return TCommandStatus.SUCCESSFUL;
         }
         if (args.length > 1) return TCommandStatus.MANY_ARGS;
@@ -101,7 +101,7 @@ public class Spawn implements Listener, TCommandHandler {
         if (!sender.hasPermission("gearz.world." + w.getName())) return TCommandStatus.PERMISSIONS;
         ((Player) sender).teleport(w.getSpawnLocation());
         TPlayerManager.getInstance().getPlayer((Player) sender).playSound(Sound.ENDERMAN_TELEPORT);
-        sender.sendMessage(GearzHub.getInstance().getFormat("formats.world-teleport", true, new String[]{"<world>", w.getName()}));
+        sender.sendMessage(TBNRHub.getInstance().getFormat("formats.world-teleport", true, new String[]{"<world>", w.getName()}));
         return TCommandStatus.SUCCESSFUL;
     }
 
@@ -110,15 +110,15 @@ public class Spawn implements Listener, TCommandHandler {
     }
 
     public void setSpawn(Location location) {
-        GearzHub.getInstance().getConfig().set("spawn", TPlugin.encodeLocationString(location));
+        TBNRHub.getInstance().getConfig().set("spawn", TPlugin.encodeLocationString(location));
     }
 
     public Location getSpawn() {
-        return TPlugin.parseLocationString(GearzHub.getInstance().getConfig().getString("spawn"));
+        return TPlugin.parseLocationString(TBNRHub.getInstance().getConfig().getString("spawn"));
     }
 
     @Override
     public void handleCommandStatus(TCommandStatus status, CommandSender sender, TCommandSender senderType) {
-        GearzHub.handleCommandStatus(status, sender);
+        TBNRHub.handleCommandStatus(status, sender);
     }
 }

@@ -39,13 +39,13 @@ public class MultiserverCannon implements ConfigurationSerializable, Listener {
     }
 
     public void connecting(TPlayer player) {
-        this.labels.get(player).updateTag(GearzHub.getInstance().getFormat("formats.connecting", false, new String[]{"<server>", server}));
+        this.labels.get(player).updateTag(TBNRHub.getInstance().getFormat("formats.connecting", false, new String[]{"<server>", server}));
     }
 
     @EventHandler()
     @SuppressWarnings("unused")
     public void onPlayerJoin(final TPlayerJoinEvent event) {
-        Bukkit.getScheduler().runTaskLater(GearzHub.getInstance(), new Runnable() {
+        Bukkit.getScheduler().runTaskLater(TBNRHub.getInstance(), new Runnable() {
             @Override
             public void run() {
                 label(event.getPlayer());
@@ -54,7 +54,7 @@ public class MultiserverCannon implements ConfigurationSerializable, Listener {
     }
 
     private void label(TPlayer player) {
-        this.labels.put(player, new GearzLabelEntity(player.getPlayer(), GearzHub.getInstance().getFormat("formats.server-label", false, new String[]{"<server>", this.server}), this.getRefrenceBlock().add(0, -0.4, 1)));
+        this.labels.put(player, new GearzLabelEntity(player.getPlayer(), TBNRHub.getInstance().getFormat("formats.server-label", false, new String[]{"<server>", this.server}), this.getRefrenceBlock().add(0, -0.4, 1)));
 
     }
 

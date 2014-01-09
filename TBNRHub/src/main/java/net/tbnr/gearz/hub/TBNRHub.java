@@ -29,29 +29,29 @@ import java.net.SocketException;
  * Time: 2:34 PM
  * To change this template use File | Settings | File Templates.
  */
-public class GearzHub extends TPlugin implements TCommandHandler {
+public class TBNRHub extends TPlugin implements TCommandHandler {
     private MultiserverCannons cannon;
     private Spawn spawnHandler;
-    private static GearzHub instance;
+    private static TBNRHub instance;
     @Getter
     private HubItems hubItems;
 
-    public GearzHub() {
+    public TBNRHub() {
         ConfigurationSerialization.registerClass(MultiserverCannon.class);
     }
 
-    public static GearzHub getInstance() {
+    public static TBNRHub getInstance() {
         return instance;
     }
 
     @Override
     public void enable() {
-        GearzHub.instance = this;
+        TBNRHub.instance = this;
         registerCommands(this);
         cannon = new MultiserverCannons();
         registerEvents(cannon);
         registerCommands(cannon);
-        GearzHub.getInstance().getLogger().info(cannon.toString());
+        TBNRHub.getInstance().getLogger().info(cannon.toString());
         spawnHandler = new Spawn();
         registerCommands(spawnHandler);
         registerCommands(new ClearChat());
@@ -132,7 +132,7 @@ public class GearzHub extends TPlugin implements TCommandHandler {
                 world.save();
             }
             Bukkit.broadcast(ChatColor.GREEN + "World saved!", "gearz.notifysave");
-            GearzHub.getInstance().getLogger().info("Saved the world.");
+            TBNRHub.getInstance().getLogger().info("Saved the world.");
         }
     }
 

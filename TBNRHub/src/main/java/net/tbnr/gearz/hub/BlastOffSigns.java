@@ -40,7 +40,7 @@ public class BlastOffSigns implements Listener {
         if (block.getType() != Material.SIGN && block.getType() != Material.WALL_SIGN) return;
         Sign sign = (Sign) block.getState();
         final String[] lines = sign.getLines();
-        if (lines[0] == null || lines[1] == null || ServerManager.getServersWithGame(lines[1]).size() == 0 || !ChatColor.stripColor(lines[0]).equals(ChatColor.stripColor(GearzHub.getInstance().getFormat("formats.blastoff-topline", true))))
+        if (lines[0] == null || lines[1] == null || ServerManager.getServersWithGame(lines[1]).size() == 0 || !ChatColor.stripColor(lines[0]).equals(ChatColor.stripColor(TBNRHub.getInstance().getFormat("formats.blastoff-topline", true))))
             return;
         final ServerSelector serverSelector = new ServerSelector(lines[1], new ServerSelector.SelectorCallback() {
             @Override
@@ -82,7 +82,7 @@ public class BlastOffSigns implements Listener {
             inUse.remove(tPlayer);
             return;
         }
-        if (y - signData.getStart() >= GearzHub.getInstance().getConfig().getInt("blastoff.distance")) {
+        if (y - signData.getStart() >= TBNRHub.getInstance().getConfig().getInt("blastoff.distance")) {
             BouncyUtils.sendPlayerToServer(player, signData.getServer().getBungee_name());
             inUse.remove(tPlayer);
         }

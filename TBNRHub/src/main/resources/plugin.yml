@@ -1,6 +1,6 @@
-name: GearzHub
+name: TBNRHub
 version: 1.0
-main: net.tbnr.gearz.hub.GearzHub
+main: net.tbnr.gearz.hub.TBNRHub
 description: dat hub
 website: http://tbnr.net
 authors: [Twister915, Thecraftgod, NoyHillel1]

@@ -37,7 +37,7 @@ public class SnowballEXP implements Listener {
     public void onJoin(TPlayerJoinEvent event) {
         if (event.getPlayer().isFirstJoin()) {
             event.getPlayer().giveItem(Material.SNOW_BALL, 32);
-            event.getPlayer().sendMessage(GearzHub.getInstance().getFormat("formats.first-join-snowball"));
+            event.getPlayer().sendMessage(TBNRHub.getInstance().getFormat("formats.first-join-snowball"));
         }
     }
 
@@ -52,7 +52,7 @@ public class SnowballEXP implements Listener {
         if (!thrower.getPlayer().canSee(hit.getPlayer())) return;
         if (thrower.getPlayer().equals(hit.getPlayer().getPlayer())) return;
         if (hit.getPlayer().isSneaking()) {
-            thrower.sendMessage(GearzHub.getInstance().getFormat("formats.snowball-evade", true, new String[]{"<player>", hit.getPlayer().getName()}));
+            thrower.sendMessage(TBNRHub.getInstance().getFormat("formats.snowball-evade", true, new String[]{"<player>", hit.getPlayer().getName()}));
             event.setDamage(0);
             return;
         }
@@ -64,7 +64,7 @@ public class SnowballEXP implements Listener {
         thrower.playSound(Sound.ORB_PICKUP);
         thrower.getPlayer().hidePlayer(hit.getPlayer());
         GearzPlayer.playerFromTPlayer(thrower).addXp(2); //Add XP
-        Bukkit.getScheduler().runTaskLater(GearzHub.getInstance(), new BukkitRunnable() {
+        Bukkit.getScheduler().runTaskLater(TBNRHub.getInstance(), new BukkitRunnable() {
             @Override
             public void run() {
                 if (thrower != null && hit != null) {
@@ -83,19 +83,19 @@ public class SnowballEXP implements Listener {
         } catch (Exception ignored) {
         }
         SnowballHitStorable snowballHitStorable = new SnowballHitStorable();
-        Integer hits = (Integer) thrower.getStorable(GearzHub.getInstance(), snowballHitStorable);
+        Integer hits = (Integer) thrower.getStorable(TBNRHub.getInstance(), snowballHitStorable);
         if (hits == null) hits = 0;
         snowballHitStorable.setHits(hits + 1);
-        thrower.store(GearzHub.getInstance(), snowballHitStorable);
-        thrower.sendMessage(GearzHub.getInstance().getFormat("formats.snowball-hit", true, new String[]{"<player>", hit.getPlayer().getName()}, new String[]{"<hits>", String.valueOf(snowballHitStorable.getHits())}));
+        thrower.store(TBNRHub.getInstance(), snowballHitStorable);
+        thrower.sendMessage(TBNRHub.getInstance().getFormat("formats.snowball-hit", true, new String[]{"<player>", hit.getPlayer().getName()}, new String[]{"<hits>", String.valueOf(snowballHitStorable.getHits())}));
         hit.giveItem(Material.SNOW_BALL);
         SnowballHitByStorable hitByStorable = new SnowballHitByStorable();
-        Integer hitBys = (Integer) hit.getStorable(GearzHub.getInstance(), hitByStorable);
+        Integer hitBys = (Integer) hit.getStorable(TBNRHub.getInstance(), hitByStorable);
         if (hitBys == null) hitBys = 0;
         hitBys += 1;
         hitByStorable.setHits(hitBys);
-        hit.store(GearzHub.getInstance(), hitByStorable);
-        hit.sendMessage(GearzHub.getInstance().getFormat("formats.snowball-hitby", true, new String[]{"<player>", thrower.getPlayer().getName()}, new String[]{"<hitbys>", String.valueOf(hitByStorable.getHits())}));
+        hit.store(TBNRHub.getInstance(), hitByStorable);
+        hit.sendMessage(TBNRHub.getInstance().getFormat("formats.snowball-hitby", true, new String[]{"<player>", thrower.getPlayer().getName()}, new String[]{"<hitbys>", String.valueOf(hitByStorable.getHits())}));
         hit.playSound(Sound.CHICKEN_EGG_POP);
         //event.setCancelled(true);
     }
@@ -106,17 +106,17 @@ public class SnowballEXP implements Listener {
         if (!(event.getDamager() instanceof Player && event.getEntity() instanceof Player)) return;
         event.setCancelled(true);
         if (((Player) event.getEntity()).isSneaking()) {
-            ((Player) event.getDamager()).sendMessage(GearzHub.getInstance().getFormat("formats.no-snowball-shake"));
+            ((Player) event.getDamager()).sendMessage(TBNRHub.getInstance().getFormat("formats.no-snowball-shake"));
             return;
         }
         if (!TCooldownManager.canContinue(((Player) event.getEntity()).getName() + "snowball_shakedown", new TCooldown(TimeUnit.SECONDS.toMillis(15)))) {
-            ((Player) event.getDamager()).sendMessage(GearzHub.getInstance().getFormat("formats.no-snowball-shake"));
+            ((Player) event.getDamager()).sendMessage(TBNRHub.getInstance().getFormat("formats.no-snowball-shake"));
             return;
         }
-        TPlayer hit = GearzHub.getInstance().getPlayerManager().getPlayer((Player) event.getEntity());
-        TPlayer attacker = GearzHub.getInstance().getPlayerManager().getPlayer((Player) event.getDamager());
+        TPlayer hit = TBNRHub.getInstance().getPlayerManager().getPlayer((Player) event.getEntity());
+        TPlayer attacker = TBNRHub.getInstance().getPlayerManager().getPlayer((Player) event.getDamager());
         if (!hit.getPlayer().getInventory().contains(Material.SNOW_BALL, 1)) {
-            attacker.sendMessage(GearzHub.getInstance().getFormat("formats.no-snowball-have"));
+            attacker.sendMessage(TBNRHub.getInstance().getFormat("formats.no-snowball-have"));
             return;
         }
         hit.removeItem(Material.SNOW_BALL);
@@ -124,8 +124,8 @@ public class SnowballEXP implements Listener {
         GearzPlayer.playerFromTPlayer(attacker).addXp(5); //Add XP
         hit.playSound(Sound.ARROW_HIT);
         attacker.playSound(Sound.CHICKEN_EGG_POP);
-        attacker.sendMessage(GearzHub.getInstance().getFormat("formats.snowball-shake", true, new String[]{"<player>", hit.getPlayer().getName()}));
-        hit.sendMessage(GearzHub.getInstance().getFormat("formats.snowball-shaken", true, new String[]{"<player>", attacker.getPlayer().getName()}));
+        attacker.sendMessage(TBNRHub.getInstance().getFormat("formats.snowball-shake", true, new String[]{"<player>", hit.getPlayer().getName()}));
+        hit.sendMessage(TBNRHub.getInstance().getFormat("formats.snowball-shaken", true, new String[]{"<player>", attacker.getPlayer().getName()}));
     }
 
     @EventHandler(priority = EventPriority.MONITOR)

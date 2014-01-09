@@ -1,6 +1,6 @@
 package net.tbnr.gearz.hub.items;
 
-import net.tbnr.gearz.hub.GearzHub;
+import net.tbnr.gearz.hub.TBNRHub;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -21,7 +21,7 @@ public abstract class HubItem implements Listener {
     }
 
     public HubItem(boolean interactable) {
-        if (interactable) GearzHub.getInstance().registerEvents(this);
+        if (interactable) TBNRHub.getInstance().registerEvents(this);
     }
 
     @EventHandler

@@ -19,33 +19,33 @@ public class LoginMessages implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     @SuppressWarnings("unused")
     public void onJoin(PlayerJoinEvent event) {
-        if (GearzHub.getInstance().getConfig().getBoolean("hide-stream")) {
+        if (TBNRHub.getInstance().getConfig().getBoolean("hide-stream")) {
             event.setJoinMessage(null);
             return;
         }
-        event.setJoinMessage(GearzHub.getInstance().getFormat("join-message", false, new String[]{"<player>", event.getPlayer().getPlayer().getName()}));
-        if (GearzHub.getInstance().getConfig().getBoolean("welcome-messages")) {
-            Bukkit.broadcastMessage(GearzHub.getInstance().getFormat("welcome-message", false, new String[]{"<player>", event.getPlayer().getPlayer().getName()}));
+        event.setJoinMessage(TBNRHub.getInstance().getFormat("join-message", false, new String[]{"<player>", event.getPlayer().getPlayer().getName()}));
+        if (TBNRHub.getInstance().getConfig().getBoolean("welcome-messages")) {
+            Bukkit.broadcastMessage(TBNRHub.getInstance().getFormat("welcome-message", false, new String[]{"<player>", event.getPlayer().getPlayer().getName()}));
         }
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
     @SuppressWarnings("unused")
     public void onQuit(PlayerQuitEvent event) {
-        if (GearzHub.getInstance().getConfig().getBoolean("hide-stream")) {
+        if (TBNRHub.getInstance().getConfig().getBoolean("hide-stream")) {
             event.setQuitMessage(null);
             return;
         }
-        event.setQuitMessage(GearzHub.getInstance().getFormat("quit-message", false, new String[]{"<player>", event.getPlayer().getPlayer().getName()}));
+        event.setQuitMessage(TBNRHub.getInstance().getFormat("quit-message", false, new String[]{"<player>", event.getPlayer().getPlayer().getName()}));
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
     @SuppressWarnings("unused")
     public void onPlayerKick(PlayerKickEvent event) {
-        if (GearzHub.getInstance().getConfig().getBoolean("hide-stream")) {
+        if (TBNRHub.getInstance().getConfig().getBoolean("hide-stream")) {
             event.setLeaveMessage(null);
             return;
         }
-        event.setLeaveMessage(GearzHub.getInstance().getFormat("quit-message", false, new String[]{"<player>", event.getPlayer().getPlayer().getName()}));
+        event.setLeaveMessage(TBNRHub.getInstance().getFormat("quit-message", false, new String[]{"<player>", event.getPlayer().getPlayer().getName()}));
     }
 }

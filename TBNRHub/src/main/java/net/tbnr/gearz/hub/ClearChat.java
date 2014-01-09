@@ -56,7 +56,7 @@ public class ClearChat implements TCommandHandler {
 
     @Override
     public void handleCommandStatus(TCommandStatus status, CommandSender sender, TCommandSender senderType) {
-        GearzHub.handleCommandStatus(status, sender);
+        TBNRHub.handleCommandStatus(status, sender);
     }
 
 

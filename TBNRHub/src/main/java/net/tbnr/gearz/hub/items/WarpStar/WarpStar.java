@@ -1,6 +1,6 @@
 package net.tbnr.gearz.hub.items.warpstar;
 
-import net.tbnr.gearz.hub.GearzHub;
+import net.tbnr.gearz.hub.TBNRHub;
 import net.tbnr.gearz.hub.items.HubItem;
 import net.tbnr.gearz.player.GearzPlayer;
 import net.tbnr.util.InventoryGUI;
@@ -29,7 +29,7 @@ public class WarpStar extends HubItem {
                 } catch (Exception e) {
                     return;
                 }
-                player.sendMessage(GearzHub.getInstance().getFormat("warped-to", true, new String[]{"<prefix>", GearzHub.getInstance().getChatPrefix()}, new String[]{"<warp>", item.getName()}));
+                player.sendMessage(TBNRHub.getInstance().getFormat("warped-to", true, new String[]{"<prefix>", TBNRHub.getInstance().getChatPrefix()}, new String[]{"<warp>", item.getName()}));
                 GearzPlayer.playerFromPlayer(player).getTPlayer().playSound(Sound.ENDERMAN_TELEPORT);
                 GearzPlayer.playerFromPlayer(player).getTPlayer().playSound(Sound.CHICKEN_EGG_POP);
             }
