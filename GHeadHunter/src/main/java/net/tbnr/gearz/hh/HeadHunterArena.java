@@ -7,11 +7,7 @@ import net.tbnr.gearz.arena.Point;
 import org.bukkit.World;
 
 /**
- * Created with IntelliJ IDEA.
- * User: Joey
- * Date: 12/12/13
- * Time: 10:40 AM
- * To change this template use File | Settings | File Templates.
+ * HeadHunter Arena
  */
 public class HeadHunterArena extends Arena {
 

@@ -34,7 +34,7 @@ import java.util.List;
         shortName = "SG",
         version = "1.0"
 )
-public class GSurvivalGamesGame extends GearzGame implements GameCountdownHandler {
+public final class GSurvivalGamesGame extends GearzGame implements GameCountdownHandler {
     private GSurvivalGamesArena sgArena;
     private HashMap<Point, Loot> loots;
 

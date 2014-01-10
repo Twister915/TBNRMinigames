@@ -39,7 +39,7 @@ import java.util.Map;
         maxPlayers = 48,
         mainColor = ChatColor.DARK_AQUA,
         secondaryColor = ChatColor.DARK_RED)
-public class HeadHunterGame extends GearzGame implements GameCountdownHandler {
+public final class HeadHunterGame extends GearzGame implements GameCountdownHandler {
     private HeadHunterArena hhArena;
     private HashMap<GearzPlayer, Integer> pointsAwarded;
 
