@@ -18,7 +18,7 @@ import java.io.InputStreamReader;
  * Time: 10:38 AM
  * To change this template use File | Settings | File Templates.
  */
-public class GSurvivalGames extends GearzPlugin {
+public final class GSurvivalGames extends GearzPlugin {
     @Getter
     private static GSurvivalGames instance;
 

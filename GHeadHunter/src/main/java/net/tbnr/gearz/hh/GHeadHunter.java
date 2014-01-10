@@ -4,13 +4,9 @@ import net.tbnr.gearz.GearzException;
 import net.tbnr.gearz.GearzPlugin;
 
 /**
- * Created with IntelliJ IDEA.
- * User: Joey
- * Date: 12/12/13
- * Time: 10:39 AM
- * To change this template use File | Settings | File Templates.
+ * HeadHunter class
  */
-public class GHeadHunter extends GearzPlugin {
+public final class GHeadHunter extends GearzPlugin {
     @Override
     public void enable() {
         try {

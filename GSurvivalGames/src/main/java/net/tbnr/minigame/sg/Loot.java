@@ -12,7 +12,7 @@ import java.util.List;
 
 @Data
 @EqualsAndHashCode
-public class Loot {
+public final class Loot {
     @NonNull Tier tier;
     @NonNull Chest chest;
 

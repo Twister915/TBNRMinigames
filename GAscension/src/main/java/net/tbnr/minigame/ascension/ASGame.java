@@ -35,7 +35,7 @@ import java.util.Map;
         maxPlayers = 16,
         minPlayers = 4,
         author = "xIGBClutchIx")
-public class ASGame extends GearzGame {
+public final class ASGame extends GearzGame {
 
     private HashMap<GearzPlayer, Integer> points;
     private ASArena cmarena;

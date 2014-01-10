@@ -7,7 +7,7 @@ import org.bukkit.Bukkit;
 /**
  * Created by Joey on 1/3/14.
  */
-public class GSwitchUp extends GearzPlugin {
+public final class GSwitchUp extends GearzPlugin {
     @Override
     public void enable() {
         try {
