@@ -19,8 +19,7 @@ public class Enviroment implements Listener {
     @EventHandler
     @SuppressWarnings("unused")
     public void onCraftItemEvent(CraftItemEvent e) {
-        if (!e.getWhoClicked().hasPermission("gearz.staff")) {
-            e.setCancelled(true);
-        }
+        if (e.getWhoClicked().hasPermission("gearz.staff")) return;
+        e.setCancelled(true);
     }
 }
