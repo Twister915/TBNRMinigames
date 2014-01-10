@@ -18,7 +18,7 @@ import java.util.List;
 @ToString
 @EqualsAndHashCode
 @RequiredArgsConstructor
-public class Tier {
+public final class Tier {
     private List<RawItem> chances;
     @NonNull
     private Integer minimum;

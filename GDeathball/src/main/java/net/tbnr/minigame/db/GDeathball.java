@@ -7,7 +7,7 @@ import org.bukkit.Bukkit;
 /**
  * Created by rigor789 on 2013.12.19..
  */
-public class GDeathball extends GearzPlugin {
+public final class GDeathball extends GearzPlugin {
     @Override
     public void enable() {
         try {

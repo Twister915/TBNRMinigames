@@ -5,7 +5,7 @@ import net.tbnr.gearz.GearzPlugin;
 import org.bukkit.Bukkit;
 
 
-public class GAscension extends GearzPlugin {
+public final class GAscension extends GearzPlugin {
     @Override
     public void enable() {
         try {

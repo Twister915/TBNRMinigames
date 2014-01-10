@@ -40,7 +40,7 @@ import java.util.Map;
         maxPlayers = 24,
         minPlayers = 4,
         playerCountMode = GameMeta.PlayerCountMode.Any)
-public class DBGame extends GearzGame implements GameCountdownHandler {
+public final class DBGame extends GearzGame implements GameCountdownHandler {
 
     private DBArena dbarena;
     private HashMap<GearzPlayer, Integer> score;

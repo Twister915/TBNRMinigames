@@ -15,6 +15,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,12 +35,12 @@ import java.util.Map;
         maxPlayers = 16,
         minPlayers = 4,
         author = "xIGBClutchIx")
-public class ASGame extends GearzGame {
+public final class ASGame extends GearzGame {
 
     private HashMap<GearzPlayer, Integer> points;
     private ASArena cmarena;
 
-    public ArrayList<Material> weapons = Lists.newArrayList(Material.IRON_SWORD, Material.STONE_SWORD, Material.GOLD_SWORD, Material.WOOD_SWORD);
+    public ArrayList<Material> weapons = Lists.newArrayList(Material.IRON_SWORD, Material.STONE_SWORD, Material.GOLD_SWORD, Material.GOLD_AXE, Material.GOLD_PICKAXE, Material.GOLD_SPADE);
 
     public ASGame(List<GearzPlayer> players, Arena arena, GearzPlugin plugin, GameMeta meta, Integer id) {
         super(players, arena, plugin, meta, id);
@@ -92,6 +93,11 @@ public class ASGame extends GearzGame {
         ItemStack weapon = new ItemStack(weapons.get(points.get(player)), 1);
         player.getTPlayer().sendMessage(getPluginFormat("formats.weapon", true, new String[]{"<weapon>", weapon.getType().name()}));
         player.getPlayer().getInventory().addItem(weapon);
+        if(points.get(player) >= 3) {
+            player.getTPlayer().addInfinitePotionEffect(PotionEffectType.SPEED, 0);
+        } else {
+            player.getTPlayer().removeAllPotionEffects();
+        }
     }
 
     @Override
@@ -117,9 +123,7 @@ public class ASGame extends GearzGame {
                 winner = gearzPlayerIntegerEntry.getKey();
             }
         }
-        if (winner == null) {
-            return;
-        }
+        if (winner == null) return;
         addGPoints(winner, 100);
     }
 

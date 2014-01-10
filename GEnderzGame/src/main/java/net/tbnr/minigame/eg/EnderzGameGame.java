@@ -6,6 +6,7 @@ import net.tbnr.gearz.effects.EnderBar;
 import net.tbnr.gearz.game.GameMeta;
 import net.tbnr.gearz.game.GearzGame;
 import net.tbnr.gearz.player.GearzPlayer;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -21,7 +22,19 @@ import java.util.List;
 /**
  * Created by Joey on 12/31/13.
  */
-public class EnderzGameGame extends GearzGame {
+@GameMeta(
+        version = "1.0",
+        longName = "EnderzGame",
+        shortName = "EG",
+        description = "A random cortex is hidden on the map, and when a player picks up the cortex they then must" +
+                "mut said cortex in any Ender Frame on the map ",
+        key = "enderzgame",
+        mainColor = ChatColor.DARK_AQUA,
+        secondaryColor = ChatColor.DARK_GRAY,
+        maxPlayers = 24,
+        minPlayers = 6
+)
+public final class EnderzGameGame extends GearzGame {
     private EnderzGameArena arena;
     private Item cortex = null;
     private GearzPlayer cortexHolder = null;

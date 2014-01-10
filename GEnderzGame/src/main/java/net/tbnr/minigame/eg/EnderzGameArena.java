@@ -9,7 +9,7 @@ import org.bukkit.World;
 /**
  * Created by Joey on 12/31/13.
  */
-public class EnderzGameArena extends Arena {
+public final class EnderzGameArena extends Arena {
     public EnderzGameArena(String name, String author, String description, String worldId, String id) {
         super(name, author, description, worldId, id);
     }

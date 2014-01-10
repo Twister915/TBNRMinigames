@@ -7,7 +7,7 @@ import org.bukkit.Bukkit;
 /**
  * Created by Joey on 12/31/13.
  */
-public class GEnderzGame extends GearzPlugin {
+public final class GEnderzGame extends GearzPlugin {
     @Override
     public void enable() {
         try {

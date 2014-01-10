@@ -37,7 +37,7 @@ import java.util.Map;
         secondaryColor = ChatColor.GRAY,
         maxPlayers = 24,
         minPlayers = 3)
-public class GSwitchUpGame extends GearzGame implements GameCountdownHandler {
+public final class GSwitchUpGame extends GearzGame implements GameCountdownHandler {
     private List<GearzClass> classesToCycle;
     private HashMap<GearzPlayer, GearzClass> currentClasses = new HashMap<>();
     private int killsInRound = 0;
