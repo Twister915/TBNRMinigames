@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by jake on 12/27/13.
+ * Created by Jake on 12/27/13.
  */
 public class BlastOffSigns implements Listener {
     final private Map<TPlayer, SignData> inUse = new HashMap<>();

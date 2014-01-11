@@ -44,7 +44,7 @@ public class MultiserverCannons implements Listener, TCommandHandler {
         if (pads == null) return;
         for (Object cannon : pads) {
             if (!(cannon instanceof MultiserverCannon)) continue;
-            this.cannons.put(((MultiserverCannon) cannon).getRefrenceBlock(), (MultiserverCannon) cannon);
+            this.cannons.put(((MultiserverCannon) cannon).getReferenceBlock(), (MultiserverCannon) cannon);
             TBNRHub.getInstance().registerEvents((MultiserverCannon) cannon);
         }
     }
@@ -96,7 +96,7 @@ public class MultiserverCannons implements Listener, TCommandHandler {
             pads.remove(existing);
         }
         pads.add(cannon);
-        cannons.put(cannon.getRefrenceBlock(), cannon);
+        cannons.put(cannon.getReferenceBlock(), cannon);
         TBNRHub.getInstance().getConfig().set("pads", pads);
         TBNRHub.getInstance().saveConfig();
         player.sendMessage(ChatColor.GREEN + "Setup a pad for " + args[0]);
@@ -123,7 +123,7 @@ public class MultiserverCannons implements Listener, TCommandHandler {
         TBNRHub.getInstance().saveConfig();
         existing.removeLabelAll();
         player.sendMessage(ChatColor.GREEN + "Removed a pad for " + existing.getServer());
-        this.cannons.remove(existing.getRefrenceBlock());
+        this.cannons.remove(existing.getReferenceBlock());
         return TCommandStatus.SUCCESSFUL;
     }
 
@@ -134,7 +134,7 @@ public class MultiserverCannons implements Listener, TCommandHandler {
         }
         for (Object cannon : pads) {
             if (!(cannon instanceof MultiserverCannon)) continue;
-            if (((MultiserverCannon)cannon).getRefrenceBlock().equals(location)) return (MultiserverCannon)cannon;
+            if (((MultiserverCannon)cannon).getReferenceBlock().equals(location)) return (MultiserverCannon)cannon;
         }
         return null;*/
         return this.cannons.containsKey(location) ? this.cannons.get(location) : null;

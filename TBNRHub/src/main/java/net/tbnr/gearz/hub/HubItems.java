@@ -18,13 +18,15 @@ public class HubItems implements Listener {
 
     private final ArrayList<HubItem> items;
 
-    private final WarpStarConfig warpStarConfig;
+    private WarpStarConfig warpStarConfig = null;
 
     public HubItems() {
         items = new ArrayList<>();
         //items.add(new RuleBook());
-        warpStarConfig = new WarpStarConfig();
-        items.add(new WarpStar(warpStarConfig));
+        if (TBNRHub.getInstance().getConfig().getBoolean("warpstar")) {
+            warpStarConfig = new WarpStarConfig();
+            items.add(new WarpStar(warpStarConfig));
+        }
     }
 
     public void refreshWarpStar() {

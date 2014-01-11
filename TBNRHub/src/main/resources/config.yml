@@ -7,6 +7,7 @@ flight-toggled: "<prefix>&3Flight mode has been &a<result>&3!"
 prefix: "&8[&6&lTBNR&8] "
 warped-to: "<prefix>&3You have been teleported to &a<warp>&3!"
 cant-drop: "<prefix>&cYou can't drop that!"
+warpstar: true
 formats:
    world-teleport: "&aYou've been teleported to &e<world>&a!"
    snowball-hit: "&aYou have hit &3<player>&a with a snowball to earn XP! &3(You have &b<hits>&3 hits)."
@@ -23,5 +24,6 @@ formats:
    welcome-message: "&3Welcome &a<player>&3 to &6TBNR&3!"
    blastoff-loading: "&e&lLoading server info for &c<server>&e&l!"
    blastoff-topline: "&0[&cServers&0]"
+   command-status: "&7[&6TBNR&7] &cThe command returned an error: &4<status>"
 blastoff:
    distance: 15
