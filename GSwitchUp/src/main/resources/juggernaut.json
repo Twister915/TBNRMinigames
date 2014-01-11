@@ -60,7 +60,7 @@
             "color" : "#666666"
         },
         {
-            "item_type" : "LEATHER_LEGGINS",
+            "item_type" : "LEATHER_LEGGINGS",
             "title" : "&bUnbreaking Helmet",
             "lore" : [
                 "&bImpervious!"
