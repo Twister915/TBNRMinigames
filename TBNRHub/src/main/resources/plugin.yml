@@ -7,27 +7,27 @@ authors: [Twister915, Thecraftgod, NoyHillel1]
 depend: [Gearz]
 commands:
   setcannon:
-    description: create a cannon.
+    description: Create a cannon.
   delcannon:
-    description: delete a cannon.
+    description: Delete a cannon.
   setspawn:
-    description: dat spawn
+    description: Sets the spawn
   spawn:
-    description: dat spawn
+    description: Sends player to spawn
     aliases: [s]
   world:
-    description: dat world
+    description: Teleports sender to target world
   head:
-    description: dat world
+    description: Gives the sender the target players head
   setWarp:
-    description: dat warp
+    description: Sets a warp
     aliases: [setWarpStar, warpStar]
   delWarp:
-    description: dat warp deleted
+    description: Deletes a warp
     aliases: [delWarpStart]
   clearchat:
-    description: dat clearchat
+    description: Clears chat
     aliases: [cc, cchat, clearc]
   clearmychat:
-    description: dat clearmychat
+    description: Clears senders chat
     aliases: [cmc, cmychat]

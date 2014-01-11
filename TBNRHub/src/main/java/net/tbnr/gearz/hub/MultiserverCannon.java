@@ -54,7 +54,7 @@ public class MultiserverCannon implements ConfigurationSerializable, Listener {
     }
 
     private void label(TPlayer player) {
-        this.labels.put(player, new GearzLabelEntity(player.getPlayer(), TBNRHub.getInstance().getFormat("formats.server-label", false, new String[]{"<server>", this.server}), this.getRefrenceBlock().add(0, -0.4, 1)));
+        this.labels.put(player, new GearzLabelEntity(player.getPlayer(), TBNRHub.getInstance().getFormat("formats.server-label", false, new String[]{"<server>", this.server}), this.getReferenceBlock().add(0, -0.4, 1)));
 
     }
 
@@ -75,7 +75,7 @@ public class MultiserverCannon implements ConfigurationSerializable, Listener {
         return server;
     }
 
-    public Location getRefrenceBlock() {
+    public Location getReferenceBlock() {
         return TPlugin.parseLocationString(referenceBlock);
     }
 

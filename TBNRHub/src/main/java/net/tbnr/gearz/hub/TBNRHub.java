@@ -51,7 +51,6 @@ public class TBNRHub extends TPlugin implements TCommandHandler {
         cannon = new MultiserverCannons();
         registerEvents(cannon);
         registerCommands(cannon);
-        TBNRHub.getInstance().getLogger().info(cannon.toString());
         spawnHandler = new Spawn();
         registerCommands(spawnHandler);
         registerCommands(new ClearChat());
@@ -120,7 +119,7 @@ public class TBNRHub extends TPlugin implements TCommandHandler {
     @SuppressWarnings("unused")
     public static void handleCommandStatus(TCommandStatus status, CommandSender sender) {
         if (status == TCommandStatus.SUCCESSFUL) return;
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7[&6TBNR&7] &cThe command returned an error: &4" + status.toString()));
+        sender.sendMessage(getInstance().getFormat("formats.command-status", true, new String[]{"<status>", status.toString()}));
     }
 
     @Override
