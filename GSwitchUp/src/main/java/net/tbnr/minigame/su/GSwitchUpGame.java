@@ -46,7 +46,7 @@ public final class GSwitchUpGame extends GearzGame implements GameCountdownHandl
     private final static int roundsPerGame = 5;
     private GSwitchUpArena gSwitchUpArena;
     private HashMap<GearzPlayer, Integer> killsThisGame = new HashMap<>();
-    private static String[] classFilenames = new String[]{"boomer.json", "juggernaut.json", "archer.json", "bowman.json", "creativebuilder.json", "gentleman.json", "mage.json", "cheeseknight.json", "viking.json"};
+    private static String[] classFilenames = new String[]{"boomer.json", "juggernaut.json", "archer.json", "bowman.json", "creativebuilder.json", "gentleman.json", "mage.json", "cheeseknight.json", "viking.json", "viking.json"};
     private boolean gracePeriod = false;
     private GameCountdown gracePeriodCountdown = null;
     private List<GearzPlayer> skipOnActivate = new ArrayList<>();
