@@ -204,7 +204,7 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
 
     @Override
     protected boolean canDropItem(GearzPlayer player, Item itemToDrop) {
-        return true;  //To change body of implemented methods use File | Settings | File Templates.
+        return true;
     }
 
     @Override
