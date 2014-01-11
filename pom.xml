@@ -16,9 +16,7 @@
         <module>GDeathball</module>
         <module>GSurvivalGames</module>
         <module>GSwitchUp</module>
-        <module>GPredator</module>
         <module>TBNRHub</module>
         <module>Commerce</module>
-        <module>GPredator</module>
     </modules>
 </project>

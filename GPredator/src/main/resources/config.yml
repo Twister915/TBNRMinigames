@@ -1,9 +1,0 @@
-formats:
-  winner: "<p><player><s> has won <p>Predator<s>."
-  time-remaining: "<p>Time remaining in the game: <s><timespec>"
-  scoreboard-title: "<p><gname>"
-  lost-points: "<s>You have lost <p><points> <s>points!"
-  out-of-game: "<p><player> <s>is out of the game!"
-  game-started: "<p>The game has started, you have <time> seconds!"
-  winner: "<s>The winner is <p><name><s>!"
-  time: "<p>Time remaining: <s><time>"
