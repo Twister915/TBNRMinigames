@@ -31,3 +31,6 @@ commands:
   clearmychat:
     description: Clears senders chat
     aliases: [cmc, cmychat]
+  magicsign:
+    description: Gives you a magic edit sign
+    aliases: [ editsign, signedit ]
