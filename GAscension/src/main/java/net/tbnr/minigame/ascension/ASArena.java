@@ -6,7 +6,7 @@ import net.tbnr.gearz.arena.ArenaIterator;
 import net.tbnr.gearz.arena.Point;
 import org.bukkit.World;
 
-public class ASArena extends Arena {
+public final class ASArena extends Arena {
     @ArenaField(longName = "Spawn Points", key = "spawn-points", loop = true, type = ArenaField.PointType.Player)
     public ArenaIterator<Point> spawnPoints;
 

@@ -9,7 +9,7 @@ import org.bukkit.World;
 /**
  * Created by rigor789 on 2013.12.19..
  */
-public class DBArena extends Arena {
+public final class DBArena extends Arena {
 
     @ArenaField(longName = "Spawn Points", key = "spawn-points", loop = true, type = ArenaField.PointType.Player)
     public ArenaIterator<Point> spawnPoints;

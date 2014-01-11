@@ -7,7 +7,7 @@ import net.tbnr.gearz.arena.Point;
 import org.bukkit.World;
 
 
-public class GSurvivalGamesArena extends Arena {
+public final class GSurvivalGamesArena extends Arena {
 
     @ArenaField(key = "cornicopia-points", type = ArenaField.PointType.Player, longName = "Cornicopia Spawn Points", loop = true)
     public ArenaIterator<Point> cornicopiaPoints;

@@ -66,6 +66,9 @@ public class TBNRHub extends TPlugin implements TCommandHandler {
         registerEvents(new Blockers());
         registerEvents(new PlayerThings());
         registerEvents(new BlastOffSigns());
+        SignEdit signedit = new SignEdit();
+        registerEvents(signedit);
+        registerCommands(signedit);
         Bukkit.getScheduler().runTaskTimer(this, new SaveAllTask(), 0, 12000);
         ServerManager.setGame("lobby");
         ServerManager.setStatusString("HUB_DEFAULT");
