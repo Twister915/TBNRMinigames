@@ -224,7 +224,6 @@ public final class DBGame extends GearzGame implements GameCountdownHandler {
         if (score.size() == 1) {
             onCountdownComplete(countdown);
         }
-
     }
 
     private void updateScoreboard() {
@@ -239,9 +238,9 @@ public final class DBGame extends GearzGame implements GameCountdownHandler {
         }
     }
 
-
     private void updateEnderBar() {
         for (GearzPlayer player : getPlayers()) {
+            if(!player.isValid()) continue;
             EnderBar.setTextFor(player, getPluginFormat("formats.time", false, new String[]{"<time>", formatInt(countdown.getSeconds() - countdown.getPassed())}));
             EnderBar.setHealthPercent(player, ((float) countdown.getSeconds() - countdown.getPassed()) / (float) countdown.getSeconds());
         }
