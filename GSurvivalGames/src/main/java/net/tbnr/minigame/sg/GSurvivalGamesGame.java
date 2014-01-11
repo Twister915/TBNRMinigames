@@ -6,6 +6,7 @@ import net.tbnr.gearz.arena.Point;
 import net.tbnr.gearz.effects.EnderBar;
 import net.tbnr.gearz.game.*;
 import net.tbnr.gearz.player.GearzPlayer;
+import net.tbnr.util.RandomUtils;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
@@ -14,7 +15,6 @@ import org.bukkit.entity.Firework;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
@@ -354,15 +354,11 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
                 color = Color.GREEN;
             }
             ItemStack[] armour = new ItemStack[4];
-            armour[3] = new ItemStack(Material.LEATHER_HELMET);
-            armour[2] = new ItemStack(Material.LEATHER_CHESTPLATE);
-            armour[1] = new ItemStack(Material.LEATHER_LEGGINGS);
-            armour[0] = new ItemStack(Material.LEATHER_BOOTS);
-            for (ItemStack itemStack : armour) {
-                LeatherArmorMeta itemMeta = (LeatherArmorMeta) itemStack.getItemMeta();
-                itemMeta.setColor(color);
-                itemStack.setItemMeta(itemMeta);
-            }
+            armour[3] = RandomUtils.colorizeLeather(Material.LEATHER_HELMET, color);
+            armour[2] = RandomUtils.colorizeLeather(Material.LEATHER_CHESTPLATE, color);
+            armour[1] = RandomUtils.colorizeLeather(Material.LEATHER_LEGGINGS, color);
+            armour[0] = RandomUtils.colorizeLeather(Material.LEATHER_BOOTS, color);
+
             player.getPlayer().getInventory().setArmorContents(armour);
         }
     }

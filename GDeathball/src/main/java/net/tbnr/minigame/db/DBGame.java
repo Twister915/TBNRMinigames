@@ -157,6 +157,7 @@ public final class DBGame extends GearzGame implements GameCountdownHandler {
             Snowball snowball = (Snowball) damager;
             if (!(snowball.getShooter() instanceof Player)) return;
             GearzPlayer attacker = GearzPlayer.playerFromPlayer((Player) snowball.getShooter());
+            if(attacker.equals(target1)) return;
             if (isSpectating(attacker)) return;
             value = 1;
             event.setCancelled(true);
@@ -228,9 +229,11 @@ public final class DBGame extends GearzGame implements GameCountdownHandler {
 
     private void updateScoreboard() {
         for (GearzPlayer player : getPlayers()) {
+            if(!player.isValid()) continue;
             player.getTPlayer().resetScoreboard();
             player.getTPlayer().setScoreboardSideTitle(getPluginFormat("formats.scoreboard-title", false));
             for (GearzPlayer player1 : score.keySet()) {
+                if(!player1.isValid()) continue;
                 player.getTPlayer().setScoreBoardSide(player1.getUsername(), score.get(player1));
             }
         }
