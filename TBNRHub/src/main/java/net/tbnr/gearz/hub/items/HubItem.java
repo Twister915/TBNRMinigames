@@ -26,7 +26,7 @@ public abstract class HubItem implements Listener {
 
     @EventHandler
     @SuppressWarnings("unused")
-    public void onInteract(PlayerInteractEvent event) {
+    public final void onInteract(PlayerInteractEvent event) {
         if (!(event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR))
             return;
         if (event.getPlayer().getItemInHand() == null) return;
