@@ -1,7 +1,6 @@
 package net.tbnr.gearz.hub;
 
 import net.tbnr.gearz.effects.GearzLabelEntity;
-import net.tbnr.util.TPlugin;
 import net.tbnr.util.player.TPlayer;
 import net.tbnr.util.player.TPlayerDisconnectEvent;
 import net.tbnr.util.player.TPlayerJoinEvent;
@@ -22,16 +21,20 @@ import java.util.Map;
  * Time: 3:37 PM
  * To change this template use File | Settings | File Templates.
  */
-public class MultiserverCannon implements ConfigurationSerializable, Listener {
+public final class MultiserverCannon implements ConfigurationSerializable, Listener {
     private final String server;
-    private final String referenceBlock;
-    private final String refrenceLook;
+    private final Location referenceBlock;
+    private final Location referenceLook;
     private final HashMap<TPlayer, GearzLabelEntity> labels;
 
-    public MultiserverCannon(String server, String referenceBlock, String refrenceLook) {
+    public MultiserverCannon(String server, String referenceBlock, String referenceLook) {
         this.server = server;
-        this.referenceBlock = referenceBlock;
-        this.refrenceLook = refrenceLook;
+        this.referenceBlock = TBNRHub.parseLocationString(referenceBlock);
+        this.referenceLook = TBNRHub.parseLocationString(referenceLook);
+        if (TBNRHub.getInstance().getArena() != null) {
+            this.referenceBlock.setWorld(TBNRHub.getInstance().getArena().getWorld());
+            this.referenceLook.setWorld(TBNRHub.getInstance().getArena().getWorld());
+        }
         this.labels = new HashMap<>();
         for (TPlayer player : TPlayerManager.getInstance().getPlayers()) {
             label(player);
@@ -76,24 +79,24 @@ public class MultiserverCannon implements ConfigurationSerializable, Listener {
     }
 
     public Location getReferenceBlock() {
-        return TPlugin.parseLocationString(referenceBlock);
+        return referenceBlock;
     }
 
     @Override
     public Map<String, Object> serialize() {
         Map<String, Object> stuff = new HashMap<>();
         stuff.put("server", this.server);
-        stuff.put("referenceBlock", this.referenceBlock);
-        stuff.put("refrenceLook", this.refrenceLook);
+        stuff.put("referenceBlock", TBNRHub.encodeLocationString(this.referenceBlock));
+        stuff.put("referenceLook", TBNRHub.encodeLocationString(this.referenceLook));
         return stuff;
     }
 
     @SuppressWarnings("UnusedDeclaration")
     public MultiserverCannon(Map<String, Object> map) {
-        this((String) map.get("server"), (String) map.get("referenceBlock"), (String) map.get("refrenceLook"));
+        this((String) map.get("server"), (String) map.get("referenceBlock"), (String) map.get("referenceLook"));
     }
 
-    public Location getRefrenceLook() {
-        return TPlugin.parseLocationString(refrenceLook);
+    public Location getReferenceLook() {
+        return this.referenceLook;
     }
 }

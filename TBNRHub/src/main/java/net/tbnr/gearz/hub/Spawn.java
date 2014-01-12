@@ -23,6 +23,10 @@ import org.bukkit.event.player.PlayerRespawnEvent;
  * To change this template use File | Settings | File Templates.
  */
 public class Spawn implements Listener, TCommandHandler {
+    private Location spawn;
+    public Spawn() {
+        updateSpawn();
+    }
     @EventHandler
     @SuppressWarnings("unused")
     public void onRespawn(PlayerRespawnEvent event) {
@@ -111,10 +115,20 @@ public class Spawn implements Listener, TCommandHandler {
 
     public void setSpawn(Location location) {
         TBNRHub.getInstance().getConfig().set("spawn", TPlugin.encodeLocationString(location));
+        updateSpawn();
     }
 
     public Location getSpawn() {
-        return TPlugin.parseLocationString(TBNRHub.getInstance().getConfig().getString("spawn"));
+        HubArena arena = TBNRHub.getInstance().getArena();
+        if (arena != null) {
+            return arena.pointToLocation(arena.spawnPoints.random());
+        }
+        return spawn;
+    }
+
+    private void updateSpawn() {
+        spawn = TPlugin.parseLocationString(TBNRHub.getInstance().getConfig().getString("spawn"));
+
     }
 
     @Override

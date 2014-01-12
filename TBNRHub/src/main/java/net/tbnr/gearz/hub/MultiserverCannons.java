@@ -178,7 +178,7 @@ public class MultiserverCannons implements Listener, TCommandHandler {
                     } catch (Exception ignored) {
                     }
                     this.player.playSound(Sound.PORTAL_TRAVEL);
-                    this.player.getPlayer().teleport(this.cannon.getRefrenceLook());
+                    this.player.getPlayer().teleport(this.cannon.getReferenceLook());
                     this.player.getPlayer().setVelocity(this.player.getPlayer().getLocation().getDirection().multiply(1.9).add(new Vector(0, 0.5, 0)));
                     this.state = ProcessState.PROPEL;
                     this.pitch = this.player.getPlayer().getLocation().getPitch();
