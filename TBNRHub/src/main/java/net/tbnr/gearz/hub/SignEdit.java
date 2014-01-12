@@ -40,10 +40,12 @@ public class SignEdit implements Listener, TCommandHandler {
         if(!(event.getBlockAgainst().getState() instanceof Sign)) return;
         Sign sign = (Sign) event.getBlockAgainst().getState();
         Sign gui = (Sign) event.getBlockPlaced().getState();
-        for(int i = 0; i < sign.getLines().length; i++){
+        for(int i = 0; i <= sign.getLines().length-1; i++){
+            if(sign.getLine(i) == null) continue;
             gui.setLine(i, sign.getLine(i));
         }
         this.players.put(event.getPlayer().getName(), sign);
+        event.getPlayer().sendMessage(ChatColor.AQUA + "SignEdit session started. you should be able to edit the sign!");
     }
 
     @EventHandler
@@ -54,6 +56,8 @@ public class SignEdit implements Listener, TCommandHandler {
             if(event.getLine(i) == null) continue;
             sign.setLine(i, event.getLine(i));
         }
+        event.getBlock().setType(Material.AIR);
+        event.setCancelled(true);
         this.players.remove(event.getPlayer().getName());
     }
 
