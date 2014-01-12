@@ -34,6 +34,7 @@ public class SignEdit implements Listener, TCommandHandler {
 
     @EventHandler
     public void onSignPlace(BlockPlaceEvent event){
+        if(!event.getPlayer().getItemInHand().hasItemMeta()) return;
         if(!event.getPlayer().getItemInHand().getItemMeta().getDisplayName().equalsIgnoreCase(this.name)) return;
         if(!(event.getBlockPlaced().getState() instanceof Sign)) return;
         if(!(event.getBlockAgainst().getState() instanceof Sign)) return;
@@ -49,7 +50,7 @@ public class SignEdit implements Listener, TCommandHandler {
     public void onSignEdit(SignChangeEvent event){
         if(!this.players.containsKey(event.getPlayer().getName())) return;
         Sign sign = players.get(event.getPlayer());
-        for(int i = 0; i < event.getLines().length; i++){
+        for(int i = 0; i <= event.getLines().length-1; i++){
             if(event.getLine(i) == null) continue;
             sign.setLine(i, event.getLine(i));
         }
