@@ -66,6 +66,7 @@ public class SignEdit implements Listener, TCommandHandler {
         ItemStack magic = new ItemStack(Material.SIGN);
         ItemMeta itemMeta = magic.getItemMeta();
         itemMeta.setDisplayName(name);
+        magic.setItemMeta(itemMeta);
         player.getInventory().addItem(magic);
         sender.sendMessage(ChatColor.GREEN + "Sign Given!");
         return TCommandStatus.SUCCESSFUL;
