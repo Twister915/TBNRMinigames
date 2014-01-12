@@ -50,6 +50,7 @@ public class SignEdit implements Listener, TCommandHandler {
         if(!this.players.containsKey(event.getPlayer().getName())) return;
         Sign sign = players.get(event.getPlayer());
         for(int i = 0; i < event.getLines().length; i++){
+            if(event.getLine(i) == null) continue;
             sign.setLine(i, event.getLine(i));
         }
         this.players.remove(event.getPlayer().getName());
