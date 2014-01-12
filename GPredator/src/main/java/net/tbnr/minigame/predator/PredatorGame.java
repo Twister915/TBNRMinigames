@@ -222,10 +222,10 @@ public class PredatorGame extends GearzGame implements GameCountdownHandler {
             if(!player.isValid()) continue;
             player.getTPlayer().resetScoreboard();
             player.getTPlayer().setScoreboardSideTitle(getPluginFormat("formats.scoreboard-title", false));
-            for (GearzPlayer player1 : points.keySet()) {
+            /*for (GearzPlayer player1 : points.keySet()) {
                 if(!player1.isValid()) continue;
                 player.getTPlayer().setScoreBoardSide(player1.getUsername(), points.get(player1));
-            }
+            }*/
         }
     }
 
@@ -242,13 +242,13 @@ public class PredatorGame extends GearzGame implements GameCountdownHandler {
 
     public void openChoosingMenu() {
         JSONObject prey = GearzClassSelector.getJSONResource("prey.json", getPlugin());
-        GearzClass.classFromJsonObject(prey);
+        /*GearzClass.classFromJsonObject(prey);
         InventoryGUI preyMenu = new InventoryGUI(
                // new ArrayList<InventoryGUI.InventoryGUIItem>().add();
         )
 
         for(GearzPlayer player : getPlayers()) {
 
-        }
+        }*/
     }
 }
