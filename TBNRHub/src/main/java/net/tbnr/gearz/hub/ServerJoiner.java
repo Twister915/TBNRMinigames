@@ -5,7 +5,9 @@ import net.tbnr.gearz.netcommand.BouncyUtils;
 import net.tbnr.gearz.server.Server;
 import net.tbnr.gearz.server.ServerManager;
 import net.tbnr.util.InventoryGUI;
+import net.tbnr.util.RandomUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -91,8 +93,10 @@ public class ServerJoiner extends HubItem {
         private ArrayList<InventoryGUI.InventoryGUIItem> getServersForType(String type){
             ArrayList<InventoryGUI.InventoryGUIItem> servers = new ArrayList<>();
             for(Server server : ServerManager.getServersWithGame(type)){
+                ItemStack stack = RandomUtils.colorizeWool(getColorForStatus(server.getStatusString()));
+                stack.setAmount(server.getPlayerCount());
                 servers.add(new InventoryGUI.InventoryGUIItem(
-                        new ItemStack(Material.WOOL),
+                        stack,
                         server.getGame() + " #" + server.getNumber(),
                         Arrays.asList(
                                 server.getStatusString(),
@@ -101,6 +105,21 @@ public class ServerJoiner extends HubItem {
                 ));
             }
             return servers;
+        }
+
+        private DyeColor getColorForStatus(String status){
+            switch (status){
+                case "lobby":
+                    return DyeColor.GREEN;
+                case "spectate":
+                    return DyeColor.YELLOW;
+                case "load_lobby":
+                case "load-map":
+                case "game-over":
+                    return DyeColor.RED;
+                default:
+                    return DyeColor.GRAY;
+            }
         }
 
         @Override
