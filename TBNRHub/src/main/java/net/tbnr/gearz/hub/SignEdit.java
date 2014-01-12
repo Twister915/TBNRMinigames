@@ -34,24 +34,32 @@ public class SignEdit implements Listener, TCommandHandler {
 
     @EventHandler
     public void onSignPlace(BlockPlaceEvent event){
+        if(!event.getPlayer().getItemInHand().hasItemMeta()) return;
         if(!event.getPlayer().getItemInHand().getItemMeta().getDisplayName().equalsIgnoreCase(this.name)) return;
         if(!(event.getBlockPlaced().getState() instanceof Sign)) return;
         if(!(event.getBlockAgainst().getState() instanceof Sign)) return;
         Sign sign = (Sign) event.getBlockAgainst().getState();
         Sign gui = (Sign) event.getBlockPlaced().getState();
-        for(int i = 0; i < sign.getLines().length; i++){
+        for(int i = 0; i <= sign.getLines().length-1; i++){
+            TBNRHub.getInstance().getLogger().info("SignEdit >>>> THE LINE is: " + sign.getLine(i));
+            if(sign.getLine(i) == null) continue;
             gui.setLine(i, sign.getLine(i));
         }
         this.players.put(event.getPlayer().getName(), sign);
+        event.getPlayer().sendMessage(ChatColor.AQUA + "SignEdit session started. you should be able to edit the sign!");
     }
 
     @EventHandler
     public void onSignEdit(SignChangeEvent event){
         if(!this.players.containsKey(event.getPlayer().getName())) return;
         Sign sign = players.get(event.getPlayer());
-        for(int i = 0; i < event.getLines().length; i++){
+        for(int i = 0; i <= event.getLines().length-1; i++){
+            TBNRHub.getInstance().getLogger().info("SignEdit >>>> Line is: " + event.getLine(i));
+            if(event.getLine(i) == null) continue;
             sign.setLine(i, event.getLine(i));
         }
+        event.getBlock().setType(Material.AIR);
+        event.setCancelled(true);
         this.players.remove(event.getPlayer().getName());
     }
 
@@ -63,10 +71,12 @@ public class SignEdit implements Listener, TCommandHandler {
     )
     public TCommandStatus magicsign(CommandSender sender, TCommandSender type, TCommand meta, Command command, String[] args) {
         Player player = (Player) sender;
-        ItemStack magic = new ItemStack(Material.WALL_SIGN);
+        ItemStack magic = new ItemStack(Material.SIGN);
         ItemMeta itemMeta = magic.getItemMeta();
         itemMeta.setDisplayName(name);
+        magic.setItemMeta(itemMeta);
         player.getInventory().addItem(magic);
+        sender.sendMessage(ChatColor.GREEN + "Sign Given!");
         return TCommandStatus.SUCCESSFUL;
     }
 
