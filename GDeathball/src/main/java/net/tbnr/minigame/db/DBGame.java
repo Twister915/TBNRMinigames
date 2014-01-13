@@ -31,7 +31,7 @@ import java.util.Map;
 @GameMeta(
         shortName = "DB",
         longName = "Deathball",
-        description = "All players have Speed 4, Jump 5 and take no fall damage. Players are armed with unlimited snowballs and aim to hit other players, reducing their score. Players are out when they hit 0 points. Secondary weapon is a stick with knock-back 3 that affects points the same as 5 snowballs. The winner is the player with most points, the game will end early if only one player remains.",
+        description = "All players have Speed 4, Jump 5 and take no fall damage. Players are armed with unlimited snowballs and aim to hit other players, reducing their lives. Players are out when they hit 0 points. Secondary weapon is a stick with knock-back 3 that affects points the same as 5 snowballs. The winner is the player with most points, the game will end early if only one player remains.",
         mainColor = ChatColor.DARK_AQUA,
         secondaryColor = ChatColor.DARK_PURPLE,
         author = "Rigi",
@@ -43,6 +43,7 @@ import java.util.Map;
 public final class DBGame extends GearzGame implements GameCountdownHandler {
 
     private DBArena dbarena;
+    private HashMap<GearzPlayer, Integer> lives;
     private HashMap<GearzPlayer, Integer> score;
     private GameCountdown countdown;
 
@@ -50,13 +51,14 @@ public final class DBGame extends GearzGame implements GameCountdownHandler {
         super(players, arena, plugin, meta, id);
         if (!(arena instanceof DBArena)) throw new RuntimeException("Invalid instance");
         this.dbarena = (DBArena) arena;
+        this.lives = new HashMap<>();
         this.score = new HashMap<>();
     }
 
     @Override
     protected void gamePreStart() {
         for (GearzPlayer player : getPlayers()) {
-            score.put(player, 100);
+            lives.put(player, 75);
         }
     }
 
@@ -138,12 +140,12 @@ public final class DBGame extends GearzGame implements GameCountdownHandler {
 
     @Override
     protected boolean canPlayerRespawn(GearzPlayer player) {
-        return score.containsKey(player);
+        return lives.containsKey(player);
     }
 
     @Override
     protected void removePlayerFromGame(GearzPlayer player) {
-        if (score.containsKey(player)) score.remove(player);
+        if (lives.containsKey(player)) lives.remove(player);
     }
 
     @Override
@@ -153,10 +155,11 @@ public final class DBGame extends GearzGame implements GameCountdownHandler {
         GearzPlayer target1 = GearzPlayer.playerFromPlayer((Player) target);
         if (!isIngame(target1) || isSpectating(target1)) return;
         int value;
+        GearzPlayer attacker;
         if (damager instanceof Snowball) {
             Snowball snowball = (Snowball) damager;
             if (!(snowball.getShooter() instanceof Player)) return;
-            GearzPlayer attacker = GearzPlayer.playerFromPlayer((Player) snowball.getShooter());
+            attacker = GearzPlayer.playerFromPlayer((Player) snowball.getShooter());
             if(attacker.equals(target1)) return;
             if (isSpectating(attacker)) return;
             value = 1;
@@ -164,13 +167,14 @@ public final class DBGame extends GearzGame implements GameCountdownHandler {
             attacker.getPlayer().playSound(attacker.getPlayer().getLocation(), Sound.FIREWORK_BLAST2, 5f, 1f);
             attacker.getPlayer().sendMessage(getPluginFormat("formats.hit-player", true, new String[]{"<player>", target1.getUsername()}, new String[]{"<points>", value + ""}));
         } else {
-            GearzPlayer attacker = GearzPlayer.playerFromPlayer((Player) damager);
+            attacker = GearzPlayer.playerFromPlayer((Player) damager);
             if (isSpectating(attacker)) return;
             if (attacker.getPlayer().getItemInHand().getType() != Material.STICK) return;
             value = 5;
             attacker.getPlayer().playSound(attacker.getPlayer().getLocation(), Sound.FIREWORK_BLAST, 5f, 1f);
             attacker.getPlayer().sendMessage(getPluginFormat("formats.hit-player-stick", true, new String[]{"<player>", target1.getUsername()}, new String[]{"<points>", value + ""}));
         }
+        addScore(attacker, 1);
         removeScore(target1, value);
         fakeDeath(target1);
         updateScoreboard();
@@ -208,20 +212,25 @@ public final class DBGame extends GearzGame implements GameCountdownHandler {
         player.getTPlayer().giveItem(Material.SNOW_BALL, 1);
     }
 
+    private void addScore(GearzPlayer player, int scr) {
+        int sc = score.get(player) + scr;
+        score.put(player, sc);
+    }
+
     private void removeScore(GearzPlayer player, int scr) {
-        int sc = score.get(player);
+        int sc = lives.get(player);
         sc = sc - scr;
         if (sc <= 0) {
-            score.remove(player);
+            lives.remove(player);
             broadcast(getPluginFormat("formats.out-of-game", true, new String[]{"<player>", player.getUsername()}));
             return;
         }
         player.getPlayer().sendMessage(getPluginFormat("formats.lost-points", true, new String[]{"<points>", scr + ""}));
-        score.put(player, sc);
+        lives.put(player, sc);
     }
 
     private void checkGame() {
-        if (score.size() == 1) {
+        if (lives.size() == 1) {
             onCountdownComplete(countdown);
         }
     }
@@ -231,9 +240,9 @@ public final class DBGame extends GearzGame implements GameCountdownHandler {
             if(!player.isValid()) continue;
             player.getTPlayer().resetScoreboard();
             player.getTPlayer().setScoreboardSideTitle(getPluginFormat("formats.scoreboard-title", false));
-            for (GearzPlayer player1 : score.keySet()) {
+            for (GearzPlayer player1 : lives.keySet()) {
                 if(!player1.isValid()) continue;
-                player.getTPlayer().setScoreBoardSide(player1.getUsername(), score.get(player1));
+                player.getTPlayer().setScoreBoardSide(player1.getUsername(), lives.get(player1));
             }
         }
     }
@@ -260,9 +269,9 @@ public final class DBGame extends GearzGame implements GameCountdownHandler {
     public void onCountdownComplete(GameCountdown countdown) {
         int maxScore = 0;
         GearzPlayer winner = null;
-        for (Map.Entry<GearzPlayer, Integer> entry : score.entrySet()) {
+        for (Map.Entry<GearzPlayer, Integer> entry : lives.entrySet()) {
             if (entry.getValue() > maxScore) {
-                maxScore = entry.getValue();
+                maxScore = entry.getValue() * score.get(entry.getKey());
                 winner = entry.getKey();
             }
         }
@@ -270,7 +279,7 @@ public final class DBGame extends GearzGame implements GameCountdownHandler {
             broadcast(getPluginFormat("formats.winner", true, new String[]{"<name>", winner.getUsername()}));
             if (winner.getPlayer() != null) {
                 if (winner.getPlayer().isOnline()) {
-                    addGPoints(winner, 100);
+                    addGPoints(winner, 150);
                     getArena().getWorld().strikeLightningEffect(winner.getPlayer().getLocation());
                     addWin(winner);
                 }
