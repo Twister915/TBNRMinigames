@@ -59,6 +59,7 @@ public final class DBGame extends GearzGame implements GameCountdownHandler {
     protected void gamePreStart() {
         for (GearzPlayer player : getPlayers()) {
             lives.put(player, 75);
+            score.put(player, 0);
         }
     }
 
