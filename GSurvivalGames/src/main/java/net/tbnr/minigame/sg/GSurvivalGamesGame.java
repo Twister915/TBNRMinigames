@@ -99,6 +99,7 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
                 fillLoots();
             }
         }, 0, 12000L);
+        sgArena.getWorld().setDifficulty(Difficulty.NORMAL);
     }
 
     private Loot setupLoot(Point p, Tier tier) {
@@ -296,7 +297,6 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
         for (Loot loot : this.loots.values()) {
             loot.fillChest();
         }
-
     }
 
     private void playerDied(GearzPlayer player) {
