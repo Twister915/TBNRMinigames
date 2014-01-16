@@ -32,6 +32,7 @@ import java.util.*;
 @GameMeta(
         longName = "Predator",
         // I'm not letting you take credit twister ;P
+        //:(
         author = "pokuit",
         shortName = "PR",
         version = "1.0",
