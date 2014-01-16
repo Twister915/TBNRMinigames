@@ -45,13 +45,25 @@ public class BlastOffSigns implements Listener {
         final ServerSelector serverSelector = new ServerSelector(lines[1], new ServerSelector.SelectorCallback() {
             @Override
             public void onItemSelect(ServerSelector selector, InventoryGUI.InventoryGUIItem item, Player player) {
-                Server server = selector.getServers().get(item.getSlot());
+
+                /**
+                 * The reason you need to test as the person could have the selector
+                 * open for a while, and he clicks the last item while a server is restarting
+                 * so the server is no longer online and therefore is not in the servers list
+                 * Though the inventory is already open so it's not updated
+                 * Therefore it causes and IndexOutOfBoundsException
+                 * @see java.lang.IndexOutOfBoundsException
+                 */
+                Server server = selector.getServers().get(
+                        /** if */ item.getSlot() > selector.getServers().size() ?
+                        /** true */ item.getSlot() : /** false */ 0
+                );
+
                 if (server.isCanJoin()) {
                     selector.close(player);
                     SignData signData = new SignData(server, player.getLocation().getBlockY());
                     inUse.put(TPlayerManager.getInstance().getPlayer(player), signData);
                     player.setVelocity(new Vector(0, 4, 0));
-
                 }
             }
 

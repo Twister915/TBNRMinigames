@@ -390,7 +390,7 @@ public class PredatorGame extends GearzGame implements GameCountdownHandler {
             p.getPlayer().getInventory().remove(is);
             ArrayList<InventoryGUI.InventoryGUIItem> items = preyMenu.getItems();
             if(!items.contains(GUIis)) {
-                items.add(GUIis);
+                items.set(items.indexOf(new InventoryGUI.InventoryGUIItem(new ItemStack(Material.AIR), "")), GUIis);
                 preyMenu.updateContents(items);
             }
         } else {
@@ -398,7 +398,7 @@ public class PredatorGame extends GearzGame implements GameCountdownHandler {
                 p.getPlayer().getInventory().remove(is);
                 ArrayList<InventoryGUI.InventoryGUIItem> items = predatorMenu.getItems();
                 if(!items.contains(GUIis)) {
-                    items.add(GUIis);
+                    items.set(items.indexOf(new InventoryGUI.InventoryGUIItem(new ItemStack(Material.AIR), "")), GUIis);
                     predatorMenu.updateContents(items);
                 }
             }
