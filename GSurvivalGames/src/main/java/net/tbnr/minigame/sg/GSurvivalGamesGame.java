@@ -99,6 +99,7 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
                 fillLoots();
             }
         }, 0, 12000L);
+        sgArena.getWorld().setDifficulty(Difficulty.NORMAL);
     }
 
     private Loot setupLoot(Point p, Tier tier) {
@@ -296,10 +297,10 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
         for (Loot loot : this.loots.values()) {
             loot.fillChest();
         }
-
     }
 
     private void playerDied(GearzPlayer player) {
+        player.getTPlayer().addPotionEffect(PotionEffectType.BLINDNESS, 3, 1);
         Firework entity = (Firework) sgArena.getWorld().spawnEntity(player.getPlayer().getLocation(), EntityType.FIREWORK);
         entity.getFireworkMeta().addEffects(FireworkEffect.builder().withColor(Color.WHITE).with(FireworkEffect.Type.STAR).flicker(true).trail(true).build());
         getArena().getWorld().strikeLightningEffect(player.getPlayer().getLocation());

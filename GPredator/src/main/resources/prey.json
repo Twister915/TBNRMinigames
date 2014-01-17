@@ -40,10 +40,8 @@
             "item_type" : "EGG",
             "quantity" : 16
         },
-    ],
-    "armour" : [
         {
             "item_type" : "CHAINMAIL_CHESTPLATE"
-        },
-    ]
+        }
+    ],
 }

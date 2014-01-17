@@ -7,3 +7,5 @@ formats:
   game-started: "<p>The game has started, you have <time> seconds!"
   winner: "<s>The winner is <p><name><s>!"
   time: "<p>Time remaining: <s><time>"
+  prey-inventory-title: "Click the items to put them in your inventory (You may choose 3)"
+  predator-inventory-title: "Click the items to put them in your inventory (You may choose 3)"
