@@ -20,10 +20,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @GameMeta(
         longName = "Head Hunter",
@@ -70,6 +67,17 @@ public final class HeadHunterGame extends GearzGame implements GameCountdownHand
 
     @Override
     protected void gameEnding() {
+        GearzPlayer[] players = getTop(8);
+        displayWinners(players);
+    }
+
+    private GearzPlayer[] getTop(int l) {
+        List<GearzPlayer> sortedPoints = getSortedPoints();
+        GearzPlayer[] players = new GearzPlayer[l];
+        for (int x = 0; x < l; x++) {
+            players[x] = sortedPoints.get(x);
+        }
+        return players;
     }
 
     @Override
@@ -263,8 +271,6 @@ public final class HeadHunterGame extends GearzGame implements GameCountdownHand
         for (GearzPlayer player : allPlayers()) {
             EnderBar.remove(player);
         }
-        HashSet<GearzPlayer> players1 = getPlayers();
-        GearzPlayer[] players = players1.toArray(new GearzPlayer[players1.size()]);
         GearzPlayer max = getMostPoints();
         broadcast(getPluginFormat("formats.winner", true, new String[]{"<player>", max.getUsername()}));
         addGPoints(max, 250);
@@ -331,5 +337,17 @@ public final class HeadHunterGame extends GearzGame implements GameCountdownHand
     private String formatInt(Integer integer) {
         if (integer < 60) return String.format("%02d", integer);
         else return String.format("%02d:%02d", (integer / 60), (integer % 60));
+    }
+
+    private List<GearzPlayer> getSortedPoints() {
+        List<GearzPlayer> playersSorted = new ArrayList<>(this.pointsAwarded.keySet());
+        final HashMap<GearzPlayer, Integer> pointsCopy = new HashMap(this.pointsAwarded);
+        Collections.sort(playersSorted, new Comparator<GearzPlayer>() {
+            @Override
+            public int compare(GearzPlayer o1, GearzPlayer o2) {
+                return pointsCopy.get(o1) - pointsCopy.get(o2);
+            }
+        });
+        return playersSorted;
     }
 }
