@@ -1,6 +1,7 @@
 package net.tbnr.gearz.hub;
 
 import net.tbnr.gearz.hub.items.HubItem;
+import net.tbnr.gearz.hub.items.MagicClock;
 import net.tbnr.gearz.hub.items.warpstar.WarpStar;
 import net.tbnr.gearz.hub.items.warpstar.WarpStarConfig;
 import org.bukkit.Material;
@@ -28,6 +29,9 @@ public class HubItems implements Listener {
             warpStarConfig = new WarpStarConfig();
             items.add(new WarpStar(warpStarConfig));
             items.add(new ServerJoiner());
+        }
+        if (TBNRHub.getInstance().getConfig().getBoolean("magicclock")) {
+            items.add(new MagicClock());
         }
     }
 
