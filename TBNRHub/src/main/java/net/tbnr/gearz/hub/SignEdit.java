@@ -12,10 +12,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.SignChangeEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 
@@ -33,13 +35,15 @@ public class SignEdit implements Listener, TCommandHandler {
     }
 
     @EventHandler
-    public void onSignPlace(BlockPlaceEvent event){
+    public void onSignPlace(PlayerInteractEvent event){
+        if(event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
+        if(event.getPlayer().getItemInHand() == null) return;
+        if(event.getPlayer().getItemInHand().getType() != Material.SIGN) return;
         if(!event.getPlayer().getItemInHand().hasItemMeta()) return;
         if(!event.getPlayer().getItemInHand().getItemMeta().getDisplayName().equalsIgnoreCase(this.name)) return;
-        if(!(event.getBlockPlaced().getState() instanceof Sign)) return;
-        if(!(event.getBlockAgainst().getState() instanceof Sign)) return;
-        Sign sign = (Sign) event.getBlockAgainst().getState();
-        Sign gui = (Sign) event.getBlockPlaced().getState();
+        if(!(event.getClickedBlock().getState() instanceof Sign)) return;
+        Sign sign = (Sign) event.getClickedBlock().getState();
+        Sign gui = (Sign) event.getClickedBlock().getState();
         for(int i = 0; i <= sign.getLines().length-1; i++){
             TBNRHub.getInstance().getLogger().info("SignEdit >>>> THE LINE is: " + sign.getLine(i));
             if(sign.getLine(i) == null) continue;
@@ -52,7 +56,7 @@ public class SignEdit implements Listener, TCommandHandler {
     @EventHandler
     public void onSignEdit(SignChangeEvent event){
         if(!this.players.containsKey(event.getPlayer().getName())) return;
-        Sign sign = players.get(event.getPlayer());
+        Sign sign = players.get(event.getPlayer().getName());
         for(int i = 0; i <= event.getLines().length-1; i++){
             TBNRHub.getInstance().getLogger().info("SignEdit >>>> Line is: " + event.getLine(i));
             if(event.getLine(i) == null) continue;
@@ -61,6 +65,29 @@ public class SignEdit implements Listener, TCommandHandler {
         event.getBlock().setType(Material.AIR);
         event.setCancelled(true);
         this.players.remove(event.getPlayer().getName());
+    }
+
+    private class SignUpdater extends BukkitRunnable{
+
+        private Sign sign, gui;
+        private String[] lines;
+
+        public SignUpdater(Sign sign, Sign gui){
+            this.sign = sign;
+            this.gui = gui;
+        }
+
+        public void setLines(String[] lines){
+            this.lines = lines;
+        }
+
+        @Override
+        public void run() {
+            for(int i = 0; i < 4; i++) {
+                if(lines[i].isEmpty()) continue;
+                this.sign.setLine(i, lines[i]);
+            }
+        }
     }
 
     @TCommand(
