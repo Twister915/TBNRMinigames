@@ -190,7 +190,4 @@ public class SnowballEXP implements Listener {
             return hits;  //To change body of implemented methods use File | Settings | File Templates.
         }
     }
-    /*
-     *
-     */
 }
