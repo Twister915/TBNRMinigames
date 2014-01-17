@@ -418,6 +418,7 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
                 if (game.getPlayerDistanceCornicopia(gearzPlayer) > 10) {
                     gearzPlayer.getTPlayer().sendMessage(game.getPluginFormat("formats.return-to-center"));
                     game.getArena().getWorld().strikeLightningEffect(player.getLocation());
+                    gearzPlayer.getTPlayer().addPotionEffect(PotionEffectType.BLINDNESS, 5);
                     player.damage(2);
                 }
             }
