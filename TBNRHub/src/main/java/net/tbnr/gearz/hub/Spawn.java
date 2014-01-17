@@ -128,7 +128,6 @@ public class Spawn implements Listener, TCommandHandler {
 
     private void updateSpawn() {
         spawn = TPlugin.parseLocationString(TBNRHub.getInstance().getConfig().getString("spawn"));
-
     }
 
     @Override

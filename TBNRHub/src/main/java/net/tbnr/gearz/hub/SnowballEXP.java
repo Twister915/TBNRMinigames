@@ -1,7 +1,7 @@
 package net.tbnr.gearz.hub;
 
 import net.tbnr.gearz.Gearz;
-import net.tbnr.gearz.packets.packetwrapper.WrapperPlayServerWorldParticles;
+import net.tbnr.gearz.packets.wrapper.WrapperPlayServerWorldParticles;
 import net.tbnr.gearz.player.GearzPlayer;
 import net.tbnr.util.player.TPlayer;
 import net.tbnr.util.player.TPlayerJoinEvent;
@@ -190,7 +190,4 @@ public class SnowballEXP implements Listener {
             return hits;  //To change body of implemented methods use File | Settings | File Templates.
         }
     }
-    /*
-     *
-     */
 }

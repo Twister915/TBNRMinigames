@@ -56,7 +56,7 @@ public class SignEdit implements Listener, TCommandHandler {
     @EventHandler
     public void onSignEdit(SignChangeEvent event){
         if(!this.players.containsKey(event.getPlayer().getName())) return;
-        Sign sign = players.get(event.getPlayer());
+        Sign sign = players.get(event.getPlayer().getName());
         for(int i = 0; i <= event.getLines().length-1; i++){
             TBNRHub.getInstance().getLogger().info("SignEdit >>>> Line is: " + event.getLine(i));
             if(event.getLine(i) == null) continue;

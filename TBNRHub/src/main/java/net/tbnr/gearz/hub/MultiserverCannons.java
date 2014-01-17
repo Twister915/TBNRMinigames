@@ -2,7 +2,7 @@ package net.tbnr.gearz.hub;
 
 import net.tbnr.gearz.Gearz;
 import net.tbnr.gearz.netcommand.BouncyUtils;
-import net.tbnr.gearz.packets.packetwrapper.WrapperPlayServerWorldParticles;
+import net.tbnr.gearz.packets.wrapper.WrapperPlayServerWorldParticles;
 import net.tbnr.gearz.server.Server;
 import net.tbnr.gearz.server.ServerManager;
 import net.tbnr.util.TPlugin;

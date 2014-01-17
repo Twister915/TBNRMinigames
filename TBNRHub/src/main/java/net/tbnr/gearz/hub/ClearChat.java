@@ -27,7 +27,7 @@ public class ClearChat implements TCommandHandler {
             silentBroadcast("", true);
         }
         silentBroadcast(ChatColor.DARK_AQUA + "+" + ChatColor.STRIKETHROUGH + StringUtils.repeat(" ", 60) + "+", false);
-        silentBroadcast(ChatColor.DARK_AQUA + "►" + ChatColor.RESET + "" + ChatColor.BOLD + " The chat has been cleared by a staff member", false);
+        silentBroadcast(ChatColor.DARK_AQUA + "\u25BA" + ChatColor.RESET + "" + ChatColor.BOLD + " The chat has been cleared by a staff member", false);
         silentBroadcast(ChatColor.DARK_AQUA + "+" + ChatColor.STRIKETHROUGH + StringUtils.repeat(" ", 60) + "+", false);
         sender.sendMessage(ChatColor.GREEN + "Chat cleared!");
         return TCommandStatus.SUCCESSFUL;
