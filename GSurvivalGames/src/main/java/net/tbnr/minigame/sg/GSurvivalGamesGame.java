@@ -51,7 +51,7 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
     private Integer countdownSecondsRemain;
     private final static Integer countdownLength = 30;
     private Integer startingPlayers;
-    private final double maxCornicopiaDistance;
+    private double maxCornicopiaDistance;
 
     /**
      * New game in this arena
@@ -65,7 +65,6 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
         super(players, arena, plugin, meta, id);
         if (!(arena instanceof GSurvivalGamesArena)) throw new RuntimeException("Invalid instance of arena");
         this.sgArena = (GSurvivalGamesArena) arena;
-        this.maxCornicopiaDistance = calculateMaxCornicopiaDistance();
     }
 
     @Override
@@ -92,6 +91,7 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
             }
         }, 0, 12000L);
         sgArena.getWorld().setDifficulty(Difficulty.NORMAL);
+        this.maxCornicopiaDistance = calculateMaxCornicopiaDistance();
     }
 
     private void setupTier(ArenaIterator<Point> points, Tier tier) {
