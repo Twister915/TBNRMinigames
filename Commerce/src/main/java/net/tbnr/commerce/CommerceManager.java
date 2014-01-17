@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 @SuppressWarnings("unchecked")
-public class CommerceManager implements Listener {
+public final class CommerceManager implements Listener {
     private HashMap<GearzPlayer, PlayerCommerceItems> playerCommerceData;
     private static Class[] items;
     public CommerceManager() {
