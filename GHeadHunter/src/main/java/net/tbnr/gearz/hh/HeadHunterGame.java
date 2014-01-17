@@ -67,7 +67,7 @@ public final class HeadHunterGame extends GearzGame implements GameCountdownHand
 
     @Override
     protected void gameEnding() {
-        GearzPlayer[] players = getTop(8);
+        GearzPlayer[] players = getTop(Math.min(8, getPlayers().size()));
         displayWinners(players);
     }
 
