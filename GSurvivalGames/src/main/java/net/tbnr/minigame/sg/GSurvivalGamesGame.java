@@ -2,6 +2,7 @@ package net.tbnr.minigame.sg;
 
 import net.tbnr.gearz.GearzPlugin;
 import net.tbnr.gearz.arena.Arena;
+import net.tbnr.gearz.arena.ArenaIterator;
 import net.tbnr.gearz.arena.Point;
 import net.tbnr.gearz.effects.EnderBar;
 import net.tbnr.gearz.game.*;
@@ -75,22 +76,10 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
         Tier tier2 = Tier.fromJSONResource("tier2.json");
         Tier tier3 = Tier.fromJSONResource("Tier3.json");
         this.loots = new HashMap<>();
-        while (this.sgArena.cornicopiaChests.hasNext()) {
-            Point p = this.sgArena.cornicopiaChests.next();
-            setupLoot(p, cornicopia);
-        }
-        while (this.sgArena.tierOneChests.hasNext()) {
-            Point p = this.sgArena.tierOneChests.next();
-            setupLoot(p, tier1);
-        }
-        while (this.sgArena.tierTwoChests.hasNext()) {
-            Point p = this.sgArena.tierTwoChests.next();
-            setupLoot(p, tier2);
-        }
-        while (this.sgArena.tierThreeChests.hasNext()) {
-            Point p = this.sgArena.tierThreeChests.next();
-            setupLoot(p, tier3);
-        }
+        setupTier(this.sgArena.cornicopiaChests, cornicopia);
+        setupTier(this.sgArena.tierOneChests, tier1);
+        setupTier(this.sgArena.tierTwoChests, tier2);
+        setupTier(this.sgArena.tierThreeChests, tier3);
         this.getArena().cleanupDrops();
         //fillLoots();
         Bukkit.getScheduler().runTaskTimer(getPlugin(), new Runnable() {
@@ -100,6 +89,13 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
             }
         }, 0, 12000L);
         sgArena.getWorld().setDifficulty(Difficulty.NORMAL);
+    }
+
+    private void setupTier(ArenaIterator<Point> points, Tier tier) {
+        while (points.hasNext()) {
+            Point p = points.next();
+            setupLoot(p, tier);
+        }
     }
 
     private Loot setupLoot(Point p, Tier tier) {
@@ -144,7 +140,7 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
 
     @Override
     protected void gameEnding() {
-
+        this.getArena().cleanupDrops();
     }
 
     @Override

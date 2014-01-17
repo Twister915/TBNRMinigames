@@ -17,6 +17,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @SuppressWarnings("unchecked")
 public class CommerceManager implements Listener {
@@ -50,6 +51,13 @@ public class CommerceManager implements Listener {
         }
         this.playerCommerceData.put(player, new PlayerCommerceItems(player, items));
     }
+    public void activateCommerce() {
+        for (Map.Entry<GearzPlayer, PlayerCommerceItems> entry : playerCommerceData.entrySet()) {
+            for (CommerceItem commerceItem : entry.getValue().getItems()) {
+                commerceItem.register();
+            }
+        }
+    }
     public void reloadPlayers() {
         this.playerCommerceData = new HashMap<>();
         for (TPlayer tPlayer : TPlayerManager.getInstance().getPlayers()) {
@@ -76,6 +84,7 @@ public class CommerceManager implements Listener {
     }
     @EventHandler
     public void onPlayerJoin(TPlayerJoinEvent event) {
+        reloadPlayer(GearzPlayer.playerFromTPlayer(event.getPlayer()));
     }
     @Data
     @RequiredArgsConstructor

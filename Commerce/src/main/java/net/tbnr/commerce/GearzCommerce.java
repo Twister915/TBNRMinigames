@@ -11,9 +11,14 @@ public final  class GearzCommerce extends TPlugin {
     @Getter
     private static GearzCommerce instance;
 
+    @Getter
+    private CommerceManager manager;
+
     @Override
     public void enable() {
         GearzCommerce.instance = this;
+        this.manager = new CommerceManager();
+        this.manager.activateCommerce();
     }
 
     @Override
