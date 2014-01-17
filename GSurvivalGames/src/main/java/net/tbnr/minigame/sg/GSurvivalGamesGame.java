@@ -1,20 +1,21 @@
 package net.tbnr.minigame.sg;
 
+import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import net.tbnr.gearz.GearzPlugin;
 import net.tbnr.gearz.arena.Arena;
 import net.tbnr.gearz.arena.ArenaIterator;
 import net.tbnr.gearz.arena.Point;
 import net.tbnr.gearz.effects.EnderBar;
+import net.tbnr.gearz.effects.GearzFireworkEffect;
 import net.tbnr.gearz.game.*;
 import net.tbnr.gearz.player.GearzPlayer;
 import net.tbnr.util.RandomUtils;
+import net.tbnr.util.player.TPlayer;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Firework;
-import org.bukkit.entity.Item;
-import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
@@ -33,7 +34,7 @@ import java.util.List;
         description = "An elimination death match with loot chests in the map",
         pvpMode = GameMeta.PvPMode.FreeForAll,
         shortName = "SG",
-        version = "1.0"
+        version = "1.1"
 )
 public final class GSurvivalGamesGame extends GearzGame implements GameCountdownHandler {
     private GSurvivalGamesArena sgArena;
@@ -50,6 +51,7 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
     private Integer countdownSecondsRemain;
     private final static Integer countdownLength = 30;
     private Integer startingPlayers;
+    private final double maxCornicopiaDistance;
 
     /**
      * New game in this arena
@@ -63,6 +65,7 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
         super(players, arena, plugin, meta, id);
         if (!(arena instanceof GSurvivalGamesArena)) throw new RuntimeException("Invalid instance of arena");
         this.sgArena = (GSurvivalGamesArena) arena;
+        this.maxCornicopiaDistance = calculateMaxCornicopiaDistance();
     }
 
     @Override
@@ -261,9 +264,10 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
         if (this.state == SGState.Gameplay) {
             broadcast(getPluginFormat("formats.gameplay-start"));
             for (GearzPlayer player : getPlayers()) {
-                player.getTPlayer().resetPlayer();
+                TPlayer tPlayer = player.getTPlayer();
+                tPlayer.resetPlayer();
                 player.getPlayer().playNote(player.getPlayer().getLocation(), Instrument.BASS_DRUM, Note.natural(1, Note.Tone.F));
-                player.getTPlayer().playSound(Sound.ENDERDRAGON_GROWL);
+                tPlayer.playSound(Sound.ENDERDRAGON_GROWL);
             }
         }
         if (this.state == SGState.Deathmatch) {
@@ -277,12 +281,23 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
                 points.add(p);
                 player.getTPlayer().teleport(this.sgArena.pointToLocation(p));
             }
+            new LightningChecker(this).schedule();
         }
         if (this.state == SGState.DeathmatchCountdown) {
             GameCountdown countdown = new GameCountdown(30, this, this);
             countdown.start();
             for (GearzPlayer player : allPlayers()) {
                 player.getTPlayer().playSound(Sound.BLAZE_DEATH);
+            }
+            for (GearzPlayer player : getPlayers()) {
+                GearzFireworkEffect effect = new GearzFireworkEffect(player.getPlayer().getLocation(),
+                        FireworkEffect.builder().with(FireworkEffect.Type.CREEPER).
+                                trail(true).
+                                flicker(true).
+                                withColor(Color.RED, Color.GREEN, Color.BLACK).
+                                withFade(Color.ORANGE).
+                                build());
+                effect.fire(GearzFireworkEffect.SelectionMode.All, 1);
             }
             broadcast(getPluginFormat("formats.deathmatch-countdown", true, new String[]{"<seconds>", String.valueOf(30)}));
         }
@@ -360,8 +375,56 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
         }
     }
 
+    private double getPlayerDistanceCornicopia(GearzPlayer player) {
+        double playerMaxDistance = 0;
+        for (Point point : this.sgArena.cornicopiaPoints.getArrayList()) {
+            Location l = this.sgArena.pointToLocation(point);
+            double distance = player.getPlayer().getLocation().distance(l);
+            playerMaxDistance = distance > playerMaxDistance ? distance : playerMaxDistance;
+        }
+        return playerMaxDistance-maxCornicopiaDistance;
+    }
+
+    private double calculateMaxCornicopiaDistance() {
+        double maxDistance = 0;
+        for (Point point : this.sgArena.cornicopiaPoints.getArrayList()) {
+            Location l = this.sgArena.pointToLocation(point);
+            l.setY(0);
+            double maxDistanceInternal = 0;
+            for (Point point2 : this.sgArena.cornicopiaPoints.getArrayList()) {
+                Location l2 = this.sgArena.pointToLocation(point2);
+                l2.setY(0);
+                double distance = l.distance(l2);
+                maxDistanceInternal = distance > maxDistanceInternal ? distance : maxDistanceInternal;
+            }
+            maxDistance = maxDistanceInternal > maxDistance ? maxDistanceInternal : maxDistance;
+        }
+        return maxDistance;
+    }
+
     @Override
     public boolean useEnderBar(GearzPlayer player) {
         return false;
+    }
+
+    @AllArgsConstructor
+    private static class LightningChecker implements Runnable {
+        @NonNull private final GSurvivalGamesGame game;
+        @Override
+        public void run() {
+            if (game.state != SGState.Deathmatch) return;
+            for (GearzPlayer gearzPlayer : game.getPlayers()) {
+                Player player = gearzPlayer.getPlayer();
+                if (game.getPlayerDistanceCornicopia(gearzPlayer) > 10) {
+                    gearzPlayer.getTPlayer().sendMessage(game.getPluginFormat("formats.return-to-center"));
+                    game.getArena().getWorld().strikeLightningEffect(player.getLocation());
+                    player.damage(2);
+                }
+            }
+            schedule();
+        }
+        public void schedule() {
+            Bukkit.getScheduler().runTaskLater(game.getPlugin(), this, 60);
+        }
     }
 }
