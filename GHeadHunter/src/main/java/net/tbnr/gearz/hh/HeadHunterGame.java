@@ -87,7 +87,7 @@ public final class HeadHunterGame extends GearzGame implements GameCountdownHand
 
     @Override
     protected boolean canPvP(GearzPlayer attacker, GearzPlayer target) {
-        return true;  //To change body of implemented methods use File | Settings | File Templates.
+        return true;
     }
 
     @Override
@@ -109,7 +109,7 @@ public final class HeadHunterGame extends GearzGame implements GameCountdownHand
             updatePlayerSword(player);
             player.getPlayer().updateInventory();
         }
-        return true;  //To change body of implemented methods use File | Settings | File Templates.
+        return true;
     }
 
     @Override
@@ -124,12 +124,12 @@ public final class HeadHunterGame extends GearzGame implements GameCountdownHand
 
     @Override
     protected boolean canMove(GearzPlayer player) {
-        return true;  //To change body of implemented methods use File | Settings | File Templates.
+        return true;
     }
 
     @Override
     protected boolean canDrawBow(GearzPlayer player) {
-        return true;  //To change body of implemented methods use File | Settings | File Templates.
+        return true;
     }
 
     @Override
@@ -160,12 +160,12 @@ public final class HeadHunterGame extends GearzGame implements GameCountdownHand
 
     @Override
     protected Location playerRespawn(GearzPlayer player) {
-        return getArena().pointToLocation(this.hhArena.spawnPoints.random());  //To change body of implemented methods use File | Settings | File Templates.
+        return getArena().pointToLocation(this.hhArena.spawnPoints.random());
     }
 
     @Override
     protected boolean canPlayerRespawn(GearzPlayer player) {
-        return true;  //To change body of implemented methods use File | Settings | File Templates.
+        return true;
     }
 
     @Override

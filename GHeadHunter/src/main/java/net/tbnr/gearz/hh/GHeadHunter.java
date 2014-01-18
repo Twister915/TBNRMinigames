@@ -19,6 +19,6 @@ public final class GHeadHunter extends GearzPlugin {
 
     @Override
     public String getStorablePrefix() {
-        return "headhunter";  //To change body of implemented methods use File | Settings | File Templates.
+        return "headhunter";
     }
 }

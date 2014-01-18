@@ -153,12 +153,12 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
 
     @Override
     protected boolean canPvP(GearzPlayer attacker, GearzPlayer target) {
-        return (state != SGState.Countdown);  //To change body of implemented methods use File | Settings | File Templates.
+        return (state != SGState.Countdown);
     }
 
     @Override
     protected boolean canUse(GearzPlayer player) {
-        return true;  //To change body of implemented methods use File | Settings | File Templates.
+        return true;
     }
 
     @Override
@@ -173,12 +173,12 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
 
     @Override
     protected boolean canMove(GearzPlayer player) {
-        return this.state != SGState.Countdown;  //To change body of implemented methods use File | Settings | File Templates.
+        return this.state != SGState.Countdown;
     }
 
     @Override
     protected boolean canDrawBow(GearzPlayer player) {
-        return true;  //To change body of implemented methods use File | Settings | File Templates.
+        return true;
     }
 
     @Override
@@ -219,7 +219,7 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
 
     @Override
     protected int xpForPlaying() {
-        return 350;  //To change body of implemented methods use File | Settings | File Templates.
+        return 350;
     }
 
     @Override
