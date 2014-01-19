@@ -27,7 +27,7 @@ public class MagicClock extends HubItem {
     public ItemStack getItem() {
         ItemStack itemStack = new ItemStack(Material.NETHER_STAR, 1);
         ItemMeta meta = itemStack.getItemMeta();
-        meta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.ITALIC + "Magic Clock!" + ChatColor.GRAY + " - " + ChatColor.YELLOW + "" + ChatColor.BOLD + "Click me!");
+        meta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.ITALIC + "Magic Star!" + ChatColor.GRAY + " - " + ChatColor.YELLOW + "" + ChatColor.BOLD + "Click me!");
         itemStack.setItemMeta(meta);
         return itemStack;
     }

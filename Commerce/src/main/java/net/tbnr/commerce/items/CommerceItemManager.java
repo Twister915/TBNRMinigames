@@ -1,10 +1,12 @@
-package net.tbnr.commerce;
+package net.tbnr.commerce.items;
 
 import com.mongodb.BasicDBList;
 import com.mongodb.DBObject;
 import lombok.Data;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import net.tbnr.commerce.items.CommerceItem;
+import net.tbnr.commerce.items.CommerceItemMeta;
 import net.tbnr.commerce.items.RoseOfDeath;
 import net.tbnr.gearz.player.GearzPlayer;
 import net.tbnr.util.player.TPlayer;
@@ -20,10 +22,10 @@ import java.util.List;
 import java.util.Map;
 
 @SuppressWarnings("unchecked")
-public final class CommerceManager implements Listener {
+public final class CommerceItemManager implements Listener {
     private HashMap<GearzPlayer, PlayerCommerceItems> playerCommerceData;
     private static Class[] items;
-    public CommerceManager() {
+    public CommerceItemManager() {
         this.playerCommerceData = new HashMap<>();
         items = new Class[]{RoseOfDeath.class};
         reloadPlayers();

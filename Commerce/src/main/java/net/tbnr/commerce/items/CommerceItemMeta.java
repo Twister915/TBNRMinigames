@@ -1,4 +1,4 @@
-package net.tbnr.commerce;
+package net.tbnr.commerce.items;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

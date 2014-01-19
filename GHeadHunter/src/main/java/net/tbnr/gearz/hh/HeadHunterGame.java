@@ -345,7 +345,7 @@ public final class HeadHunterGame extends GearzGame implements GameCountdownHand
         Collections.sort(playersSorted, new Comparator<GearzPlayer>() {
             @Override
             public int compare(GearzPlayer o1, GearzPlayer o2) {
-                return pointsCopy.get(o1) - pointsCopy.get(o2);
+                return pointsCopy.get(o2) - pointsCopy.get(o1);
             }
         });
         return playersSorted;

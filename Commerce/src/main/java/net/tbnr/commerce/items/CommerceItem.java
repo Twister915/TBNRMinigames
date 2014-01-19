@@ -1,7 +1,8 @@
-package net.tbnr.commerce;
+package net.tbnr.commerce.items;
 
 import lombok.Data;
 import lombok.ToString;
+import net.tbnr.commerce.GearzCommerce;
 import net.tbnr.gearz.GearzException;
 import net.tbnr.gearz.player.GearzPlayer;
 import org.bukkit.event.Listener;
