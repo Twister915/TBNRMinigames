@@ -16,6 +16,7 @@ import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.entity.*;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
@@ -346,6 +347,50 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
     public void removePlayerFromGame(GearzPlayer player) {
         if (!isPlaying(player)) return;
         playerDied(player);
+    }
+
+    @Override
+    protected void onDamage(Entity damager, Entity target, EntityDamageByEntityEvent event){
+        if(!(damager instanceof Snowball)) return;
+        if(!(target instanceof Player)) return;
+        GearzPlayer target1 = GearzPlayer.playerFromPlayer((Player) target);
+        if(!isPlaying(target1)) return;
+        GearzPlayer attacker;
+        Snowball snowball = (Snowball) damager;
+        if(!(snowball.getShooter() instanceof Player)) return;
+        attacker = GearzPlayer.playerFromPlayer((Player) snowball.getShooter());
+        Player attackerP = (Player) snowball.getShooter();
+        if(attacker.equals(target1)) return;
+        if(isSpectating(attacker)) return;
+        final Player targPlayer = (Player) target;
+        Location targLoc = targPlayer.getLocation();
+        final int pX = targLoc.getBlockX();
+        final int pY = targLoc.getBlockY();
+        final int pZ = targLoc.getBlockZ();
+        for (int x = pX - 1; x <= pX + 1; x++) {
+            for (int y = pY - 1; y <= pY + 2; y++) {
+                for (int z = pZ - 1; z <= pZ + 1; z++) {
+                    boolean insidePlayer = (x == pX && (y == pY || y == pY + 1) && z == pZ);
+                    if (!insidePlayer) {
+                        if(!(targPlayer.getWorld().getBlockAt(x,y,z).getType().equals(Material.AIR))) return;
+                        targPlayer.getWorld().getBlockAt(x,y,z).setType(Material.ICE);
+                        Bukkit.getScheduler().scheduleSyncDelayedTask(getPlugin(), new Runnable(){
+                            public void run(){
+                                for (int x = pX - 1; x <= pX + 1; x++) {
+                                    for (int y = pY - 1; y <= pY + 2; y++) {
+                                        for (int z = pZ - 1; z <= pZ + 1; z++) {
+                                            targPlayer.getWorld().getBlockAt(x,y,z).setType(Material.AIR);
+                                        }
+                                    }
+                                }
+                            }
+                        }, 20);
+                        targPlayer.sendMessage(getPluginFormat("formats.snowball-hit-by", true, new String[]{"<player>", attacker.getUsername()}));
+                        attackerP.sendMessage(getPluginFormat("formats.snowball-hit", true, new String[]{"<player>", targPlayer.getName()}));
+                    }
+                }
+            }
+        }
     }
 
     private void updateArmour() {
