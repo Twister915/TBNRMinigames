@@ -170,6 +170,7 @@ public class MultiserverCannons implements Listener, TCommandHandler {
         @Override
         public void run() {
             if (this.state == ProcessState.PRE_IGNITE) this.state = ProcessState.IGNITE;
+            if (this.player == null) return;
             switch (this.state) {
                 case IGNITE:
                     this.player.playSound(Sound.EXPLODE);
