@@ -372,13 +372,14 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
                 for (int z = pZ - 1; z <= pZ + 1; z++) {
                     boolean insidePlayer = (x == pX && (y == pY || y == pY + 1) && z == pZ);
                     if (!insidePlayer) {
-                        if(!(targPlayer.getWorld().getBlockAt(x,y,z).getType().equals(Material.AIR))) return;
+                        if(!targPlayer.getWorld().getBlockAt(x,y,z).getType().equals(Material.AIR)) return;
                         targPlayer.getWorld().getBlockAt(x,y,z).setType(Material.ICE);
                         Bukkit.getScheduler().scheduleSyncDelayedTask(getPlugin(), new Runnable(){
                             public void run(){
                                 for (int x = pX - 1; x <= pX + 1; x++) {
                                     for (int y = pY - 1; y <= pY + 2; y++) {
                                         for (int z = pZ - 1; z <= pZ + 1; z++) {
+                                            if(!targPlayer.getWorld().getBlockAt(x,y,z).getType().equals(Material.ICE)) return;
                                             targPlayer.getWorld().getBlockAt(x,y,z).setType(Material.AIR);
                                         }
                                     }
