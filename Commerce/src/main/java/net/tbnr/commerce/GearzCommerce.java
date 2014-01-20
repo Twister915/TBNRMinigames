@@ -1,7 +1,6 @@
 package net.tbnr.commerce;
 
 import lombok.Getter;
-import net.tbnr.commerce.items.RoseOfDeath;
 import net.tbnr.util.TPlugin;
 
 /**

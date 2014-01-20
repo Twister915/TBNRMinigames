@@ -5,7 +5,7 @@ import net.tbnr.commerce.CommerceItemMeta;
 import net.tbnr.commerce.GearzCommerce;
 import net.tbnr.gearz.GearzException;
 import net.tbnr.gearz.event.player.PlayerGameKillEvent;
-import net.tbnr.gearz.packets.packetwrapper.WrapperPlayServerWorldParticles;
+import net.tbnr.gearz.packets.wrapper.WrapperPlayServerWorldParticles;
 import net.tbnr.gearz.player.GearzPlayer;
 import net.tbnr.util.player.TPlayer;
 import org.bukkit.Location;
