@@ -42,7 +42,7 @@ public final class GSurvivalGames extends GearzPlugin {
                 builder.append(line);
             }
         } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
             return null;
         }
         return builder.toString();
@@ -60,6 +60,6 @@ public final class GSurvivalGames extends GearzPlugin {
 
     @Override
     public String getStorablePrefix() {
-        return "survival_games";  //To change body of implemented methods use File | Settings | File Templates.
+        return "survival_games";
     }
 }

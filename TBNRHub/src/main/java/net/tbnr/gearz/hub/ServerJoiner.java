@@ -7,6 +7,7 @@ import net.tbnr.gearz.server.ServerManager;
 import net.tbnr.util.InventoryGUI;
 import net.tbnr.util.RandomUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -131,12 +132,12 @@ public class ServerJoiner extends HubItem {
 
         @Override
         public void onGUIOpen(InventoryGUI gui, Player player) {
-            player.sendMessage("Loading Server List");
+            player.sendMessage(ChatColor.GREEN + "Loading Server List");
         }
 
         @Override
         public void onGUIClose(InventoryGUI gui, Player player) {
-            player.sendMessage("Server Selector Closed");
+            player.sendMessage(ChatColor.GRAY + "Server Selector Closed");
         }
     }
 
@@ -176,7 +177,7 @@ public class ServerJoiner extends HubItem {
 
         @Override
         public void onGUIOpen(InventoryGUI gui, Player player) {
-            player.sendMessage("Lising servers for " + this.type);
+            player.sendMessage(ChatColor.GREEN + "Lising servers for " + ChatColor.DARK_BLUE + this.type);
         }
 
         @Override

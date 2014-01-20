@@ -6,3 +6,4 @@ formats:
   refill-chests: "<p>The chests have been filled up!"
   deathmatch-countdown: "<s>The deathmatch will start in <p><seconds><s>."
   slowness-info: "<s>The slowness potion is for zoom. Take a good look..."
+  return-to-center: "<s>Return to the cornicopia!"

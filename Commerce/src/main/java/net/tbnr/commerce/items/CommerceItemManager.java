@@ -1,10 +1,12 @@
-package net.tbnr.commerce;
+package net.tbnr.commerce.items;
 
 import com.mongodb.BasicDBList;
 import com.mongodb.DBObject;
 import lombok.Data;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import net.tbnr.commerce.items.CommerceItem;
+import net.tbnr.commerce.items.CommerceItemMeta;
 import net.tbnr.commerce.items.RoseOfDeath;
 import net.tbnr.gearz.player.GearzPlayer;
 import net.tbnr.util.player.TPlayer;
@@ -17,12 +19,13 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @SuppressWarnings("unchecked")
-public class CommerceManager implements Listener {
+public final class CommerceItemManager implements Listener {
     private HashMap<GearzPlayer, PlayerCommerceItems> playerCommerceData;
     private static Class[] items;
-    public CommerceManager() {
+    public CommerceItemManager() {
         this.playerCommerceData = new HashMap<>();
         items = new Class[]{RoseOfDeath.class};
         reloadPlayers();
@@ -50,6 +53,13 @@ public class CommerceManager implements Listener {
         }
         this.playerCommerceData.put(player, new PlayerCommerceItems(player, items));
     }
+    public void activateCommerce() {
+        for (Map.Entry<GearzPlayer, PlayerCommerceItems> entry : playerCommerceData.entrySet()) {
+            for (CommerceItem commerceItem : entry.getValue().getItems()) {
+                commerceItem.register();
+            }
+        }
+    }
     public void reloadPlayers() {
         this.playerCommerceData = new HashMap<>();
         for (TPlayer tPlayer : TPlayerManager.getInstance().getPlayers()) {
@@ -76,6 +86,7 @@ public class CommerceManager implements Listener {
     }
     @EventHandler
     public void onPlayerJoin(TPlayerJoinEvent event) {
+        reloadPlayer(GearzPlayer.playerFromTPlayer(event.getPlayer()));
     }
     @Data
     @RequiredArgsConstructor
