@@ -385,7 +385,7 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
                                     }
                                 }
                             }
-                        }, 20);
+                        }, getPlugin().getConfig().getLong("freezelength"));
                         targPlayer.sendMessage(getPluginFormat("formats.snowball-hit-by", true, new String[]{"<player>", attacker.getUsername()}));
                         attackerP.sendMessage(getPluginFormat("formats.snowball-hit", true, new String[]{"<player>", targPlayer.getName()}));
                     }

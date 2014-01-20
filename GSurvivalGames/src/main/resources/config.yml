@@ -9,3 +9,4 @@ formats:
   return-to-center: "<s>Return to the cornicopia!"
   snowball-hit: "<s>Hit <p><player><s> with a snowball!"
   snowball-hit-by: "<s>You were hit by <p><player>'s<s> snowball!"
+freezelength: 30L
