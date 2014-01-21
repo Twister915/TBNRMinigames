@@ -142,7 +142,7 @@ public final class GSwitchUpGame extends GearzGame implements GameCountdownHandl
         this.killsThisGame.put(killer, integer);
         this.killsInRound++;
         playerDied(dead);
-        updateScoreboard();
+        if (this.isRunning()) updateScoreboard();
     }
 
     @Override
@@ -195,9 +195,6 @@ public final class GSwitchUpGame extends GearzGame implements GameCountdownHandl
         if (this.killsInRound >= GSwitchUpGame.killsPerRound) {
             this.skipOnActivate.add(player);
             if (!this.nextRound()) {
-                for (GearzPlayer player2 : allPlayers()) {
-                    player2.getTPlayer().resetScoreboard();
-                }
                 GearzPlayer leader = getLeader();
                 broadcast(getPluginFormat("formats.win", true, new String[]{"<winner>", leader.getUsername()}));
                 addGPoints(leader, 150);
