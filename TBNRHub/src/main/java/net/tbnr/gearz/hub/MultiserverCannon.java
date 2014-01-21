@@ -95,7 +95,7 @@ public final class MultiserverCannon implements ConfigurationSerializable, Liste
 
     @SuppressWarnings("UnusedDeclaration")
     public MultiserverCannon(Map<String, Object> map) {
-        this((String) map.get("server"), (String) map.get("referenceBlock"), (String) map.get("refrenceLook"));
+        this((String) map.get("server"), (String) map.get("referenceBlock"), (String) map.get("referenceLook"));
     }
 
     public Location getReferenceLook() {
