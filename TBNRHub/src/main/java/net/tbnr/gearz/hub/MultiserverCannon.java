@@ -1,6 +1,7 @@
 package net.tbnr.gearz.hub;
 
 import net.tbnr.gearz.effects.GearzLabelEntity;
+import net.tbnr.util.TPlugin;
 import net.tbnr.util.player.TPlayer;
 import net.tbnr.util.player.TPlayerDisconnectEvent;
 import net.tbnr.util.player.TPlayerJoinEvent;
@@ -29,8 +30,8 @@ public final class MultiserverCannon implements ConfigurationSerializable, Liste
 
     public MultiserverCannon(String server, String referenceBlock, String referenceLook) {
         this.server = server;
-        this.referenceBlock = TBNRHub.parseLocationString(referenceBlock);
-        this.referenceLook = TBNRHub.parseLocationString(referenceLook);
+        this.referenceBlock = TPlugin.parseLocationString(referenceBlock);
+        this.referenceLook = TPlugin.parseLocationString(referenceLook);
         if (TBNRHub.getInstance().getArena() != null) {
             this.referenceBlock.setWorld(TBNRHub.getInstance().getArena().getWorld());
             this.referenceLook.setWorld(TBNRHub.getInstance().getArena().getWorld());
