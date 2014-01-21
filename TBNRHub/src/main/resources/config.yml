@@ -27,3 +27,4 @@ formats:
    command-status: "&7[&6TBNR&7] &cThe command returned an error: &4<status>"
 blastoff:
    distance: 15
+resource-pack-link: "http://four.tbnr.pw/tbnr_tex.zip"

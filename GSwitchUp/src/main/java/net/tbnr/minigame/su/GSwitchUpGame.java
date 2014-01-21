@@ -142,7 +142,7 @@ public final class GSwitchUpGame extends GearzGame implements GameCountdownHandl
         this.killsThisGame.put(killer, integer);
         this.killsInRound++;
         playerDied(dead);
-        updateScoreboard();
+        if (this.isRunning()) updateScoreboard();
     }
 
     @Override

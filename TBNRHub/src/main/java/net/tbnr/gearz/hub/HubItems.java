@@ -28,7 +28,7 @@ public class HubItems implements Listener {
         if (TBNRHub.getInstance().getConfig().getBoolean("warpstar")) {
             warpStarConfig = new WarpStarConfig();
             items.add(new WarpStar(warpStarConfig));
-            items.add(new ServerJoiner());
+            //items.add(new ServerJoiner());
         }
         if (TBNRHub.getInstance().getConfig().getBoolean("magicclock")) {
             items.add(new MagicClock());
