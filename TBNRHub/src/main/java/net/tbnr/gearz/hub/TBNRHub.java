@@ -77,8 +77,7 @@ public class TBNRHub extends TPlugin implements TCommandHandler {
         registerEvents(new SnowballEXP());
         hubItems = new HubItems();
         registerEvents(hubItems);
-        registerEvents(new Enviroment());
-        registerEvents(new Blockers());
+        registerEvents(new Restrictions());
         registerEvents(new PlayerThings());
         registerEvents(new BlastOffSigns());
         SignEdit signedit = new SignEdit();

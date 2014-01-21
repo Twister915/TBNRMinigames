@@ -5,10 +5,12 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.weather.WeatherChangeEvent;
 
-public class Blockers implements Listener {
+public class Restrictions implements Listener {
 
     @EventHandler
     @SuppressWarnings("unused")
@@ -29,5 +31,18 @@ public class Blockers implements Listener {
         if (event.getItemDrop().getItemStack().getType() == Material.SNOW_BALL) return;
         event.getPlayer().sendMessage(TBNRHub.getInstance().getFormat("cant-drop", true, new String[]{"<prefix>", TBNRHub.getInstance().getChatPrefix()}));
         event.setCancelled(true);
+    }
+
+    @EventHandler
+    @SuppressWarnings("unused")
+    public void onWeatherChange(WeatherChangeEvent e) {
+        e.setCancelled(true);
+    }
+
+    @EventHandler
+    @SuppressWarnings("unused")
+    public void onCraftItemEvent(CraftItemEvent e) {
+        if (e.getWhoClicked().hasPermission("gearz.staff")) return;
+        e.setCancelled(true);
     }
 }

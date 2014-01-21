@@ -1,7 +1,5 @@
 package net.tbnr.commerce.items;
 
-import net.tbnr.commerce.CommerceItem;
-import net.tbnr.commerce.CommerceItemMeta;
 import net.tbnr.commerce.GearzCommerce;
 import net.tbnr.gearz.GearzException;
 import net.tbnr.gearz.event.player.PlayerGameKillEvent;
