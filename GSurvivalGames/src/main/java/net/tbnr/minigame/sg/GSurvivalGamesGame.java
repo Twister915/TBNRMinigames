@@ -359,10 +359,10 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
         Snowball snowball = (Snowball) damager;
         if(!(snowball.getShooter() instanceof Player)) return;
         attacker = GearzPlayer.playerFromPlayer((Player) snowball.getShooter());
-        Player attackerP = (Player) snowball.getShooter();
+        Player attackerP = attacker.getPlayer();
         if(attacker.equals(target1)) return;
         if(isSpectating(attacker)) return;
-        final Player targPlayer = (Player) target;
+        final Player targPlayer = target1.getPlayer();
         Location targLoc = targPlayer.getLocation();
         final int pX = targLoc.getBlockX();
         final int pY = targLoc.getBlockY();
@@ -374,7 +374,7 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
                     boolean insidePlayer = (x == pX && (y == pY || y == pY + 1) && z == pZ);
                     if (!insidePlayer){
                         final Block block = targPlayer.getWorld().getBlockAt(x,y,z);
-                        if(block.getType().equals(Material.AIR){
+                        if(block.getType().equals(Material.AIR)){
                             block.setType(Material.ICE);
                         }
                         Bukkit.getScheduler().scheduleSyncDelayedTask(getPlugin(), new Runnable(){
