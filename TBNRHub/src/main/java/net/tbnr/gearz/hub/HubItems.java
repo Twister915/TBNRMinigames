@@ -2,8 +2,8 @@ package net.tbnr.gearz.hub;
 
 import net.tbnr.gearz.hub.items.HubItem;
 import net.tbnr.gearz.hub.items.MagicClock;
-import net.tbnr.gearz.hub.items.warpstar.WarpStar;
-import net.tbnr.gearz.hub.items.warpstar.WarpStarConfig;
+import net.tbnr.gearz.hub.items.WarpStar;
+import net.tbnr.gearz.hub.items.warpstarrrr.WarpStarConfig;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -25,7 +25,7 @@ public class HubItems implements Listener {
     public HubItems() {
         items = new ArrayList<>();
         //items.add(new RuleBook());
-        if (TBNRHub.getInstance().getConfig().getBoolean("warpstar")) {
+        if (TBNRHub.getInstance().getConfig().getBoolean("warpstarrrr")) {
             warpStarConfig = new WarpStarConfig();
             items.add(new WarpStar(warpStarConfig));
             //items.add(new ServerJoiner());

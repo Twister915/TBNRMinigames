@@ -1,4 +1,4 @@
-package net.tbnr.gearz.hub.items.warpstar;
+package net.tbnr.gearz.hub.items.warpstarrrr;
 
 import net.tbnr.gearz.hub.TBNRHub;
 import net.tbnr.util.command.TCommand;

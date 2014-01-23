@@ -6,7 +6,7 @@ import net.lingala.zip4j.exception.ZipException;
 import net.tbnr.gearz.Gearz;
 import net.tbnr.gearz.GearzException;
 import net.tbnr.gearz.arena.ArenaManager;
-import net.tbnr.gearz.hub.items.warpstar.WarpStarCommands;
+import net.tbnr.gearz.hub.items.warpstarrrr.WarpStarCommands;
 import net.tbnr.gearz.server.Server;
 import net.tbnr.gearz.server.ServerManager;
 import net.tbnr.util.TPlugin;
