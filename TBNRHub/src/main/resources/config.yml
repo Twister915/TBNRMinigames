@@ -7,7 +7,9 @@ flight-toggled: "<prefix>&3Flight mode has been &a<result>&3!"
 prefix: "&8[&6&lTBNR&8] "
 warped-to: "<prefix>&3You have been teleported to &a<warp>&3!"
 cant-drop: "<prefix>&cYou can't drop that!"
-warpstar: true
+hub-items:
+   warpstar: true
+   magicclock: true
 formats:
    world-teleport: "&aYou've been teleported to &e<world>&a!"
    snowball-hit: "&aYou have hit &3<player>&a with a snowball to earn XP! &3(You have &b<hits>&3 hits)."

@@ -1,5 +1,6 @@
 package net.tbnr.gearz.hub.items;
 
+import net.tbnr.gearz.hub.HubItemMeta;
 import net.tbnr.gearz.hub.TBNRHub;
 import net.tbnr.gearz.hub.items.warpstar.WarpStarConfig;
 import net.tbnr.gearz.player.GearzPlayer;
@@ -12,14 +13,24 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 /**
- * Created by rigor789 on 2013.12.21..
+ * Created by rigor789 on 2013.12.21.
+ *
+ * Purpose Of File: To provide a warp star
+ *
+ * Latest Change: Added hub item meta
  */
+@HubItemMeta(
+					key = "warpstar"
+)
 public class WarpStar extends HubItem {
 
     private InventoryGUI inventoryGUI;
 
-    public WarpStar(final WarpStarConfig config) {
+    public WarpStar() {
         super(true);
+
+	    final WarpStarConfig config = new WarpStarConfig();
+
         this.inventoryGUI = new InventoryGUI(config.getWarps(), "Warp Menu", new InventoryGUI.InventoryGUICallback() {
             @Override
             public void onItemSelect(InventoryGUI gui, InventoryGUI.InventoryGUIItem item, Player player) {
