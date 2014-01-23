@@ -56,7 +56,7 @@ public class BlastOffSigns implements Listener {
                  */
                 Server server = selector.getServers().get(
                         /** if */ item.getSlot() > selector.getServers().size() ?
-                        /** true */ item.getSlot() : /** false */ 0
+                        /** true */ 0 : /** false */ item.getSlot()
                 );
 
                 if (server.isCanJoin()) {
