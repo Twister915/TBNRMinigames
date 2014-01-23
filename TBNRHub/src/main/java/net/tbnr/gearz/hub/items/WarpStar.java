@@ -1,12 +1,15 @@
 package net.tbnr.gearz.hub.items;
 
 import net.tbnr.gearz.hub.TBNRHub;
-import net.tbnr.gearz.hub.items.warpstarrrr.WarpStarConfig;
+import net.tbnr.gearz.hub.items.warpstar.WarpStarConfig;
 import net.tbnr.gearz.player.GearzPlayer;
 import net.tbnr.util.InventoryGUI;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 /**
  * Created by rigor789 on 2013.12.21..

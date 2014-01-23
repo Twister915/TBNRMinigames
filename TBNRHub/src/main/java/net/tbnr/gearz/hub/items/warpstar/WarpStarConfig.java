@@ -1,4 +1,4 @@
-package net.tbnr.gearz.hub.items.warpstarrrr;
+package net.tbnr.gearz.hub.items.warpstar;
 
 import net.tbnr.gearz.hub.TBNRHub;
 import net.tbnr.util.InventoryGUI;
