@@ -28,7 +28,5 @@ public class Purchase extends GModel {
     }
 
     @BasicField private ObjectId player;
-    @BasicField private String purchase_type;
     @BasicField private Date purchaseDate = new Date();
-    @BasicField private Double lengthInHours;
 }
