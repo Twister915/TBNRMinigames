@@ -24,6 +24,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.json.JSONObject;
 
 import java.util.*;
@@ -314,8 +315,13 @@ public class PredatorGame extends GearzGame implements GameCountdownHandler {
                     }
 
                     @Override
-                    public void onGUIClose(InventoryGUI gui, Player player){
-                        if(currentState == PRState.CHOOSING) gui.open(player);
+                    public void onGUIClose(final InventoryGUI gui, final Player player){
+	                    new BukkitRunnable() {
+		                    @Override
+		                    public void run() {
+			                    if(currentState == PRState.CHOOSING) gui.open(player);
+		                    }
+	                    }.runTaskLater(Gearz.getInstance(), 20);
                     }
                 },
                 true
