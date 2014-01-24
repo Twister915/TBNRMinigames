@@ -11,7 +11,6 @@ import net.tbnr.gearz.game.GearzGame;
 import net.tbnr.gearz.game.classes.GearzClass;
 import net.tbnr.gearz.game.classes.GearzClassSelector;
 import net.tbnr.gearz.game.classes.GearzItem;
-import net.tbnr.gearz.game.classes.GearzItemMeta;
 import net.tbnr.gearz.player.GearzPlayer;
 import net.tbnr.util.InventoryGUI;
 import org.bukkit.ChatColor;
