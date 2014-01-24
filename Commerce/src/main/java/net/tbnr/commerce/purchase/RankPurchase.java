@@ -26,12 +26,16 @@ public class RankPurchase extends Purchase {
     }
     @BasicField private Ranks rank;
     @BasicField private Length length;
+    @BasicField private boolean rankedUp;
     public void performRankup() {
+        if (rankedUp) return;
         String command = "perm player "
                 + TPlayerManager.getUsernameForID(this.getPlayer())
                 + " setgroup "
                 + this.rank.getzPermsGroup();
         if (this.length.getLengthkey() != null) command = command + " " + this.length.getLengthkey();
         GearzCommerce.getInstance().sendConsoleCommand(command);
+        rankedUp = true;
+        save();
     }
 }
