@@ -18,7 +18,7 @@ import java.util.List;
  * Created by Jake on 1/16/14.
  */
 @HubItemMeta(
-		            key = "magicclock"
+        key = "magicclock"
 )
 public class MagicClock extends HubItem {
     List<String> enabledFor = new ArrayList<>();
