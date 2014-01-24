@@ -48,7 +48,7 @@ import java.util.*;
                 "When the time expires, all surviving Prey win the game." +
                 "If the Predator kills all the Prey, the game ends early and the Predator wins.",
         key = "predator",
-        minPlayers = 6,
+        minPlayers = 2,
         maxPlayers = 20,
         mainColor = ChatColor.YELLOW,
         secondaryColor = ChatColor.GRAY)
