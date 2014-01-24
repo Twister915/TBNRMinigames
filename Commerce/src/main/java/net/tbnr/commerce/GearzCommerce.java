@@ -6,6 +6,10 @@ import net.tbnr.util.TPlugin;
 
 /**
  * Created by Joey on 1/9/14.
+ *
+ * Purpose Of File:
+ *
+ * Latest Change:
  */
 public final  class GearzCommerce extends TPlugin {
     @Getter

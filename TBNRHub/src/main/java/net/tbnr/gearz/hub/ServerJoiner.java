@@ -20,6 +20,10 @@ import java.util.HashMap;
 
 /**
  * Created by rigor789 on 2014.01.12..
+ *
+ * Purpose Of File:
+ *
+ * Latest Change:
  */
 public class ServerJoiner extends HubItem {
 

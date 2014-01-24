@@ -6,6 +6,10 @@ import org.bukkit.Bukkit;
 
 /**
  * Created by Joey on 12/31/13.
+ *
+ * Purpose Of File:
+ *
+ * Latest Change:
  */
 public final class GEnderzGame extends GearzPlugin {
     @Override

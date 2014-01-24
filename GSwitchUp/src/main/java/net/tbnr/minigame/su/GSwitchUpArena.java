@@ -8,6 +8,10 @@ import org.bukkit.World;
 
 /**
  * Created by Joey on 1/3/14.
+ *
+ * Purpose Of File:
+ *
+ * Latest Change:
  */
 public final class GSwitchUpArena extends Arena {
     public GSwitchUpArena(String name, String author, String description, String worldId, String id) {

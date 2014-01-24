@@ -21,6 +21,10 @@ import java.util.List;
 
 /**
  * Created by Joey on 12/31/13.
+ *
+ * Purpose Of File:
+ *
+ * Latest Change:
  */
 @GameMeta(
         version = "1.0",

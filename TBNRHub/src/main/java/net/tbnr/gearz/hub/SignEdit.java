@@ -23,6 +23,10 @@ import java.util.HashMap;
 
 /**
  * Created by rigor789 on 2014.01.10..
+ *
+ * Purpose Of File:
+ *
+ * Latest Change:
  */
 public class SignEdit implements Listener, TCommandHandler {
 

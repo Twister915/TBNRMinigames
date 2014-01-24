@@ -10,6 +10,10 @@ import org.bukkit.inventory.ItemStack;
 
 /**
  * Created by rigor789 on 2013.12.21..
+ *
+ * Purpose Of File:
+ *
+ * Latest Change:
  */
 public abstract class HubItem implements Listener {
     public abstract ItemStack getItem();

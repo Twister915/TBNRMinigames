@@ -2,6 +2,10 @@ package net.tbnr.commerce.purchase;
 
 /**
  * Created by Joey on 1/22/14.
+ *
+ * Purpose Of File:
+ *
+ * Latest Change:
  */
 public enum Length {
     DAY("24h"),

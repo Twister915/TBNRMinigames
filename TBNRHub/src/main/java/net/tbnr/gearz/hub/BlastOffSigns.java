@@ -28,6 +28,10 @@ import java.util.Map;
 
 /**
  * Created by Jake on 12/27/13.
+ *
+ * Purpose Of File:
+ *
+ * Latest Change:
  */
 public class BlastOffSigns implements Listener {
     final private Map<TPlayer, SignData> inUse = new HashMap<>();

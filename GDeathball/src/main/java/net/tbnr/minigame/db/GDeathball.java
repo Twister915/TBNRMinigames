@@ -6,6 +6,10 @@ import org.bukkit.Bukkit;
 
 /**
  * Created by rigor789 on 2013.12.19..
+ *
+ * Purpose Of File:
+ *
+ * Latest Change:
  */
 public final class GDeathball extends GearzPlugin {
     @Override
