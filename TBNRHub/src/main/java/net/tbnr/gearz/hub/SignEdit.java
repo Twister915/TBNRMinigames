@@ -30,8 +30,8 @@ import java.util.HashMap;
  */
 public class SignEdit implements Listener, TCommandHandler {
 
-    private HashMap<String, Sign> players;
-    private String name;
+    private final HashMap<String, Sign> players;
+    private final String name;
 
     public SignEdit(){
         this.players = new HashMap<>();
@@ -73,7 +73,8 @@ public class SignEdit implements Listener, TCommandHandler {
 
     private class SignUpdater extends BukkitRunnable{
 
-        private Sign sign, gui;
+        private final Sign sign;
+	    private final Sign gui;
         private String[] lines;
 
         public SignUpdater(Sign sign, Sign gui){

@@ -65,11 +65,11 @@ public class PredatorGame extends GearzGame implements GameCountdownHandler {
     private static final String PREY_FILE = "prey.json";
 
     //Array Lists
-    private ArrayList<GearzItem> preyItems = new ArrayList<>();
-    private ArrayList<GearzItem> predatorItems = new ArrayList<>();
-    private ArrayList<GearzPlayer> preyGUIOpen = new ArrayList<>();
-    private ArrayList<GearzPlayer> predatorGUIOpen = new ArrayList<>();
-    private ArrayList<GearzPlayer> prey = new ArrayList<>();
+    private final ArrayList<GearzItem> preyItems = new ArrayList<>();
+    private final ArrayList<GearzItem> predatorItems = new ArrayList<>();
+    private final ArrayList<GearzPlayer> preyGUIOpen = new ArrayList<>();
+    private final ArrayList<GearzPlayer> predatorGUIOpen = new ArrayList<>();
+    private final ArrayList<GearzPlayer> prey = new ArrayList<>();
 
     private InventoryGUI preyMenu = null;
     private InventoryGUI predatorMenu = null;

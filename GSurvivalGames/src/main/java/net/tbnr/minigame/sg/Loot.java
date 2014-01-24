@@ -13,8 +13,10 @@ import java.util.List;
 @Data
 @EqualsAndHashCode
 public final class Loot {
-    @NonNull Tier tier;
-    @NonNull Chest chest;
+    @NonNull
+    final Tier tier;
+    @NonNull
+    final Chest chest;
 
     public void fillChest() {
         List<ItemStack> items = tier.getItems();

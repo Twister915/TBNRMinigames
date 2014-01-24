@@ -16,10 +16,10 @@ import org.bukkit.event.player.PlayerInteractEvent;
 @SuppressWarnings("unused")
 public abstract class ToggleItem implements Listener {
 
-    private Player player;
-    private String title;
+    private final Player player;
+    private final String title;
     //private String[] lore; not used
-    private boolean status;
+    private final boolean status;
 
     protected abstract boolean activate();
 

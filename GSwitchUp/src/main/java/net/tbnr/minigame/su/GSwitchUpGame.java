@@ -39,17 +39,17 @@ import java.util.Map;
         minPlayers = 3)
 public final class GSwitchUpGame extends GearzGame implements GameCountdownHandler {
     private List<GearzClass> classesToCycle;
-    private HashMap<GearzPlayer, GearzClass> currentClasses = new HashMap<>();
+    private final HashMap<GearzPlayer, GearzClass> currentClasses = new HashMap<>();
     private int killsInRound = 0;
     private int roundsPlayed = 0;
     private final static int killsPerRound = 15;
     private final static int roundsPerGame = 5;
     private GSwitchUpArena gSwitchUpArena;
-    private HashMap<GearzPlayer, Integer> killsThisGame = new HashMap<>();
-    private static String[] classFilenames = new String[]{"boomer.json", "juggernaut.json", "archer.json", "bowman.json", "creativebuilder.json", "gentleman.json", "mage.json", "cheeseknight.json", "viking.json", "viking.json"};
+    private final HashMap<GearzPlayer, Integer> killsThisGame = new HashMap<>();
+    private static final String[] classFilenames = new String[]{"boomer.json", "juggernaut.json", "archer.json", "bowman.json", "creativebuilder.json", "gentleman.json", "mage.json", "cheeseknight.json", "viking.json", "viking.json"};
     private boolean gracePeriod = false;
     private GameCountdown gracePeriodCountdown = null;
-    private List<GearzPlayer> skipOnActivate = new ArrayList<>();
+    private final List<GearzPlayer> skipOnActivate = new ArrayList<>();
 
     /**
      * New game in this arena

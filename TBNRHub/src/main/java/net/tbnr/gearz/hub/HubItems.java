@@ -24,7 +24,7 @@ public class HubItems implements Listener {
 
     private final ArrayList<HubItem> items;
 
-    private WarpStarConfig warpStarConfig = null;
+    private final WarpStarConfig warpStarConfig = null;
 
 	/**
 	 * Creates a new HubItems instance

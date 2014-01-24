@@ -8,7 +8,7 @@ public enum Ranks {
     CHAMPION("Champion"),
     TBNR("TBNR"),
     CONTRIBUTOR("Contributor");
-    private String zPermsGroup;
+    private final String zPermsGroup;
     public String getzPermsGroup() {
         return zPermsGroup;
     }

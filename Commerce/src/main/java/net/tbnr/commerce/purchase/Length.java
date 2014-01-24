@@ -16,7 +16,7 @@ public enum Length {
     SIX_MONTHS("6m"),
     TWELVE_MONTHS("12m"),
     LIFETIME(null);
-    private String lengthkey;
+    private final String lengthkey;
     public String getLengthkey() {
         return lengthkey;
     }

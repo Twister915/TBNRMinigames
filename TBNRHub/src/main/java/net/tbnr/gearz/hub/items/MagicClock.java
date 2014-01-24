@@ -25,7 +25,7 @@ import java.util.List;
         key = "magicclock"
 )
 public class MagicClock extends HubItem {
-    List<String> enabledFor = new ArrayList<>();
+    final List<String> enabledFor = new ArrayList<>();
 
     public MagicClock() {
         super(true);
