@@ -44,6 +44,7 @@
                             <artifactSet>
                                 <includes>
                                     <include>org.reflections</include>
+                                    <include>javassist</include>
                                 </includes>
                             </artifactSet>
                         </configuration>
