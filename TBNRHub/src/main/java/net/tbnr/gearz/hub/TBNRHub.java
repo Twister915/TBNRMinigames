@@ -68,7 +68,6 @@ public class TBNRHub extends TPlugin implements TCommandHandler {
         registerCommands(cannon);
         spawnHandler = new Spawn();
         registerCommands(spawnHandler);
-        registerCommands(new ClearChat());
         registerCommands(new WarpStarCommands());
         registerEvents(spawnHandler);
         registerEvents(new ColoredSigns());

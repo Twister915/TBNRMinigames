@@ -20,7 +20,7 @@ import org.bukkit.inventory.meta.ItemMeta;
  * Latest Change: Added hub item meta
  */
 @HubItemMeta(
-					key = "warpstar"
+        key = "warpstar"
 )
 public class WarpStar extends HubItem {
 
@@ -29,7 +29,7 @@ public class WarpStar extends HubItem {
     public WarpStar() {
         super(true);
 
-	    final WarpStarConfig config = new WarpStarConfig();
+        final WarpStarConfig config = new WarpStarConfig();
 
         this.inventoryGUI = new InventoryGUI(config.getWarps(), "Warp Menu", new InventoryGUI.InventoryGUICallback() {
             @Override
