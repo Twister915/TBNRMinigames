@@ -1,6 +1,5 @@
 package net.tbnr.gearz.hub;
 
-import net.tbnr.gearz.hub.items.HubItem;
 import net.tbnr.gearz.netcommand.BouncyUtils;
 import net.tbnr.gearz.server.Server;
 import net.tbnr.gearz.server.ServerManager;

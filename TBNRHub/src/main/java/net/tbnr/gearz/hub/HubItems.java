@@ -1,6 +1,5 @@
 package net.tbnr.gearz.hub;
 
-import net.tbnr.gearz.hub.items.HubItem;
 import net.tbnr.gearz.hub.items.warpstar.WarpStarConfig;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
