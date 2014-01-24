@@ -1,6 +1,7 @@
 package net.tbnr.minigame.predator;
 
 import lombok.Getter;
+import net.tbnr.gearz.Gearz;
 import net.tbnr.gearz.GearzPlugin;
 import net.tbnr.gearz.arena.Arena;
 import net.tbnr.gearz.effects.EnderBar;
@@ -290,6 +291,8 @@ public class PredatorGame extends GearzGame implements GameCountdownHandler {
         for(GearzItem item : this.preyItems) {
             inventoryPreyItems.add(new InventoryGUI.InventoryGUIItem(item.getItemStack(), item.getItemMeta().getTitle()));
         }
+
+	    Gearz.getInstance().getLogger().severe(getPluginFormat("formats.prey-inventory-title", false));
 
         this.preyMenu = new InventoryGUI(
                 inventoryPreyItems,
