@@ -1,6 +1,5 @@
 package net.tbnr.gearz.hub;
 
-import net.tbnr.gearz.hub.items.HubItem;
 import net.tbnr.gearz.netcommand.BouncyUtils;
 import net.tbnr.gearz.server.Server;
 import net.tbnr.gearz.server.ServerManager;
@@ -20,11 +19,15 @@ import java.util.HashMap;
 
 /**
  * Created by rigor789 on 2014.01.12..
+ *
+ * Purpose Of File:
+ *
+ * Latest Change:
  */
 public class ServerJoiner extends HubItem {
 
-    private InventoryGUI mainGUI;
-    private ServerJoinerCallback callback;
+    private final InventoryGUI mainGUI;
+    private final ServerJoinerCallback callback;
 
     public ServerJoiner(){
         super(true);
@@ -143,7 +146,7 @@ public class ServerJoiner extends HubItem {
 
     private class ServerJoinerUpdater extends BukkitRunnable {
 
-        private ServerJoiner joiner;
+        private final ServerJoiner joiner;
 
         public ServerJoinerUpdater(ServerJoiner joiner){
             this.joiner = joiner;
@@ -158,7 +161,7 @@ public class ServerJoiner extends HubItem {
 
     private class  SingleServerCallback implements InventoryGUI.InventoryGUICallback {
 
-        private String type;
+        private final String type;
 
         public SingleServerCallback(String type){
             this.type = type;

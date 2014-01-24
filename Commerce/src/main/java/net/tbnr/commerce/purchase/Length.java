@@ -2,6 +2,10 @@ package net.tbnr.commerce.purchase;
 
 /**
  * Created by Joey on 1/22/14.
+ *
+ * Purpose Of File:
+ *
+ * Latest Change:
  */
 public enum Length {
     DAY("24h"),
@@ -12,7 +16,7 @@ public enum Length {
     SIX_MONTHS("6m"),
     TWELVE_MONTHS("12m"),
     LIFETIME(null);
-    private String lengthkey;
+    private final String lengthkey;
     public String getLengthkey() {
         return lengthkey;
     }

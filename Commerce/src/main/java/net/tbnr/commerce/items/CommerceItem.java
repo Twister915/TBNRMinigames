@@ -12,8 +12,10 @@ import java.lang.annotation.Annotation;
 @Data
 @ToString
 public abstract class CommerceItem implements Listener {
+
     private final GearzPlayer player;
     private final CommerceItemMeta meta;
+
     public CommerceItem(GearzPlayer player) throws GearzException {
         Annotation[] declaredAnnotations = getClass().getDeclaredAnnotations();
         CommerceItemMeta meta = null;

@@ -1,6 +1,5 @@
 package net.tbnr.gearz.hub;
 
-import net.tbnr.gearz.hub.items.HubItem;
 import net.tbnr.gearz.hub.items.warpstar.WarpStarConfig;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -24,12 +23,16 @@ public class HubItems implements Listener {
 
     private final ArrayList<HubItem> items;
 
-    private WarpStarConfig warpStarConfig = null;
+    private final WarpStarConfig warpStarConfig = null;
 
-    public HubItems() {
+	/**
+	 * Creates a new HubItems instance
+	 * @param itemPackage ~ the package where all the items are
+	 */
+    public HubItems(String itemPackage) {
         items = new ArrayList<>();
 
-	    Reflections hubItemsReflection = new Reflections("net.tbnr.gearz.hub.items");
+	    Reflections hubItemsReflection = new Reflections(itemPackage);
 
 	    Set<Class<? extends HubItem>> hubItems = hubItemsReflection.getSubTypesOf(HubItem.class);
 

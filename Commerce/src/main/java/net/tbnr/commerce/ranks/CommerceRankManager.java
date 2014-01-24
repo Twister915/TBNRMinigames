@@ -9,6 +9,10 @@ import org.bukkit.event.Listener;
 
 /**
  * Created by Joey on 1/18/14.
+ *
+ * Purpose Of File:
+ *
+ * Latest Change:
  */
 public class CommerceRankManager implements Listener, TCommandHandler {
 

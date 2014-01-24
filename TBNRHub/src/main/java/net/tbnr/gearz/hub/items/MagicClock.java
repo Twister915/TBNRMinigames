@@ -1,5 +1,6 @@
 package net.tbnr.gearz.hub.items;
 
+import net.tbnr.gearz.hub.HubItem;
 import net.tbnr.gearz.hub.HubItemMeta;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -16,12 +17,16 @@ import java.util.List;
 
 /**
  * Created by Jake on 1/16/14.
+ *
+ * Purpose Of File:
+ *
+ * Latest Change:
  */
 @HubItemMeta(
-		            key = "magicclock"
+        key = "magicclock"
 )
 public class MagicClock extends HubItem {
-    List<String> enabledFor = new ArrayList<>();
+    final List<String> enabledFor = new ArrayList<>();
 
     public MagicClock() {
         super(true);

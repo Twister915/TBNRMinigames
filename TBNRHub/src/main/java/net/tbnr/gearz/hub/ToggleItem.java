@@ -4,7 +4,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 /**
@@ -17,10 +16,10 @@ import org.bukkit.event.player.PlayerInteractEvent;
 @SuppressWarnings("unused")
 public abstract class ToggleItem implements Listener {
 
-    private Player player;
-    private String title;
-    private String[] lore;
-    private boolean status;
+    private final Player player;
+    private final String title;
+    //private String[] lore; not used
+    private final boolean status;
 
     protected abstract boolean activate();
 
@@ -29,7 +28,7 @@ public abstract class ToggleItem implements Listener {
     public ToggleItem(Player player, String title, String[] lore, boolean statusDefault) {
         this.player = player;
         this.title = title;
-        this.lore = lore;
+        //this.lore = lore; not used
         this.status = statusDefault;
     }
 
@@ -49,10 +48,13 @@ public abstract class ToggleItem implements Listener {
     }*/
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onInteract(PlayerInteractEvent event) {
-        if (!event.getPlayer().equals(player)) return;
-        if (!(event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR))
-            return;
-        if (!(event.getPlayer().getItemInHand().getItemMeta().getDisplayName().equals(title))) return;
-
+	    /*
+	        if (!event.getPlayer().equals(player)) return;
+	        if (!(event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR))
+	            return;
+		    if (!(event.getPlayer().getItemInHand().getItemMeta().getDisplayName().equals(title))) return;
+		    Not used yet ~ wasted event call +
+		    all your doing is returning
+		*/
     }
 }

@@ -21,6 +21,10 @@ import java.util.List;
 
 /**
  * Created by Joey on 12/31/13.
+ *
+ * Purpose Of File:
+ *
+ * Latest Change:
  */
 @GameMeta(
         version = "1.0",
@@ -46,7 +50,7 @@ public final class EnderzGameGame extends GearzGame {
      * @param arena   The Arena that the game is in.
      * @param plugin  The plugin that handles this Game.
      * @param meta    The meta of the game.
-     * @param id
+     * @param id      The id of the arena
      */
     public EnderzGameGame(List<GearzPlayer> players, Arena arena, GearzPlugin plugin, GameMeta meta, Integer id) {
         super(players, arena, plugin, meta, id);

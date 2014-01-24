@@ -11,7 +11,6 @@ import net.tbnr.gearz.game.GearzGame;
 import net.tbnr.gearz.game.classes.GearzClass;
 import net.tbnr.gearz.game.classes.GearzClassSelector;
 import net.tbnr.gearz.game.classes.GearzItem;
-import net.tbnr.gearz.game.classes.GearzItemMeta;
 import net.tbnr.gearz.player.GearzPlayer;
 import net.tbnr.util.InventoryGUI;
 import org.bukkit.ChatColor;
@@ -66,11 +65,11 @@ public class PredatorGame extends GearzGame implements GameCountdownHandler {
     private static final String PREY_FILE = "prey.json";
 
     //Array Lists
-    private ArrayList<GearzItem> preyItems = new ArrayList<>();
-    private ArrayList<GearzItem> predatorItems = new ArrayList<>();
-    private ArrayList<GearzPlayer> preyGUIOpen = new ArrayList<>();
-    private ArrayList<GearzPlayer> predatorGUIOpen = new ArrayList<>();
-    private ArrayList<GearzPlayer> prey = new ArrayList<>();
+    private final ArrayList<GearzItem> preyItems = new ArrayList<>();
+    private final ArrayList<GearzItem> predatorItems = new ArrayList<>();
+    private final ArrayList<GearzPlayer> preyGUIOpen = new ArrayList<>();
+    private final ArrayList<GearzPlayer> predatorGUIOpen = new ArrayList<>();
+    private final ArrayList<GearzPlayer> prey = new ArrayList<>();
 
     private InventoryGUI preyMenu = null;
     private InventoryGUI predatorMenu = null;

@@ -1,5 +1,6 @@
 package net.tbnr.gearz.hub.items;
 
+import net.tbnr.gearz.hub.HubItem;
 import net.tbnr.gearz.hub.HubItemMeta;
 import net.tbnr.gearz.hub.TBNRHub;
 import net.tbnr.gearz.hub.items.warpstar.WarpStarConfig;
@@ -20,7 +21,7 @@ import org.bukkit.inventory.meta.ItemMeta;
  * Latest Change: Added hub item meta
  */
 @HubItemMeta(
-					key = "warpstar"
+        key = "warpstar"
 )
 public class WarpStar extends HubItem {
 
@@ -29,7 +30,7 @@ public class WarpStar extends HubItem {
     public WarpStar() {
         super(true);
 
-	    final WarpStarConfig config = new WarpStarConfig();
+        final WarpStarConfig config = new WarpStarConfig();
 
         this.inventoryGUI = new InventoryGUI(config.getWarps(), "Warp Menu", new InventoryGUI.InventoryGUICallback() {
             @Override
@@ -46,14 +47,9 @@ public class WarpStar extends HubItem {
             }
 
             @Override
-            public void onGUIOpen(InventoryGUI gui, Player player) {
-
-            }
-
+            public void onGUIOpen(InventoryGUI gui, Player player) {}
             @Override
-            public void onGUIClose(InventoryGUI gui, Player player) {
-
-            }
+            public void onGUIClose(InventoryGUI gui, Player player) {}
         });
     }
 

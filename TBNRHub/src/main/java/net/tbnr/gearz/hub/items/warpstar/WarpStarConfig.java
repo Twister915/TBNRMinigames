@@ -16,6 +16,10 @@ import java.util.Set;
 
 /**
  * Created by rigor789 on 2013.12.23..
+ *
+ * Purpose Of File:
+ *
+ * Latest Change:
  */
 public class WarpStarConfig {
 

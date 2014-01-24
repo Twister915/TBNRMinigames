@@ -8,6 +8,10 @@ import org.bukkit.World;
 
 /**
  * Created by Joey on 12/31/13.
+ *
+ * Purpose Of File:
+ *
+ * Latest Change:
  */
 public final class EnderzGameArena extends Arena {
     public EnderzGameArena(String name, String author, String description, String worldId, String id) {

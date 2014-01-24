@@ -1,5 +1,6 @@
 package net.tbnr.gearz.hub.items;
 
+import net.tbnr.gearz.hub.HubItem;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -7,6 +8,10 @@ import org.bukkit.inventory.meta.BookMeta;
 
 /**
  * Created by rigor789 on 2013.12.21..
+ *
+ * Purpose Of File:
+ *
+ * Latest Change:
  */
 public class RuleBook extends HubItem {
 

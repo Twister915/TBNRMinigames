@@ -91,6 +91,7 @@ public final class HeadHunterGame extends GearzGame implements GameCountdownHand
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     protected boolean canUse(GearzPlayer player) {
         ItemStack itemInHand = player.getPlayer().getItemInHand();
         if (itemInHand.getType() == Material.DIAMOND) {
@@ -288,7 +289,7 @@ public final class HeadHunterGame extends GearzGame implements GameCountdownHand
     /**
      * returns the player with most skulls in inventory
      *
-     * @return
+     * @return Returns the {@link net.tbnr.gearz.player.GearzPlayer} with the most skulls
      */
     private GearzPlayer getMostSkulls() {
         //cache players
@@ -308,7 +309,7 @@ public final class HeadHunterGame extends GearzGame implements GameCountdownHand
     /**
      * returns players with most points
      *
-     * @return
+     * @return Returns the {@link net.tbnr.gearz.player.GearzPlayer} with the most points
      */
     private GearzPlayer getMostPoints() {
         //cache players
