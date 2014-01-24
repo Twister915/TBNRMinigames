@@ -62,7 +62,7 @@ public class PredatorGame extends GearzGame implements GameCountdownHandler {
 
     GameCountdown countdown = null;
 
-    private static final String PREDATOR_FILE = "predator.json";
+    private static final String PREDATOR_FILE = "predators.json";
     private static final String PREY_FILE = "prey.json";
 
     //Array Lists
