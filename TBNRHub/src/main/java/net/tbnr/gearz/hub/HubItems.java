@@ -37,12 +37,8 @@ public class HubItems implements Listener {
 	    Set<Class<? extends HubItem>> hubItems = hubItemsReflection.getSubTypesOf(HubItem.class);
 
 	    for(Class<? extends HubItem> hubItem: hubItems) {
-		    HubItemMeta itemMeta;
-		    try {
-				itemMeta = hubItem.getAnnotation(HubItemMeta.class);
-		    } catch(NullPointerException e) {
-			    continue;
-		    }
+		    HubItemMeta itemMeta = hubItem.getAnnotation(HubItemMeta.class);
+            if (itemMeta == null) continue;
 		    if(itemMeta.hidden()) continue;
 		    if(TBNRHub.getInstance().getConfig().getBoolean("hub-items." + itemMeta.key())) {
 			    try {
