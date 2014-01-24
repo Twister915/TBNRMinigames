@@ -44,16 +44,11 @@ public class WarpStar extends HubItem {
                 GearzPlayer.playerFromPlayer(player).getTPlayer().playSound(Sound.ENDERMAN_TELEPORT);
                 GearzPlayer.playerFromPlayer(player).getTPlayer().playSound(Sound.CHICKEN_EGG_POP);
             }
-
+	        
             @Override
-            public void onGUIOpen(InventoryGUI gui, Player player) {
-
-            }
-
+            public void onGUIOpen(InventoryGUI gui, Player player) {}
             @Override
-            public void onGUIClose(InventoryGUI gui, Player player) {
-
-            }
+            public void onGUIClose(InventoryGUI gui, Player player) {}
         });
     }
 
