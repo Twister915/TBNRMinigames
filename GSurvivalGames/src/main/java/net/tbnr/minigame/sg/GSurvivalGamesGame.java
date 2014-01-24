@@ -10,7 +10,7 @@ import net.tbnr.gearz.effects.EnderBar;
 import net.tbnr.gearz.effects.GearzFireworkEffect;
 import net.tbnr.gearz.game.*;
 import net.tbnr.gearz.player.GearzPlayer;
-import net.tbnr.util.RandomUtils;
+import net.tbnr.util.ColoringUtils;
 import net.tbnr.util.player.TPlayer;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -366,10 +366,10 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
                 color = Color.GREEN;
             }
             ItemStack[] armour = new ItemStack[4];
-            armour[3] = RandomUtils.colorizeLeather(Material.LEATHER_HELMET, color);
-            armour[2] = RandomUtils.colorizeLeather(Material.LEATHER_CHESTPLATE, color);
-            armour[1] = RandomUtils.colorizeLeather(Material.LEATHER_LEGGINGS, color);
-            armour[0] = RandomUtils.colorizeLeather(Material.LEATHER_BOOTS, color);
+            armour[3] = ColoringUtils.colorizeLeather(Material.LEATHER_HELMET, color);
+            armour[2] = ColoringUtils.colorizeLeather(Material.LEATHER_CHESTPLATE, color);
+            armour[1] = ColoringUtils.colorizeLeather(Material.LEATHER_LEGGINGS, color);
+            armour[0] = ColoringUtils.colorizeLeather(Material.LEATHER_BOOTS, color);
 
             player.getPlayer().getInventory().setArmorContents(armour);
         }

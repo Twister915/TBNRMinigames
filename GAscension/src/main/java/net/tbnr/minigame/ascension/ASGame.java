@@ -6,7 +6,7 @@ import net.tbnr.gearz.arena.Arena;
 import net.tbnr.gearz.game.GameMeta;
 import net.tbnr.gearz.game.GearzGame;
 import net.tbnr.gearz.player.GearzPlayer;
-import net.tbnr.util.RandomUtils;
+import net.tbnr.util.ColoringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Location;
@@ -63,7 +63,7 @@ public final class ASGame extends GearzGame {
     @Override
     public void activatePlayer(GearzPlayer player) { //Called on respawn and game start.
         updateWeapon(player);
-        player.getPlayer().getInventory().setArmorContents(new ItemStack[]{RandomUtils.colorizeLeather(Material.LEATHER_BOOTS, Color.fromRGB(0, 176, 0)), new ItemStack(Material.LEATHER_LEGGINGS), RandomUtils.colorizeLeather(Material.LEATHER_CHESTPLATE, Color.fromRGB(0, 176, 0)), new ItemStack(Material.LEATHER_HELMET)});
+        player.getPlayer().getInventory().setArmorContents(new ItemStack[]{ColoringUtils.colorizeLeather(Material.LEATHER_BOOTS, Color.fromRGB(0, 176, 0)), new ItemStack(Material.LEATHER_LEGGINGS), ColoringUtils.colorizeLeather(Material.LEATHER_CHESTPLATE, Color.fromRGB(0, 176, 0)), new ItemStack(Material.LEATHER_HELMET)});
     }
 
     @Override

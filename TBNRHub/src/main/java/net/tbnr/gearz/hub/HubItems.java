@@ -1,8 +1,6 @@
 package net.tbnr.gearz.hub;
 
 import net.tbnr.gearz.hub.items.HubItem;
-import net.tbnr.gearz.hub.items.MagicClock;
-import net.tbnr.gearz.hub.items.warpstar.WarpStar;
 import net.tbnr.gearz.hub.items.warpstar.WarpStarConfig;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -10,11 +8,17 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
+import org.reflections.Reflections;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 /**
- * Created by rigor789 on 2013.12.21..
+ * Created by rigor789 on 2013.12.21.
+ *
+ * Purpose Of File:
+ *
+ * Latest Change:
  */
 public class HubItems implements Listener {
 
@@ -24,15 +28,28 @@ public class HubItems implements Listener {
 
     public HubItems() {
         items = new ArrayList<>();
-        //items.add(new RuleBook());
-        if (TBNRHub.getInstance().getConfig().getBoolean("warpstar")) {
-            warpStarConfig = new WarpStarConfig();
-            items.add(new WarpStar(warpStarConfig));
-            //items.add(new ServerJoiner());
-        }
-        if (TBNRHub.getInstance().getConfig().getBoolean("magicclock")) {
-            items.add(new MagicClock());
-        }
+
+	    Reflections hubItemsReflection = new Reflections("net.tbnr.gearz.hub.items");
+
+	    Set<Class<? extends HubItem>> hubItems = hubItemsReflection.getSubTypesOf(HubItem.class);
+
+	    for(Class<? extends HubItem> hubItem: hubItems) {
+		    HubItemMeta itemMeta;
+		    try {
+				itemMeta = hubItem.getAnnotation(HubItemMeta.class);
+		    } catch(NullPointerException e) {
+			    continue;
+		    }
+		    if(itemMeta.hidden()) continue;
+		    if(TBNRHub.getInstance().getConfig().getBoolean("hub-items." + itemMeta.key())) {
+			    try {
+				    items.add(hubItem.newInstance());
+			    } catch (InstantiationException | IllegalAccessException e) {
+				    e.printStackTrace();
+			    }
+		    }
+	    }
+
     }
 
     public void refreshWarpStar() {
