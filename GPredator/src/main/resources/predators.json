@@ -1,4 +1,8 @@
 {
+    "name" : "predator",
+    "repItem" : {
+        "item_type" : "AIR"
+    },
     "items" : [
         {
             "item_type" : "IRON_AXE",

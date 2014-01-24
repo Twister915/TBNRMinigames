@@ -1,4 +1,8 @@
 {
+    "name" : "prey",
+    "repItem" : {
+        "item_type" : "AIR"
+    },
     "items" : [
         {
             "item_type" : "POTION",
