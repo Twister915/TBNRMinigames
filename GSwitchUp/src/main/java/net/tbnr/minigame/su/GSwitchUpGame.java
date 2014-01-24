@@ -58,7 +58,7 @@ public final class GSwitchUpGame extends GearzGame implements GameCountdownHandl
      * @param arena   The Arena that the game is in.
      * @param plugin  The plugin that handles this Game.
      * @param meta    The meta of the game.
-     * @param id
+     * @param id      The id of the arena
      */
     public GSwitchUpGame(List<GearzPlayer> players, Arena arena, GearzPlugin plugin, GameMeta meta, Integer id) {
         super(players, arena, plugin, meta, id);
