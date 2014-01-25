@@ -58,11 +58,11 @@ public class MagicClock extends HubItem {
 
     public void toggle(Player player) {
         if (enabledFor.contains(player.getName())) {
-	        player.sendMessage(getProperty("toggleOff", true));
+	        player.sendMessage(getProperty("toggleOff", true, new String[]{"<prefix>", TBNRHub.getInstance().getChatPrefix()}));
 	        player.getItemInHand().removeEnchantment(Enchantment.SILK_TOUCH);
             enabledFor.remove(player.getName());
         } else {
-	        player.sendMessage(getProperty("toggleOn", true));
+	        player.sendMessage(getProperty("toggleOn", true, new String[]{"<prefix>", TBNRHub.getInstance().getChatPrefix()}));
 	        player.getItemInHand().addUnsafeEnchantment(Enchantment.SILK_TOUCH, 32);
             enabledFor.add(player.getName());
         }
