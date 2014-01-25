@@ -38,7 +38,7 @@ public class MagicClock extends HubItem {
 
     @Override
     public ItemStack getItem() {
-        ItemStack itemStack = new ItemStack(Material.REDSTONE, 1);
+        ItemStack itemStack = new ItemStack(Material.STICK, 1);
         ItemMeta meta = itemStack.getItemMeta();
         meta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.ITALIC + "Magic Cactus!" + ChatColor.GRAY + " - " + ChatColor.YELLOW + "" + ChatColor.BOLD + "Click me!");
         itemStack.setItemMeta(meta);
@@ -59,11 +59,11 @@ public class MagicClock extends HubItem {
     public void toggle(Player player) {
         if (enabledFor.contains(player.getName())) {
 	        player.sendMessage(getProperty("toggleOff", true, new String[]{"<prefix>", TBNRHub.getInstance().getChatPrefix()}));
-	        player.getItemInHand().removeEnchantment(Enchantment.SILK_TOUCH);
+	        player.getItemInHand().setType(Material.STICK);
             enabledFor.remove(player.getName());
         } else {
 	        player.sendMessage(getProperty("toggleOn", true, new String[]{"<prefix>", TBNRHub.getInstance().getChatPrefix()}));
-	        player.getItemInHand().addUnsafeEnchantment(Enchantment.SILK_TOUCH, 32);
+	        player.getItemInHand().setType(Material.BLAZE_ROD);
             enabledFor.add(player.getName());
         }
     }
