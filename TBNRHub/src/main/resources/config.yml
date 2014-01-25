@@ -16,8 +16,8 @@ hub-items:
       isEnabled: true
       properties:
          name: ""
-         toggleOn: ""
-         toggleOff: ""
+         toggleOn: "&aThe Other Players are Now Hidden"
+         toggleOff: "&aThe Other Players are now Shown"
 formats:
    world-teleport: "&aYou've been teleported to &e<world>&a!"
    snowball-hit: "&aYou have hit &3<player>&a with a snowball to earn XP! &3(You have &b<hits>&3 hits)."
