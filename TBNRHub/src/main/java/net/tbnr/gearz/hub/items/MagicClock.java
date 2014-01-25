@@ -5,6 +5,8 @@ import net.tbnr.gearz.game.classes.GearzItem;
 import net.tbnr.gearz.hub.HubItem;
 import net.tbnr.gearz.hub.HubItemMeta;
 import net.tbnr.gearz.hub.TBNRHub;
+import net.tbnr.util.player.cooldowns.TCooldown;
+import net.tbnr.util.player.cooldowns.TCooldownManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -57,15 +59,19 @@ public class MagicClock extends HubItem {
     }
 
     public void toggle(Player player) {
-        if (enabledFor.contains(player.getName())) {
-	        player.sendMessage(getProperty("toggleOff", true, new String[]{"<prefix>", TBNRHub.getInstance().getChatPrefix()}));
-	        player.getItemInHand().setType(Material.STICK);
-            enabledFor.remove(player.getName());
+	    if(TCooldownManager.canContinue(player.getName() + "_key", new TCooldown(3))) {
+	    if (enabledFor.contains(player.getName())) {
+		        player.sendMessage(getProperty("toggleOff", true, new String[]{"<prefix>", TBNRHub.getInstance().getChatPrefix()}));
+		        player.getItemInHand().setType(Material.STICK);
+	            enabledFor.remove(player.getName());
+	        } else {
+		        player.sendMessage(getProperty("toggleOn", true, new String[]{"<prefix>", TBNRHub.getInstance().getChatPrefix()}));
+		        player.getItemInHand().setType(Material.BLAZE_ROD);
+	            enabledFor.add(player.getName());
+	        }
         } else {
-	        player.sendMessage(getProperty("toggleOn", true, new String[]{"<prefix>", TBNRHub.getInstance().getChatPrefix()}));
-	        player.getItemInHand().setType(Material.BLAZE_ROD);
-            enabledFor.add(player.getName());
-        }
+		    player.sendMessage(getProperty("cooldown", true, new String[]{"<prefix>", TBNRHub.getInstance().getChatPrefix()}));
+	    }
     }
 
     public void handleToggle(Player player) {
