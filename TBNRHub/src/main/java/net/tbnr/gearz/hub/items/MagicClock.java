@@ -51,6 +51,7 @@ public class MagicClock extends HubItem {
 
 	    ItemStack blazeRod = itemStack.clone();
 	    blazeRod.setType(Material.BLAZE_ROD);
+	    items.add(blazeRod);
 	    return items;
     }
 
