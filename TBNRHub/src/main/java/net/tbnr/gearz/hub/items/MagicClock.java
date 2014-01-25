@@ -77,13 +77,13 @@ public class MagicClock extends HubItem {
 
     public void handleToggle(Player player) {
         if (enabledFor.contains(player.getName())) {
-            for (Player online : Bukkit.getOnlinePlayers()) {
-                player.showPlayer(online);
-            }
+	        for (Player online : Bukkit.getOnlinePlayers()) {
+		        player.hidePlayer(online);
+	        }
         } else {
-            for (Player online : Bukkit.getOnlinePlayers()) {
-                player.hidePlayer(online);
-            }
+	        for (Player online : Bukkit.getOnlinePlayers()) {
+		        player.showPlayer(online);
+	        }
         }
     }
 
