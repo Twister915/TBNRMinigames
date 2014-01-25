@@ -58,6 +58,7 @@ public class MagicClock extends HubItem {
 
     public void toggle(Player player) {
         if (enabledFor.contains(player.getName())) {
+	        player.sendMessage(getProperty("toggleOff", true));
 	        player.getItemInHand().removeEnchantment(Enchantment.SILK_TOUCH);
             enabledFor.remove(player.getName());
         } else {

@@ -16,7 +16,7 @@ hub-items:
       isEnabled: true
       properties:
          name: ""
-         toggleOn: "&aThe Other Players are Now Hidden"
+         toggleOn: "&cThe Other Players are Now Hidden"
          toggleOff: "&aThe Other Players are now Shown"
 formats:
    world-teleport: "&aYou've been teleported to &e<world>&a!"
