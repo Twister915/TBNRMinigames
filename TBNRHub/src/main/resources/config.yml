@@ -15,7 +15,7 @@ hub-items:
    magicclock:
       isEnabled: true
       properties:
-         name: "&d&oMagic Stick!&7 - &6&lClick me!"
+         name: "&d&oMagic Stick!&7 - &6&lClick Me!"
          toggleOn: "<prefix> &cThe Other Players are Now Hidden"
          cooldown: "<prefix> &cYou have to wait another 3 seconds before you can use this item again"
          toggleOff: "<prefix> &aThe Other Players are Now Shown"

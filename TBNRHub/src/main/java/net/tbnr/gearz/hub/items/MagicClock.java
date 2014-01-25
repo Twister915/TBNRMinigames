@@ -48,8 +48,12 @@ public class MagicClock extends HubItem {
         meta.setDisplayName(getProperty("name", true));
         itemStack.setItemMeta(meta);
 	    items.add(itemStack);
-	    itemStack.setType(Material.BLAZE_ROD);
-	    items.add(itemStack);
+
+	    ItemStack blazeRod = new ItemStack(Material.BLAZE_ROD, 1);
+	    ItemMeta blazeMeta = itemStack.getItemMeta();
+	    blazeMeta.setDisplayName(getProperty("name", true));
+	    itemStack.setItemMeta(blazeMeta);
+	    items.add(blazeRod);
 	    return items;
     }
 
