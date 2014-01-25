@@ -81,7 +81,7 @@ public class HubItems implements Listener {
 		    TBNRHub.getInstance().getLogger().info("testing"+i.getType().toString());
 		    if(player.getInventory().contains(i)) return false;
 	    }
-	    TBNRHub.getInstance().getLogger().info("true"+i.getType().toString());
+	    TBNRHub.getInstance().getLogger().info("true");
 	    return true;
     }
 }
