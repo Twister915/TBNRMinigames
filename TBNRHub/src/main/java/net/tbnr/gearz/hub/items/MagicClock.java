@@ -61,12 +61,12 @@ public class MagicClock extends HubItem {
     public void toggle(Player player) {
 	    if(TCooldownManager.canContinueLocal(player.getName() + "_key", new TCooldown(3))) {
 	    if (enabledFor.contains(player.getName())) {
-		        player.sendMessage(getProperty("toggleOff", true, new String[]{"<prefix>", TBNRHub.getInstance().getChatPrefix()}));
-		        player.getItemInHand().setType(Material.STICK);
-	            enabledFor.remove(player.getName());
-	        } else {
 		        player.sendMessage(getProperty("toggleOn", true, new String[]{"<prefix>", TBNRHub.getInstance().getChatPrefix()}));
 		        player.getItemInHand().setType(Material.BLAZE_ROD);
+	            enabledFor.remove(player.getName());
+	        } else {
+		        player.sendMessage(getProperty("toggleOff", true, new String[]{"<prefix>", TBNRHub.getInstance().getChatPrefix()}));
+		        player.getItemInHand().setType(Material.STICK);
 	            enabledFor.add(player.getName());
 	        }
         } else {
