@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import org.reflections.Reflections;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -59,10 +60,10 @@ public class HubItems implements Listener {
     @SuppressWarnings("unused")
     public void onPlayerJoin(PlayerJoinEvent event) {
         for (HubItem item : items) {
-	        if (!shouldAdd(event.getPlayer(), item.getItem())) continue;
-            if(item.getItem().getType() == Material.ANVIL) { // ONLY FOR DEBUG PURPOSES!
+	        if (!shouldAdd(event.getPlayer(), item.getItems())) continue;
+            if(item.getItems().get(0).getType() == Material.ANVIL) { // ONLY FOR DEBUG PURPOSES!
                 if(!event.getPlayer().hasPermission("gearz.serverselector")) continue;
-                event.getPlayer().getInventory().addItem(item.getItem());
+                event.getPlayer().getInventory().addItem(item.getItems().get(0));
             }
 
 	        HubItemMeta itemMeta = item.getClass().getAnnotation(HubItemMeta.class);
@@ -70,12 +71,15 @@ public class HubItems implements Listener {
 	        if(itemMeta.hidden()) continue;
 	        if(event.getPlayer().hasPermission(itemMeta.permission()) ||
 			        itemMeta.permission().isEmpty()) {
-		        event.getPlayer().getInventory().addItem(item.getItem());
+		        event.getPlayer().getInventory().addItem(item.getItems().get(0));
 	        }
         }
     }
 
-    private boolean shouldAdd(Player player, ItemStack item) {
-        return !player.getInventory().contains(item);
+    private boolean shouldAdd(Player player, List<ItemStack> item) {
+	    for(ItemStack i: item) {
+		    if(player.getInventory().contains(i)) return false;
+	    }
+	    return true;
     }
 }

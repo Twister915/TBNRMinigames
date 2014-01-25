@@ -10,6 +10,7 @@ import net.tbnr.util.player.cooldowns.TCooldownManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -40,12 +41,16 @@ public class MagicClock extends HubItem {
     }
 
     @Override
-    public ItemStack getItem() {
+    public List<ItemStack> getItems() {
+	    List<ItemStack> items = new ArrayList<>();
         ItemStack itemStack = new ItemStack(Material.STICK, 1);
         ItemMeta meta = itemStack.getItemMeta();
-        meta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.ITALIC + "Magic Cactus!" + ChatColor.GRAY + " - " + ChatColor.YELLOW + "" + ChatColor.BOLD + "Click me!");
+        meta.setDisplayName(getProperty("name", true));
         itemStack.setItemMeta(meta);
-        return itemStack;
+	    items.add(itemStack);
+	    itemStack.setType(Material.BLAZE_ROD);
+	    items.add(itemStack);
+	    return items;
     }
 
     @Override
@@ -60,7 +65,7 @@ public class MagicClock extends HubItem {
     }
 
     public void toggle(Player player) {
-	    if(TCooldownManager.canContinueLocal(player.getName() + "_key", new TCooldown(TimeUnit.SECONDS.toMillis(3)))) {
+	    if(TCooldownManager.canContinueLocal(player.getName() + "_clock", new TCooldown(TimeUnit.SECONDS.toMillis(3)))) {
 	        if (enabledFor.contains(player.getName())) {
 		        player.sendMessage(getProperty("toggleOff", true, new String[]{"<prefix>", TBNRHub.getInstance().getChatPrefix()}));
 		        player.getItemInHand().setType(Material.STICK);
@@ -70,6 +75,7 @@ public class MagicClock extends HubItem {
 		        player.getItemInHand().setType(Material.BLAZE_ROD);
 	            enabledFor.add(player.getName());
 	        }
+		    player.playSound(player.getLocation(), Sound.ARROW_HIT, 1, 1);
         } else {
 		    player.sendMessage(getProperty("cooldown", true, new String[]{"<prefix>", TBNRHub.getInstance().getChatPrefix()}));
 	    }

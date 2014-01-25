@@ -19,6 +19,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by rigor789 on 2014.01.12..
@@ -65,8 +66,10 @@ public class ServerJoiner extends HubItem {
 
 
     @Override
-    public ItemStack getItem() {
-        return new ItemStack(Material.ANVIL);
+    public List<ItemStack> getItems() {
+	    List<ItemStack> items = new ArrayList<>();
+	    items.add(new ItemStack(Material.ANVIL));
+        return items;
     }
 
     @Override

@@ -13,6 +13,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by rigor789 on 2013.12.21.
  *
@@ -54,12 +57,14 @@ public class WarpStar extends HubItem {
     }
 
     @Override
-    public ItemStack getItem() {
+    public List<ItemStack> getItems() {
+	    List<ItemStack> items = new ArrayList<>();
         ItemStack star = new ItemStack(Material.NETHER_STAR, 1);
         ItemMeta meta = star.getItemMeta();
-        meta.setDisplayName(ChatColor.GREEN.toString() + ChatColor.ITALIC + "Warp Star!" + ChatColor.GRAY + " - " + ChatColor.GOLD.toString() + ChatColor.BOLD + "Click me!");
+        meta.setDisplayName(getProperty("name"));
         star.setItemMeta(meta);
-        return star;
+	    items.add(star);
+        return items;
     }
 
     @Override

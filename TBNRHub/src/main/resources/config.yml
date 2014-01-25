@@ -11,11 +11,11 @@ hub-items:
    warpstar:
       isEnabled: true
       properties:
-         name: ""
+         name: "&a&oWarp Star!&7 - &6&lClick Me!"
    magicclock:
       isEnabled: true
       properties:
-         name: ""
+         name: "&d&oMagic Stick!&7 - &6&lClick me!"
          toggleOn: "<prefix> &cThe Other Players are Now Hidden"
          cooldown: "<prefix> &cYou have to wait another 3 seconds before you can use this item again"
          toggleOff: "<prefix> &aThe Other Players are Now Shown"

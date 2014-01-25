@@ -9,6 +9,8 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.List;
+
 /**
  * Created by rigor789 on 2013.12.21..
  *
@@ -17,7 +19,7 @@ import org.bukkit.inventory.ItemStack;
  * Latest Change:
  */
 public abstract class HubItem implements Listener {
-    public abstract ItemStack getItem();
+    public abstract List<ItemStack> getItems();
 
     public void rightClicked(Player player) {
     }
@@ -36,7 +38,7 @@ public abstract class HubItem implements Listener {
             return;
         if (event.getPlayer().getItemInHand() == null) return;
         if (!event.getPlayer().getItemInHand().hasItemMeta()) return;
-        if (!(event.getPlayer().getItemInHand().getItemMeta().getDisplayName().equals(getItem().getItemMeta().getDisplayName())))
+        if (!(event.getPlayer().getItemInHand().getItemMeta().getDisplayName().equals(getItems().get(0).getItemMeta().getDisplayName())))
             return;
         switch (event.getAction()) {
             case RIGHT_CLICK_AIR:
