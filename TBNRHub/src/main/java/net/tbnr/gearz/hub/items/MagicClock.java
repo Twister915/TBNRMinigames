@@ -38,7 +38,7 @@ public class MagicClock extends HubItem {
 
     @Override
     public ItemStack getItem() {
-        ItemStack itemStack = new ItemStack(Material.CACTUS, 1);
+        ItemStack itemStack = new ItemStack(Material.REDSTONE, 1);
         ItemMeta meta = itemStack.getItemMeta();
         meta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.ITALIC + "Magic Cactus!" + ChatColor.GRAY + " - " + ChatColor.YELLOW + "" + ChatColor.BOLD + "Click me!");
         itemStack.setItemMeta(meta);
