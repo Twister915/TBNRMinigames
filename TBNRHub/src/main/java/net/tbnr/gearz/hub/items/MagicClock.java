@@ -20,6 +20,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Jake on 1/16/14.
@@ -59,7 +60,7 @@ public class MagicClock extends HubItem {
     }
 
     public void toggle(Player player) {
-	    if(TCooldownManager.canContinueLocal(player.getName() + "_key", new TCooldown(3))) {
+	    if(TCooldownManager.canContinueLocal(player.getName() + "_key", new TCooldown(TimeUnit.SECONDS.toMillis(3)))) {
 	        if (enabledFor.contains(player.getName())) {
 		        player.sendMessage(getProperty("toggleOff", true, new String[]{"<prefix>", TBNRHub.getInstance().getChatPrefix()}));
 		        player.getItemInHand().setType(Material.STICK);
