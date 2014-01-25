@@ -78,10 +78,8 @@ public class HubItems implements Listener {
 
     private boolean shouldAdd(Player player, List<ItemStack> item) {
 	    for(ItemStack i: item) {
-		    TBNRHub.getInstance().getLogger().info("testing"+i.getType().toString());
 		    if(player.getInventory().contains(i)) return false;
 	    }
-	    TBNRHub.getInstance().getLogger().info("true");
 	    return true;
     }
 }
