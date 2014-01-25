@@ -20,10 +20,6 @@ public @interface HubItemMeta {
 
 	public boolean hidden() default false;
 
-	/**
-	 * @deprecated
-	 * not added yet
-	 */
 	public String permission() default "";
 
 }

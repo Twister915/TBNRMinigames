@@ -8,8 +8,16 @@ prefix: "&8[&6&lTBNR&8] "
 warped-to: "<prefix>&3You have been teleported to &a<warp>&3!"
 cant-drop: "<prefix>&cYou can't drop that!"
 hub-items:
-   warpstar: true
-   magicclock: true
+   warpstar:
+      isEnabled: true
+      properties:
+         name: ""
+   magicclock:
+      isEnabled: true
+      properties:
+         name: ""
+         toggleOn: ""
+         toggleOff: ""
 formats:
    world-teleport: "&aYou've been teleported to &e<world>&a!"
    snowball-hit: "&aYou have hit &3<player>&a with a snowball to earn XP! &3(You have &b<hits>&3 hits)."

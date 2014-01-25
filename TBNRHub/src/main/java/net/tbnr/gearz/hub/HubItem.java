@@ -1,5 +1,6 @@
 package net.tbnr.gearz.hub;
 
+import lombok.NonNull;
 import net.tbnr.gearz.hub.TBNRHub;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -49,4 +50,37 @@ public abstract class HubItem implements Listener {
         }
         event.setCancelled(true);
     }
+
+	/**
+	 * Get property ~ Other object aka boolean etc.
+	 * @param property
+	 * @return
+	 */
+	public final Object getPropertyObject(@NonNull String property) {
+		HubItemMeta name = getClass().getAnnotation(HubItemMeta.class);
+		if(name == null) return "";
+		return TBNRHub.getInstance().getConfig().get("hub-items."+name.key()+".properties."+property);
+	}
+
+	/**
+	 * Get property like getFormat though it gets off property part
+	 * aka instead of getFormat("jaffa.othercategory.gsdjsdgdg")
+	 * it will automatically go to ("hub-items.<youritem>.properties.<property>")
+	 * @param property
+	 * @return
+	 * @see net.tbnr.util.TPlugin#getFormat(String)
+	 */
+	public final String getProperty(@NonNull String property) {
+		return getProperty(property, false, new String[]{});
+	}
+
+	public final String getProperty(@NonNull String property, @NonNull boolean prefix) {
+		return getProperty(property, prefix, new String[]{});
+	}
+
+	public final String getProperty(@NonNull String property, @NonNull boolean prefix, String[]... replacements) {
+		HubItemMeta name = getClass().getAnnotation(HubItemMeta.class);
+		if(name == null) return "";
+		return TBNRHub.getInstance().getFormat("hub-items."+name.key()+".properties."+property, prefix, replacements);
+	}
 }

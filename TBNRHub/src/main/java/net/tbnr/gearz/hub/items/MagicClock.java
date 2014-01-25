@@ -1,10 +1,14 @@
 package net.tbnr.gearz.hub.items;
 
+import net.tbnr.gearz.effects.EnchantmentEffect;
+import net.tbnr.gearz.game.classes.GearzItem;
 import net.tbnr.gearz.hub.HubItem;
 import net.tbnr.gearz.hub.HubItemMeta;
+import net.tbnr.gearz.hub.TBNRHub;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -34,9 +38,9 @@ public class MagicClock extends HubItem {
 
     @Override
     public ItemStack getItem() {
-        ItemStack itemStack = new ItemStack(Material.NETHER_STAR, 1);
+        ItemStack itemStack = new ItemStack(Material.CACTUS, 1);
         ItemMeta meta = itemStack.getItemMeta();
-        meta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.ITALIC + "Magic Star!" + ChatColor.GRAY + " - " + ChatColor.YELLOW + "" + ChatColor.BOLD + "Click me!");
+        meta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.ITALIC + "Magic Cactus!" + ChatColor.GRAY + " - " + ChatColor.YELLOW + "" + ChatColor.BOLD + "Click me!");
         itemStack.setItemMeta(meta);
         return itemStack;
     }
@@ -54,8 +58,11 @@ public class MagicClock extends HubItem {
 
     public void toggle(Player player) {
         if (enabledFor.contains(player.getName())) {
+	        player.getItemInHand().removeEnchantment(Enchantment.SILK_TOUCH);
             enabledFor.remove(player.getName());
         } else {
+	        player.sendMessage(getProperty("toggleOn", true));
+	        player.getItemInHand().addUnsafeEnchantment(Enchantment.SILK_TOUCH, 32);
             enabledFor.add(player.getName());
         }
     }
@@ -78,6 +85,17 @@ public class MagicClock extends HubItem {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
+	    //////////////////////////////////// GET RID OF OLD STAR /////////////////////////////////////////////
+
+	    ItemStack itemStack = new ItemStack(Material.NETHER_STAR, 1);
+	    ItemMeta meta = itemStack.getItemMeta();
+	    meta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.ITALIC + "Magic Star!" + ChatColor.GRAY + " - " + ChatColor.YELLOW + "" + ChatColor.BOLD + "Click me!");
+	    itemStack.setItemMeta(meta);
+
+	    if(event.getPlayer().getInventory().contains(itemStack)) event.getPlayer().getInventory().remove(itemStack);
+
+	    /////////////////////////////////////////////////////////////////////////////////////////////////////
+
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (isEnabled(player)) player.hidePlayer(event.getPlayer());
         }

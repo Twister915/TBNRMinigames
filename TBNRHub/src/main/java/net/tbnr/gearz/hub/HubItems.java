@@ -40,7 +40,7 @@ public class HubItems implements Listener {
 		    HubItemMeta itemMeta = hubItem.getAnnotation(HubItemMeta.class);
             if (itemMeta == null) continue;
 		    if(itemMeta.hidden()) continue;
-		    if(TBNRHub.getInstance().getConfig().getBoolean("hub-items." + itemMeta.key())) {
+		    if(TBNRHub.getInstance().getConfig().getBoolean("hub-items." + itemMeta.key()+ ".isEnabled")) {
 			    try {
 				    items.add(hubItem.newInstance());
 			    } catch (InstantiationException | IllegalAccessException e) {
@@ -59,11 +59,19 @@ public class HubItems implements Listener {
     @SuppressWarnings("unused")
     public void onPlayerJoin(PlayerJoinEvent event) {
         for (HubItem item : items) {
+	        if (!shouldAdd(event.getPlayer(), item.getItem())) continue;
             if(item.getItem().getType() == Material.ANVIL) { // ONLY FOR DEBUG PURPOSES!
                 if(!event.getPlayer().hasPermission("gearz.serverselector")) continue;
-                if (shouldAdd(event.getPlayer(), item.getItem())) event.getPlayer().getInventory().addItem(item.getItem());
+                event.getPlayer().getInventory().addItem(item.getItem());
             }
-            if (shouldAdd(event.getPlayer(), item.getItem())) event.getPlayer().getInventory().addItem(item.getItem());
+
+	        HubItemMeta itemMeta = item.getClass().getAnnotation(HubItemMeta.class);
+	        if (itemMeta == null) continue;
+	        if(itemMeta.hidden()) continue;
+	        if(event.getPlayer().hasPermission(itemMeta.permission()) ||
+			        itemMeta.permission().isEmpty()) {
+		        event.getPlayer().getInventory().addItem(item.getItem());
+	        }
         }
     }
 
