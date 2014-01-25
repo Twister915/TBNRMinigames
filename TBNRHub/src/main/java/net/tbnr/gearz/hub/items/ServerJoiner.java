@@ -1,5 +1,8 @@
-package net.tbnr.gearz.hub;
+package net.tbnr.gearz.hub.items;
 
+import net.tbnr.gearz.hub.HubItem;
+import net.tbnr.gearz.hub.HubItemMeta;
+import net.tbnr.gearz.hub.TBNRHub;
 import net.tbnr.gearz.netcommand.BouncyUtils;
 import net.tbnr.gearz.server.Server;
 import net.tbnr.gearz.server.ServerManager;
@@ -24,6 +27,10 @@ import java.util.HashMap;
  *
  * Latest Change:
  */
+@HubItemMeta(
+		key = "serverjoiner",
+		hidden = true
+)
 public class ServerJoiner extends HubItem {
 
     private final InventoryGUI mainGUI;
