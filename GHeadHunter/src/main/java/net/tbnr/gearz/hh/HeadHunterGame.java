@@ -278,7 +278,7 @@ public final class HeadHunterGame extends GearzGame implements GameCountdownHand
         addWin(max);
         max.getTPlayer().playSound(Sound.ENDERDRAGON_GROWL);
         getArena().getWorld().strikeLightningEffect(max.getPlayer().getLocation());
-        finishGame(true);
+        finishGame();
     }
 
     @Override
