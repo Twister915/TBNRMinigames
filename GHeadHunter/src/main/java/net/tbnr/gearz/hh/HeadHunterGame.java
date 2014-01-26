@@ -155,7 +155,7 @@ public final class HeadHunterGame extends GearzGame implements GameCountdownHand
     }
 
     @Override
-    protected boolean canDropItem(GearzPlayer player, Item itemToDrop) {
+    protected boolean canDropItem(GearzPlayer player, ItemStack itemToDrop) {
         return false;
     }
 

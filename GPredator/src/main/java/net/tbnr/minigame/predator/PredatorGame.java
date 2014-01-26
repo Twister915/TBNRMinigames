@@ -18,7 +18,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -187,7 +186,7 @@ public class PredatorGame extends GearzGame implements GameCountdownHandler {
     }
 
     @Override
-    protected boolean canDropItem(GearzPlayer player, Item itemToDrop) {
+    protected boolean canDropItem(GearzPlayer player, ItemStack itemToDrop) {
         return false;
     }
 

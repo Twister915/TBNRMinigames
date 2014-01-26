@@ -16,8 +16,8 @@ import net.tbnr.util.player.TPlayer;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.inventory.ItemStack;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -151,7 +151,7 @@ public final class GSwitchUpGame extends GearzGame implements GameCountdownHandl
     }
 
     @Override
-    protected boolean canDropItem(GearzPlayer player, Item itemToDrop) {
+    protected boolean canDropItem(GearzPlayer player, ItemStack itemToDrop) {
         return false;
     }
 
