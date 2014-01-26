@@ -12,7 +12,7 @@ import net.tbnr.util.player.TPlayerManager;
 @EqualsAndHashCode(callSuper = false)
 @Data
 @ToString
-public class RankPurchase extends Purchase {
+public final class RankPurchase extends Purchase {
     public RankPurchase() {
         super();
     }

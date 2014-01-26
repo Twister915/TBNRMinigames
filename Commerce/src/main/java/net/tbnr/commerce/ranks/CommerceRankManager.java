@@ -14,7 +14,7 @@ import org.bukkit.event.Listener;
  *
  * Latest Change:
  */
-public class CommerceRankManager implements Listener, TCommandHandler {
+public final class CommerceRankManager implements Listener, TCommandHandler {
 
     @Override
     public void handleCommandStatus(TCommandStatus status, CommandSender sender, TCommandSender senderType) {
