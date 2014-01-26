@@ -15,4 +15,5 @@ import java.lang.annotation.Target;
 public @interface CommerceItemMeta {
     public String key();
     public String humanName();
+    public Tier tier();
 }

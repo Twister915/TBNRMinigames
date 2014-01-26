@@ -1,6 +1,9 @@
-package net.tbnr.commerce.items;
+package net.tbnr.commerce.items.definitions;
 
 import net.tbnr.commerce.GearzCommerce;
+import net.tbnr.commerce.items.CommerceItem;
+import net.tbnr.commerce.items.CommerceItemMeta;
+import net.tbnr.commerce.items.Tier;
 import net.tbnr.gearz.GearzException;
 import net.tbnr.gearz.event.player.PlayerGameKillEvent;
 import net.tbnr.gearz.packets.wrapper.WrapperPlayServerWorldParticles;
@@ -14,9 +17,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 @CommerceItemMeta(
         key = "rose_of_death",
-        humanName = "Romantic Death"
+        humanName = "Romantic Death",
+        tier = Tier.Diamond_Veteran
 )
-public class RoseOfDeath extends CommerceItem {
+public final class RoseOfDeath extends CommerceItem {
     public RoseOfDeath(GearzPlayer player) throws GearzException {
         super(player);
     }
