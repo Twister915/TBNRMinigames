@@ -12,7 +12,6 @@ import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
@@ -175,7 +174,7 @@ public final class ASGame extends GearzGame {
     }
 
     @Override
-    protected boolean canDropItem(GearzPlayer player, Item itemToDrop) {
+    protected boolean canDropItem(GearzPlayer player, ItemStack itemToDrop) {
         return false;
     }
 }

@@ -33,4 +33,32 @@ public abstract class CommerceItem implements Listener {
     public final void register() {
         GearzCommerce.getInstance().registerEvents(this);
     }
+
+    public void purchased() {}
+
+    public void registered() {}
+
+    public final void revoke() {
+        GearzCommerce.getInstance().getItemAPI().revokeItem(player, this);
+    }
+
+    /**
+     * Takes advantage of the fact we use a BasicDBObject to store data about a purchase
+     *
+     * Use this to store data about a purchase, and be able to retrieve it.
+     *
+     * @param key The unique key for this information.
+     * @param object The object to store
+     * @param <T> The type of the object you're storing
+     * @return The object you stored.
+     */
+    public <T> T setObjectInDB(String key, T object) {
+        //TODO save some data in the database for this object
+        return object;
+    }
+
+    public <T> T getObject(String key, Class<T> clazz) {
+        //TODO actually get data.
+        return null;
+    }
 }

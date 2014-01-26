@@ -1,6 +1,7 @@
 package net.tbnr.commerce;
 
 import lombok.Getter;
+import net.tbnr.commerce.items.CommerceItemAPI;
 import net.tbnr.commerce.items.CommerceItemManager;
 import net.tbnr.util.TPlugin;
 
@@ -18,11 +19,14 @@ public final  class GearzCommerce extends TPlugin {
     @Getter
     private CommerceItemManager manager;
 
+    @Getter
+    private CommerceItemAPI itemAPI;
+
     @Override
     public void enable() {
         GearzCommerce.instance = this;
         this.manager = new CommerceItemManager();
-        this.manager.activateCommerce();
+        this.itemAPI = this.manager;
     }
 
     @Override

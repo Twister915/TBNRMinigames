@@ -130,7 +130,7 @@ public final class DBGame extends GearzGame implements GameCountdownHandler {
     }
 
     @Override
-    protected boolean canDropItem(GearzPlayer player, Item itemToDrop) {
+    protected boolean canDropItem(GearzPlayer player, ItemStack itemToDrop) {
         return false;
     }
 
