@@ -97,6 +97,16 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI {
         return this.playerCommerceData.get(player).getItems();
     }
 
+    @Override
+    public boolean canUseTier(GearzPlayer player, Tier tier) {
+        return false;
+    }
+
+    @Override
+    public boolean canPurchaseItem(GearzPlayer player, Class<? extends CommerceItem> item) {
+        return false;
+    }
+
     private CommerceItem constructCommerceItem(String key, GearzPlayer player) {
         for (Class clazz : getCommerceItems()) {
             CommerceItemMeta meta = (CommerceItemMeta) clazz.getAnnotation(CommerceItemMeta.class);

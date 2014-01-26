@@ -58,7 +58,6 @@ public final class MultiserverCannon implements ConfigurationSerializable, Liste
     }
 
     private void label(TPlayer player) {
-        TBNRHub.getInstance().getLogger().info(player.getPlayerName() + ":" + this.referenceBlock.toString());
         this.labels.put(player, new GearzLabelEntity(player.getPlayer(), TBNRHub.getInstance().getFormat("formats.server-label", false, new String[]{"<server>", this.server}), this.getReferenceBlock().clone().add(0, -0.4, 1)));
 
     }
