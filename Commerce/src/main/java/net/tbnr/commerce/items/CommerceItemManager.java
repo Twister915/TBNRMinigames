@@ -13,6 +13,7 @@ import net.tbnr.util.player.TPlayer;
 import net.tbnr.util.player.TPlayerJoinEvent;
 import net.tbnr.util.player.TPlayerManager;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 
 import javax.management.ReflectionException;
@@ -32,7 +33,12 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI {
     }
     @Override
     public void reloadPlayer(GearzPlayer player) {
-       BasicDBList commerce_purchases = getPurchaseList(player);
+        BasicDBList commerce_purchases = getPurchaseList(player);
+        if (this.playerCommerceData.containsKey(player)) {
+            for (CommerceItem commerceItem : this.playerCommerceData.get(player).getItems()) {
+                HandlerList.unregisterAll(commerceItem);
+            }
+        }
         List<CommerceItem> items = new ArrayList<>();
         for (Object commerce_purchase : commerce_purchases) {
             if (!(commerce_purchase instanceof DBObject)) continue;
@@ -44,6 +50,8 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI {
                 continue;
             }
             CommerceItem magic = constructCommerceItem(key, player);
+            magic.register();
+            magic.registered();
             items.add(magic);
         }
         this.playerCommerceData.put(player, new PlayerCommerceItems(player, items));
@@ -58,13 +66,6 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI {
             commerce_purchases = new BasicDBList();
         }
         return commerce_purchases;
-    }
-    public void activateCommerce() {
-        for (Map.Entry<GearzPlayer, PlayerCommerceItems> entry : playerCommerceData.entrySet()) {
-            for (CommerceItem commerceItem : entry.getValue().getItems()) {
-                commerceItem.register();
-            }
-        }
     }
     @Override
     public void reloadPlayers() {

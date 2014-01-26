@@ -26,7 +26,6 @@ public final  class GearzCommerce extends TPlugin {
     public void enable() {
         GearzCommerce.instance = this;
         this.manager = new CommerceItemManager();
-        this.manager.activateCommerce();
         this.itemAPI = this.manager;
     }
 
