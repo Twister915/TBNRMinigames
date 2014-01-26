@@ -338,7 +338,6 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
             }
         }, 1);
         if (isIngame(player) && player.isValid()) {
-            dropItemsFormPlayer(player);
             stopGameForPlayer(player, GameStopCause.GAME_END);
         }
     }
