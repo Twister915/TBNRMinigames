@@ -7,6 +7,8 @@ import com.mongodb.DBObject;
 import lombok.Data;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import net.tbnr.commerce.items.definitions.FiftyPremiumJoins;
+import net.tbnr.commerce.items.definitions.PointBoost3Day20Perc;
 import net.tbnr.commerce.items.definitions.RoseOfDeath;
 import net.tbnr.gearz.player.GearzPlayer;
 import net.tbnr.util.player.TPlayer;
@@ -28,7 +30,7 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI {
     private static Class[] items;
     public CommerceItemManager() {
         this.playerCommerceData = new HashMap<>();
-        items = new Class[]{RoseOfDeath.class};
+        items = new Class[]{RoseOfDeath.class , FiftyPremiumJoins.class, PointBoost3Day20Perc.class};
         reloadPlayers();
     }
     @Override
