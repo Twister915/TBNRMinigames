@@ -5,9 +5,6 @@ import com.mongodb.DBObject;
 import lombok.Data;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import net.tbnr.commerce.items.CommerceItem;
-import net.tbnr.commerce.items.CommerceItemMeta;
-import net.tbnr.commerce.items.RoseOfDeath;
 import net.tbnr.gearz.player.GearzPlayer;
 import net.tbnr.util.player.TPlayer;
 import net.tbnr.util.player.TPlayerJoinEvent;
@@ -48,7 +45,7 @@ public final class CommerceItemManager implements Listener {
             } catch (ClassCastException ex) {
                 continue;
             }
-            CommerceItem magic = magic(key, player);
+            CommerceItem magic = constructCommerceItem(key, player);
             items.add(magic);
         }
         this.playerCommerceData.put(player, new PlayerCommerceItems(player, items));
@@ -66,7 +63,7 @@ public final class CommerceItemManager implements Listener {
             reloadPlayer(GearzPlayer.playerFromTPlayer(tPlayer));
         }
     }
-    private CommerceItem magic(String key, GearzPlayer player) {
+    private CommerceItem constructCommerceItem(String key, GearzPlayer player) {
         for (Class clazz : items) {
             if (!clazz.isAssignableFrom(CommerceItem.class)) continue;
             CommerceItemMeta meta = (CommerceItemMeta) clazz.getAnnotation(CommerceItemMeta.class);
