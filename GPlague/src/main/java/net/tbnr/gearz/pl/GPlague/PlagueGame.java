@@ -7,12 +7,18 @@ import net.tbnr.gearz.game.GearzGame;
 import net.tbnr.gearz.player.GearzPlayer;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by George on 27/01/14.
@@ -32,7 +38,8 @@ import java.util.List;
 				"they also become infected and the cycle repeats. infected can be cured with bonemeal and the poison can be cleared with milk," +
 				"these are found in chests around the map." +
 				"the game ends in 15mins if there are no winners." +
-				"a infected win when everyone is infected, humans win when all the infected are cured. a poisoned player will count as infected for this purpose (meaning there must be no poison or infected present for the game to end)",
+				"A infected win when everyone is infected, humans win when all the infected are cured." +
+				"A poisoned player will count as infected for this purpose (meaning there must be no poison or infected present for the game to end)",
 		key = "plague",
 		minPlayers = 6,
 		maxPlayers = 28,
@@ -41,6 +48,9 @@ import java.util.List;
 public class PlagueGame extends GearzGame {
 
 	private PlagueArena hhArena;
+
+	private ArrayList<GearzPlayer> humans = new ArrayList<GearzPlayer>();
+	private ArrayList<GearzPlayer> zombies = new ArrayList<GearzPlayer>();
 
 	/**
 	 * New game in this arena
@@ -144,5 +154,20 @@ public class PlagueGame extends GearzGame {
 	@Override
 	protected boolean allowHunger(GearzPlayer player) {
 		return false;
+	}
+
+	//////////////// I'm An exception to the rule /////////////////////////////
+
+	@EventHandler
+	void onBonemealZombieEvent(PlayerInteractEntityEvent e) {
+		ItemStack item = e.getPlayer().getItemInHand();
+		if(item.getType() != Material.INK_SACK || item.getDurability() != (short) 15 || !(e.getRightClicked() instanceof Player)) return;
+		Player personClicked = (Player) e.getRightClicked();
+		if(zombies.contains(personClicked)) {
+			zombies.remove(personClicked);
+			e.getPlayer().sendMessage(getFormat("cured-zombie", new String[] {"<player>", personClicked.getDisplayName()}));
+		} else {
+			e.getPlayer().sendMessage(getFormat("formats.waste-bone-meal"));
+		}
 	}
 }
