@@ -19,5 +19,6 @@
         <module>GPredator</module>
         <module>TBNRHub</module>
         <module>Commerce</module>
+        <module>GPlague</module>
     </modules>
 </project>
