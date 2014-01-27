@@ -176,6 +176,7 @@ public final class HeadHunterGame extends GearzGame implements GameCountdownHand
 
     @Override
     protected void activatePlayer(GearzPlayer player) {
+	    if(!player.isValid()) return;
         player.getTPlayer().giveItem(Material.STONE_AXE);
         player.getTPlayer().giveItem(Material.DIAMOND, 1, (short) 0, getPluginFormat("formats.diamond-title", false), new String[0], 9);
     }
