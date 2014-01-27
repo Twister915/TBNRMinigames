@@ -1,6 +1,7 @@
 package net.tbnr.minigame.predator;
 
 import lombok.Getter;
+import net.tbnr.gearz.Gearz;
 import net.tbnr.gearz.GearzPlugin;
 import net.tbnr.gearz.arena.Arena;
 import net.tbnr.gearz.effects.EnderBar;
@@ -23,6 +24,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.json.JSONObject;
 
 import java.util.*;
@@ -455,11 +457,16 @@ public class PredatorGame extends GearzGame implements GameCountdownHandler {
 			event.getInventory().getName().equals(PREDATOR_MENU_TITLE) 	||
 			event.getInventory().getName().equals(PREY_MENU_TITLE) 		||
 			!(event.getPlayer() instanceof Player)) 				return;
-		GearzPlayer player = GearzPlayer.playerFromPlayer((Player) event.getPlayer());
+		final GearzPlayer player = GearzPlayer.playerFromPlayer((Player) event.getPlayer());
 
 		if(!getPlayers().contains(player)) return;
 
-		player.getPlayer().openInventory(getChooser(player));
+		Bukkit.getScheduler().runTaskLater(Gearz.getInstance(), new BukkitRunnable() {
+			@Override
+			public void run() {
+				player.getPlayer().openInventory(getChooser(player));
+			}
+		}, 1);
 	}
 
     public GearzPlayer getWinner() {
