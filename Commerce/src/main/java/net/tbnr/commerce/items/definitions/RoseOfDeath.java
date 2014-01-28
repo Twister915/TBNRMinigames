@@ -2,6 +2,7 @@ package net.tbnr.commerce.items.definitions;
 
 import net.tbnr.commerce.GearzCommerce;
 import net.tbnr.commerce.items.CommerceItem;
+import net.tbnr.commerce.items.CommerceItemAPI;
 import net.tbnr.commerce.items.CommerceItemMeta;
 import net.tbnr.commerce.items.Tier;
 import net.tbnr.gearz.GearzException;
@@ -21,8 +22,8 @@ import org.bukkit.inventory.meta.ItemMeta;
         tier = Tier.Diamond_Veteran
 )
 public final class RoseOfDeath extends CommerceItem {
-    public RoseOfDeath(GearzPlayer player) throws GearzException {
-        super(player);
+    public RoseOfDeath(GearzPlayer player, CommerceItemAPI api) throws GearzException {
+        super(player, api);
     }
     @EventHandler
     public void onDeath(PlayerGameKillEvent event) {

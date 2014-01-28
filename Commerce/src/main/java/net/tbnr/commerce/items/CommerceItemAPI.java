@@ -1,5 +1,6 @@
 package net.tbnr.commerce.items;
 
+import com.mongodb.BasicDBList;
 import net.tbnr.gearz.player.GearzPlayer;
 
 import java.util.List;
@@ -72,12 +73,15 @@ public interface CommerceItemAPI {
      *
      * @param player The {@link net.tbnr.gearz.player.GearzPlayer} to reload purchases for.
      */
-    public void reloadPlayer(GearzPlayer player);
+    @SuppressWarnings("unchecked")
+    public void reloadPlayer(GearzPlayer player, Class<? extends CommerceItem>... recentlyPurchased);
 
     /**
      *
      */
     public void reloadPlayers();
+
+    public BasicDBList getPurchaseList(GearzPlayer player);
 
     /**
      *
@@ -100,9 +104,31 @@ public interface CommerceItemAPI {
      */
     public List<CommerceItem> getItemsFor(GearzPlayer player);
 
+    /**
+     *
+     * @param player
+     * @param tier
+     * @return
+     */
     public boolean canUseTier(GearzPlayer player, Tier tier);
 
+    /**
+     *
+     * @param player
+     * @param item
+     * @return
+     */
+
+    /*
+        HIGH LEVEL API
+        SHOULD BE USED FOR ACTUAL IMPLEMENTATION.
+     */
     public boolean canPurchaseItem(GearzPlayer player, Class<? extends CommerceItem> item);
 
+    public boolean purchaseItem(GearzPlayer player, Class<? extends CommerceItem> item);
+
+    public boolean canPurchaseTier(GearzPlayer player, Tier tier);
+
+    public boolean purchaseTier(GearzPlayer player, Tier tier);
 
 }

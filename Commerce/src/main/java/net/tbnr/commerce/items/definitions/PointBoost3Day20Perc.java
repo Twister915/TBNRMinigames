@@ -2,6 +2,7 @@ package net.tbnr.commerce.items.definitions;
 
 import net.tbnr.commerce.GearzCommerce;
 import net.tbnr.commerce.items.CommerceItem;
+import net.tbnr.commerce.items.CommerceItemAPI;
 import net.tbnr.commerce.items.CommerceItemMeta;
 import net.tbnr.commerce.items.Tier;
 import net.tbnr.gearz.GearzException;
@@ -18,8 +19,8 @@ import org.bukkit.event.EventHandler;
 )
 public final class PointBoost3Day20Perc extends CommerceItem {
     private final String message;
-    public PointBoost3Day20Perc(GearzPlayer player) throws GearzException {
-        super(player);
+    public PointBoost3Day20Perc(GearzPlayer player, CommerceItemAPI api) throws GearzException {
+        super(player, api);
         this.message = GearzCommerce.getInstance().getFormat("point-boost-message", false, new String[]{"<perc>", "30"});
     }
 
