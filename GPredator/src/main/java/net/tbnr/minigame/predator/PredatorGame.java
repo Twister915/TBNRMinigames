@@ -291,16 +291,16 @@ public class PredatorGame extends GearzGame implements GameCountdownHandler {
 
 	private Inventory getChooser(GearzPlayer player) {
 		if(this.predator.equals(player)) {
-			if(!predatorInventories.containsKey(player)) { predatorInventories.put(player, createInventory(player, predatorItems)); }
+			if(!predatorInventories.containsKey(player)) { predatorInventories.put(player, createInventory(player, predatorItems, PREDATOR_MENU_TITLE)); }
 			return predatorInventories.get(player);
 		} else {
-			if(!preyInventories.containsKey(player)) { preyInventories.put(player, createInventory(player, preyItems)); }
+			if(!preyInventories.containsKey(player)) { preyInventories.put(player, createInventory(player, preyItems, PREY_MENU_TITLE)); }
 			return preyInventories.get(player);
 		}
 	}
 
-	private Inventory createInventory(GearzPlayer player, ArrayList<GearzItem> items) {
-		Inventory inventory = Bukkit.createInventory(player.getPlayer(), 36);
+	private Inventory createInventory(GearzPlayer player, ArrayList<GearzItem> items, String name) {
+		Inventory inventory = Bukkit.createInventory(player.getPlayer(), 36, name);
 		for(GearzItem item : items) {
 			inventory.addItem(item.getItemStack());
 		}
