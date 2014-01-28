@@ -1,6 +1,7 @@
 package net.tbnr.minigame.predator;
 
 import lombok.Getter;
+import net.tbnr.gearz.Gearz;
 import net.tbnr.gearz.GearzPlugin;
 import net.tbnr.gearz.arena.Arena;
 import net.tbnr.gearz.effects.EnderBar;
@@ -187,6 +188,11 @@ public class PredatorGame extends GearzGame implements GameCountdownHandler {
     }
 
     @Override
+    protected boolean allowInventoryChange() {
+        return true;
+    }
+
+    @Override
     protected boolean canDropItem(GearzPlayer player, ItemStack itemToDrop) {
         return false;
     }
@@ -283,6 +289,8 @@ public class PredatorGame extends GearzGame implements GameCountdownHandler {
 	}
 
 	protected Inventory getChooser(GearzPlayer player) {
+		Gearz.getInstance().getLogger().info("getChooser: " + predator.toString() + " and " + predatorInventories.toString());
+		Gearz.getInstance().getLogger().info("getChooser: " + preyInventories.toString());
 		if(this.predator.equals(player)) {
 			if(!predatorInventories.containsKey(player)) { predatorInventories.put(player, createInventory(player, predatorItems, PREDATOR_MENU_TITLE)); }
 			return predatorInventories.get(player);
@@ -293,6 +301,7 @@ public class PredatorGame extends GearzGame implements GameCountdownHandler {
 	}
 
 	private Inventory createInventory(GearzPlayer player, ArrayList<GearzItem> items, String name) {
+		Gearz.getInstance().getLogger().info("created?!");
 		Inventory inventory = Bukkit.createInventory(player.getPlayer(), 36, name);
 		for(GearzItem item : items) {
 			inventory.addItem(item.getItemStack());

@@ -7,7 +7,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -26,7 +25,7 @@ public class PredatorListener implements Listener {
 		this.game = game;
 	}
 
-	@EventHandler( ignoreCancelled = true )
+	/*@EventHandler( ignoreCancelled = true )
 	public void onInventoryClickEvent(InventoryClickEvent event) {
 		if(!game.isRunning() 											||
 				game.getCurrentState() != PRState.CHOOSING 						||
@@ -36,7 +35,7 @@ public class PredatorListener implements Listener {
 
 		if(!game.getPlayers().contains(player)) return;
 
-		/*boolean cont = false;
+		boolean cont = false;
 		switch (event.getClick()) {
 			case RIGHT:
 			case LEFT:
@@ -50,7 +49,7 @@ public class PredatorListener implements Listener {
 		}
 		if (!cont) {
 			return;
-		}*/
+		}
 		boolean cancel = false;
 		if(game.getPredator().equals(player)) {
 			if(event.getInventory().getContents().length < game.getPredatorItems().size() - 1) {
@@ -62,13 +61,13 @@ public class PredatorListener implements Listener {
 			}
 		}
 		//event.setCancelled(cancel);
-	}
+	}*/
 
 	@EventHandler
 	public void onInventoryClose(InventoryCloseEvent event) {
 		if(!game.isRunning() 											||
-				game.getCurrentState() != PRState.CHOOSING 						||
-				!(event.getPlayer() instanceof Player)) 				return;
+			game.getCurrentState() != PRState.CHOOSING 					||
+			!(event.getPlayer() instanceof Player)) 				return;
 		final GearzPlayer player = GearzPlayer.playerFromPlayer((Player) event.getPlayer());
 
 		if(!game.getPlayers().contains(player)) return;
@@ -76,7 +75,7 @@ public class PredatorListener implements Listener {
 		Bukkit.getScheduler().runTaskLater(Gearz.getInstance(), new BukkitRunnable() {
 			@Override
 			public void run() {
-				player.getPlayer().sendMessage("FREEAKINN' QUIINT!");
+				player.getPlayer().sendMessage("You shall not. Okay. I'm gonna slap you!");
 				player.getPlayer().openInventory(game.getChooser(player));
 			}
 		}, 20L);
