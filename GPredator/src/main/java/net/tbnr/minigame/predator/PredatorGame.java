@@ -139,7 +139,7 @@ public class PredatorGame extends GearzGame implements GameCountdownHandler {
 
     @Override
     protected boolean canUse(GearzPlayer player) {
-        return false;
+        return true;
     }
 
     @Override
