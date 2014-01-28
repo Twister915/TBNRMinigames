@@ -11,7 +11,7 @@ import org.bukkit.event.EventHandler;
 
 @CommerceItemMeta(
         tier = Tier.Standard,
-        key = "fiftypremiumjoins",
+        key = "fifty_premium_joins",
         humanName = "50x Premium Joins"
 )
 public final class FiftyPremiumJoins extends CommerceItem {

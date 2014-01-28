@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import net.tbnr.commerce.items.definitions.*;
+import net.tbnr.gearz.Gearz;
 import net.tbnr.gearz.player.GearzPlayer;
 import net.tbnr.util.command.TCommand;
 import net.tbnr.util.command.TCommandHandler;
@@ -34,7 +35,30 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
     private static Class[] items;
     public CommerceItemManager() {
         this.playerCommerceData = new HashMap<>();
-        items = new Class[]{RoseOfDeath.class , FiftyPremiumJoins.class, PointBoost3Day20Perc.class, FiftyVoteBoost.class};
+        items = new Class[]
+        {
+                BookOfEffects.class,
+                ChickenShout.class,
+                ColoredArmor.class,
+                DeathIsACelebration.class,
+                EnchantedColorArmor.class,
+                EnchantedProperArmor.class,
+                EnderPearls.class,
+                EyesOfEnder.class,
+                FiftyPremiumJoins.class,
+                FiftyVoteBoost.class,
+                FireworkCreeper.class,
+                FireworkEverything.class,
+                FireworkSparkle.class,
+                IntoTheShadows.class,
+                PointBoost3Day20Perc.class,
+                PointBoost5Day40Perc.class,
+                ProperArmor.class,
+                RoseOfDeath.class,
+                Shepherd.class,
+                SnowballRefill.class,
+                SpontaneousCombustion.class
+        };
         reloadPlayers();
     }
     @Override
@@ -111,7 +135,6 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
                 break;
             }
         }
-
         reloadPlayer(player);
     }
 
@@ -122,12 +145,20 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
 
     @Override
     public boolean canUseTier(GearzPlayer player, Tier tier) {
-        return false;
+        return !tier.isMustBePurchased() || hasTier(player, tier);
     }
 
     @Override
     public boolean canPurchaseItem(GearzPlayer player, Class<? extends CommerceItem> item) {
-        return false;
+        CommerceItemMeta metaFor = getMetaFor(item);
+        boolean hasPoints = player.getPoints() >= metaFor.tier().getPoints();
+        boolean hasTier = canUseTier(player, metaFor.tier());
+        boolean hasCactus = player.getDonorPoints() >= metaFor.tier().getDonorCredits();
+        boolean usesDonor = metaFor.tier().isMustBePurchased();
+        boolean returnVal;
+        returnVal =(hasPoints || hasCactus) && hasTier;
+        if (usesDonor) returnVal = (hasCactus) && hasTier;
+        return returnVal;
     }
 
     @Override
@@ -145,6 +176,11 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
         return false;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
+    @Override
+    public boolean hasTier(GearzPlayer player, Tier tier) {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
     private CommerceItem constructCommerceItem(String key, GearzPlayer player) {
         for (Class clazz : getCommerceItems()) {
             CommerceItemMeta meta = (CommerceItemMeta) clazz.getAnnotation(CommerceItemMeta.class);
@@ -155,7 +191,7 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
                     item = (CommerceItem) clazz.getConstructor(GearzPlayer.class, CommerceItemAPI.class).newInstance(player, this);
                 } catch (InstantiationException | NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
                     e.printStackTrace();
-                    continue;
+                    break;
                 }
                 return item;
             }
@@ -268,7 +304,7 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
     }
     @Override
     public void handleCommandStatus(TCommandStatus status, CommandSender sender, TCommandSender senderType) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        Gearz.getInstance().handleCommandStatus(status, sender, senderType);
     }
 
     @Data

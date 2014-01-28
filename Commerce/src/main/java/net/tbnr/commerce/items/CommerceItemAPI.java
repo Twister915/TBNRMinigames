@@ -81,6 +81,11 @@ public interface CommerceItemAPI {
      */
     public void reloadPlayers();
 
+    /**
+     *
+     * @param player
+     * @return
+     */
     public BasicDBList getPurchaseList(GearzPlayer player);
 
     /**
@@ -123,12 +128,44 @@ public interface CommerceItemAPI {
         HIGH LEVEL API
         SHOULD BE USED FOR ACTUAL IMPLEMENTATION.
      */
+
+    /**
+     *
+     * @param player
+     * @param item
+     * @return
+     */
     public boolean canPurchaseItem(GearzPlayer player, Class<? extends CommerceItem> item);
 
+    /**
+     *
+     * @param player
+     * @param item
+     * @return
+     */
     public boolean purchaseItem(GearzPlayer player, Class<? extends CommerceItem> item);
 
+    /**
+     *
+     * @param player
+     * @param tier
+     * @return
+     */
     public boolean canPurchaseTier(GearzPlayer player, Tier tier);
 
+    /**
+     *
+     * @param player
+     * @param tier
+     * @return
+     */
     public boolean purchaseTier(GearzPlayer player, Tier tier);
 
+    /**
+     *
+     * @param player
+     * @param tier
+     * @return
+     */
+    public boolean hasTier(GearzPlayer player, Tier tier);
 }

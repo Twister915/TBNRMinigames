@@ -16,7 +16,7 @@ import org.bukkit.event.EventPriority;
         humanName = "Fifty Double Votes",
         tier = Tier.Standard
 )
-public class FiftyVoteBoost extends CommerceItem {
+public final class FiftyVoteBoost extends CommerceItem {
     private Integer votesLeft = null;
     private static final String storeKey = "votes_remain";
 

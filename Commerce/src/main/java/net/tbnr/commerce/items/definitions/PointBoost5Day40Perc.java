@@ -13,15 +13,15 @@ import org.bukkit.Sound;
 import org.bukkit.event.EventHandler;
 
 @CommerceItemMeta(
-        humanName = "20% Point Boost (3 Days)",
-        key = "3_20_point_boost",
-        tier = Tier.Standard
+        tier = Tier.Heroic,
+        humanName = "40% Point Boost (5 Days)",
+        key = "5_40_point_boost"
 )
-public final class PointBoost3Day20Perc extends CommerceItem {
+public final class PointBoost5Day40Perc extends CommerceItem {
     private final String message;
-    public PointBoost3Day20Perc(GearzPlayer player, CommerceItemAPI api) throws GearzException {
+    public PointBoost5Day40Perc(GearzPlayer player, CommerceItemAPI api) throws GearzException {
         super(player, api);
-        this.message = GearzCommerce.getInstance().getFormat("point-boost-message", false, new String[]{"<perc>", "20"});
+        this.message = GearzCommerce.getInstance().getFormat("point-boost-message", false, new String[]{"<perc>", "40"});
     }
 
     @EventHandler
@@ -30,6 +30,6 @@ public final class PointBoost3Day20Perc extends CommerceItem {
         TPlayer tPlayer = event.getPlayer().getTPlayer();
         tPlayer.sendMessage(this.message);
         tPlayer.playSound(Sound.ORB_PICKUP);
-        event.setPoints(Double.valueOf(Math.ceil(event.getPoints() * 1.2d)).intValue());
+        event.setPoints(Double.valueOf(Math.ceil(event.getPoints() * 1.4d)).intValue());
     }
 }
