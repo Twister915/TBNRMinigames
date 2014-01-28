@@ -82,7 +82,7 @@ public class PredatorGame extends GearzGame implements GameCountdownHandler {
          * e.g. for Choosing how long in seconds you want the player
          * to be choosing
          */
-        CHOOSING(10),
+        CHOOSING(60),
         IN_GAME(8*60);
 
         @Getter
@@ -113,22 +113,12 @@ public class PredatorGame extends GearzGame implements GameCountdownHandler {
 
     @Override
     protected void gameStarting() {
-		broadcast("Freakin' Quint!");
         giveJobs();
-		broadcast("Freakin' Quint!");
 		updateScoreboard();
-		broadcast("Freakin' Quint!");
 		this.currentState = PRState.CHOOSING;
-		broadcast("Freakin' Quint!");
-		openChoosingMenu();
-		broadcast("Freakin' Quint!");
-		System.out.println("Calls!");
-		broadcast("Freakin' Quint!");
 		this.countdown = new GameCountdown(PRState.CHOOSING.getTime(), this, this);
-		broadcast("Freakin' Quint!");
 		countdown.start();
-		broadcast("Freakin' Quint!");
-
+		openChoosingMenu();
 	}
 
     @Override
