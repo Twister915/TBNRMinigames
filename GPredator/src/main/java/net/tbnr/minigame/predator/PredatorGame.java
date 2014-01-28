@@ -134,12 +134,12 @@ public class PredatorGame extends GearzGame implements GameCountdownHandler {
 
     @Override
     protected boolean canPvP(GearzPlayer attacker, GearzPlayer target) {
-        return false;
+        return currentState != PRState.CHOOSING;
     }
 
     @Override
     protected boolean canUse(GearzPlayer player) {
-        return false;
+        return true;
     }
 
     @Override
@@ -149,7 +149,7 @@ public class PredatorGame extends GearzGame implements GameCountdownHandler {
 
     @Override
     protected boolean canDrawBow(GearzPlayer player) {
-        return false;
+        return currentState != PRState.CHOOSING;
     }
 
     @Override
