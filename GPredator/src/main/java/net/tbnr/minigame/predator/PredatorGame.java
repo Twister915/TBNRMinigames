@@ -123,6 +123,7 @@ public class PredatorGame extends GearzGame implements GameCountdownHandler {
         updateScoreboard();
         this.currentState = PRState.CHOOSING;
         openChoosingMenu();
+		System.out.println("Calls!");
         this.countdown = new GameCountdown(PRState.CHOOSING.getTime(), this, this);
         countdown.start();
     }
@@ -404,9 +405,7 @@ public class PredatorGame extends GearzGame implements GameCountdownHandler {
 
     public void openChoosingMenu() {
         for(GearzPlayer player : getPlayers()) {
-            if(prey.contains(player)) {
-                player.getPlayer().openInventory(getChooser(player));
-			 }
+			player.getPlayer().openInventory(getChooser(player));
 		}
     }
 
@@ -414,8 +413,6 @@ public class PredatorGame extends GearzGame implements GameCountdownHandler {
     public void onInventoryClickEvent(InventoryClickEvent event) {
         if(!this.isRunning() 											||
             this.currentState != PRState.CHOOSING 						||
-            event.getInventory().getName().equals(PREDATOR_MENU_TITLE) 	||
-            event.getInventory().getName().equals(PREY_MENU_TITLE) 		||
             !(event.getWhoClicked() instanceof Player)) 	return;
 
         GearzPlayer player = GearzPlayer.playerFromPlayer((Player) event.getWhoClicked());
@@ -454,8 +451,6 @@ public class PredatorGame extends GearzGame implements GameCountdownHandler {
 	public void onInventoryClose(InventoryCloseEvent event) {
 		if(!this.isRunning() 											||
 			this.currentState != PRState.CHOOSING 						||
-			event.getInventory().getName().equals(PREDATOR_MENU_TITLE) 	||
-			event.getInventory().getName().equals(PREY_MENU_TITLE) 		||
 			!(event.getPlayer() instanceof Player)) 				return;
 		final GearzPlayer player = GearzPlayer.playerFromPlayer((Player) event.getPlayer());
 
