@@ -461,7 +461,7 @@ public class PredatorGame extends GearzGame implements GameCountdownHandler {
 			public void run() {
 				player.getPlayer().openInventory(getChooser(player));
 			}
-		}, 1);
+		}, 40L);
 	}
 
     public GearzPlayer getWinner() {
