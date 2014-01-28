@@ -239,7 +239,7 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 	private void getHumans() {
 		Set<GearzPlayer> players = (Set<GearzPlayer>) getPlayers().clone();
 		for(GearzPlayer p : players) {
-			
+
 		}
 	}
 
