@@ -1,14 +1,19 @@
 package net.tbnr.gearz.pl.GPlague;
 
+import lombok.Getter;
 import net.tbnr.gearz.GearzPlugin;
 import net.tbnr.gearz.arena.Arena;
+import net.tbnr.gearz.effects.EnderBar;
 import net.tbnr.gearz.event.player.PlayerGameLeaveEvent;
+import net.tbnr.gearz.game.GameCountdown;
+import net.tbnr.gearz.game.GameCountdownHandler;
 import net.tbnr.gearz.game.GameMeta;
 import net.tbnr.gearz.game.GearzGame;
 import net.tbnr.gearz.player.GearzPlayer;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -27,11 +32,11 @@ import java.util.*;
  * Latest Change:
  */
 @GameMeta(
-		longName = "Head Hunter",
-		shortName = "HH",
+		longName = "Plague",
+		shortName = "Pl",
 		version = "1.0",
 		description = "1 player is infected. 23 are human." +
-				"they move slower but have the power to sprint for limited times at extra speeds." +
+				"They move slower but have the power to sprint for limited times at extra speeds." +
 				"They cannot regen. they can poison others with their fist." +
 				"The poison will increase with each hit. if the infected player kills anyone with poison or their fist," +
 				"they also become infected and the cycle repeats. infected can be cured with bonemeal and the poison can be cleared with milk," +
@@ -44,11 +49,25 @@ import java.util.*;
 		maxPlayers = 28,
 		mainColor = ChatColor.GREEN,
 		secondaryColor = ChatColor.GOLD)
-public class PlagueGame extends GearzGame {
+public class PlagueGame extends GearzGame implements GameCountdownHandler {
+
+	private static enum PlagueState {
+		IN_GAME(900);
+
+		@Getter
+		int length = 0;
+
+ 		PlagueState(int length) {
+		    this.length = length;
+	    }
+	}
 
 	private PlagueArena plagueArena;
 
-	private final ArrayList<GearzPlayer> zombies = new ArrayList<GearzPlayer>();
+	private final ArrayList<GearzPlayer> zombies = new ArrayList<>();
+	private final Map<GearzPlayer, Integer> points = new HashMap<>();
+
+	public PlagueState state;
 
 	/**
 	 * New game in this arena
@@ -66,7 +85,10 @@ public class PlagueGame extends GearzGame {
 
 	@Override
 	protected void gamePreStart() {
+		this.state = PlagueState.IN_GAME;
 		assignJobs();
+		GameCountdown countdown = new GameCountdown(this.state.getLength(), this, this);
+		countdown.start();
 	}
 
 	@Override
@@ -121,7 +143,8 @@ public class PlagueGame extends GearzGame {
 
 	@Override
 	protected void playerKilled(GearzPlayer dead, GearzPlayer killer) {
-
+		getHumans();
+		points.put(dead, 1);
 	}
 
 	@Override
@@ -160,9 +183,64 @@ public class PlagueGame extends GearzGame {
 		return false;
 	}
 
+	@Override
+	public void onCountdownStart(Integer max, GameCountdown countdown) {
+		updateEnderBar(max, max);
+	}
+
+	@Override
+	public void onCountdownChange(Integer seconds, Integer max, GameCountdown countdown) {
+		updateEnderBar(seconds, max);
+	}
+
+	@Override
+	public void onCountdownComplete(GameCountdown countdown) {
+		for (GearzPlayer player : allPlayers()) {
+			EnderBar.remove(player);
+		}
+		GearzPlayer max = getMostPoints();
+		broadcast(getPluginFormat("formats.winner", true, new String[]{"<player>", max.getUsername()}));
+		addGPoints(max, 250);
+		addWin(max);
+		max.getTPlayer().playSound(Sound.ENDERDRAGON_GROWL);
+		getArena().getWorld().strikeLightningEffect(max.getPlayer().getLocation());
+		finishGame();
+	}
+
 	private void assignJobs() {
 		//Choose random player to be zombie
 		this.zombies.add((GearzPlayer) getPlayers().toArray()[new Random().nextInt(getPlayers().size())]);
+	}
+
+	private String formatInt(Integer integer) {
+		if (integer < 60) return String.format("%02d", integer);
+		else return String.format("%02d:%02d", (integer / 60), (integer % 60));
+	}
+
+	private void updateEnderBar(Integer seconds, Integer max) {
+		for (GearzPlayer player : allPlayers()) {
+			if (!player.isValid()) return;
+			EnderBar.setTextFor(player, getPluginFormat("formats.time-remaining", false, new String[]{"<timespec>", formatInt(seconds)}));
+			EnderBar.setHealthPercent(player, (float) seconds / (float) max);
+		}
+	}
+
+	private void addPoints(Player player, int points) {
+		GearzPlayer gPlayer = GearzPlayer.playerFromPlayer(player);
+		addPoints(gPlayer, points);
+	}
+
+	private void addPoints(GearzPlayer gPlayer, int points) {
+		if(gPlayer == null) return;
+		if(!this.points.containsKey(gPlayer)) this.points.put(gPlayer, 0);
+		this.points.put(gPlayer, this.points.get(gPlayer)+points);
+	}
+
+	private void getHumans() {
+		Set<GearzPlayer> players = (Set<GearzPlayer>) getPlayers().clone();
+		for(GearzPlayer p : players) {
+			
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -170,6 +248,21 @@ public class PlagueGame extends GearzGame {
 		Set<GearzPlayer> players = (Set<GearzPlayer>) getPlayers().clone();
 		players.remove(exclude);
 		this.zombies.add((GearzPlayer) getPlayers().toArray()[new Random().nextInt(getPlayers().size())]);
+	}
+
+	public GearzPlayer getMostPoints() {
+		//cache players
+		GearzPlayer[] cPlayers = getPlayers().toArray(new GearzPlayer[getPlayers().size()]);
+
+		//person with most points
+		GearzPlayer most = cPlayers[0];
+
+		//start at 1 to miss out the first 1
+		for (int i = 1, l = cPlayers.length; i < l; i++) {
+			if (this.points.get(cPlayers[i]) > this.points.get(most)) most = cPlayers[i];
+		}
+
+		return most;
 	}
 
 	//////////////// I'm An exception to the rule /////////////////////////////
@@ -181,10 +274,12 @@ public class PlagueGame extends GearzGame {
 		if(item.getType() != Material.INK_SACK || item.getDurability() != (short) 15 || !(e.getRightClicked() instanceof Player)) return;
 		GearzPlayer personClicked = GearzPlayer.playerFromPlayer((Player) e.getRightClicked());
 		if(personClicked == null) return;
+		Player p = e.getPlayer();
 		if(zombies.contains(personClicked)) {
 			zombies.remove(personClicked);
-			e.getPlayer().sendMessage(getFormat("cured-zombie", new String[] {"<player>", personClicked.getTPlayer().getPlayerName()}));
-			e.getPlayer().getInventory().removeItem(new ItemStack(Material.INK_SACK, 1, (short) 15));
+			p.sendMessage(getFormat("cured-zombie", new String[]{"<player>", personClicked.getTPlayer().getPlayerName()}));
+			p.getInventory().removeItem(new ItemStack(Material.INK_SACK, 1, (short) 15));
+			addPoints(p, 2);
 		} else {
 			e.getPlayer().sendMessage(getFormat("formats.waste-bone-meal"));
 		}
