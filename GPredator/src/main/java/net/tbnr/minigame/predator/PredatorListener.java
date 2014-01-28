@@ -36,7 +36,7 @@ public class PredatorListener implements Listener {
 
 		if(!game.getPlayers().contains(player)) return;
 
-		boolean cont = false;
+		/*boolean cont = false;
 		switch (event.getClick()) {
 			case RIGHT:
 			case LEFT:
@@ -50,7 +50,7 @@ public class PredatorListener implements Listener {
 		}
 		if (!cont) {
 			return;
-		}
+		}*/
 		boolean cancel = false;
 		if(game.getPredator().equals(player)) {
 			if(event.getInventory().getContents().length < game.getPredatorItems().size() - 1) {
@@ -61,7 +61,7 @@ public class PredatorListener implements Listener {
 				cancel = true;
 			}
 		}
-		event.setCancelled(cancel);
+		//event.setCancelled(cancel);
 	}
 
 	@EventHandler
@@ -76,8 +76,9 @@ public class PredatorListener implements Listener {
 		Bukkit.getScheduler().runTaskLater(Gearz.getInstance(), new BukkitRunnable() {
 			@Override
 			public void run() {
+				player.getPlayer().sendMessage("FREEAKINN' QUIINT!");
 				player.getPlayer().openInventory(game.getChooser(player));
 			}
-		}, 40L);
+		}, 20L);
 	}
 }

@@ -113,14 +113,23 @@ public class PredatorGame extends GearzGame implements GameCountdownHandler {
 
     @Override
     protected void gameStarting() {
+		broadcast("Freakin' Quint!");
         giveJobs();
-        updateScoreboard();
-        this.currentState = PRState.CHOOSING;
-        openChoosingMenu();
+		broadcast("Freakin' Quint!");
+		updateScoreboard();
+		broadcast("Freakin' Quint!");
+		this.currentState = PRState.CHOOSING;
+		broadcast("Freakin' Quint!");
+		openChoosingMenu();
+		broadcast("Freakin' Quint!");
 		System.out.println("Calls!");
-        this.countdown = new GameCountdown(PRState.CHOOSING.getTime(), this, this);
-        countdown.start();
-    }
+		broadcast("Freakin' Quint!");
+		this.countdown = new GameCountdown(PRState.CHOOSING.getTime(), this, this);
+		broadcast("Freakin' Quint!");
+		countdown.start();
+		broadcast("Freakin' Quint!");
+
+	}
 
     @Override
     protected void gameEnding() {
@@ -144,7 +153,7 @@ public class PredatorGame extends GearzGame implements GameCountdownHandler {
 
     @Override
     protected boolean canMove(GearzPlayer player) {
-        return true;
+        return currentState != PRState.CHOOSING;
     }
 
     @Override
