@@ -99,4 +99,10 @@ public interface CommerceItemAPI {
      * @return
      */
     public List<CommerceItem> getItemsFor(GearzPlayer player);
+
+    public boolean canUseTier(GearzPlayer player, Tier tier);
+
+    public boolean canPurchaseItem(GearzPlayer player, Class<? extends CommerceItem> item);
+
+
 }

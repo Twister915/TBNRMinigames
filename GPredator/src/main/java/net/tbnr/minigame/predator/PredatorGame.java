@@ -13,15 +13,16 @@ import net.tbnr.gearz.game.classes.GearzClass;
 import net.tbnr.gearz.game.classes.GearzClassSelector;
 import net.tbnr.gearz.game.classes.GearzItem;
 import net.tbnr.gearz.player.GearzPlayer;
-import net.tbnr.util.InventoryGUI;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.json.JSONObject;
@@ -59,21 +60,21 @@ public class PredatorGame extends GearzGame implements GameCountdownHandler {
     // prey get 240 / prey length
     // predator gets 2 speed boost
     //
-
-    GameCountdown countdown = null;
+    private GameCountdown countdown;
 
     private static final String PREDATOR_FILE = "predators.json";
     private static final String PREY_FILE = "prey.json";
 
-    //Array Lists
-    private final ArrayList<GearzItem> preyItems = new ArrayList<>();
-    private final ArrayList<GearzItem> predatorItems = new ArrayList<>();
-    private final ArrayList<GearzPlayer> preyGUIOpen = new ArrayList<>();
-    private final ArrayList<GearzPlayer> predatorGUIOpen = new ArrayList<>();
-    private final ArrayList<GearzPlayer> prey = new ArrayList<>();
+	private static final String PREDATOR_MENU_TITLE = "Predator Menu!";
+	private static final String PREY_MENU_TITLE = "Prey Menu!";
 
-    private InventoryGUI preyMenu = null;
-    private InventoryGUI predatorMenu = null;
+    private ArrayList<GearzItem> preyItems;
+    private ArrayList<GearzItem> predatorItems;
+
+    private ArrayList<GearzPlayer> prey;
+
+	private HashMap<GearzPlayer, Inventory> preyInventories;
+	private HashMap<GearzPlayer, Inventory> predatorInventories;
 
     private GearzPlayer predator;
 
@@ -106,7 +107,13 @@ public class PredatorGame extends GearzGame implements GameCountdownHandler {
 
     @Override
     protected void gamePreStart() {
+		this.predatorItems = new ArrayList<>();
+		this.preyItems = new ArrayList<>();
+		this.prey = new ArrayList<>();
+		this.predatorInventories = new HashMap<>();
+		this.preyInventories = new HashMap<>();
         this.registerExternalListeners();
+		this.setupItems();
     }
 
 
@@ -260,7 +267,6 @@ public class PredatorGame extends GearzGame implements GameCountdownHandler {
     }
 
     public void giveJobs() {
-        getChoosingMenu();
         this.prey.clear();
         this.predator = null;
 
@@ -271,6 +277,36 @@ public class PredatorGame extends GearzGame implements GameCountdownHandler {
         prey.addAll(players);
     }
 
+	private void setupItems() {
+		JSONObject prey = GearzClassSelector.getJSONResource(PREY_FILE, getPlugin());
+		JSONObject predator = GearzClassSelector.getJSONResource(PREDATOR_FILE, getPlugin());
+		try {
+			this.preyItems.addAll(GearzClass.classFromJsonObject(prey).getItems());
+			this.predatorItems.addAll(GearzClass.classFromJsonObject(predator).getItems());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private Inventory getChooser(GearzPlayer player) {
+		if(this.predator.equals(player)) {
+			if(!predatorInventories.containsKey(player)) { predatorInventories.put(player, createInventory(player, predatorItems)); }
+			return predatorInventories.get(player);
+		} else {
+			if(!preyInventories.containsKey(player)) { preyInventories.put(player, createInventory(player, preyItems)); }
+			return preyInventories.get(player);
+		}
+	}
+
+	private Inventory createInventory(GearzPlayer player, ArrayList<GearzItem> items) {
+		Inventory inventory = Bukkit.createInventory(player.getPlayer(), 36);
+		for(GearzItem item : items) {
+			inventory.addItem(item.getItemStack());
+		}
+		return inventory;
+	}
+
+	/*
     public void getChoosingMenu() {
         this.preyItems.clear();
         this.preyMenu = null;
@@ -364,55 +400,74 @@ public class PredatorGame extends GearzGame implements GameCountdownHandler {
                 },
                 true
         );
-    }
+    }*/
 
     public void openChoosingMenu() {
         for(GearzPlayer player : getPlayers()) {
             if(prey.contains(player)) {
-                this.preyMenu.open(player.getPlayer());
-            } else {
-                //just did an extra test if statement :)
-                if(predator.equals(player)) {
-                    this.predatorMenu.open(player.getPlayer());
-                }
-            }
-        }
+                player.getPlayer().openInventory(getChooser(player));
+			 }
+		}
     }
 
+    @EventHandler( ignoreCancelled = true )
+    public void onInventoryClickEvent(InventoryClickEvent event) {
+        if(!this.isRunning() 											||
+            this.currentState != PRState.CHOOSING 						||
+            event.getInventory().getName().equals(PREDATOR_MENU_TITLE) 	||
+            event.getInventory().getName().equals(PREY_MENU_TITLE) 		||
+            !(event.getWhoClicked() instanceof Player)) 	return;
 
-    //I AM AN EXCEPTION TO THE RULES >:D
+        GearzPlayer player = GearzPlayer.playerFromPlayer((Player) event.getWhoClicked());
 
-    @EventHandler
-    public void onInventoryClickEvent(InventoryClickEvent e) {
-        if(!this.isRunning() ||
-                this.currentState != PRState.CHOOSING ||
-                e.getInventory().getName().equals(preyMenu.getTitle()) ||
-                e.getInventory().getName().equals(predatorMenu.getTitle()) ||
-                !(e.getWhoClicked() instanceof Player) ||
-                !this.getPlayers().contains(e.getWhoClicked())) return;
-        GearzPlayer p = GearzPlayer.playerFromPlayer((Player) e.getWhoClicked());
+		if(!getPlayers().contains(player)) return;
 
-        ItemStack is = e.getCurrentItem();
-        InventoryGUI.InventoryGUIItem GUIis = new InventoryGUI.InventoryGUIItem(is, is.getItemMeta().getDisplayName());
-        if(this.preyGUIOpen.contains(p)) {
-            p.getPlayer().getInventory().remove(is);
-            ArrayList<InventoryGUI.InventoryGUIItem> items = preyMenu.getItems();
-            if(!items.contains(GUIis)) {
-                items.set(items.indexOf(new InventoryGUI.InventoryGUIItem(new ItemStack(Material.AIR), "")), GUIis);
-                preyMenu.updateContents(items);
-            }
-        } else {
-            if(this.predatorGUIOpen.contains(p)) {
-                p.getPlayer().getInventory().remove(is);
-                ArrayList<InventoryGUI.InventoryGUIItem> items = predatorMenu.getItems();
-                if(!items.contains(GUIis)) {
-                    items.set(items.indexOf(new InventoryGUI.InventoryGUIItem(new ItemStack(Material.AIR), "")), GUIis);
-                    predatorMenu.updateContents(items);
-                }
-            }
-        }
-
+		boolean cont = false;
+		switch (event.getClick()) {
+			case RIGHT:
+			case LEFT:
+			case SHIFT_LEFT:
+			case SHIFT_RIGHT:
+			case MIDDLE:
+			case NUMBER_KEY:
+			case DROP:
+				cont = true;
+				break;
+		}
+		if (!cont) {
+			return;
+		}
+		boolean cancel = false;
+		if(this.predator.equals(player)) {
+			if(event.getInventory().getContents().length < predatorItems.size() - 1) {
+				cancel = true;
+			}
+		} else {
+			if(event.getInventory().getContents().length < preyItems.size() - 3) {
+				cancel = true;
+			}
+		}
+		event.setCancelled(cancel);
     }
+
+	@EventHandler
+	public void onInventoryClose(InventoryCloseEvent event) {
+		if(!this.isRunning() 											||
+			this.currentState != PRState.CHOOSING 						||
+			event.getInventory().getName().equals(PREDATOR_MENU_TITLE) 	||
+			event.getInventory().getName().equals(PREY_MENU_TITLE) 		||
+			!(event.getPlayer() instanceof Player)) 				return;
+		final GearzPlayer player = GearzPlayer.playerFromPlayer((Player) event.getPlayer());
+
+		if(!getPlayers().contains(player)) return;
+
+		Bukkit.getScheduler().runTaskLater(Gearz.getInstance(), new BukkitRunnable() {
+			@Override
+			public void run() {
+				player.getPlayer().openInventory(getChooser(player));
+			}
+		}, 1);
+	}
 
     public GearzPlayer getWinner() {
         return null;

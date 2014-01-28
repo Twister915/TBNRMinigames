@@ -1,7 +1,6 @@
 package net.tbnr.commerce.items;
 
 import com.mongodb.BasicDBList;
-import com.mongodb.BasicDBObject;
 import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.DBObject;
 import lombok.Data;
@@ -18,7 +17,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 
-import javax.management.ReflectionException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
@@ -95,6 +93,16 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI {
     @Override
     public List<CommerceItem> getItemsFor(GearzPlayer player) {
         return this.playerCommerceData.get(player).getItems();
+    }
+
+    @Override
+    public boolean canUseTier(GearzPlayer player, Tier tier) {
+        return false;
+    }
+
+    @Override
+    public boolean canPurchaseItem(GearzPlayer player, Class<? extends CommerceItem> item) {
+        return false;
     }
 
     private CommerceItem constructCommerceItem(String key, GearzPlayer player) {

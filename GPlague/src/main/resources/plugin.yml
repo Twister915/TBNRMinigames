@@ -1,0 +1,6 @@
+name: ZGHeadHunter
+authors: [Twister915]
+version: 1.0
+main: net.tbnr.gearz.pl.GPlague
+description: Plague Game
+depend: [Gearz]

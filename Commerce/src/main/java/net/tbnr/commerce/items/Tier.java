@@ -36,22 +36,22 @@ public enum  Tier {
 
     private Tier[] requires;
 
-    public boolean isRequiresDonorAndReg() {
-        return requiresDonorAndReg;
+    public boolean isMustBePurchased() {
+        return mustBePurchased;
     }
 
     public Tier[] getRequires() {
         return requires;
     }
 
-    private boolean requiresDonorAndReg;
+    private boolean mustBePurchased;
 
-    private Tier(String humanName, Integer points, Integer donorCredits, Integer level, boolean requiresDonorAndReg, Tier[] requires) {
+    private Tier(String humanName, Integer points, Integer donorCredits, Integer level, boolean mustBePurchased, Tier[] requires) {
         this.humanName = humanName;
         this.points = points;
         this.donorCredits = donorCredits;
         this.requiredLevel = level;
-        this.requiresDonorAndReg = requiresDonorAndReg;
+        this.mustBePurchased = mustBePurchased;
         this.requires = requires;
     }
 
@@ -63,8 +63,8 @@ public enum  Tier {
             this(humanName, points, donorCredits, level, false);
     }
 
-    private Tier(String humanName, Integer points, Integer donorCredits, Integer level, boolean requiresDonorAndReg) {
-            this(humanName, points, donorCredits, level, requiresDonorAndReg, null);
+    private Tier(String humanName, Integer points, Integer donorCredits, Integer level, boolean mustBePurchased) {
+            this(humanName, points, donorCredits, level, mustBePurchased, null);
     }
 
 }
