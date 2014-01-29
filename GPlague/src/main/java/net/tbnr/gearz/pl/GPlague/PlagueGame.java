@@ -4,7 +4,6 @@ import lombok.Getter;
 import net.tbnr.gearz.GearzPlugin;
 import net.tbnr.gearz.arena.Arena;
 import net.tbnr.gearz.effects.EnderBar;
-import net.tbnr.gearz.event.player.PlayerGameLeaveEvent;
 import net.tbnr.gearz.game.GameCountdown;
 import net.tbnr.gearz.game.GameCountdownHandler;
 import net.tbnr.gearz.game.GameMeta;
@@ -226,6 +225,8 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 		this.points.remove(player);
 		updateScoreboard();
 	}
+
+	/////////////////// PRIVATE METHODS //////////////////////////
 
 	private void updateScoreboard() {
 		for (GearzPlayer player : getPlayers()) {
