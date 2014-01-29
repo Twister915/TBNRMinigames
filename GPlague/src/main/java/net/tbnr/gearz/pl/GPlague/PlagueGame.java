@@ -10,6 +10,7 @@ import net.tbnr.gearz.game.GameCountdownHandler;
 import net.tbnr.gearz.game.GameMeta;
 import net.tbnr.gearz.game.GearzGame;
 import net.tbnr.gearz.player.GearzPlayer;
+import net.tbnr.util.player.TPlayer;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
@@ -155,7 +156,8 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 		if(getHumans().contains(dead)) {
 			makeZombie(dead);
 		}
-		points.put(killer, 1);
+		points.put(killer, 100);
+		updateScoreboard();
 	}
 
 	@Override
@@ -216,6 +218,24 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 		max.getTPlayer().playSound(Sound.ENDERDRAGON_GROWL);
 		getArena().getWorld().strikeLightningEffect(max.getPlayer().getLocation());
 		finishGame();
+	}
+
+	@Override
+	public void removePlayerFromGame(GearzPlayer player) {
+		if(zombies.size() <= 1) assignJobs(player);
+		this.points.remove(player);
+		updateScoreboard();
+	}
+
+	private void updateScoreboard() {
+		for (GearzPlayer player : getPlayers()) {
+			if (!player.isValid()) continue;
+			TPlayer tPlayer = player.getTPlayer();
+			tPlayer.setScoreboardSideTitle(getPluginFormat("formats.scoreboard-title", false));
+			for (Map.Entry<GearzPlayer, Integer> gearzPlayerIntegerEntry : this.points.entrySet()) {
+				tPlayer.setScoreBoardSide(gearzPlayerIntegerEntry.getKey().getUsername(), gearzPlayerIntegerEntry.getValue());
+			}
+		}
 	}
 
 	private void assignJobs() {
@@ -322,7 +342,7 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 			zombies.remove(personClicked);
 			p.sendMessage(getPluginFormat("cured-zombie", true, new String[]{"<player>", personClicked.getTPlayer().getPlayerName()}));
 			p.getInventory().removeItem(new ItemStack(Material.INK_SACK, 1, (short) 15));
-			addPoints(p, 2);
+			addPoints(p, 200);
 		} else {
 			e.getPlayer().sendMessage(getPluginFormat("formats.waste-bone-meal", true));
 		}
@@ -344,11 +364,6 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 				}
 			}
 		}
-	}
-
-	@EventHandler
-	void onPlayerLeaveGame(PlayerGameLeaveEvent e) {
-		if(zombies.size() <= 1) assignJobs(e.getPlayer());
 	}
 
 	@EventHandler
