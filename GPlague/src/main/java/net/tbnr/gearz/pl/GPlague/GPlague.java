@@ -1,5 +1,6 @@
 package net.tbnr.gearz.pl.GPlague;
 
+import lombok.Getter;
 import net.tbnr.gearz.GearzException;
 import net.tbnr.gearz.GearzPlugin;
 
@@ -11,8 +12,14 @@ import net.tbnr.gearz.GearzPlugin;
  * Latest Change:
  */
 public class GPlague extends GearzPlugin {
+
+	@Getter
+	static GearzPlugin instance;
+
+	@SuppressWarnings("AccessStaticViaInstance")
 	@Override
 	public void enable() {
+		this.instance = this;
 		try {
 			registerGame(PlagueArena.class, PlagueGame.class);
 		} catch (GearzException e) {
