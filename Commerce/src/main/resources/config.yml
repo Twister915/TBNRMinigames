@@ -1,3 +1,4 @@
 formats:
   rose-title: "&b<name>&c's heart."
   point-boost-message: "&7Point Boost! &6<perc>&7 percent boost!"
+  double-vote: "&6Your vote has been counted &a2x"
