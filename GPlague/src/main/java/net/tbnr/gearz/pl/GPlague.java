@@ -1,4 +1,4 @@
-package net.tbnr.gearz.pl.GPlague;
+package net.tbnr.gearz.pl;
 
 import lombok.Getter;
 import net.tbnr.gearz.GearzException;
