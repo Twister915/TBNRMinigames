@@ -1,5 +1,6 @@
 package net.tbnr.commerce.items.definitions;
 
+import net.tbnr.commerce.GearzCommerce;
 import net.tbnr.commerce.items.CommerceItem;
 import net.tbnr.commerce.items.CommerceItemAPI;
 import net.tbnr.commerce.items.CommerceItemMeta;
@@ -15,12 +16,23 @@ import org.bukkit.event.EventHandler;
         humanName = "50x Premium Joins"
 )
 public final class FiftyPremiumJoins extends CommerceItem {
+    private Integer joinsLeft;
     public FiftyPremiumJoins(GearzPlayer player, CommerceItemAPI api) throws GearzException {
         super(player, api);
     }
     @EventHandler
     public void onPlayerJoin(PlayerPriorityDetermineEvent event) {
+        event.setAbsolutePriority(true);
+        event.getPlayer().getTPlayer().sendMessage(GearzCommerce.getInstance().getFormat("formats.priority-join"));
+        joinsLeft--;
+        if (joinsLeft <= 0) {
+            revoke();
+        }
+    }
 
+    @Override
+    public void onRegister() {
+        joinsLeft = getObject("joins_left", Integer.class);
     }
 
     @Override

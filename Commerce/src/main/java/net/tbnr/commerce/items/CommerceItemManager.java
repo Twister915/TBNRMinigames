@@ -32,12 +32,11 @@ import java.util.*;
 public final class CommerceItemManager implements Listener, CommerceItemAPI, TCommandHandler {
     private HashMap<GearzPlayer, PlayerCommerceItems> playerCommerceData;
     static final String dbListKey = "commerce_purchases";
-    private static Class[] items;
+    private static List<Class<? extends CommerceItem>> items;
     public CommerceItemManager() {
         this.playerCommerceData = new HashMap<>();
-        items = new Class[]
-        {
-                BookOfEffects.class,
+        items = new ArrayList<>();
+        items.addAll(Arrays.asList(BookOfEffects.class,
                 ChickenShout.class,
                 ColoredArmor.class,
                 DeathIsACelebration.class,
@@ -57,8 +56,7 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
                 RoseOfDeath.class,
                 Shepherd.class,
                 SnowballRefill.class,
-                SpontaneousCombustion.class
-        };
+                SpontaneousCombustion.class));
         reloadPlayers();
     }
     @Override
@@ -149,26 +147,43 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
     }
 
     @Override
-    public boolean canPurchaseItem(GearzPlayer player, Class<? extends CommerceItem> item) {
+    public void testItemPurchase(GearzPlayer player, Class<? extends CommerceItem> item) throws PurchaseException{
+        if (playerHasItem(player, item)) throw new PurchaseException("You already have this item!");
         CommerceItemMeta metaFor = getMetaFor(item);
         boolean hasPoints = player.getPoints() >= metaFor.tier().getPoints();
         boolean hasTier = canUseTier(player, metaFor.tier());
         boolean hasCactus = player.getDonorPoints() >= metaFor.tier().getDonorCredits();
         boolean usesDonor = metaFor.tier().isMustBePurchased();
-        boolean returnVal;
-        returnVal =(hasPoints || hasCactus) && hasTier;
-        if (usesDonor) returnVal = (hasCactus) && hasTier;
-        return returnVal;
+        if (!hasTier) throw new PurchaseException("You don't have this tier!");
+        if (usesDonor && !hasCactus) throw new PurchaseException("You don't have enough donor points!");
+        if (!hasCactus && !hasPoints) throw new PurchaseException("You don't have enough currency.");
     }
 
     @Override
-    public boolean purchaseItem(GearzPlayer player, Class<? extends CommerceItem> item) {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    public void purchaseItem(GearzPlayer player, Class<? extends CommerceItem> item, PurchaseMethod method) throws PurchaseException {
+        testItemPurchase(player, item);
+        Tier tier = getMetaFor(item).tier();
+        if (method == PurchaseMethod.Points) {
+            if (tier.isMustBePurchased()) throw new PurchaseException("You cannot purchase this item using points!");
+            if (player.getPoints() < tier.getPoints()) throw new PurchaseException("You don't have enough points for this purchase!");
+            player.addPoints(-1 * tier.getPoints());
+        }
+        else {
+            if (player.getDonorPoints() < tier.getDonorCredits()) throw new PurchaseException("You don't have enough donor points for this purchase!");
+            player.addDonorPoint(-1 * tier.getDonorCredits());
+        }
+        givePlayerItem(player, item);
     }
 
     @Override
     public boolean canPurchaseTier(GearzPlayer player, Tier tier) {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        if (!tier.isMustBePurchased()) return false;
+        boolean hasRquires = true;
+        for (Tier tier1 : tier.getRequires()) {
+            if (!hasTier(player, tier1)) hasRquires = false;
+        }
+
+        return !(player.getPoints() < tier.getPoints() || player.getLevel() < tier.getRequiredLevel() || !hasRquires);
     }
 
     @Override
@@ -178,25 +193,20 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
 
     @Override
     public boolean hasTier(GearzPlayer player, Tier tier) {
+        if (!tier.isMustBePurchased()) return false;
         return false;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     private CommerceItem constructCommerceItem(String key, GearzPlayer player) {
-        for (Class clazz : getCommerceItems()) {
-            CommerceItemMeta meta = (CommerceItemMeta) clazz.getAnnotation(CommerceItemMeta.class);
-            if (meta == null) continue;
-            if (meta.key().equals(key)) {
-                CommerceItem item;
-                try {
-                    item = (CommerceItem) clazz.getConstructor(GearzPlayer.class, CommerceItemAPI.class).newInstance(player, this);
-                } catch (InstantiationException | NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-                    e.printStackTrace();
-                    break;
-                }
-                return item;
-            }
+        CommerceItem item;
+        Class<? extends CommerceItem> itemForID = getItemForID(key);
+        try {
+            item = itemForID.getConstructor(GearzPlayer.class, CommerceItemAPI.class).newInstance(player, this);
+        } catch (InstantiationException | NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            e.printStackTrace();
+            return null;
         }
-        return null;
+        return item;
     }
     @EventHandler
     public void onPlayerJoin(TPlayerJoinEvent event) {
@@ -240,18 +250,13 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
 
     @Override
     public List<Class<? extends CommerceItem>> getCommerceItems() {
-        List<Class> classes = Arrays.asList(items);
-        List<Class<? extends CommerceItem>> items = new ArrayList<>();
-        for (Class aClass : classes) {
-            if (aClass.isAssignableFrom(CommerceItem.class)) items.add(aClass);
-        }
         return items;
     }
 
     @Override
     public CommerceItemMeta getMetaFor(Class<? extends CommerceItem> clazz) {
         Annotation annotation = clazz.getAnnotation(CommerceItemMeta.class);
-        if (annotation == null) throw new RuntimeException("could not find meta!");
+        if (annotation == null) throw new RuntimeException("Could not find meta!");
         return (CommerceItemMeta) annotation;
     }
 
