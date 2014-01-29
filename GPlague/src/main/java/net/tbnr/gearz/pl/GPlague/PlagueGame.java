@@ -1,24 +1,28 @@
 package net.tbnr.gearz.pl.GPlague;
 
+import lombok.Getter;
 import net.tbnr.gearz.GearzPlugin;
 import net.tbnr.gearz.arena.Arena;
+import net.tbnr.gearz.effects.EnderBar;
+import net.tbnr.gearz.event.player.PlayerGameLeaveEvent;
+import net.tbnr.gearz.game.GameCountdown;
+import net.tbnr.gearz.game.GameCountdownHandler;
 import net.tbnr.gearz.game.GameMeta;
 import net.tbnr.gearz.game.GearzGame;
 import net.tbnr.gearz.player.GearzPlayer;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by George on 27/01/14.
@@ -28,11 +32,11 @@ import java.util.Map;
  * Latest Change:
  */
 @GameMeta(
-		longName = "Head Hunter",
-		shortName = "HH",
+		longName = "Plague",
+		shortName = "Pl",
 		version = "1.0",
 		description = "1 player is infected. 23 are human." +
-				"they move slower but have the power to sprint for limited times at extra speeds." +
+				"They move slower but have the power to sprint for limited times at extra speeds." +
 				"They cannot regen. they can poison others with their fist." +
 				"The poison will increase with each hit. if the infected player kills anyone with poison or their fist," +
 				"they also become infected and the cycle repeats. infected can be cured with bonemeal and the poison can be cleared with milk," +
@@ -45,12 +49,25 @@ import java.util.Map;
 		maxPlayers = 28,
 		mainColor = ChatColor.GREEN,
 		secondaryColor = ChatColor.GOLD)
-public class PlagueGame extends GearzGame {
+public class PlagueGame extends GearzGame implements GameCountdownHandler {
 
-	private PlagueArena hhArena;
+	private static enum PlagueState {
+		IN_GAME(900);
 
-	private ArrayList<GearzPlayer> humans = new ArrayList<GearzPlayer>();
-	private ArrayList<GearzPlayer> zombies = new ArrayList<GearzPlayer>();
+		@Getter
+		int length = 0;
+
+ 		PlagueState(int length) {
+		    this.length = length;
+	    }
+	}
+
+	private PlagueArena plagueArena;
+
+	private final ArrayList<GearzPlayer> zombies = new ArrayList<>();
+	private final Map<GearzPlayer, Integer> points = new HashMap<>();
+
+	public PlagueState state;
 
 	/**
 	 * New game in this arena
@@ -63,7 +80,15 @@ public class PlagueGame extends GearzGame {
 	public PlagueGame(List<GearzPlayer> players, Arena arena, GearzPlugin plugin, GameMeta meta, Integer id) {
 		super(players, arena, plugin, meta, id);
 		if (!(arena instanceof PlagueArena)) throw new RuntimeException("Invalid game class");
-		this.hhArena = (PlagueArena) arena;
+		this.plagueArena = (PlagueArena) arena;
+	}
+
+	@Override
+	protected void gamePreStart() {
+		this.state = PlagueState.IN_GAME;
+		assignJobs();
+		GameCountdown countdown = new GameCountdown(this.state.getLength(), this, this);
+		countdown.start();
 	}
 
 	@Override
@@ -83,7 +108,7 @@ public class PlagueGame extends GearzGame {
 
 	@Override
 	protected boolean canPvP(GearzPlayer attacker, GearzPlayer target) {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -103,7 +128,7 @@ public class PlagueGame extends GearzGame {
 
 	@Override
 	protected boolean canMove(GearzPlayer player) {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -118,7 +143,8 @@ public class PlagueGame extends GearzGame {
 
 	@Override
 	protected void playerKilled(GearzPlayer dead, GearzPlayer killer) {
-
+		getHumans();
+		points.put(dead, 1);
 	}
 
 	@Override
@@ -133,17 +159,18 @@ public class PlagueGame extends GearzGame {
 
 	@Override
 	protected Location playerRespawn(GearzPlayer player) {
-		return null;
+		if(zombies.contains(player)) return getArena().pointToLocation(this.plagueArena.zombieSpawnPoints.next());
+		return getArena().pointToLocation(this.plagueArena.humanSpawnPoints.next());
 	}
 
 	@Override
 	protected boolean canPlayerRespawn(GearzPlayer player) {
-		return false;
+		return true;
 	}
 
 	@Override
 	protected int xpForPlaying() {
-		return 0;
+		return 100;
 	}
 
 	@Override
@@ -156,18 +183,128 @@ public class PlagueGame extends GearzGame {
 		return false;
 	}
 
+	@Override
+	public void onCountdownStart(Integer max, GameCountdown countdown) {
+		updateEnderBar(max, max);
+	}
+
+	@Override
+	public void onCountdownChange(Integer seconds, Integer max, GameCountdown countdown) {
+		updateEnderBar(seconds, max);
+	}
+
+	@Override
+	public void onCountdownComplete(GameCountdown countdown) {
+		for (GearzPlayer player : allPlayers()) {
+			EnderBar.remove(player);
+		}
+		GearzPlayer max = getMostPoints();
+		broadcast(getPluginFormat("formats.winner", true, new String[]{"<player>", max.getUsername()}));
+		addGPoints(max, 250);
+		addWin(max);
+		max.getTPlayer().playSound(Sound.ENDERDRAGON_GROWL);
+		getArena().getWorld().strikeLightningEffect(max.getPlayer().getLocation());
+		finishGame();
+	}
+
+	private void assignJobs() {
+		//Choose random player to be zombie
+		this.zombies.add((GearzPlayer) getPlayers().toArray()[new Random().nextInt(getPlayers().size())]);
+	}
+
+	private String formatInt(Integer integer) {
+		if (integer < 60) return String.format("%02d", integer);
+		else return String.format("%02d:%02d", (integer / 60), (integer % 60));
+	}
+
+	private void updateEnderBar(Integer seconds, Integer max) {
+		for (GearzPlayer player : allPlayers()) {
+			if (!player.isValid()) return;
+			EnderBar.setTextFor(player, getPluginFormat("formats.time-remaining", false, new String[]{"<timespec>", formatInt(seconds)}));
+			EnderBar.setHealthPercent(player, (float) seconds / (float) max);
+		}
+	}
+
+	private void addPoints(Player player, int points) {
+		GearzPlayer gPlayer = GearzPlayer.playerFromPlayer(player);
+		addPoints(gPlayer, points);
+	}
+
+	private void addPoints(GearzPlayer gPlayer, int points) {
+		if(gPlayer == null) return;
+		if(!this.points.containsKey(gPlayer)) this.points.put(gPlayer, 0);
+		this.points.put(gPlayer, this.points.get(gPlayer)+points);
+	}
+
+	private void getHumans() {
+		Set<GearzPlayer> players = (Set<GearzPlayer>) getPlayers().clone();
+		for(GearzPlayer p : players) {
+
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private void assignJobs(GearzPlayer exclude) {
+		Set<GearzPlayer> players = (Set<GearzPlayer>) getPlayers().clone();
+		players.remove(exclude);
+		this.zombies.add((GearzPlayer) getPlayers().toArray()[new Random().nextInt(getPlayers().size())]);
+	}
+
+	public GearzPlayer getMostPoints() {
+		//cache players
+		GearzPlayer[] cPlayers = getPlayers().toArray(new GearzPlayer[getPlayers().size()]);
+
+		//person with most points
+		GearzPlayer most = cPlayers[0];
+
+		//start at 1 to miss out the first 1
+		for (int i = 1, l = cPlayers.length; i < l; i++) {
+			if (this.points.get(cPlayers[i]) > this.points.get(most)) most = cPlayers[i];
+		}
+
+		return most;
+	}
+
 	//////////////// I'm An exception to the rule /////////////////////////////
 
+	@SuppressWarnings("SuspiciousMethodCalls")
 	@EventHandler
 	void onBonemealZombieEvent(PlayerInteractEntityEvent e) {
 		ItemStack item = e.getPlayer().getItemInHand();
 		if(item.getType() != Material.INK_SACK || item.getDurability() != (short) 15 || !(e.getRightClicked() instanceof Player)) return;
-		Player personClicked = (Player) e.getRightClicked();
+		GearzPlayer personClicked = GearzPlayer.playerFromPlayer((Player) e.getRightClicked());
+		if(personClicked == null) return;
+		Player p = e.getPlayer();
 		if(zombies.contains(personClicked)) {
 			zombies.remove(personClicked);
-			e.getPlayer().sendMessage(getFormat("cured-zombie", new String[] {"<player>", personClicked.getDisplayName()}));
+			p.sendMessage(getFormat("cured-zombie", new String[]{"<player>", personClicked.getTPlayer().getPlayerName()}));
+			p.getInventory().removeItem(new ItemStack(Material.INK_SACK, 1, (short) 15));
+			addPoints(p, 2);
 		} else {
 			e.getPlayer().sendMessage(getFormat("formats.waste-bone-meal"));
 		}
+	}
+
+	@EventHandler
+	void onUpdateItemEvent(InventoryOpenEvent e) {
+		if(e.getInventory() == null) return;
+		if(!e.getInventory().contains(new ItemStack(Material.INK_SACK, 1, (short) 15)) ||
+				!e.getInventory().contains(new ItemStack(Material.MILK_BUCKET))) {
+			while(e.getInventory().iterator().hasNext()) {
+				ItemStack item = e.getInventory().iterator().next();
+				if(item == null || item.getType() == Material.AIR) continue;
+				if(item.equals(new ItemStack(Material.INK_SACK, 1, (short) 15))) {
+					item.getItemMeta().setDisplayName("test");
+				}
+				if(item.equals(new ItemStack(Material.MILK_BUCKET))) {
+					item.getItemMeta().setDisplayName("test");
+				}
+			}
+		}
+	}
+
+	@EventHandler
+	void onPlayerLeaveGame(PlayerGameLeaveEvent e) {
+		if(zombies.size() <= 1) assignJobs(e.getPlayer());
 	}
 }
