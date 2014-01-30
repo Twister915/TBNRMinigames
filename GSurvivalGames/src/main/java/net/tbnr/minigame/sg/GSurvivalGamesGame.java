@@ -384,7 +384,7 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
                                     block.setType(Material.AIR);
                                 }
                             }
-                        }, Long.(getPlugin().getConfig().getLong("freezelength")));
+                        }, getPlugin().getConfig().getLong("freezelength"));
                     }
                 }
             }
