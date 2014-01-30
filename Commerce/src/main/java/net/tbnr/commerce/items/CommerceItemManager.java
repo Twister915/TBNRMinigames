@@ -215,7 +215,7 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
     @Override
     public void givePlayerItem(GearzPlayer player, Class<? extends CommerceItem> clazz) {
         BasicDBList purchaseList = getPurchaseList(player);
-        purchaseList.add(BasicDBObjectBuilder.start().add("key", getMetaFor(clazz).key()).add("datet_time_purchase", new Date()).get());
+        purchaseList.add(BasicDBObjectBuilder.start().add("key", getMetaFor(clazz).key()).add("date_time", new Date()).get());
         DBObject playerDocument = player.getTPlayer().getPlayerDocument();
         playerDocument.put(dbListKey, purchaseList);
         player.getTPlayer().save();

@@ -65,6 +65,7 @@ public abstract class CommerceItem implements Listener {
      * @return The object you stored.
      */
     public <T> T setObject(String key, T object) {
+        if (key.equals("key")) throw new RuntimeException("You cannot use the key 'key'!");
         BasicDBList purchaseList = this.api.getPurchaseList(this.player);
         int index = 0;
         for (Object o : purchaseList) {
