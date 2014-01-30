@@ -372,27 +372,22 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
         for (int x = pX - 1; x <= pX + 1; x++) {
             for (int y = pY - 1; y <= pY + 2; y++) {
                 for (int z = pZ - 1; z <= pZ + 1; z++) {
-                    boolean insidePlayer = (x == pX && (y == pY || y == pY + 1) && z == pZ);
                     final Block block = targPlayer.getWorld().getBlockAt(x,y,z);
-                    if (!insidePlayer)
-                        if(block.getType().equals(Material.AIR)){
-                            block.setType(Material.ICE);
-                        } else{
-                            continue;
-                        }
-                        Bukkit.getScheduler().scheduleSyncDelayedTask(getPlugin(), new Runnable(){
-                            public void run(){
-                                if(block.getType().equals(Material.ICE)){
-                                    block.setType(Material.AIR);
-                                }
-                            }
-                        }, getPlugin().getConfig().getLong("freezelength"));
+                    if(block.getType().equals(Material.AIR)){
+                        block.setType(Material.ICE);
+                    } else{
+                        continue;
                     }
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(getPlugin(), new Runnable(){
+                        public void run(){
+                            if(block.getType().equals(Material.ICE)){
+                                block.setType(Material.AIR);
+                            }
+                        }
+                    }, getPlugin().getConfig().getLong("freezelength"));
                 }
             }
         }
-        targPlayer.sendMessage(getPluginFormat("formats.snowball-hit-by", true, new String[]{"<player>", attacker.getUsername()}));
-        attackerP.sendMessage(getPluginFormat("formats.snowball-hit", true, new String[]{"<player>", targPlayer.getName()}));
     }
 
     private void updateArmour() {
