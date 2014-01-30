@@ -26,8 +26,8 @@ import java.util.List;
 import java.util.Map;
 
 @GameMeta(
-        description = "Everyone will get a random class, and this class will switch to a new random class after thirty" +
-                "kills in the game. The game will switch classes for everyone ten times, and then the game will end." +
+        description = "Everyone will get a random class, and this class will switch to a new random class after fifteen" +
+                "kills in the game. The game will switch classes for everyone five times, and then the game will end." +
                 "The person with the most kills at the end of this will win the game!",
         longName = "Switch Up",
         version = "1.0",
@@ -237,7 +237,7 @@ public final class GSwitchUpGame extends GearzGame implements GameCountdownHandl
             player.getPlayer().playNote(player.getPlayer().getLocation(), Instrument.PIANO, Note.natural(1, Note.Tone.C));
             player.getTPlayer().resetPlayer();
             GearzClass clazz = this.currentClasses.get(player);
-            while (clazz == null || clazz == this.currentClasses.get(player)) {
+            while (clazz == null || clazz.equals(this.currentClasses.get(player))) {
                 clazz = this.classesToCycle.get(Gearz.getRandom().nextInt(this.classesToCycle.size()));
             }
             GearzClassSelector.giveClassToPlayer(player, clazz); //Strange way to do this. Sorry

@@ -27,13 +27,13 @@ public final class SnowballRefill extends CommerceItem {
             TPlayer tPlayer = getPlayer().getTPlayer();
             tPlayer.giveItem(Material.SNOW_BALL, 256);
             tPlayer.sendMessage(GearzCommerce.getInstance().getFormat("formats.snowballs-delivered"));
-            setObjectInDB("has-given", true);
+            setObject("has-given", true);
             revoke();
         }
     }
 
     @Override
     public void onPurchase() {
-        setObjectInDB("has-given", false);
+        setObject("has-given", false);
     }
 }

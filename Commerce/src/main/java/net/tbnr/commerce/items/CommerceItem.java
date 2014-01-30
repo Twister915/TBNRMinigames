@@ -10,6 +10,7 @@ import net.tbnr.gearz.player.GearzPlayer;
 import org.bukkit.event.Listener;
 
 import java.lang.annotation.Annotation;
+import java.util.Date;
 
 @Data
 @ToString
@@ -63,7 +64,7 @@ public abstract class CommerceItem implements Listener {
      * @param <T> The type of the object you're storing
      * @return The object you stored.
      */
-    public <T> T setObjectInDB(String key, T object) {
+    public <T> T setObject(String key, T object) {
         BasicDBList purchaseList = this.api.getPurchaseList(this.player);
         int index = 0;
         for (Object o : purchaseList) {

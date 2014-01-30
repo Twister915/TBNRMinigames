@@ -40,10 +40,10 @@ public final class FiftyVoteBoost extends CommerceItem {
     }
     @Override
     public void onPurchase() {
-        votesLeft = setObjectInDB(storeKey, 50);
+        votesLeft = setObject(storeKey, 50);
     }
     @Override
     public void onDeregister() {
-        setObjectInDB(storeKey, votesLeft);
+        setObject(storeKey, votesLeft);
     }
 }

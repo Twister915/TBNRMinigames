@@ -37,6 +37,6 @@ public final class FiftyPremiumJoins extends CommerceItem {
 
     @Override
     public void onPurchase() {
-        setObjectInDB("joins_left", 50);
+        setObject("joins_left", 50);
     }
 }
