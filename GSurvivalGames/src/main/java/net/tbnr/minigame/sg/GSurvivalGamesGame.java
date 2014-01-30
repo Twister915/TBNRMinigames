@@ -375,6 +375,8 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
                         final Block block = targPlayer.getWorld().getBlockAt(x,y,z);
                         if(block.getType().equals(Material.AIR)){
                             block.setType(Material.ICE);
+                        } else{
+                            continue;
                         }
                         Bukkit.getScheduler().scheduleSyncDelayedTask(getPlugin(), new Runnable(){
                             public void run(){
@@ -382,13 +384,13 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
                                     block.setType(Material.AIR);
                                 }
                             }
-                        }, getPlugin().getConfig().getLong("freezelength"));
-                        targPlayer.sendMessage(getPluginFormat("formats.snowball-hit-by", true, new String[]{"<player>", attacker.getUsername()}));
-                        attackerP.sendMessage(getPluginFormat("formats.snowball-hit", true, new String[]{"<player>", targPlayer.getName()}));
+                        }, Long.(getPlugin().getConfig().getLong("freezelength")));
                     }
                 }
             }
         }
+        targPlayer.sendMessage(getPluginFormat("formats.snowball-hit-by", true, new String[]{"<player>", attacker.getUsername()}));
+        attackerP.sendMessage(getPluginFormat("formats.snowball-hit", true, new String[]{"<player>", targPlayer.getName()}));
     }
 
     private void updateArmour() {
