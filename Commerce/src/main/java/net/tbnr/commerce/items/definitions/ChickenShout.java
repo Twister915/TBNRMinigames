@@ -16,20 +16,13 @@ import org.bukkit.event.EventHandler;
         tier = Tier.Golden_Veteran,
         key = "chicken_shout"
 )
-public final class ChickenShout extends CommerceItem {
+public final class ChickenShout extends AbstractSoundItem {
     public ChickenShout(GearzPlayer player, CommerceItemAPI api) throws GearzException {
         super(player, api);
     }
 
-    /*
-    This will make it so when a player is hit by another player they make a chicken sound.
-
-    :D
-     */
-    @EventHandler
-    public void onDamage(PlayerGameDamageByPlayerEvent event) {
-        if (!event.getPlayer().equals(getPlayer())) return;
-        event.getDamager().getTPlayer().playSound(Sound.CHICKEN_HURT);
-        event.getPlayer().getTPlayer().playSound(Sound.CHICKEN_HURT);
+    @Override
+    protected Sound getSound() {
+        return Sound.CHICKEN_HURT;
     }
 }

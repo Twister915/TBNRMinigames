@@ -11,7 +11,7 @@ import net.tbnr.gearz.player.GearzPlayer;
         key = "3_20_point_boost",
         tier = Tier.Standard
 )
-public final class PointBoost3Day20Perc extends PointBoost{
+public final class PointBoost3Day20Perc extends AbstractPointBoost {
     public PointBoost3Day20Perc(GearzPlayer player, CommerceItemAPI api) throws GearzException {
         super(player, api);
     }

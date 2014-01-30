@@ -12,17 +12,10 @@ import org.bukkit.event.EventHandler;
 
 import java.util.Date;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Joey
- * Date: 1/30/14
- * Time: 9:46 AM
- * To change this template use File | Settings | File Templates.
- */
-public abstract class PointBoost extends CommerceItem {
+public abstract class AbstractPointBoost extends CommerceItem {
     private final String message;
     private final double percentage;
-    public PointBoost(GearzPlayer player, CommerceItemAPI api) throws GearzException {
+    public AbstractPointBoost(GearzPlayer player, CommerceItemAPI api) throws GearzException {
         super(player, api);
         this.percentage = ((double)percentageBoost()/100)+1;
         this.message = GearzCommerce.getInstance().getFormat("point-boost-message", false, new String[]{"<perc>", String.valueOf(percentageBoost())});
