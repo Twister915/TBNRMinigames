@@ -187,13 +187,32 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
 
     @Override
     public boolean purchaseTier(GearzPlayer player, Tier tier) {
+        TPlayer tPlayer = player.getTPlayer();
+        DBObject playerDocument = tPlayer.getPlayerDocument();
+        BasicDBList tiers_purchased;
+        try {
+            tiers_purchased = (BasicDBList) playerDocument.get("tiers_purchased");
+        } catch (ClassCastException ex) {
+            tiers_purchased = new BasicDBList();
+        }
+        tiers_purchased.add(tier.toString());
+        playerDocument.put("tiers_purchased", tiers_purchased);
+        tPlayer.save();
         return false;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
     public boolean hasTier(GearzPlayer player, Tier tier) {
-        if (!tier.isMustBePurchased()) return false;
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        if (!tier.isMustBePurchased()) return true;
+        TPlayer tPlayer = player.getTPlayer();
+        DBObject playerDocument = tPlayer.getPlayerDocument();
+        BasicDBList tiers_purchased;
+        try {
+            tiers_purchased = (BasicDBList) playerDocument.get("tiers_purchased");
+        } catch (ClassCastException ex) {
+            tiers_purchased = new BasicDBList();
+        }
+        return tiers_purchased.contains(tier.toString());
     }
 
     private CommerceItem constructCommerceItem(String key, GearzPlayer player) {
