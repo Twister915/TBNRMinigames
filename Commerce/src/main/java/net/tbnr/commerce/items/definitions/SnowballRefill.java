@@ -1,11 +1,15 @@
 package net.tbnr.commerce.items.definitions;
 
+import net.tbnr.commerce.GearzCommerce;
 import net.tbnr.commerce.items.CommerceItem;
 import net.tbnr.commerce.items.CommerceItemAPI;
 import net.tbnr.commerce.items.CommerceItemMeta;
 import net.tbnr.commerce.items.Tier;
+import net.tbnr.gearz.Gearz;
 import net.tbnr.gearz.GearzException;
 import net.tbnr.gearz.player.GearzPlayer;
+import net.tbnr.util.player.TPlayer;
+import org.bukkit.Material;
 
 @CommerceItemMeta(
         tier = Tier.Standard,
@@ -15,5 +19,21 @@ import net.tbnr.gearz.player.GearzPlayer;
 public final class SnowballRefill extends CommerceItem {
     public SnowballRefill(GearzPlayer player, CommerceItemAPI api) throws GearzException {
         super(player, api);
+    }
+
+    @Override
+    public void onRegister() {
+        if (!getObject("has-given", Boolean.class) && Gearz.getInstance().isLobbyServer()) {
+            TPlayer tPlayer = getPlayer().getTPlayer();
+            tPlayer.giveItem(Material.SNOW_BALL, 256);
+            tPlayer.sendMessage(GearzCommerce.getInstance().getFormat("formats.snowballs-delivered"));
+            setObjectInDB("has-given", true);
+            revoke();
+        }
+    }
+
+    @Override
+    public void onPurchase() {
+        setObjectInDB("has-given", false);
     }
 }

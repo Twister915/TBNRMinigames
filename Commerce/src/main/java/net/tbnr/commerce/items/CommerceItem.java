@@ -38,6 +38,7 @@ public abstract class CommerceItem implements Listener {
     @SuppressWarnings("UnusedDeclaration")
     public final void register() {
         GearzCommerce.getInstance().registerEvents(this);
+        onRegister();
     }
 
     public void onPurchase() {}

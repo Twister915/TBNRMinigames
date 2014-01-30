@@ -78,11 +78,10 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
             } catch (ClassCastException ex) {
                 continue;
             }
-            CommerceItem magic = constructCommerceItem(key, player);
-            if (contains(recentlyPurchased, magic.getClass())) magic.onPurchase();
-            magic.register();
-            magic.onRegister();
-            items.add(magic);
+            CommerceItem commerceItem = constructCommerceItem(key, player);
+            if (contains(recentlyPurchased, commerceItem.getClass())) commerceItem.onPurchase();
+            commerceItem.register();
+            items.add(commerceItem);
         }
         this.playerCommerceData.put(player, new PlayerCommerceItems(player, items));
     }
