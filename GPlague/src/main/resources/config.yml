@@ -4,3 +4,4 @@ formats:
   time-remaining: "<p>Time remaining in the game: <s><timespec>"
   waste-bone-meal: "<p>Don't waste your bonemeal on none <s>infected <p>people"
   cured-zombie: "<p>You have cured <player>, well done!"
+  turned-zombie: "<p>You are now a zombie, go kill the <s>humans!"

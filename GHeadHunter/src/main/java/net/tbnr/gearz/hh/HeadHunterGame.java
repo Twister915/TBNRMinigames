@@ -221,7 +221,7 @@ public final class HeadHunterGame extends GearzGame implements GameCountdownHand
 
     private void updateScoreboard() {
         for (GearzPlayer player : getPlayers()) {
-            if (!player.isValid()) return;
+            if (!player.isValid()) continue;
             TPlayer tPlayer = player.getTPlayer();
             tPlayer.setScoreboardSideTitle(getPluginFormat("formats.scoreboard-title", false));
             for (Map.Entry<GearzPlayer, Integer> gearzPlayerIntegerEntry : this.pointsAwarded.entrySet()) {

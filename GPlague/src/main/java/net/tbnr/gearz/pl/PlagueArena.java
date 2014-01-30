@@ -1,4 +1,4 @@
-package net.tbnr.gearz.pl.GPlague;
+package net.tbnr.gearz.pl;
 
 import net.tbnr.gearz.arena.Arena;
 import net.tbnr.gearz.arena.ArenaField;
