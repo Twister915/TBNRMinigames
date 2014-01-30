@@ -35,7 +35,7 @@ import java.util.List;
         description = "An elimination death match with loot chests in the map",
         pvpMode = GameMeta.PvPMode.FreeForAll,
         shortName = "SG",
-        version = "1.1"
+        version = "1.2"
 )
 public final class GSurvivalGamesGame extends GearzGame implements GameCountdownHandler {
     private GSurvivalGamesArena sgArena;
