@@ -22,6 +22,7 @@ public final class FiftyPremiumJoins extends CommerceItem {
     }
     @EventHandler
     public void onPlayerJoin(PlayerPriorityDetermineEvent event) {
+        if (!event.getPlayer().equals(getPlayer())) return;
         event.setAbsolutePriority(true);
         event.getPlayer().getTPlayer().sendMessage(GearzCommerce.getInstance().getFormat("formats.priority-join"));
         joinsLeft--;
