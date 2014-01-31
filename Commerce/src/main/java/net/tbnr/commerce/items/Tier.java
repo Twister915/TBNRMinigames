@@ -26,17 +26,17 @@ public enum  Tier {
         return donorCredits;
     }
 
-    private String humanName;
-    private Integer points;
-    private Integer donorCredits;
+    private final String humanName;
+    private final Integer points;
+    private final Integer donorCredits;
 
     public Integer getRequiredLevel() {
         return requiredLevel;
     }
 
-    private Integer requiredLevel;
+    private final Integer requiredLevel;
 
-    private Tier[] requires;
+    private final Tier[] requires;
 
     public boolean isMustBePurchased() {
         return mustBePurchased;
@@ -46,7 +46,7 @@ public enum  Tier {
         return requires;
     }
 
-    private boolean mustBePurchased;
+    private final boolean mustBePurchased;
 
     private Tier(String humanName, Integer points, Integer donorCredits, Integer level, boolean mustBePurchased, Tier[] requires) {
         this.humanName = ChatColor.translateAlternateColorCodes('&',humanName);
