@@ -36,7 +36,7 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
     public CommerceItemManager() {
         this.playerCommerceData = new HashMap<>();
         items = new ArrayList<>();
-        items.addAll(Arrays.asList(BookOfEffects.class,
+        items.addAll(Arrays.asList(//BookOfEffects.class,
                 ChickenShout.class,
                 ColoredArmor.class,
                 DeathIsACelebration.class,

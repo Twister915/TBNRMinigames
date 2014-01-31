@@ -2,13 +2,12 @@ package net.tbnr.commerce.items.definitions;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NonNull;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 @Data
 @AllArgsConstructor
-public class ArmorSet {
+public final class ArmorSet {
     private final Material hat;
     private final Material chestplate;
     private final Material leggings;

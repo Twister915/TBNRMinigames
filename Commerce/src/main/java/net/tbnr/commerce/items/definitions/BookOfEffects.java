@@ -16,6 +16,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
         tier = Tier.Golden_Veteran,
         humanName = "Book Of Effects!"
 )
+@Deprecated
 public final class BookOfEffects extends CommerceItem {
     public BookOfEffects(GearzPlayer player, CommerceItemAPI api) throws GearzException {
         super(player, api);

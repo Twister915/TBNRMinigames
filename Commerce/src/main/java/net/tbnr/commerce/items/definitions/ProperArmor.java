@@ -16,6 +16,10 @@ import org.bukkit.inventory.ItemStack;
 )
 public final class ProperArmor extends AbstractArmorItem {
 
+    public ProperArmor(GearzPlayer player, CommerceItemAPI api) throws GearzException {
+        super(player, api);
+    }
+
     @SuppressWarnings("UnusedDeclaration")
     private static enum ArmorSets {
         LEATHER(new ArmorSet(Material.LEATHER_HELMET, Material.LEATHER_CHESTPLATE, Material.LEATHER_LEGGINGS, Material.LEATHER_BOOTS)),
@@ -32,10 +36,6 @@ public final class ProperArmor extends AbstractArmorItem {
         public ItemStack[] getArmorSet() {
             return set.getArmorSet();
         }
-    }
-
-    public ProperArmor(GearzPlayer player, CommerceItemAPI api) throws GearzException {
-        super(player, api);
     }
 
     @Override
