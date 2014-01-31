@@ -173,8 +173,8 @@ public final class ASGame extends GearzGame {
 
     }
 
-    @Override
-    protected boolean canDropItem(GearzPlayer player, ItemStack itemToDrop) {
-        return false;
-    }
+	@Override
+	protected boolean canDropItem(GearzPlayer player, ItemStack itemToDrop) {
+		return false;
+	}
 }

@@ -83,15 +83,15 @@ public interface CommerceItemAPI {
 
     /**
      *
-     * @param player
-     * @return
+     * @param player Get's The purchase list
+     * @return BasicDBList ~ Purchase List
      */
     public BasicDBList getPurchaseList(GearzPlayer player);
 
     /**
-     *
-     * @param player
-     * @param item
+     * Revoke an item to a player
+     * @param player ~ The player to revoke the item to
+     * @param item ~ the item to revoke
      */
     public void revokeItem(GearzPlayer player, CommerceItem item);
 
@@ -146,26 +146,26 @@ public interface CommerceItemAPI {
     public boolean purchaseItem(GearzPlayer player, Class<? extends CommerceItem> item);
 
     /**
-     *
-     * @param player
-     * @param tier
-     * @return
+     * Check's whether a player can purchase a tier
+     * @param player ~ The Player to Check
+     * @param tier ~ Tier to purchase
+     * @return boolean ~ if player can purchase tier
      */
     public boolean canPurchaseTier(GearzPlayer player, Tier tier);
 
     /**
-     *
-     * @param player
-     * @param tier
-     * @return
+     * Purchases a tier for the player
+     * @param player ~ The Player to purchase the tier
+     * @param tier ~ The tier to buy
+     * @return boolean ~ if it succeeded
      */
     public boolean purchaseTier(GearzPlayer player, Tier tier);
 
     /**
-     *
-     * @param player
-     * @param tier
-     * @return
+     * Check If Player has a tier
+     * @param player ~ The Player to Check
+     * @param tier ~ the tier to check
+     * @return boolean ~ if player has tier
      */
     public boolean hasTier(GearzPlayer player, Tier tier);
 }
