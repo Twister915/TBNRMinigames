@@ -36,7 +36,7 @@ import java.util.Map;
         author = "xIGBClutchIx")
 public final class ASGame extends GearzGame {
 
-    private HashMap<GearzPlayer, Integer> points;
+    private HashMap<GearzPlayer, Integer> positions;
     private ASArena cmarena;
 
     public final ArrayList<Material> weapons = Lists.newArrayList(Material.IRON_SWORD, Material.STONE_SWORD, Material.GOLD_SWORD, Material.GOLD_AXE, Material.GOLD_PICKAXE, Material.GOLD_SPADE);
@@ -51,11 +51,11 @@ public final class ASGame extends GearzGame {
 
     @Override
     protected void gameStarting() {
-        this.points = new HashMap<>();
+        this.positions = new HashMap<>();
         for (GearzPlayer player : this.getPlayers()) {
             player.getTPlayer().resetPlayer();
             //player.getTPlayer().setScoreboardSideTitle(getPluginFormat("formats.sidebar-title", false));
-            this.points.put(player, 0);
+            this.positions.put(player, 0);
         }
     }
 
@@ -72,12 +72,12 @@ public final class ASGame extends GearzGame {
 
     @Override
     protected void playerKilled(GearzPlayer dead, GearzPlayer killer) {
-        if (points.get(dead) != 0) {
-            points.put(dead, (points.get(dead) - 1));
+        if (positions.get(dead) != 0) {
+            positions.put(dead, (positions.get(dead) - 1));
         }
-        if (points.get(killer) != (weapons.size() - 1)) {
-            points.put(killer, (points.get(killer) + 1));
-            addGPoints(killer, 2 * (Math.max(1, this.points.get(killer))));
+        if (positions.get(killer) != (weapons.size() - 1)) {
+            positions.put(killer, (positions.get(killer) + 1));
+            addGPoints(killer, 2 * (Math.max(1, this.positions.get(killer))));
             updateWeapon(killer);
         } else {
             addGPoints(killer, 200);
@@ -89,10 +89,10 @@ public final class ASGame extends GearzGame {
 
     private void updateWeapon(GearzPlayer player) {
         player.getPlayer().getInventory().clear();
-        ItemStack weapon = new ItemStack(weapons.get(points.get(player)), 1);
+        ItemStack weapon = new ItemStack(weapons.get(positions.get(player)), 1);
         player.getTPlayer().sendMessage(getPluginFormat("formats.weapon", true, new String[]{"<weapon>", weapon.getType().name()}));
         player.getPlayer().getInventory().addItem(weapon);
-        if(points.get(player) >= 3) {
+        if(positions.get(player) >= 3) {
             player.getTPlayer().addInfinitePotionEffect(PotionEffectType.SPEED, 0);
         } else {
             player.getTPlayer().removeAllPotionEffects();
@@ -116,9 +116,9 @@ public final class ASGame extends GearzGame {
 
     @Override
     protected void gameEnding() {
-        GearzPlayer winner = this.points.keySet().iterator().next();
-        for (Map.Entry<GearzPlayer, Integer> gearzPlayerIntegerEntry : this.points.entrySet()) {
-            if (this.points.get(winner) < gearzPlayerIntegerEntry.getValue()) {
+        GearzPlayer winner = this.positions.keySet().iterator().next();
+        for (Map.Entry<GearzPlayer, Integer> gearzPlayerIntegerEntry : this.positions.entrySet()) {
+            if (this.positions.get(winner) < gearzPlayerIntegerEntry.getValue()) {
                 winner = gearzPlayerIntegerEntry.getKey();
             }
         }
@@ -173,8 +173,8 @@ public final class ASGame extends GearzGame {
 
     }
 
-    @Override
-    protected boolean canDropItem(GearzPlayer player, ItemStack itemToDrop) {
-        return false;
-    }
+	@Override
+	protected boolean canDropItem(GearzPlayer player, ItemStack itemToDrop) {
+		return false;
+	}
 }

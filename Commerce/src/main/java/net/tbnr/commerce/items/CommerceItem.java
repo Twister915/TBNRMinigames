@@ -10,6 +10,7 @@ import net.tbnr.gearz.player.GearzPlayer;
 import org.bukkit.event.Listener;
 
 import java.lang.annotation.Annotation;
+import java.util.Date;
 
 @Data
 @ToString
@@ -38,6 +39,7 @@ public abstract class CommerceItem implements Listener {
     @SuppressWarnings("UnusedDeclaration")
     public final void register() {
         GearzCommerce.getInstance().registerEvents(this);
+        onRegister();
     }
 
     public void onPurchase() {}
@@ -62,7 +64,8 @@ public abstract class CommerceItem implements Listener {
      * @param <T> The type of the object you're storing
      * @return The object you stored.
      */
-    public <T> T setObjectInDB(String key, T object) {
+    public <T> T setObject(String key, T object) {
+        if (key.equals("key")) throw new RuntimeException("You cannot use the key 'key'!");
         BasicDBList purchaseList = this.api.getPurchaseList(this.player);
         int index = 0;
         for (Object o : purchaseList) {
@@ -88,7 +91,7 @@ public abstract class CommerceItem implements Listener {
             DBObject item = (DBObject)o;
             if (!(item.get("key").equals(key))) continue;
             try {
-                T t = (T) item.get(key);
+                item.get(key);
             } catch (ClassCastException ex) {
                 return null;
             }

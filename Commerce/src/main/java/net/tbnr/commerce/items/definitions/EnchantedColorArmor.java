@@ -1,11 +1,24 @@
 package net.tbnr.commerce.items.definitions;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Joey
- * Date: 1/28/14
- * Time: 1:57 PM
- * To change this template use File | Settings | File Templates.
- */
-public class EnchantedColorArmor {
+import net.tbnr.commerce.items.CommerceItemAPI;
+import net.tbnr.commerce.items.CommerceItemMeta;
+import net.tbnr.commerce.items.Tier;
+import net.tbnr.gearz.GearzException;
+import net.tbnr.gearz.player.GearzPlayer;
+import org.bukkit.inventory.ItemStack;
+
+@CommerceItemMeta(
+        tier = Tier.Awesome,
+        key = "enchanted_color_armor",
+        humanName = "Enchanted Colored Armor"
+)
+public final class EnchantedColorArmor extends AbstractArmorItem {
+    public EnchantedColorArmor(GearzPlayer player, CommerceItemAPI api) throws GearzException {
+        super(player, api);
+    }
+
+    @Override
+    protected ItemStack[] armorContents() {
+        return new ItemStack[0];  //To change body of implemented methods use File | Settings | File Templates.
+    }
 }

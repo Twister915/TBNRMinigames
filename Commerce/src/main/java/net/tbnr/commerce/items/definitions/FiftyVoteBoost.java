@@ -26,6 +26,7 @@ public final class FiftyVoteBoost extends CommerceItem {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onVote(PlayerMapVoteEvent event) {
+        if (!event.getPlayer().equals(getPlayer())) return;
         event.setNumberOfVotes(event.getNumberOfVotes()*2);
         event.getPlayer().getTPlayer().sendMessage(GearzCommerce.getInstance().getFormat("formats.double-vote"));
         votesLeft--;
@@ -40,10 +41,10 @@ public final class FiftyVoteBoost extends CommerceItem {
     }
     @Override
     public void onPurchase() {
-        votesLeft = setObjectInDB(storeKey, 50);
+        votesLeft = setObject(storeKey, 50);
     }
     @Override
     public void onDeregister() {
-        setObjectInDB(storeKey, votesLeft);
+        setObject(storeKey, votesLeft);
     }
 }

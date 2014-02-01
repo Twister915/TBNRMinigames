@@ -20,7 +20,7 @@ import org.bukkit.scheduler.BukkitRunnable;
  */
 public class PredatorListener implements Listener {
 
-	private PredatorGame game;
+	private final PredatorGame game;
 
 	public PredatorListener(PredatorGame game) {
 		this.game = game;
