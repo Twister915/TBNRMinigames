@@ -26,6 +26,7 @@ public final class FiftyVoteBoost extends CommerceItem {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onVote(PlayerMapVoteEvent event) {
+        if (!event.getPlayer().equals(getPlayer())) return;
         event.setNumberOfVotes(event.getNumberOfVotes()*2);
         event.getPlayer().getTPlayer().sendMessage(GearzCommerce.getInstance().getFormat("formats.double-vote"));
         votesLeft--;

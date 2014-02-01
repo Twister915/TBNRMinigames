@@ -106,22 +106,26 @@ public interface CommerceItemAPI {
      *
      * This is useful if the purchase you are creating expires in any way,
      *
-     * @param player
-     * @param item
+     * @param player The player to revoke the commerce item from.
+     * @param item The item to revoke from the player.
      */
     public void revokeItem(GearzPlayer player, CommerceItem item);
 
     /**
      *
-     * @param player
-     * @param item
+     * Revoke an item similar to {@link #revokeItem(net.tbnr.gearz.player.GearzPlayer, CommerceItem)}
+     *
+     * @param player The player to revoke the item from.
+     * @param item The class of the {@link CommerceItem} to remove from.
      */
     public void revokeItem(GearzPlayer player, Class<? extends CommerceItem> item);
 
     /**
      *
-     * @param player
-     * @return
+     * Get a list of the instances of the commerce items that a player has.
+     *
+     * @param player The player to get the instances for.
+     * @return Instances of {@link CommerceItem} for this player.
      */
     public List<CommerceItem> getItemsFor(GearzPlayer player);
 
