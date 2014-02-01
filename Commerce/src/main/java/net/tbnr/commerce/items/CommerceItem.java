@@ -90,7 +90,7 @@ public abstract class CommerceItem implements Listener {
             DBObject item = (DBObject)o;
             if (!(item.get("key").equals(key))) continue;
             try {
-                T t = (T) item.get(key);
+                item.get(key);
             } catch (ClassCastException ex) {
                 return null;
             }
