@@ -44,8 +44,7 @@ public class BlastOffSigns implements Listener {
         if (block.getType() != Material.SIGN && block.getType() != Material.WALL_SIGN) return;
         Sign sign = (Sign) block.getState();
         final String[] lines = sign.getLines();
-        if (lines[0] == null || lines[1] == null || ServerManager.getServersWithGame(lines[1]).size() == 0 || !ChatColor.stripColor(lines[0]).equals(ChatColor.stripColor(TBNRHub.getInstance().getFormat("formats.blastoff-topline", true))))
-            return;
+        if (lines[0] == null || lines[1] == null || ServerManager.getServersWithGame(lines[1]).size() == 0 || !lines[0].equals(TBNRHub.getInstance().getFormat("formats.blastoff-topline", true))) return;
         final ServerSelector serverSelector = new ServerSelector(lines[1], new ServerSelector.SelectorCallback() {
             @Override
             public void onItemSelect(ServerSelector selector, InventoryGUI.InventoryGUIItem item, Player player) {
