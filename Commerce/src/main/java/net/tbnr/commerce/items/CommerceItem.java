@@ -1,5 +1,7 @@
 package net.tbnr.commerce.items;
 
+import com.mongodb.BasicDBList;
+import com.mongodb.DBObject;
 import lombok.Data;
 import lombok.ToString;
 import net.tbnr.commerce.GearzCommerce;
@@ -8,6 +10,7 @@ import net.tbnr.gearz.player.GearzPlayer;
 import org.bukkit.event.Listener;
 
 import java.lang.annotation.Annotation;
+import java.util.Date;
 
 @Data
 @ToString
@@ -15,8 +18,10 @@ public abstract class CommerceItem implements Listener {
 
     private final GearzPlayer player;
     private final CommerceItemMeta meta;
+    private final DBObject playerDoc;
+    private final CommerceItemAPI api;
 
-    public CommerceItem(GearzPlayer player) throws GearzException {
+    public CommerceItem(GearzPlayer player, CommerceItemAPI api) throws GearzException {
         Annotation[] declaredAnnotations = getClass().getDeclaredAnnotations();
         CommerceItemMeta meta = null;
         for (Annotation declaredAnnotation : declaredAnnotations) {
@@ -28,15 +33,22 @@ public abstract class CommerceItem implements Listener {
         if (meta == null) throw new GearzException("Could not find an annotation");
         this.meta = meta;
         this.player = player;
+        this.playerDoc = player.getTPlayer().getPlayerDocument();
+        this.api = api;
     }
     @SuppressWarnings("UnusedDeclaration")
     public final void register() {
         GearzCommerce.getInstance().registerEvents(this);
+        onRegister();
     }
 
-    public void purchased() {}
+    public void onPurchase() {}
 
-    public void registered() {}
+    public void onRegister() {}
+
+    public void onDeregister() {}
+
+    public void onRevoke() {}
 
     public final void revoke() {
         GearzCommerce.getInstance().getItemAPI().revokeItem(player, this);
@@ -52,13 +64,38 @@ public abstract class CommerceItem implements Listener {
      * @param <T> The type of the object you're storing
      * @return The object you stored.
      */
-    public <T> T setObjectInDB(String key, T object) {
-        //TODO save some data in the database for this object
-        return object;
+    public <T> T setObject(String key, T object) {
+        if (key.equals("key")) throw new RuntimeException("You cannot use the key 'key'!");
+        BasicDBList purchaseList = this.api.getPurchaseList(this.player);
+        int index = 0;
+        for (Object o : purchaseList) {
+            if (!(o instanceof DBObject)) continue;
+            DBObject item = (DBObject)o;
+            if (!(item.get("key").equals(key))) {
+                index++;
+                continue;
+            }
+            item.put(key, object);
+            purchaseList.set(index, object);
+            playerDoc.put(CommerceItemManager.dbListKey, purchaseList);
+            return object;
+        }
+        throw new RuntimeException("Could not find document for this commerce item!");
     }
 
+    @SuppressWarnings("unchecked")
     public <T> T getObject(String key, Class<T> clazz) {
-        //TODO actually get data.
-        return null;
+        BasicDBList purchaseList = this.api.getPurchaseList(this.player);
+        for (Object o : purchaseList) {
+            if (!(o instanceof DBObject)) continue;
+            DBObject item = (DBObject)o;
+            if (!(item.get("key").equals(key))) continue;
+            try {
+                item.get(key);
+            } catch (ClassCastException ex) {
+                return null;
+            }
+        }
+        throw new RuntimeException("Could not find document for this commerce item!");
     }
 }

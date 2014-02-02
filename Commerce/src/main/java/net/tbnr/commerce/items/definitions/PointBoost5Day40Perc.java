@@ -7,22 +7,22 @@ import net.tbnr.gearz.GearzException;
 import net.tbnr.gearz.player.GearzPlayer;
 
 @CommerceItemMeta(
-        humanName = "20% Point Boost (3 Days)",
-        key = "3_20_point_boost",
-        tier = Tier.Standard
+        tier = Tier.Heroic,
+        humanName = "40% Point Boost (5 Days)",
+        key = "5_40_point_boost"
 )
-public final class PointBoost3Day20Perc extends AbstractPointBoost {
-    public PointBoost3Day20Perc(GearzPlayer player, CommerceItemAPI api) throws GearzException {
+public final class PointBoost5Day40Perc extends AbstractPointBoost {
+    public PointBoost5Day40Perc(GearzPlayer player, CommerceItemAPI api) throws GearzException {
         super(player, api);
     }
 
     @Override
     public int percentageBoost() {
-        return 20;
+        return 40;
     }
 
     @Override
     public int daysLength() {
-        return 3;
+        return 5;
     }
 }

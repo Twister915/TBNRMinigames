@@ -1,3 +1,6 @@
 formats:
   rose-title: "&b<name>&c's heart."
   point-boost-message: "&7Point Boost! &6<perc>&7 percent boost!"
+  double-vote: "&6Your vote has been counted &a2x"
+  priority-join: "&6You have joined using your priority join!"
+  snowballs-delivered: "&3You have been given &a256&3 more snowballs."

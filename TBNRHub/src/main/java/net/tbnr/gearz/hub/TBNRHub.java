@@ -62,6 +62,7 @@ public class TBNRHub extends TPlugin implements TCommandHandler {
             }
         }
         TBNRHub.instance = this;
+        Gearz.getInstance().setLobbyServer(true);
         registerCommands(this);
         cannon = new MultiserverCannons();
         registerEvents(cannon);

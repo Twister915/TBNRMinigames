@@ -1,0 +1,8 @@
+name: TBNRCommerce
+version: 1.0
+authors: [Twister915]
+main: net.tbnr.commerce.GearzCommerce
+commands:
+  cactuspointmanage:
+    description: Manage them cactus points yo.
+description: dem cactus pointz

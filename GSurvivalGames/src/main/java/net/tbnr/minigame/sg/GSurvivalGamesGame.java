@@ -35,7 +35,7 @@ import java.util.List;
         description = "An elimination death match with loot chests in the map",
         pvpMode = GameMeta.PvPMode.FreeForAll,
         shortName = "SG",
-        version = "1.1"
+        version = "1.2"
 )
 public final class GSurvivalGamesGame extends GearzGame implements GameCountdownHandler {
     private GSurvivalGamesArena sgArena;
@@ -367,25 +367,24 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
         final int pY = targLoc.getBlockY();
         final int pZ = targLoc.getBlockZ();
         targPlayer.teleport(new Location(targPlayer.getWorld(), pX+0.5, pY, pZ+0.5));
+        targPlayer.sendMessage(getPluginFormat("formats.snowball-hit-by", true, new String[]{"<player>", attacker.getUsername()}));
+        attackerP.sendMessage(getPluginFormat("formats.snowball-hit", true, new String[]{"<player>", targPlayer.getName()}));
         for (int x = pX - 1; x <= pX + 1; x++) {
             for (int y = pY - 1; y <= pY + 2; y++) {
                 for (int z = pZ - 1; z <= pZ + 1; z++) {
-                    boolean insidePlayer = (x == pX && (y == pY || y == pY + 1) && z == pZ);
-                    if (!insidePlayer){
-                        final Block block = targPlayer.getWorld().getBlockAt(x,y,z);
-                        if(block.getType().equals(Material.AIR)){
-                            block.setType(Material.ICE);
-                        }
-                        Bukkit.getScheduler().scheduleSyncDelayedTask(getPlugin(), new Runnable(){
-                            public void run(){
-                                if(block.getType().equals(Material.ICE)){
-                                    block.setType(Material.AIR);
-                                }
-                            }
-                        }, getPlugin().getConfig().getLong("freezelength"));
-                        targPlayer.sendMessage(getPluginFormat("formats.snowball-hit-by", true, new String[]{"<player>", attacker.getUsername()}));
-                        attackerP.sendMessage(getPluginFormat("formats.snowball-hit", true, new String[]{"<player>", targPlayer.getName()}));
+                    final Block block = targPlayer.getWorld().getBlockAt(x,y,z);
+                    if(block.getType().equals(Material.AIR)){
+                        block.setType(Material.ICE);
+                    } else{
+                        continue;
                     }
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(getPlugin(), new Runnable(){
+                        public void run(){
+                            if(block.getType().equals(Material.ICE)){
+                                block.setType(Material.AIR);
+                            }
+                        }
+                    }, getPlugin().getConfig().getLong("freezelength"));
                 }
             }
         }

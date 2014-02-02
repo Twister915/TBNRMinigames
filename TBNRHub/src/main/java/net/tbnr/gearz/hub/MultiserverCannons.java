@@ -169,8 +169,17 @@ public class MultiserverCannons implements Listener, TCommandHandler {
 
         @Override
         public void run() {
+            try {
+                if (cycle()) reregister(1);
+            } catch (NullPointerException ex) {
+                return;
+            }
+        }
+
+        private boolean cycle() {
             if (this.state == ProcessState.PRE_IGNITE) this.state = ProcessState.IGNITE;
-            if (this.player == null) return;
+            if (this.player == null) return false;
+            if (!this.player.isOnline()) return false;
             switch (this.state) {
                 case IGNITE:
                     this.player.playSound(Sound.EXPLODE);
@@ -184,8 +193,7 @@ public class MultiserverCannons implements Listener, TCommandHandler {
                     this.state = ProcessState.PROPEL;
                     this.pitch = this.player.getPlayer().getLocation().getPitch();
                     this.yaw = this.player.getPlayer().getLocation().getYaw();
-                    reregister(1);
-                    break;
+                    return true;
                 case PROPEL:
                     if (this.propell_ticks > 65) this.state = ProcessState.SEND;
                     this.propell_ticks++;
@@ -201,7 +209,7 @@ public class MultiserverCannons implements Listener, TCommandHandler {
                         e.printStackTrace();
                     }*/
                     this.player.getPlayer().setVelocity(this.player.getPlayer().getLocation().getDirection().multiply(1.9).add(new Vector(0, 0.5, 0)));
-                    break;
+                    return true;
                 case SEND:
                     this.state = ProcessState.SENT;
                     String serverFor = getServerFor(cannon.getServer(), false);
@@ -215,8 +223,9 @@ public class MultiserverCannons implements Listener, TCommandHandler {
                         e.printStackTrace();
                     }
                     TBNRHub.getInstance().getCannon().actives.remove(player);
-                    break;
+                    return false;
             }
+            return false;
         }
 
         private String getServerFor(String game, boolean allowFulls) {

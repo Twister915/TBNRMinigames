@@ -1,7 +1,7 @@
 formats:
   diamond-title: "<p>Right click this to bank your skulls."
-  scoreboard-title: "<s>Scores:"
-  winner: "<p><player><s> has won <p>Head Hunter<s>."
+  winner: "<p><player><s> has won <p>Plague<s>."
   time-remaining: "<p>Time remaining in the game: <s><timespec>"
   waste-bone-meal: "<p>Don't waste your bonemeal on none <s>infected <p>people"
   cured-zombie: "<p>You have cured <player>, well done!"
+  turned-zombie: "<p>You are now a zombie, go kill the <s>humans!"

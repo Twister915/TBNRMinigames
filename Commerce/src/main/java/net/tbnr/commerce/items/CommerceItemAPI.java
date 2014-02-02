@@ -1,5 +1,6 @@
 package net.tbnr.commerce.items;
 
+import com.mongodb.BasicDBList;
 import net.tbnr.gearz.player.GearzPlayer;
 
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
  * It is also heavily documented as it is supposed to serve as an API.
  *
  */
+@SuppressWarnings("unused")
 public interface CommerceItemAPI {
     /**
      *
@@ -72,37 +74,132 @@ public interface CommerceItemAPI {
      *
      * @param player The {@link net.tbnr.gearz.player.GearzPlayer} to reload purchases for.
      */
-    public void reloadPlayer(GearzPlayer player);
+    @SuppressWarnings("unchecked")
+    public void reloadPlayer(GearzPlayer player, Class<? extends CommerceItem>... recentlyPurchased);
 
     /**
+     *
+     * This will reload all of the players currently online.
+     *
+     * Read the description for the {@link #reloadPlayer(net.tbnr.gearz.player.GearzPlayer, Class[])} for more details on what "reloading" is.
      *
      */
     public void reloadPlayers();
 
     /**
      *
-     * @param player
-     * @param item
+     * This will return the raw {@link BasicDBList} for a player. This will contain an array of {@link com.mongodb.BasicDBObject}s that all represent
+     * purchases the player has made. These purchases are stored at base with two key->value entries in the {@link com.mongodb.BasicDBObject}.
+     *
+     * The "key" which will instruct the reader in the reload method to load a certain commerce item for this purchase
+     * The "date_time" which will give a record of when the purchase was made.
+     *
+     * @param player The player to grab this data for
+     *
+     * @return The {@link BasicDBList} for this player.
+     */
+    public BasicDBList getPurchaseList(GearzPlayer player);
+
+    /**
+     *
+     * Revoking an item will remove the item from the player immediately, and remove the item from the database.
+     *
+     * This is useful if the purchase you are creating expires in any way,
+     *
+     * @param player The player to revoke the commerce item from.
+     * @param item The item to revoke from the player.
      */
     public void revokeItem(GearzPlayer player, CommerceItem item);
 
     /**
      *
-     * @param player
-     * @param item
+     * Revoke an item similar to {@link #revokeItem(net.tbnr.gearz.player.GearzPlayer, CommerceItem)}
+     *
+     * @param player The player to revoke the item from.
+     * @param item The class of the {@link CommerceItem} to remove from.
      */
     public void revokeItem(GearzPlayer player, Class<? extends CommerceItem> item);
 
     /**
      *
-     * @param player
-     * @return
+     * Get a list of the instances of the commerce items that a player has.
+     *
+     * @param player The player to get the instances for.
+     * @return Instances of {@link CommerceItem} for this player.
      */
     public List<CommerceItem> getItemsFor(GearzPlayer player);
 
+    /**
+     *
+     * @param player
+     * @param tier
+     * @return
+     */
     public boolean canUseTier(GearzPlayer player, Tier tier);
 
-    public boolean canPurchaseItem(GearzPlayer player, Class<? extends CommerceItem> item);
+    /**
+     *
+     * @param player
+     * @param item
+     * @return
+     */
 
+    /*
+        HIGH LEVEL API
+        SHOULD BE USED FOR ACTUAL IMPLEMENTATION.
+     */
 
+    /**
+     *
+     * @param player
+     * @param item
+     * @return
+     */
+    public void testItemPurchase(GearzPlayer player, Class<? extends CommerceItem> item) throws PurchaseException;
+
+    /**
+     *
+     * @param player
+     * @param item
+     * @return
+     */
+    public void purchaseItem(GearzPlayer player, Class<? extends CommerceItem> item, PurchaseMethod method) throws PurchaseException;
+
+    /**
+     * Check's whether a player can purchase a tier
+     * @param player ~ The Player to Check
+     * @param tier ~ Tier to purchase
+     * @return boolean ~ if player can purchase tier
+     */
+    public boolean canPurchaseTier(GearzPlayer player, Tier tier);
+
+    /**
+     * Purchases a tier for the player
+     * @param player ~ The Player to purchase the tier
+     * @param tier ~ The tier to buy
+     * @return boolean ~ if it succeeded
+     */
+    public boolean purchaseTier(GearzPlayer player, Tier tier);
+
+    /**
+     * Check If Player has a tier
+     * @param player ~ The Player to Check
+     * @param tier ~ the tier to check
+     * @return boolean ~ if player has tier
+     */
+    public boolean hasTier(GearzPlayer player, Tier tier);
+
+    /**
+     * Used for an argument for payment method choice.
+     */
+    public static enum PurchaseMethod {
+        /**
+         * Use standard free points.
+         */
+        Points,
+        /**
+         * Use donor credits.
+         */
+        Donor
+    }
 }

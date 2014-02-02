@@ -55,8 +55,8 @@ public abstract class HubItem implements Listener {
 
 	/**
 	 * Get property ~ Other object aka boolean etc.
-	 * @param property
-	 * @return
+	 * @param property ~ The property to get
+	 * @return Object ~ the property ~ Object
 	 */
 	public final Object getPropertyObject(@NonNull String property) {
 		HubItemMeta name = getClass().getAnnotation(HubItemMeta.class);
@@ -68,8 +68,8 @@ public abstract class HubItem implements Listener {
 	 * Get property like getFormat though it gets off property part
 	 * aka instead of getFormat("jaffa.othercategory.gsdjsdgdg")
 	 * it will automatically go to ("hub-items.<youritem>.properties.<property>")
-	 * @param property
-	 * @return
+	 * @param property the property to get
+	 * @return String ~ The property
 	 * @see net.tbnr.util.TPlugin#getFormat(String)
 	 */
 	public final String getProperty(@NonNull String property) {
