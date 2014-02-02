@@ -113,6 +113,7 @@ public final class GSwitchUpGame extends GearzGame implements GameCountdownHandl
     protected boolean canPlace(GearzPlayer player, Block block) {
         if (block.getType() == Material.TNT) {
             gSwitchUpArena.getWorld().spawnEntity(block.getLocation(), EntityType.PRIMED_TNT);
+            block.setType(Material.AIR);
             return true;
         }
         return block.getType() == Material.FIRE;
