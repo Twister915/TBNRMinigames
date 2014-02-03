@@ -60,6 +60,18 @@
             "data":0,
             "chance":100
         },{
+            "material":"ARROW",
+            "data":0,
+            "chance":100
+        },{
+            "material":"ARROW",
+            "data":0,
+            "chance":100
+        },{
+            "material":"ARROW",
+            "data":0,
+            "chance":100
+        },{
             "material":"SNOW_BALL",
             "data":0,
             "chance":100

@@ -17,7 +17,7 @@
                     "level" : 3
                 },
                 {
-                    "name" : "FIRE_ASPECT",
+                    "name" : "DAMAGE_ALL",
                     "level" : 3
                 }
             ]
@@ -33,56 +33,38 @@
     "armour" : [
         {
             "item_type" : "LEATHER_HELMET",
-            "title" : "&bUnbreaking Helmet",
+            "title" : "&bUnbreaking",
             "lore" : [
                 "&bImpervious!"
-            ],
-            "enchants" : [
-                {
-                    "name" : "DURABILITY",
-                    "level" : 20
-                }
             ],
             "color" : "#666666"
         },
         {
             "item_type" : "LEATHER_CHESTPLATE",
-            "title" : "&bUnbreaking Helmet",
+            "title" : "&bUnbreaking",
             "lore" : [
                 "&bImpervious!"
-            ],
-            "enchants" : [
-                {
-                    "name" : "DURABILITY",
-                    "level" : 20
-                }
             ],
             "color" : "#666666"
         },
         {
             "item_type" : "LEATHER_LEGGINGS",
-            "title" : "&bUnbreaking Helmet",
+            "title" : "&bUnbreaking",
             "lore" : [
                 "&bImpervious!"
-            ],
-            "enchants" : [
-                {
-                    "name" : "DURABILITY",
-                    "level" : 20
-                }
             ],
             "color" : "#666666"
         },
         {
             "item_type" : "LEATHER_BOOTS",
-            "title" : "&bUnbreaking Helmet",
+            "title" : "&bUnbreaking",
             "lore" : [
                 "&bImpervious!"
             ],
             "enchants" : [
                 {
-                    "name" : "DURABILITY",
-                    "level" : 20
+                    "name" : "THORNS",
+                    "level" : 6
                 }
             ],
             "color" : "#666666"

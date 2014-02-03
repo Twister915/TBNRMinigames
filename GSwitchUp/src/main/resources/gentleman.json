@@ -10,7 +10,7 @@
             "enchants" : [
                 {
                     "name" : "DAMAGE_ALL",
-                    "level" : 7
+                    "level" : 12
                 }
             ],
             "data" : 4
@@ -18,7 +18,7 @@
     ],
     "status_effects" : [
         {
-            "name" : "SPEED",
+            "name" : "BLINDNESS",
             "level" : 1,
             "ambient" : false
         }
@@ -27,45 +27,21 @@
         {
             "item_type" : "LEATHER_HELMET",
             "title" : "&bTop Hat",
-            "enchants" : [
-                {
-                    "name" : "DURABILITY",
-                    "level" : 20
-                }
-            ],
             "color" : "#000000"
         },
         {
             "item_type" : "LEATHER_CHESTPLATE",
             "title" : "&bDinner Jacket",
-            "enchants" : [
-                {
-                    "name" : "DURABILITY",
-                    "level" : 20
-                }
-            ],
             "color" : "#000000"
         },
         {
             "item_type" : "LEATHER_LEGGINGS",
             "title" : "&bTrousers",
-            "enchants" : [
-                {
-                    "name" : "DURABILITY",
-                    "level" : 20
-                }
-            ],
             "color" : "#000000"
         },
         {
             "item_type" : "LEATHER_BOOTS",
             "title" : "&bLoafers",
-            "enchants" : [
-                {
-                    "name" : "DURABILITY",
-                    "level" : 20
-                }
-            ],
             "color" : "#000000"
         }
     ]

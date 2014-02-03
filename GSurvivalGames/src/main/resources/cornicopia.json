@@ -63,6 +63,18 @@
             "material" : "EXP_BOTTLE",
             "data" : 0,
             "chance" : 100
+        }{
+            "material":"ARROW",
+            "data":0,
+            "chance":100
+        },{
+            "material":"ARROW",
+            "data":0,
+            "chance":100
+        },{
+            "material":"ARROW",
+            "data":0,
+            "chance":100
         }
     ]
 }

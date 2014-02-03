@@ -12,27 +12,24 @@
             ],
             "enchants" : [
                 {
-                    "name" : "KNOCKBACK",
-                    "level" : 2
-                },
-                {
                     "name" : "DAMAGE_ALL",
-                    "level" : 7
+                    "level" : 8
                 }
             ]
         },
         {
-            "item_type" : "ARROW",
-            "title" : "&bUseless Arrow",
+            "item_type" : "WOOD_SWORD",
+            "title" : "&bStay Back!",
             "lore" : [
-                "&bWhat do I do with this?"
+                "&bBegone! Foe!"
             ],
             "enchants" : [
                 {
                     "name" : "KNOCKBACK",
-                    "level" : 4
+                    "level" : 6
                 }
-            ]
+            ],
+            "data" : 59
         }
     ],
     "armour" : [
@@ -45,12 +42,6 @@
             "lore" : [
                 "&bProper Equipment"
             ],
-            "enchants" : [
-                {
-                    "name" : "DURABILITY",
-                    "level" : 20
-                }
-            ],
             "color" : "#66FF66"
         },
         {
@@ -61,12 +52,6 @@
             "title" : "&bArchery Vest",
             "lore" : [
                 "&bProper Equipment!"
-            ],
-            "enchants" : [
-                {
-                    "name" : "DURABILITY",
-                    "level" : 20
-                }
             ],
             "color" : "#66FF66"
         }
