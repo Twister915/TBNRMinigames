@@ -23,7 +23,7 @@
             "lore" : [
                 "&bSharp!"
             ],
-            "quantity" : 8
+            "quantity" : 16
         }
     ],
     "armour" : [
@@ -36,12 +36,6 @@
             "lore" : [
                 "&bProper Equipment"
             ],
-            "enchants" : [
-                {
-                    "name" : "DURABILITY",
-                    "level" : 20
-                }
-            ],
             "color" : "#EAEAEA"
         },
         {
@@ -52,12 +46,6 @@
             "title" : "&bArchery Vest",
             "lore" : [
                 "&bProper Equipment!"
-            ],
-            "enchants" : [
-                {
-                    "name" : "DURABILITY",
-                    "level" : 20
-                }
             ],
             "color" : "#EAEAEA"
         }

@@ -8,25 +8,25 @@
             "item_type" : "POTION",
             "title" : "&bElixir of Death",
             "data" : 16428,
-            "quantity" : 5
+            "quantity" : 8
         },
         {
             "item_type" : "POTION",
             "title" : "&bElixir of Pain",
             "data" : 16420,
-            "quantity" : 5
+            "quantity" : 8
         },
         {
             "item_type" : "POTION",
             "title" : "&bElixir of Famine",
             "data" : 16394,
-            "quantity" : 5
+            "quantity" : 8
         },
         {
             "item_type" : "POTION",
             "title" : "&bElixir of Frailty",
             "data" : 16392,
-            "quantity" : 5
+            "quantity" : 8
         }
     ],
     "status_effects" : [
@@ -40,45 +40,21 @@
         {
             "item_type" : "LEATHER_HELMET",
             "title" : "&bRobe Hood",
-            "enchants" : [
-                {
-                    "name" : "DURABILITY",
-                    "level" : 20
-                }
-            ],
             "color" : "#3366FF"
         },
         {
             "item_type" : "LEATHER_CHESTPLATE",
             "title" : "&bRobe Vest",
-            "enchants" : [
-                {
-                    "name" : "DURABILITY",
-                    "level" : 20
-                }
-            ],
             "color" : "#0099FF"
         },
         {
             "item_type" : "LEATHER_LEGGINGS",
             "title" : "&bRobe Leggings",
-            "enchants" : [
-                {
-                    "name" : "DURABILITY",
-                    "level" : 20
-                }
-            ],
             "color" : "#3333FF"
         },
         {
             "item_type" : "LEATHER_BOOTS",
             "title" : "&bRobe Sandals",
-            "enchants" : [
-                {
-                    "name" : "DURABILITY",
-                    "level" : 20
-                }
-            ],
             "color" : "#0066FF"
         }
     ]

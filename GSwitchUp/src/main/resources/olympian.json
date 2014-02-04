@@ -40,24 +40,12 @@
         },
         {
             "item_type" : "LEATHER_LEGGINGS",
-            "title" : "&bRobe Leggings",
-            "enchants" : [
-                {
-                    "name" : "DURABILITY",
-                    "level" : 20
-                }
-            ],
+            "title" : "&bAgile Leggings",
             "color" : "#666666"
         },
         {
             "item_type" : "LEATHER_BOOTS",
-            "title" : "&bRobe Sandals",
-            "enchants" : [
-                {
-                    "name" : "DURABILITY",
-                    "level" : 20
-                }
-            ],
+            "title" : "&bAgile Sandals",
             "color" : "#FFFFFF"
         }
     ]

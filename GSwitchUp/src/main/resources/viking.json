@@ -25,12 +25,6 @@
             "lore" : [
                 "&bFor Glory!"
             ],
-            "enchants" : [
-                {
-                    "name" : "DURABILITY",
-                    "level" : 20
-                }
-            ],
             "color" : "#FF0000"
         },
         {
@@ -38,12 +32,6 @@
             "title" : "&bBATTLE CHESTPLATE",
             "lore" : [
                 "&bFor Glory!"
-            ],
-            "enchants" : [
-                {
-                    "name" : "DURABILITY",
-                    "level" : 20
-                }
             ],
             "color" : "#FF0000"
         },
@@ -53,12 +41,6 @@
             "lore" : [
                 "&bFor Glory!"
             ],
-            "enchants" : [
-                {
-                    "name" : "DURABILITY",
-                    "level" : 20
-                }
-            ],
             "color" : "#FF0000"
         },
         {
@@ -66,12 +48,6 @@
             "title" : "&bBATTLE BOOTS",
             "lore" : [
                 "&bFor Glory!"
-            ],
-            "enchants" : [
-                {
-                    "name" : "DURABILITY",
-                    "level" : 20
-                }
             ],
             "color" : "#FF0000"
         }
