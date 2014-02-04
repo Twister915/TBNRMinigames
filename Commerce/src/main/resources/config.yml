@@ -4,3 +4,7 @@ formats:
   double-vote: "&6Your vote has been counted &a2x"
   priority-join: "&6You have joined using your priority join!"
   snowballs-delivered: "&3You have been given &a256&3 more snowballs."
+  gui:
+    shop-title: "&aShop: Item Shop"
+    tier-title: "&aShop: Tier Shop"
+    main-title: "&aShop"

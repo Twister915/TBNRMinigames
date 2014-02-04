@@ -18,6 +18,7 @@ import net.tbnr.util.player.TPlayerJoinEvent;
 import net.tbnr.util.player.TPlayerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.EventHandler;
@@ -28,6 +29,24 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
+/**
+ * Shop design
+ *
+ * /shop
+ *  Inventory GUI with four options
+ *   - tiers
+ *   - items
+ *   - purchased
+ *   - buy credits book (info in lore)
+ *
+ *  Each GUI will open a new GUI that contains the specified items.
+ *
+ *  If an item conflicts, the latest purchased one will be enabled, unless another is selected in the purchased list. If something is disabled it will not show up enchanted.
+ *
+ *  If you select an un-enchanted item, it will become enchanted, and disable all other conflicting items
+ *
+ *  The feature for conflicts will not be recognized for the first launch.
+ */
 @SuppressWarnings("unchecked")
 public final class CommerceItemManager implements Listener, CommerceItemAPI, TCommandHandler {
     private HashMap<GearzPlayer, PlayerCommerceItems> playerCommerceData;
@@ -172,6 +191,7 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
             player.addDonorPoint(-1 * tier.getDonorCredits());
         }
         givePlayerItem(player, item);
+        player.getTPlayer().playSound(Sound.DRINK);
     }
 
     @Override
@@ -198,7 +218,7 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
         tiers_purchased.add(tier.toString());
         playerDocument.put("tiers_purchased", tiers_purchased);
         tPlayer.save();
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        return true;
     }
 
     @Override
@@ -280,7 +300,7 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
 
     @TCommand(
             name = "cactuspointmanage",
-            permission = "gearz.managecactus",
+            permission = "gearz.commerce.manage",
             usage = "<CONSOLE>",
             senders = {TCommandSender.Console, TCommandSender.Player}
     )

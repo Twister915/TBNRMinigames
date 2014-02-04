@@ -5,6 +5,7 @@ import net.tbnr.commerce.items.CommerceItemMeta;
 import net.tbnr.commerce.items.Tier;
 import net.tbnr.gearz.GearzException;
 import net.tbnr.gearz.player.GearzPlayer;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
 @CommerceItemMeta(
@@ -12,13 +13,17 @@ import org.bukkit.inventory.ItemStack;
         key = "enchanted_color_armor",
         humanName = "Enchanted Colored Armor"
 )
-public final class EnchantedColorArmor extends AbstractArmorItem {
+public class EnchantedColorArmor extends ColoredArmor {
     public EnchantedColorArmor(GearzPlayer player, CommerceItemAPI api) throws GearzException {
         super(player, api);
     }
 
     @Override
     protected ItemStack[] armorContents() {
-        return new ItemStack[0];  //To change body of implemented methods use File | Settings | File Templates.
+        ItemStack[] itemStacks = super.armorContents();
+        for (ItemStack itemStack : itemStacks) {
+            itemStack.addUnsafeEnchantment(Enchantment.SILK_TOUCH, 32);
+        }
+        return itemStacks;
     }
 }

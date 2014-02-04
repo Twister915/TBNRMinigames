@@ -15,36 +15,17 @@ import org.bukkit.inventory.ItemStack;
         key = "enchanted_proper_armor",
         tier = Tier.Awesome
 )
-public final class EnchantedProperArmor extends AbstractArmorItem {
+public final class EnchantedProperArmor extends EnchantedColorArmor {
     public EnchantedProperArmor(GearzPlayer player, CommerceItemAPI api) throws GearzException {
         super(player, api);
     }
 
-    @SuppressWarnings("UnusedDeclaration")
-    private static enum ArmorSets {
-        LEATHER(new ArmorSet(Material.LEATHER_HELMET, Material.LEATHER_CHESTPLATE, Material.LEATHER_LEGGINGS, Material.LEATHER_BOOTS)),
-        IRON(new ArmorSet(Material.IRON_HELMET, Material.IRON_CHESTPLATE, Material.IRON_LEGGINGS, Material.IRON_BOOTS)),
-        GOLD(new ArmorSet(Material.GOLD_HELMET, Material.GOLD_CHESTPLATE, Material.GOLD_LEGGINGS, Material.GOLD_BOOTS)),
-        DIAMOND(new ArmorSet(Material.DIAMOND_HELMET, Material.DIAMOND_CHESTPLATE, Material.DIAMOND_LEGGINGS, Material.DIAMOND_BOOTS)),
-        MIX_UP(new ArmorSet(Material.DIAMOND_HELMET, Material.GOLD_CHESTPLATE, Material.IRON_LEGGINGS, Material.LEATHER_LEGGINGS));
-
-        private final ArmorSet set;
-
-        ArmorSets(ArmorSet set) {
-            this.set = set;
-        }
-        public ItemStack[] getArmorSet() {
-            return set.getArmorSet();
-        }
-    }
-
     @Override
     protected ItemStack[] armorContents() {
-        ArmorSets[] values = ArmorSets.values();
-        ItemStack[] armorSet = values[Gearz.getRandom().nextInt(values.length)].getArmorSet();
-        for (ItemStack anArmorSet : armorSet) {
-            anArmorSet.addUnsafeEnchantment(Enchantment.SILK_TOUCH, 32);
+        ItemStack[] itemStacks = super.armorContents();
+        for (ItemStack itemStack : itemStacks) {
+            itemStack.addUnsafeEnchantment(Enchantment.SILK_TOUCH, 32);
         }
-        return armorSet;
+        return itemStacks;
     }
 }

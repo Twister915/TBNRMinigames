@@ -6,6 +6,7 @@ import net.tbnr.commerce.items.CommerceItemAPI;
 import net.tbnr.commerce.items.CommerceItemMeta;
 import net.tbnr.commerce.items.Tier;
 import net.tbnr.gearz.GearzException;
+import net.tbnr.gearz.event.game.GameStartEvent;
 import net.tbnr.gearz.game.voting.PlayerMapVoteEvent;
 import net.tbnr.gearz.player.GearzPlayer;
 import org.bukkit.event.EventHandler;
@@ -18,6 +19,7 @@ import org.bukkit.event.EventPriority;
 )
 public final class FiftyVoteBoost extends CommerceItem {
     private Integer votesLeft = null;
+    private boolean usedVote = false;
     private static final String storeKey = "votes_remain";
 
     public FiftyVoteBoost(GearzPlayer player, CommerceItemAPI api) throws GearzException {
@@ -29,6 +31,13 @@ public final class FiftyVoteBoost extends CommerceItem {
         if (!event.getPlayer().equals(getPlayer())) return;
         event.setNumberOfVotes(event.getNumberOfVotes()*2);
         event.getPlayer().getTPlayer().sendMessage(GearzCommerce.getInstance().getFormat("formats.double-vote"));
+        usedVote = true;
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onGameStart(GameStartEvent event) {
+        if (!event.getGame().getPlayers().contains(getPlayer())) return;
+        if (!usedVote) return;
         votesLeft--;
         if (votesLeft <= 0) {
             revoke();

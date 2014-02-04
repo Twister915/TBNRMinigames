@@ -67,11 +67,9 @@ public class SnowballEXP implements Listener {
         Bukkit.getScheduler().runTaskLater(TBNRHub.getInstance(), new BukkitRunnable() {
             @Override
             public void run() {
-                if (thrower != null && hit != null) {
-                    if (thrower.getPlayer() != null && hit.getPlayer() != null) {
-                        if (thrower.getPlayer().isOnline() || hit.getPlayer().isOnline())
-                            thrower.getPlayer().showPlayer(hit.getPlayer());
-                    }
+                if (thrower.getPlayer() != null && hit.getPlayer() != null) {
+                    if (thrower.getPlayer().isOnline() || hit.getPlayer().isOnline())
+                        thrower.getPlayer().showPlayer(hit.getPlayer());
                 }
             }
         }, 200);

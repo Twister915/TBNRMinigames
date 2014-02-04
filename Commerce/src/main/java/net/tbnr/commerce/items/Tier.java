@@ -1,34 +1,25 @@
 package net.tbnr.commerce.items;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 
 /**
  * Tier
  */
 public enum  Tier {
-    Standard("&8Standard", 2500, 90),
-    Heroic("&7Heroic", 5000, 180),
-    Awesome("&6Awesome", 10000,360),
-    Epic("&5Epic", 20000,720),
-    Iron_Veteran("&7&lIron Veteran", 7500, 500, 10, true),
-    Golden_Veteran("&6&lGolden Veteran", 15000, 700, 20, true, new Tier[]{Iron_Veteran}),
-    Diamond_Veteran("&&lbDiamond Veteran", 30000, 900, 35, true, new Tier[] {Golden_Veteran});
-
-    public String getHumanName() {
-        return humanName;
-    }
-
-    public Integer getPoints() {
-        return points;
-    }
-
-    public Integer getDonorCredits() {
-        return donorCredits;
-    }
+    Standard("&8Standard", Material.GRASS, 2500, 90),
+    Heroic("&7Heroic", Material.SKULL_ITEM, 5000, 180),
+    Awesome("&6Awesome", Material.IRON_SWORD, 10000,360),
+    Epic("&5Epic", Material.DIAMOND_SWORD, 20000,720),
+    Iron_Veteran("&7&lIron Veteran", Material.IRON_INGOT, 7500, 500, 10, true),
+    Golden_Veteran("&6&lGolden Veteran", Material.GOLD_INGOT, 15000, 700, 20, true, new Tier[]{Iron_Veteran}),
+    Diamond_Veteran("&&lbDiamond Veteran", Material.DIAMOND, 30000, 900, 35, true, new Tier[] {Golden_Veteran});
 
     private final String humanName;
     private final Integer points;
     private final Integer donorCredits;
+    private final Material repItem;
+    private final boolean mustBePurchased;
 
     public Integer getRequiredLevel() {
         return requiredLevel;
@@ -46,10 +37,24 @@ public enum  Tier {
         return requires;
     }
 
-    private final boolean mustBePurchased;
+    public String getHumanName() {
+        return humanName;
+    }
 
-    private Tier(String humanName, Integer points, Integer donorCredits, Integer level, boolean mustBePurchased, Tier[] requires) {
+    public Integer getPoints() {
+        return points;
+    }
+
+    public Integer getDonorCredits() {
+        return donorCredits;
+    }
+
+    public Material getRepItem() {
+        return this.repItem;
+    }
+    private Tier(String humanName, Material repItem, Integer points, Integer donorCredits, Integer level, boolean mustBePurchased, Tier[] requires) {
         this.humanName = ChatColor.translateAlternateColorCodes('&',humanName);
+        this.repItem = repItem;
         this.points = points;
         this.donorCredits = donorCredits;
         this.requiredLevel = level;
@@ -57,16 +62,16 @@ public enum  Tier {
         this.requires = requires;
     }
 
-    private Tier(String humanName, Integer points, Integer donorCredits) {
-        this(humanName, points, donorCredits, 0);
+    private Tier(String humanName, Material repItem, Integer points, Integer donorCredits) {
+        this(humanName, repItem, points, donorCredits, 0);
     }
 
-    private Tier(String humanName, Integer points, Integer donorCredits, Integer level) {
-            this(humanName, points, donorCredits, level, false);
+    private Tier(String humanName, Material repItem, Integer points, Integer donorCredits, Integer level) {
+            this(humanName, repItem, points, donorCredits, level, false);
     }
 
-    private Tier(String humanName, Integer points, Integer donorCredits, Integer level, boolean mustBePurchased) {
-            this(humanName, points, donorCredits, level, mustBePurchased, null);
+    private Tier(String humanName, Material repItem, Integer points, Integer donorCredits, Integer level, boolean mustBePurchased) {
+            this(humanName, repItem, points, donorCredits, level, mustBePurchased, null);
     }
 
 }

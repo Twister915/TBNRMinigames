@@ -10,7 +10,6 @@ import net.tbnr.gearz.player.GearzPlayer;
 import org.bukkit.event.Listener;
 
 import java.lang.annotation.Annotation;
-import java.util.Date;
 
 @Data
 @ToString
