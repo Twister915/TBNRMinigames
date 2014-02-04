@@ -190,6 +190,14 @@ public interface CommerceItemAPI {
     public boolean hasTier(GearzPlayer player, Tier tier);
 
     /**
+     *
+     * Gets a copy of each registered and used tier.
+     *
+     * @return An array of {@link Tier} items.
+     */
+    public Tier[] getTiers();
+
+    /**
      * Used for an argument for payment method choice.
      */
     public static enum PurchaseMethod {

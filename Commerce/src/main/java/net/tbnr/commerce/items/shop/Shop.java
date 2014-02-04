@@ -5,11 +5,10 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import net.tbnr.commerce.GearzCommerce;
-import net.tbnr.commerce.items.CommerceItem;
-import net.tbnr.commerce.items.CommerceItemAPI;
-import net.tbnr.commerce.items.CommerceItemMeta;
+import net.tbnr.commerce.items.*;
 import net.tbnr.gearz.player.GearzPlayer;
 import net.tbnr.util.InventoryGUI;
+import org.bukkit.ChatColor;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -33,21 +32,62 @@ public final class Shop implements PlayerShop {
         ArrayList<InventoryGUI.InventoryGUIItem> items = new ArrayList<>();
         for (Class<? extends CommerceItem> aClass : api.getCommerceItems()) {
             CommerceItemMeta metaFor = api.getMetaFor(aClass);
+            Tier tier = metaFor.tier();
             List<String> lore = new ArrayList<>();
-            String title = null;
-            ItemStack stack = new ItemStack(metaFor.tier().getRepItem());
+            String title = ChatColor.translateAlternateColorCodes('&', metaFor.humanName());
+            ItemStack stack = new ItemStack(tier.getRepItem());
+            lore.add(GearzCommerce.getInstance().getFormat("formats.gui.tier-lore", true, new String[]{"<tier>", tier.getHumanName()}));
+            lore.add(GearzCommerce.getInstance().getFormat("formats.gui.points-price-lore", true, new String[]{"<price>",
+                    tier.isMustBePurchased() ? "&cN/A" : String.valueOf(tier.getPoints())}));
+            lore.add(GearzCommerce.getInstance().getFormat("formats.gui.donor-price-lore", true, new String[]{"<price>", String.valueOf(tier.getDonorCredits())}));
             if (!api.playerHasItem(player, aClass)) {
                 stack.addUnsafeEnchantment(Enchantment.SILK_TOUCH, 32);
+                lore.add(0, GearzCommerce.getInstance().getFormat("formats.gui.already-purchased-lore"));
+            } else {
+                String cannotPurchase = null;
+                try {
+                    api.testItemPurchase(player, aClass);
+                } catch (PurchaseException e) {
+                    cannotPurchase = e.getMessage();
+                }
+                if ((tier.isMustBePurchased() && !api.hasTier(player, tier)) || cannotPurchase != null) {
+                    lore.add(0, cannotPurchase == null ? GearzCommerce.getInstance().getFormat("formats.gui.cannot-purchase") : GearzCommerce.getInstance().getFormat("formats.gui.cannot-purchase-reason", true, new String[]{"<reason>", cannotPurchase}));
+                }
+                else
+                    lore.add(0, GearzCommerce.getInstance().getFormat("formats.gui.click-to-purchase-lore"));
             }
             items.add(new InventoryGUI.InventoryGUIItem(stack, title, lore));
         }
         return items;
     }
     private ArrayList<InventoryGUI.InventoryGUIItem> getTierItems() {
-        return null;
+        ArrayList<InventoryGUI.InventoryGUIItem> items = new ArrayList<>();
+        for (Tier tier : api.getTiers()) {
+            ItemStack stack = new ItemStack(tier.getRepItem());
+            String title = ChatColor.translateAlternateColorCodes('&', tier.getHumanName());
+            List<String> lore = new ArrayList<>();
+            if (!tier.isMustBePurchased()) {
+                lore.add(GearzCommerce.getInstance().getFormat("formats.gui.already-have-tier-lore"));
+            } else {
+                if (!api.hasTier(player, tier)) {
+                    if (api.canPurchaseTier(player, tier)) {
+                        lore.add(GearzCommerce.getInstance().getFormat("formats.gui.tier-can-purchase-lore"));
+                        lore.add(GearzCommerce.getInstance().getFormat("formats.gui.tier-price-lore", true, new String[]{"<points>", String.valueOf(tier.getPoints())}));
+                    }
+                    else {
+                        stack.addUnsafeEnchantment(Enchantment.SILK_TOUCH, 32);
+                        lore.add(GearzCommerce.getInstance().getFormat("formats.gui.tier-required-level-lore", true, new String[]{"<level>", String.valueOf(tier.getRequiredLevel())}));
+                    }
+                }
+            }
+            items.add(new InventoryGUI.InventoryGUIItem(stack, title, lore));
+        }
+        return items;
     }
     private ArrayList<InventoryGUI.InventoryGUIItem> getMainItems() {
-        return null;
+        ArrayList<InventoryGUI.InventoryGUIItem> items = new ArrayList<>();
+        //TODO populate
+        return items;
     }
 
     private InventoryGUI getInvetoryGui(GuiKey key) {

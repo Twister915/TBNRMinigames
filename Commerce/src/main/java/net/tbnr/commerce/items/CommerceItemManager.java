@@ -235,6 +235,11 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
         return tiers_purchased.contains(tier.toString());
     }
 
+    @Override
+    public Tier[] getTiers() {
+        return Tier.values();
+    }
+
     private CommerceItem constructCommerceItem(String key, GearzPlayer player) {
         CommerceItem item;
         Class<? extends CommerceItem> itemForID = getItemForID(key);
