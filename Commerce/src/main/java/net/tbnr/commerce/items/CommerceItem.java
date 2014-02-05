@@ -75,7 +75,7 @@ public abstract class CommerceItem implements Listener {
                 continue;
             }
             item.put(key, object);
-            purchaseList.set(index, object);
+            purchaseList.set(index, item);
             playerDoc.put(CommerceItemManager.dbListKey, purchaseList);
             return object;
         }
