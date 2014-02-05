@@ -13,7 +13,7 @@ public enum  Tier {
     Epic("&5Epic", Material.DIAMOND_SWORD, 20000,720),
     Iron_Veteran("&7&lIron Veteran", Material.IRON_INGOT, 7500, 500, 10, true),
     Golden_Veteran("&6&lGolden Veteran", Material.GOLD_INGOT, 15000, 700, 20, true, new Tier[]{Iron_Veteran}),
-    Diamond_Veteran("&&lbDiamond Veteran", Material.DIAMOND, 30000, 900, 35, true, new Tier[] {Golden_Veteran});
+    Diamond_Veteran("&lbDiamond Veteran", Material.DIAMOND, 30000, 900, 35, true, new Tier[] {Golden_Veteran});
 
     private final String humanName;
     private final Integer points;

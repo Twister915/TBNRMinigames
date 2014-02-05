@@ -330,7 +330,7 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
                     addWin(killer);
                     finishGame();
                 }
-                if (getPlayers().size() == 5 && state != SGState.DeathmatchCountdown) {
+                if (getPlayers().size() >= 5 && state == SGState.Gameplay) {
                     state = SGState.DeathmatchCountdown;
                     updateGamestate();
                 }
