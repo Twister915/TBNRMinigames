@@ -97,14 +97,16 @@ public final class Shop implements PlayerShop {
     }
     private ArrayList<InventoryGUI.InventoryGUIItem> getMainItems() {
         ArrayList<InventoryGUI.InventoryGUIItem> items = new ArrayList<>();
-        items.add(getItemFor("tier-shop-title", Material.BEACON));
-        items.add(getItemFor("item-shop-title", Material.GOLD_BLOCK));
+        items.add(getItemFor("tier-shop-title", Material.BEACON, GuiKey.Tier));
+        items.add(getItemFor("item-shop-title", Material.GOLD_BLOCK, GuiKey.Shop));
         items.add(new MenuInventoryItem(new ItemStack(Material.WRITTEN_BOOK), GearzCommerce.getInstance().getFormat("formats.gui.info-title"), getHelpText()));
         return items;
     }
 
-    private MenuInventoryItem getItemFor(String key, Material material) {
-        return new MenuInventoryItem(new ItemStack(material), GearzCommerce.getInstance().getFormat("formats.gui." + key));
+    private MenuInventoryItem getItemFor(String key, Material material, GuiKey guiKey) {
+        MenuInventoryItem menuInventoryItem = new MenuInventoryItem(new ItemStack(material), GearzCommerce.getInstance().getFormat("formats.gui." + key));
+        menuInventoryItem.setKey(guiKey);
+        return menuInventoryItem;
     }
 
     private List<String> getHelpText() {
@@ -204,7 +206,9 @@ public final class Shop implements PlayerShop {
                     break;
                 case Main:
                     if (!(item instanceof MenuInventoryItem)) return;
-                    this.shopInstnace.openGui(((MenuInventoryItem) item).getKey());
+                    GuiKey key1 = ((MenuInventoryItem) item).getKey();
+                    if (key1 == null) return;
+                    this.shopInstnace.openGui(key1);
                     break;
                 case Tier:
                     if (!(item instanceof TierInventoryItem)) return;
