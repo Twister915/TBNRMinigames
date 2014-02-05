@@ -17,13 +17,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@RequiredArgsConstructor
 public final class Shop implements PlayerShop {
-    private final InventoryGUI shopGui = getInvetoryGui(GuiKey.Shop);
-    private final InventoryGUI tierGui = getInvetoryGui(GuiKey.Tier);
-    private final InventoryGUI mainGui = getInvetoryGui(GuiKey.Main);
+    private final InventoryGUI shopGui;
+    private final InventoryGUI tierGui;
+    private final InventoryGUI mainGui;
     private final GearzPlayer player;
     private final CommerceItemAPI api;
+
+    public Shop(GearzPlayer player, CommerceItemAPI api) {
+        this.player = player;
+        this.api = api;
+        shopGui = getInvetoryGui(GuiKey.Shop);
+        tierGui = getInvetoryGui(GuiKey.Tier);
+        mainGui = getInvetoryGui(GuiKey.Main);
+    }
 
     @Setter(AccessLevel.PACKAGE) private GuiKey currentGuiPhase;
     @Setter(AccessLevel.PACKAGE) private boolean open;

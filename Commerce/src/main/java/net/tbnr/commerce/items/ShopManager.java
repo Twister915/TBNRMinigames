@@ -36,7 +36,7 @@ public class ShopManager implements TCommandHandler {
             permission = "gearz.commerce.shop",
             name = "shop"
     )
-    public TCommandStatus manageCactus(CommandSender sender, TCommandSender type, TCommand meta, Command command, String[] args) {
+    public TCommandStatus shopCommand(CommandSender sender, TCommandSender type, TCommand meta, Command command, String[] args) {
         if (!Gearz.getInstance().isLobbyServer()) {
             sender.sendMessage(GearzCommerce.getInstance().getFormat("formats.must-be-hub"));
             return TCommandStatus.SUCCESSFUL;
