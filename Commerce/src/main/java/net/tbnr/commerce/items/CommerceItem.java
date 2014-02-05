@@ -51,6 +51,7 @@ public abstract class CommerceItem implements Listener {
 
     public final void revoke() {
         GearzCommerce.getInstance().getItemAPI().revokeItem(player, this);
+        GearzCommerce.getInstance().getLogger().info("Revoking " + this.meta.humanName() + " from player " + this.player.getUsername());
     }
 
     /**
