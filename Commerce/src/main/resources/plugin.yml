@@ -1,6 +1,7 @@
 name: TBNRCommerce
 version: 1.0
 authors: [Twister915]
+depend: [Gearz]
 main: net.tbnr.commerce.GearzCommerce
 commands:
   cactuspointmanage:
