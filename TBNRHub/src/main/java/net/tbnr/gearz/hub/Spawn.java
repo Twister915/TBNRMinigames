@@ -127,7 +127,12 @@ public class Spawn implements Listener, TCommandHandler {
     }
 
     private void updateSpawn() {
-        spawn = TPlugin.parseLocationString(TBNRHub.getInstance().getConfig().getString("spawn"));
+        try {
+            spawn = TPlugin.parseLocationString(TBNRHub.getInstance().getConfig().getString("spawn"));
+        } catch (NullPointerException ex) {
+            spawn = null;
+            TBNRHub.getInstance().getLogger().severe("No spawn point set!");
+        }
     }
 
     @Override
