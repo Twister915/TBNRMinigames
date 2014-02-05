@@ -240,6 +240,7 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
         } catch (ClassCastException ex) {
             tiers_purchased = new BasicDBList();
         }
+        if (tiers_purchased == null) tiers_purchased = new BasicDBList();
         return tiers_purchased.contains(tier.toString());
     }
 
