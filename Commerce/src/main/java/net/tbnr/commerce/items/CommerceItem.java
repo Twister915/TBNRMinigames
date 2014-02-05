@@ -89,11 +89,13 @@ public abstract class CommerceItem implements Listener {
             if (!(o instanceof DBObject)) continue;
             DBObject item = (DBObject)o;
             if (!(item.get("key").equals(key))) continue;
+            Object o1;
             try {
-                item.get(key);
+                o1 = item.get(key);
             } catch (ClassCastException ex) {
                 return null;
             }
+            return (T)o1;
         }
         throw new RuntimeException("Could not find document for this commerce item!");
     }
