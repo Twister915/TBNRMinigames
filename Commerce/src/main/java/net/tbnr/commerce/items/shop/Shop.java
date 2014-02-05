@@ -119,7 +119,7 @@ public final class Shop implements PlayerShop {
     }
     private InventoryGUI getInvetoryGui(GuiKey key) {
         ArrayList<InventoryGUI.InventoryGUIItem> items = null;
-        switch (currentGuiPhase) {
+        switch (key) {
             case Shop:
                 items = getShopItems();
                 break;
