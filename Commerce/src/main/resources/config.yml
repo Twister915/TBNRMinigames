@@ -22,7 +22,7 @@ formats:
     tier-shop-title: "&bView/Purchase &cTiers"
     item-shop-title: "&bView/Purchase &6Items"
     info-title: "&3About the TBNR Shop:"
-    purchase-error: "&cFailed to purchase item: <reason>"
+    failed-purchase: "&cFailed to purchase item: <reason>"
     help-text:
     - "&bYou can purchase most items in the TBNR Shop"
     - "&busing donor credits, which you can purchase"

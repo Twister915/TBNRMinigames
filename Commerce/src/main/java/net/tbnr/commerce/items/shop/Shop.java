@@ -44,10 +44,10 @@ public final class Shop implements PlayerShop {
             String title = ChatColor.translateAlternateColorCodes('&', metaFor.humanName());
             ItemStack stack = new ItemStack(tier.getRepItem());
             lore.add(GearzCommerce.getInstance().getFormat("formats.gui.tier-lore", true, new String[]{"<tier>", tier.getHumanName()}));
-            lore.add(GearzCommerce.getInstance().getFormat("formats.gui.points-price-lore", true, new String[]{"<price>",
+            lore.add(GearzCommerce.getInstance().getFormat("formats.gui.points-price-lore", true, new String[]{"<points>",
                     tier.isMustBePurchased() ? "&cN/A" : String.valueOf(tier.getPoints())}));
-            lore.add(GearzCommerce.getInstance().getFormat("formats.gui.donor-price-lore", true, new String[]{"<price>", String.valueOf(tier.getDonorCredits())}));
-            if (!api.playerHasItem(player, aClass)) {
+            lore.add(GearzCommerce.getInstance().getFormat("formats.gui.donor-price-lore", true, new String[]{"<points>", String.valueOf(tier.getDonorCredits())}));
+            if (api.playerHasItem(player, aClass)) {
                 stack.addUnsafeEnchantment(Enchantment.SILK_TOUCH, 32);
                 lore.add(0, GearzCommerce.getInstance().getFormat("formats.gui.already-purchased-lore"));
             } else {
