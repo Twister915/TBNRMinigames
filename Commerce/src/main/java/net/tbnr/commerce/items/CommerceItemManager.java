@@ -120,6 +120,7 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
         } catch (ClassCastException ex) {
             commerce_purchases = new BasicDBList();
         }
+        if (commerce_purchases == null) commerce_purchases = new BasicDBList();
         return commerce_purchases;
     }
     @Override
