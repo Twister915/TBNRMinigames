@@ -42,7 +42,6 @@ public class ShopManager implements TCommandHandler {
             return TCommandStatus.SUCCESSFUL;
         }
         GearzPlayer gearzPlayer = GearzPlayer.playerFromPlayer((Player) sender);
-        if (players.containsKey(gearzPlayer)) return TCommandStatus.INVALID_ARGS;
         synchronized (players) {
             Shop shop = new Shop(gearzPlayer, GearzCommerce.getInstance().getItemAPI());
             players.put(gearzPlayer, shop);

@@ -5,9 +5,6 @@ import net.tbnr.commerce.items.CommerceItemAPI;
 import net.tbnr.gearz.Gearz;
 import net.tbnr.gearz.GearzException;
 import net.tbnr.gearz.player.GearzPlayer;
-import net.tbnr.util.player.TPlayerJoinEvent;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.inventory.ItemStack;
 
 public abstract class AbstractArmorItem extends CommerceItem {
@@ -17,10 +14,9 @@ public abstract class AbstractArmorItem extends CommerceItem {
 
     protected abstract ItemStack[] armorContents();
 
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void onPlayerJoin(TPlayerJoinEvent event) {
+    @Override
+    public void onRegister() {
         if (!Gearz.getInstance().isLobbyServer()) return;
-        if (!event.getPlayer().equals(getPlayer().getTPlayer())) return;
-        event.getPlayer().getPlayer().getInventory().setArmorContents(armorContents());
+        getPlayer().getPlayer().getInventory().setArmorContents(armorContents());
     }
 }
