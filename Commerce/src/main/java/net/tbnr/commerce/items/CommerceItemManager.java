@@ -1,11 +1,13 @@
 package net.tbnr.commerce.items;
 
 import com.mongodb.BasicDBList;
+import com.mongodb.BasicDBObject;
 import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.DBObject;
 import lombok.Data;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import net.tbnr.commerce.GearzCommerce;
 import net.tbnr.commerce.items.definitions.*;
 import net.tbnr.gearz.Gearz;
 import net.tbnr.gearz.player.GearzPlayer;
@@ -98,6 +100,7 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
                 continue;
             }
             CommerceItem commerceItem = constructCommerceItem(key, player);
+            GearzCommerce.getInstance().getLogger().info("Registered item " + getMetaFor(commerceItem.getClass()).humanName() + " for player " + player.getUsername());
             if (contains(recentlyPurchased, commerceItem.getClass())) commerceItem.onPurchase();
             commerceItem.register();
             items.add(commerceItem);
@@ -142,7 +145,14 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
         CommerceItemMeta metaFor = getMetaFor(item);
         BasicDBList purchaseList = getPurchaseList(player);
         String key = metaFor.key();
-        purchaseList.remove(key);
+        int index = -1;
+        for (Object o : purchaseList) {
+            index++;
+            if (!(o instanceof BasicDBObject)) continue;
+            BasicDBObject object = (BasicDBObject)o;
+            if (!(object.get("key").equals(key))) continue;
+            purchaseList.remove(index);
+        }
         DBObject playerDocument = player.getTPlayer().getPlayerDocument();
         playerDocument.put(dbListKey, purchaseList);
         player.getTPlayer().save();
