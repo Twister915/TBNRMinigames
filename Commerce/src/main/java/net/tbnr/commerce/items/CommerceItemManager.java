@@ -206,8 +206,10 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
     public boolean canPurchaseTier(GearzPlayer player, Tier tier) {
         if (!tier.isMustBePurchased()) return false;
         boolean hasRquires = true;
-        for (Tier tier1 : tier.getRequires()) {
-            if (!hasTier(player, tier1)) hasRquires = false;
+        if (tier.getRequires() != null) {
+            for (Tier tier1 : tier.getRequires()) {
+                if (!hasTier(player, tier1)) hasRquires = false;
+            }
         }
         return !(player.getPoints() < tier.getPoints() || player.getLevel() < tier.getRequiredLevel() || !hasRquires);
     }
