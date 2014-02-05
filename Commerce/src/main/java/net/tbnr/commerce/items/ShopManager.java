@@ -37,6 +37,10 @@ public class ShopManager implements TCommandHandler {
             name = "shop"
     )
     public TCommandStatus manageCactus(CommandSender sender, TCommandSender type, TCommand meta, Command command, String[] args) {
+        if (!Gearz.getInstance().isLobbyServer()) {
+            sender.sendMessage(GearzCommerce.getInstance().getFormat("formats.must-be-hub"));
+            return TCommandStatus.SUCCESSFUL;
+        }
         GearzPlayer gearzPlayer = GearzPlayer.playerFromPlayer((Player) sender);
         if (players.containsKey(gearzPlayer)) return TCommandStatus.INVALID_ARGS;
         synchronized (players) {

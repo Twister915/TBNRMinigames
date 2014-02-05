@@ -178,6 +178,13 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
     }
 
     @Override
+    public void purchaseItem(GearzPlayer player, Class<? extends CommerceItem> item) throws PurchaseException {
+        testItemPurchase(player, item);
+        if (!(player.getDonorPoints() >= getMetaFor(item).tier().getDonorCredits())) purchaseItem(player, item, PurchaseMethod.Points);
+        else purchaseItem(player, item, PurchaseMethod.Donor);
+    }
+
+    @Override
     public void purchaseItem(GearzPlayer player, Class<? extends CommerceItem> item, PurchaseMethod method) throws PurchaseException {
         testItemPurchase(player, item);
         Tier tier = getMetaFor(item).tier();
@@ -201,12 +208,12 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
         for (Tier tier1 : tier.getRequires()) {
             if (!hasTier(player, tier1)) hasRquires = false;
         }
-
         return !(player.getPoints() < tier.getPoints() || player.getLevel() < tier.getRequiredLevel() || !hasRquires);
     }
 
     @Override
-    public boolean purchaseTier(GearzPlayer player, Tier tier) {
+    public boolean purchaseTier(GearzPlayer player, Tier tier) throws PurchaseException{
+        if (!canPurchaseTier(player, tier)) throw new PurchaseException("You cannot purchase this tier!");
         TPlayer tPlayer = player.getTPlayer();
         DBObject playerDocument = tPlayer.getPlayerDocument();
         BasicDBList tiers_purchased;
