@@ -70,7 +70,7 @@ public abstract class CommerceItem implements Listener {
         for (Object o : purchaseList) {
             if (!(o instanceof DBObject)) continue;
             DBObject item = (DBObject)o;
-            if (!(item.get("key").equals(key))) {
+            if (!(item.get("key").equals(meta.key()))) {
                 index++;
                 continue;
             }
@@ -82,20 +82,20 @@ public abstract class CommerceItem implements Listener {
         throw new RuntimeException("Could not find document for this commerce item!");
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "UnusedParameters"})
     public <T> T getObject(String key, Class<T> clazz) {
         BasicDBList purchaseList = this.api.getPurchaseList(this.player);
         for (Object o : purchaseList) {
             if (!(o instanceof DBObject)) continue;
             DBObject item = (DBObject)o;
-            if (!(item.get("key").equals(key))) continue;
-            Object o1;
+            if (!(item.get("key").equals(meta.key()))) continue;
+            T o1;
             try {
-                o1 = item.get(key);
+                o1 = (T) item.get(key);
             } catch (ClassCastException ex) {
                 return null;
             }
-            return (T)o1;
+            return o1;
         }
         throw new RuntimeException("Could not find document for this commerce item!");
     }
