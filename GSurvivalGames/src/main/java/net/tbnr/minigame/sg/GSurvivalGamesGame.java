@@ -54,6 +54,8 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
     private Integer startingPlayers;
     private double maxCornicopiaDistance;
 
+    private static Integer[] chatSecondsMarkers = new Integer[]{30, 15, 10, 5, 4, 3, 2, 1};
+
     /**
      * New game in this arena
      *
@@ -127,7 +129,24 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
     @Override
     public void onCountdownChange(Integer seconds, Integer max, GameCountdown countdown) {
         this.countdownSecondsRemain = seconds;
+        sendApplicableCountdownMessages();
         updateEnderBar();
+    }
+
+    private void sendApplicableCountdownMessages() {
+        if (this.state == SGState.Countdown) {
+            if (contains(chatSecondsMarkers, this.countdownSecondsRemain)) broadcast(getPluginFormat("formats.countdown-chat", false, new String[]{"<seconds>", String.valueOf(this.countdownSecondsRemain)}));
+            for (GearzPlayer player : getPlayers()) {
+                player.getTPlayer().playSound(Sound.CLICK);
+            }
+        }
+    }
+
+    private <T> boolean contains(T[] arrays, T element) {
+        for (T array : arrays) {
+            if (array.equals(element)) return true;
+        }
+        return false;
     }
 
     @Override
@@ -268,7 +287,7 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
                 TPlayer tPlayer = player.getTPlayer();
                 tPlayer.resetPlayer();
                 player.getPlayer().playNote(player.getPlayer().getLocation(), Instrument.BASS_DRUM, Note.natural(1, Note.Tone.F));
-                tPlayer.playSound(Sound.ENDERDRAGON_GROWL);
+                tPlayer.playSound(Sound.LEVEL_UP);
             }
         }
         if (this.state == SGState.Deathmatch) {
@@ -280,7 +299,9 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
                     p = this.sgArena.cornicopiaPoints.random();
                 }
                 points.add(p);
-                player.getTPlayer().teleport(this.sgArena.pointToLocation(p));
+                TPlayer tPlayer = player.getTPlayer();
+                tPlayer.teleport(this.sgArena.pointToLocation(p));
+                tPlayer.playSound(Sound.LEVEL_UP);
             }
             new LightningChecker(this).schedule();
         }

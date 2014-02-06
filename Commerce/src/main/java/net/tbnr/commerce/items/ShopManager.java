@@ -2,6 +2,7 @@ package net.tbnr.commerce.items;
 
 import lombok.Getter;
 import net.tbnr.commerce.GearzCommerce;
+import net.tbnr.commerce.items.shop.PlayerShop;
 import net.tbnr.commerce.items.shop.Shop;
 import net.tbnr.gearz.Gearz;
 import net.tbnr.gearz.player.GearzPlayer;
@@ -24,7 +25,7 @@ import java.util.HashMap;
  */
 public class ShopManager implements TCommandHandler {
 
-    @Getter private final HashMap<GearzPlayer, Shop> players;
+    @Getter private final HashMap<GearzPlayer, PlayerShop> players;
 
     {
         players = new HashMap<>();
@@ -43,7 +44,7 @@ public class ShopManager implements TCommandHandler {
         }
         GearzPlayer gearzPlayer = GearzPlayer.playerFromPlayer((Player) sender);
         synchronized (players) {
-            Shop shop = new Shop(gearzPlayer, GearzCommerce.getInstance().getItemAPI());
+            PlayerShop shop = new Shop(gearzPlayer, GearzCommerce.getInstance().getItemAPI());
             players.put(gearzPlayer, shop);
             shop.open();
         }
