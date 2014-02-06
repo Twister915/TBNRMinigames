@@ -20,10 +20,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @GameMeta(
         description = "Everyone will get a random class, and this class will switch to a new random class after fifteen" +
@@ -200,6 +197,19 @@ public final class GSwitchUpGame extends GearzGame implements GameCountdownHandl
                 broadcast(getPluginFormat("formats.win", true, new String[]{"<winner>", leader.getUsername()}));
                 addGPoints(leader, 150);
                 addWin(leader);
+                List<GearzPlayer> players2 = new ArrayList<>(this.killsThisGame.keySet());
+                Collections.sort(players2, new Comparator<GearzPlayer>() {
+                    @Override
+                    public int compare(GearzPlayer o1, GearzPlayer o2) {
+                        return killsThisGame.get(o2) - killsThisGame.get(o1);
+                    }
+                });
+                int length = Math.min(8, getPlayers().size());
+                GearzPlayer[] players = new GearzPlayer[length];
+                for (int x = 0; x < length; x++) {
+                    players[x] = players2.get(x);
+                }
+                displayWinners(players);
                 finishGame();
             }
         }

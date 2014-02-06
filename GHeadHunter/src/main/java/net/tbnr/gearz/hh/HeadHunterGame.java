@@ -341,6 +341,7 @@ public final class HeadHunterGame extends GearzGame implements GameCountdownHand
         else return String.format("%02d:%02d", (integer / 60), (integer % 60));
     }
 
+    @SuppressWarnings("unchecked")
     private List<GearzPlayer> getSortedPoints() {
         List<GearzPlayer> playersSorted = new ArrayList<>(this.pointsAwarded.keySet());
         final HashMap<GearzPlayer, Integer> pointsCopy = new HashMap(this.pointsAwarded);

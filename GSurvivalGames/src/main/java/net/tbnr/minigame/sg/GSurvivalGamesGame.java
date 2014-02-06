@@ -135,14 +135,16 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
 
     private void sendApplicableCountdownMessages() {
         if (this.state == SGState.Countdown) {
-            if (contains(chatSecondsMarkers, this.countdownSecondsRemain)) broadcast(getPluginFormat("formats.countdown-chat", false, new String[]{"<seconds>", String.valueOf(this.countdownSecondsRemain)}));
-            for (GearzPlayer player : getPlayers()) {
-                player.getTPlayer().playSound(Sound.CLICK);
+            if (contains(chatSecondsMarkers, this.countdownSecondsRemain)) {
+                broadcast(getPluginFormat("formats.countdown-chat", true, new String[]{"<seconds>", String.valueOf(this.countdownSecondsRemain)}));
+                for (GearzPlayer player : getPlayers()) {
+                    player.getTPlayer().playSound(Sound.CLICK);
+                }
             }
         }
     }
 
-    private <T> boolean contains(T[] arrays, T element) {
+    public static <T> boolean contains(T[] arrays, T element) {
         for (T array : arrays) {
             if (array.equals(element)) return true;
         }
