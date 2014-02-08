@@ -12,6 +12,7 @@ import net.tbnr.gearz.player.GearzPlayer;
         key = "eyes_of_ender",
         tier = Tier.Awesome
 )
+@Deprecated
 public final class EyesOfEnder extends CommerceItem {
     public EyesOfEnder(GearzPlayer player, CommerceItemAPI api) throws GearzException {
         super(player, api);

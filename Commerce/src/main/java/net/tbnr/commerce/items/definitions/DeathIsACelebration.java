@@ -20,14 +20,14 @@ import org.bukkit.inventory.meta.FireworkMeta;
         key = "death_is_a_celebration",
         tier = Tier.Diamond_Veteran
 )
-public final class DeathIsACelebration extends CommerceItem{
+public final class DeathIsACelebration extends AbstractDeathItem {
     public DeathIsACelebration(GearzPlayer player, CommerceItemAPI api) throws GearzException {
         super(player, api);
     }
 
-    @EventHandler
-    public void onPlayerDeath(PlayerGameDeathEvent event) {
-        Location location = event.getDead().getPlayer().getLocation();
+    @Override
+    protected void performDeathAction() {
+        Location location = getPlayer().getPlayer().getLocation();
         Firework entity = (Firework)location.getWorld().spawnEntity(location, EntityType.FIREWORK);
         FireworkMeta fireworkMeta = entity.getFireworkMeta();
         fireworkMeta.addEffects(FireworkEffect.builder().

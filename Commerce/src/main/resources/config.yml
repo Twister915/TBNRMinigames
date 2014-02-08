@@ -6,6 +6,7 @@ formats:
   snowballs-delivered: "&3You have been given &a256&3 more snowballs."
   must-be-hub: "&cYou can only use /shop on the hub!"
   gui:
+    main-title: "&aShop menu"
     shop-title: "&aShop: Item Shop"
     tier-title: "&aShop: Tier Shop"
     tier-lore: "&6Tier: <tier>"

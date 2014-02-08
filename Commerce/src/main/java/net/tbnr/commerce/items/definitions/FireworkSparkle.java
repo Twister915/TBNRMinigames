@@ -12,6 +12,7 @@ import net.tbnr.gearz.player.GearzPlayer;
         key = "firework_sparkle",
         humanName = "Firework Sparkle"
 )
+@Deprecated
 public final class FireworkSparkle extends CommerceItem {
     public FireworkSparkle(GearzPlayer player, CommerceItemAPI api) throws GearzException {
         super(player, api);

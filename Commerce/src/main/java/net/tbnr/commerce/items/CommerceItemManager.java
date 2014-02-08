@@ -16,6 +16,7 @@ import net.tbnr.util.command.TCommandHandler;
 import net.tbnr.util.command.TCommandSender;
 import net.tbnr.util.command.TCommandStatus;
 import net.tbnr.util.player.TPlayer;
+import net.tbnr.util.player.TPlayerDisconnectEvent;
 import net.tbnr.util.player.TPlayerJoinEvent;
 import net.tbnr.util.player.TPlayerManager;
 import org.bukkit.Bukkit;
@@ -63,13 +64,13 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
                 DeathIsACelebration.class,
                 EnchantedColorArmor.class,
                 EnchantedProperArmor.class,
-                EnderPearls.class,
-                EyesOfEnder.class,
+                //EnderPearls.class,
+                //EyesOfEnder.class,
                 FiftyPremiumJoins.class,
                 FiftyVoteBoost.class,
-                FireworkCreeper.class,
-                FireworkEverything.class,
-                FireworkSparkle.class,
+                //FireworkCreeper.class,
+                //FireworkEverything.class,
+                //FireworkSparkle.class,
                 IntoTheShadows.class,
                 PointBoost3Day20Perc.class,
                 PointBoost5Day40Perc.class,
@@ -275,6 +276,11 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
     @EventHandler
     public void onPlayerJoin(TPlayerJoinEvent event) {
         reloadPlayer(GearzPlayer.playerFromTPlayer(event.getPlayer()));
+    }
+
+    @EventHandler
+    public void onPlayerDisconnect(TPlayerDisconnectEvent event) {
+        this.playerCommerceData.remove(GearzPlayer.playerFromTPlayer(event.getPlayer()));
     }
 
     @Override

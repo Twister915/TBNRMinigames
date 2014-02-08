@@ -64,7 +64,7 @@ public abstract class CommerceItem implements Listener {
      * @param <T> The type of the object you're storing
      * @return The object you stored.
      */
-    public <T> T setObject(String key, T object) {
+    public final <T> T setObject(String key, T object) {
         if (key.equals("key")) throw new RuntimeException("You cannot use the key 'key'!");
         BasicDBList purchaseList = this.api.getPurchaseList(this.player);
         int index = 0;
@@ -84,7 +84,7 @@ public abstract class CommerceItem implements Listener {
     }
 
     @SuppressWarnings({"unchecked", "UnusedParameters"})
-    public <T> T getObject(String key, Class<T> clazz) {
+    public final <T> T getObject(String key, Class<T> clazz) {
         BasicDBList purchaseList = this.api.getPurchaseList(this.player);
         for (Object o : purchaseList) {
             if (!(o instanceof DBObject)) continue;

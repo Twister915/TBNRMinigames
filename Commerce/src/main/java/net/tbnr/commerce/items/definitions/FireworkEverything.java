@@ -12,6 +12,7 @@ import net.tbnr.gearz.player.GearzPlayer;
         key = "firework_everything",
         tier = Tier.Iron_Veteran
 )
+@Deprecated
 public final class FireworkEverything extends CommerceItem {
     public FireworkEverything(GearzPlayer player, CommerceItemAPI api) throws GearzException {
         super(player, api);

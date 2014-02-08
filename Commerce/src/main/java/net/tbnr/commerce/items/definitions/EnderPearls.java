@@ -12,6 +12,7 @@ import net.tbnr.gearz.player.GearzPlayer;
         key = "ender_pearls",
         humanName = "Ender Pearls"
 )
+@Deprecated
 public final class EnderPearls extends CommerceItem {
     public EnderPearls(GearzPlayer player, CommerceItemAPI api) throws GearzException {
         super(player, api);

@@ -12,6 +12,7 @@ import net.tbnr.gearz.player.GearzPlayer;
         key = "firework_creeper",
         humanName = "Firework + Creeper"
 )
+@Deprecated
 public final class FireworkCreeper extends CommerceItem {
     public FireworkCreeper(GearzPlayer player, CommerceItemAPI api) throws GearzException {
         super(player, api);
