@@ -36,6 +36,7 @@ formats:
    blastoff-loading: "&e&lLoading server info for &c<server>&e&l!"
    blastoff-topline: "&0[&cServers&0]"
    command-status: "&7[&6TBNR&7] &cThe command returned an error: &4<status>"
+   servers-full: "&cAll &3<server>&c servers are full at the moment. Please try again later!"
 blastoff:
    distance: 15
 resource-pack-link: "http://four.tbnr.pw/tbnr_tex.zip"

@@ -2,6 +2,7 @@ package net.tbnr.gearz.hub;
 
 import net.tbnr.gearz.Gearz;
 import net.tbnr.gearz.netcommand.BouncyUtils;
+import net.tbnr.gearz.netcommand.NetCommand;
 import net.tbnr.gearz.packets.wrapper.WrapperPlayServerWorldParticles;
 import net.tbnr.gearz.server.Server;
 import net.tbnr.gearz.server.ServerManager;
@@ -37,7 +38,6 @@ import java.util.List;
  */
 @SuppressWarnings("ALL")
 public class MultiserverCannons implements Listener, TCommandHandler {
-    private HashSet<TPlayer> actives = new HashSet<>();
     private HashMap<Location, MultiserverCannon> cannons = new HashMap<>();
 
     public MultiserverCannons() {
@@ -53,23 +53,54 @@ public class MultiserverCannons implements Listener, TCommandHandler {
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
         if (event.getPlayer().getGameMode() == GameMode.CREATIVE) return;
-        MultiserverCannon cannon = getCannon(event.getPlayer().getLocation().getBlock().getLocation());
+        final MultiserverCannon cannon = getCannon(event.getPlayer().getLocation().getBlock().getLocation());
         if (cannon == null) return;
         TPlayer player = TBNRHub.getInstance().getPlayerManager().getPlayer(event.getPlayer());
-        if (actives.contains(player)) return;
+        final Player player1 = player.getPlayer();
         event.setCancelled(true);
         cannon.connecting(player);
         player.playSound(Sound.FUSE);
         try {
-            player.playParticleEffect(new TPlayer.TParticleEffect(player.getPlayer().getLocation(), Gearz.getRandom().nextFloat(), 1, 35, 35, WrapperPlayServerWorldParticles.ParticleEffect.LARGE_SMOKE));
+            player.playParticleEffect(new TPlayer.TParticleEffect(player1.getLocation(), Gearz.getRandom().nextFloat(), 1, 35, 35, WrapperPlayServerWorldParticles.ParticleEffect.LARGE_SMOKE));
         } catch (Exception e) {
             e.printStackTrace();
         }
-        MultiserverCannonProcess multiserverCannonProcess = new MultiserverCannonProcess(player, cannon);
-        TBNRHub.getInstance().registerEvents(multiserverCannonProcess);
-        Bukkit.getScheduler().scheduleSyncDelayedTask(TBNRHub.getInstance(), multiserverCannonProcess, 35);
-        this.actives.add(player);
+        //MultiserverCannonProcess multiserverCannonProcess = new MultiserverCannonProcess(player, cannon);
+        //TBNRHub.getInstance().registerEvents(multiserverCannonProcess);
+        //Bukkit.getScheduler().scheduleSyncDelayedTask(TBNRHub.getInstance(), multiserverCannonProcess, 35);
+        player1.setVelocity(player1.getLocation().getDirection().add(new Vector(0, 4, 0)));
+        player.playSound(Sound.ORB_PICKUP);
+        Bukkit.getScheduler().runTaskLater(TBNRHub.getInstance(), new Runnable() {
+            @Override
+            public void run() {
+                if (!player1.isOnline()) return;
+                String serverFor = getServerFor(cannon.getServer(), false);
+                if (serverFor == null) getServerFor(cannon.getServer(), true);
+                if (serverFor == null) {
+                    player1.sendMessage(TBNRHub.getInstance().getFormat("formats.servers-full", false, new String[]{"<server>", cannon.getServer()}));
+                }
+                BouncyUtils.sendPlayerToServer(player1, serverFor);
+            }
+        }, 20L);
         event.setCancelled(true);
+    }
+
+    private String getServerFor(String game, boolean allowFulls) {
+        List<net.tbnr.gearz.server.Server> server = ServerManager.getServersWithGame(game);
+        if (server == null) return game;
+        Server server2 = null;
+        for (Server s : server) {
+            if (!s.getStatusString().equals("lobby")) continue;
+            if (!s.isCanJoin()) continue;
+            if (s.getMaximumPlayers() == s.getPlayerCount() && !allowFulls) continue;
+            if (server2 == null) {
+                server2 = s;
+                continue;
+            }
+            if (s.getPlayerCount() > server2.getPlayerCount()) server2 = s;
+        }
+        if (server2 == null) return null;
+        return server2.getBungee_name();
     }
 
     @TCommand(
@@ -154,7 +185,7 @@ public class MultiserverCannons implements Listener, TCommandHandler {
         SENT
     }
 
-    public static class MultiserverCannonProcess extends BukkitRunnable implements Listener {
+    /*public static class MultiserverCannonProcess extends BukkitRunnable implements Listener {
         private TPlayer player;
         private MultiserverCannon cannon;
         private ProcessState state;
@@ -209,7 +240,7 @@ public class MultiserverCannons implements Listener, TCommandHandler {
                         }
                     }catch (Exception e) {
                         e.printStackTrace();
-                    }*/
+                    }
                     this.player.getPlayer().setVelocity(this.player.getPlayer().getLocation().getDirection().multiply(1.9).add(new Vector(0, 0.5, 0)));
                     return true;
                 case SEND:
@@ -262,5 +293,5 @@ public class MultiserverCannons implements Listener, TCommandHandler {
             newTo.setYaw(this.yaw);
             event.getPlayer().teleport(newTo);
         }
-    }
+    }*/
 }
