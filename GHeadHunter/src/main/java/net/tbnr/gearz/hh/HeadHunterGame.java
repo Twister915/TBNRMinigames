@@ -140,14 +140,16 @@ public final class HeadHunterGame extends GearzGame implements GameCountdownHand
 
     @Override
     protected void playerKilled(GearzPlayer dead, GearzPlayer killer) {
+        Player player = dead.getPlayer();
+        Player player1 = killer.getPlayer();
         addGPoints(killer, Math.max(1, killsInInventory(dead)) * 2);
         ItemStack stack = new ItemStack(Material.SKULL_ITEM, 1, (short) SkullType.PLAYER.ordinal());
         SkullMeta itemMeta = (SkullMeta) stack.getItemMeta();
-        itemMeta.setOwner(dead.getPlayer().getName());
+        itemMeta.setOwner(player.getName());
         stack.setItemMeta(itemMeta);
         if (killsInInventory(dead) >= 5) stack.setAmount(2);
-        dead.getPlayer().getWorld().dropItemNaturally(dead.getPlayer().getLocation(), stack);
-        killer.getPlayer().playNote(killer.getPlayer().getLocation(), Instrument.PIANO, Note.sharp(1, Note.Tone.F));
+        player.getWorld().dropItemNaturally(player1.getLocation(), stack);
+        player1.playNote(player1.getLocation(), Instrument.PIANO, Note.sharp(1, Note.Tone.F));
     }
 
     @Override
