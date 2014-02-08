@@ -38,6 +38,7 @@ import java.util.List;
  */
 @SuppressWarnings("ALL")
 public class MultiserverCannons implements Listener, TCommandHandler {
+    private HashSet<TPlayer> actives = new HashSet<>();
     private HashMap<Location, MultiserverCannon> cannons = new HashMap<>();
 
     public MultiserverCannons() {
@@ -51,12 +52,13 @@ public class MultiserverCannons implements Listener, TCommandHandler {
     }
 
     @EventHandler
-    public void onPlayerMove(PlayerMoveEvent event) {
+    public void onPlayerMove(final PlayerMoveEvent event) {
         if (event.getPlayer().getGameMode() == GameMode.CREATIVE) return;
         final MultiserverCannon cannon = getCannon(event.getPlayer().getLocation().getBlock().getLocation());
         if (cannon == null) return;
-        TPlayer player = TBNRHub.getInstance().getPlayerManager().getPlayer(event.getPlayer());
+        final TPlayer player = TBNRHub.getInstance().getPlayerManager().getPlayer(event.getPlayer());
         final Player player1 = player.getPlayer();
+        if (actives.contains(player)) return;
         event.setCancelled(true);
         cannon.connecting(player);
         player.playSound(Sound.FUSE);
@@ -68,7 +70,9 @@ public class MultiserverCannons implements Listener, TCommandHandler {
         //MultiserverCannonProcess multiserverCannonProcess = new MultiserverCannonProcess(player, cannon);
         //TBNRHub.getInstance().registerEvents(multiserverCannonProcess);
         //Bukkit.getScheduler().scheduleSyncDelayedTask(TBNRHub.getInstance(), multiserverCannonProcess, 35);
-        player1.setVelocity(player1.getLocation().getDirection().add(new Vector(0, 4, 0)));
+        this.actives.add(player);
+        player1.setVelocity(player1.getLocation().getDirection().add(new Vector(0, 2, 0)));
+        player1.setAllowFlight(true);
         player.playSound(Sound.ORB_PICKUP);
         Bukkit.getScheduler().runTaskLater(TBNRHub.getInstance(), new Runnable() {
             @Override
@@ -79,9 +83,11 @@ public class MultiserverCannons implements Listener, TCommandHandler {
                 if (serverFor == null) {
                     player1.sendMessage(TBNRHub.getInstance().getFormat("formats.servers-full", false, new String[]{"<server>", cannon.getServer()}));
                 }
+                actives.remove(player);
+                player1.setAllowFlight(false);
                 BouncyUtils.sendPlayerToServer(player1, serverFor);
             }
-        }, 20L);
+        }, 40L);
         event.setCancelled(true);
     }
 
