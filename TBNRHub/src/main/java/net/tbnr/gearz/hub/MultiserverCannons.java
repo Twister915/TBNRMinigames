@@ -78,13 +78,14 @@ public class MultiserverCannons implements Listener, TCommandHandler {
             @Override
             public void run() {
                 if (!player1.isOnline()) return;
+                actives.remove(player);
+                player1.setAllowFlight(false);
                 String serverFor = getServerFor(cannon.getServer(), false);
                 if (serverFor == null) getServerFor(cannon.getServer(), true);
                 if (serverFor == null) {
                     player1.sendMessage(TBNRHub.getInstance().getFormat("formats.servers-full", false, new String[]{"<server>", cannon.getServer()}));
+                    return;
                 }
-                actives.remove(player);
-                player1.setAllowFlight(false);
                 BouncyUtils.sendPlayerToServer(player1, serverFor);
             }
         }, 40L);

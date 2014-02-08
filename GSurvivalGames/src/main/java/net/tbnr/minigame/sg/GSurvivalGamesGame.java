@@ -45,7 +45,8 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
         Countdown,
         Gameplay,
         DeathmatchCountdown,
-        Deathmatch
+        Deathmatch,
+        Over
     }
 
     private SGState state;
@@ -53,6 +54,8 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
     private final static Integer countdownLength = 30;
     private Integer startingPlayers;
     private double maxCornicopiaDistance;
+
+    private GearzPlayer victor = null;
 
     private static Integer[] chatSecondsMarkers = new Integer[]{30, 15, 10, 5, 4, 3, 2, 1};
 
@@ -180,12 +183,12 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
 
     @Override
     protected boolean canUse(GearzPlayer player) {
-        return true;
+        return (state != SGState.Countdown);
     }
 
     @Override
     protected boolean canBreak(GearzPlayer player, Block block) {
-        return (block.getType() == Material.CROPS || block.getType() == Material.LEAVES || block.getType() == Material.LEAVES_2 || block.getType() == Material.WEB);
+        return (state != SGState.Countdown) && (block.getType() == Material.CROPS || block.getType() == Material.LEAVES || block.getType() == Material.LEAVES_2 || block.getType() == Material.WEB);
     }
 
     @Override
@@ -251,7 +254,7 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
 
     @Override
     protected boolean allowHunger(GearzPlayer player) {
-        return true;
+        return this.state != SGState.Countdown;
     }
 
     @Override
@@ -272,7 +275,14 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
                 EnderBar.setHealthPercent(player, (float) countdownSecondsRemain / (float) countdownLength);
             }
             if (this.state == SGState.Countdown) updateArmour();
-        } else {
+        }
+        else if (this.state == SGState.Over && this.victor != null) {
+            for (GearzPlayer player : this.allPlayers()) {
+                EnderBar.setHealthPercent(player, 1);
+                EnderBar.setTextFor(player, getPluginFormat("formats.game-over-bar", false, new String[]{"<player>", this.victor.getUsername()}));
+            }
+        }
+        else {
             int size = getPlayers().size();
             for (GearzPlayer player : this.allPlayers()) {
                 if (player == null || !player.isValid()) continue;
@@ -347,11 +357,13 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
                 if (getPlayers().size() == 1) {
                     HashSet<GearzPlayer> players1 = getPlayers();
                     GearzPlayer[] players = players1.toArray(new GearzPlayer[players1.size()]);
-                    GearzPlayer killer = players[0];
-                    broadcast(getPluginFormat("formats.winner", true, new String[]{"<winner>", killer.getUsername()}));
-                    addGPoints(killer, 100);
-                    addWin(killer);
+                    GearzPlayer winner = players[0];
+                    broadcast(getPluginFormat("formats.winner", true, new String[]{"<winner>", winner.getUsername()}));
+                    addGPoints(winner, 100);
+                    addWin(winner);
                     finishGame();
+                    victor = winner;
+                    state = SGState.Over;
                 }
                 if (getPlayers().size() <= 5 && state == SGState.Gameplay) {
                     state = SGState.DeathmatchCountdown;
