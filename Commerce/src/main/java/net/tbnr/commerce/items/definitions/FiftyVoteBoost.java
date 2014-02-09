@@ -30,7 +30,6 @@ public final class FiftyVoteBoost extends CommerceItem {
     public void onVote(PlayerMapVoteEvent event) {
         if (!event.getPlayer().equals(getPlayer())) return;
         event.setNumberOfVotes(event.getNumberOfVotes()*2);
-        event.getPlayer().getTPlayer().sendMessage(GearzCommerce.getInstance().getFormat("formats.double-vote"));
         usedVote = true;
     }
 
@@ -38,6 +37,7 @@ public final class FiftyVoteBoost extends CommerceItem {
     public void onGameStart(GameStartEvent event) {
         if (!event.getGame().getPlayers().contains(getPlayer())) return;
         if (!usedVote) return;
+        getPlayer().getTPlayer().sendMessage(GearzCommerce.getInstance().getFormat("formats.double-vote"));
         votesLeft--;
         if (votesLeft <= 0) {
             revoke();
