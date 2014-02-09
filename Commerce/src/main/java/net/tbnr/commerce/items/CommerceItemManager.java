@@ -102,7 +102,6 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
                 continue;
             }
             CommerceItem commerceItem = constructCommerceItem(key, player);
-            GearzCommerce.getInstance().getLogger().info("Registered item " + getMetaFor(commerceItem.getClass()).humanName() + " for player " + player.getUsername());
             if (contains(recentlyPurchased, commerceItem.getClass())) commerceItem.onPurchase();
             try {
                 commerceItem.register();
