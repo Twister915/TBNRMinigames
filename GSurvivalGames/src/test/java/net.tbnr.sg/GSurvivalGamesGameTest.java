@@ -5,6 +5,10 @@ import net.tbnr.minigame.sg.GSurvivalGamesGame;
 
 /**
  * Created by Joey on 2/6/14.
+ *
+ * Purpose Of File: TO serve as the survival games test
+ *
+ * Latest Change: Added file template correction
  */
 public class GSurvivalGamesGameTest extends TestCase {
 

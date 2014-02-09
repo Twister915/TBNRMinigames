@@ -16,8 +16,8 @@ public class ColoredSigns implements Listener {
     @SuppressWarnings("unused")
     public void onSignChange(SignChangeEvent event) {
         if (!event.getPlayer().hasPermission("gearz.coloredsigns")) return;
-        for (int x = 0; x < event.getLines().length; x++) {
-            event.setLine(x, ChatColor.translateAlternateColorCodes('&', event.getLine(x))); //Color the fucking line
+        for (int x = 0, l = event.getLines().length; x < l; x++) {
+            event.setLine(x, ChatColor.translateAlternateColorCodes('&', event.getLine(x))); //Color the f****** line
         }
     }
 }

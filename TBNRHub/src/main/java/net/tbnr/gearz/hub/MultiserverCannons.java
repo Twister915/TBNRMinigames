@@ -2,7 +2,6 @@ package net.tbnr.gearz.hub;
 
 import net.tbnr.gearz.Gearz;
 import net.tbnr.gearz.netcommand.BouncyUtils;
-import net.tbnr.gearz.netcommand.NetCommand;
 import net.tbnr.gearz.packets.wrapper.WrapperPlayServerWorldParticles;
 import net.tbnr.gearz.server.Server;
 import net.tbnr.gearz.server.ServerManager;
@@ -18,10 +17,8 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
