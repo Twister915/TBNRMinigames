@@ -91,7 +91,8 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
             }
         }
         List<CommerceItem> items = new ArrayList<>();
-        for (Object commerce_purchase : commerce_purchases) {
+        for (int x = commerce_purchases.size()-1; x > -1; x--) { //Load in reverse
+            Object commerce_purchase = commerce_purchases.get(x);
             if (!(commerce_purchase instanceof DBObject)) continue;
             DBObject object = (DBObject)commerce_purchase;
             String key;
