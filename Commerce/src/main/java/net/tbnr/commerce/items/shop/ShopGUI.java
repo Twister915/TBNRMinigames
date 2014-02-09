@@ -150,6 +150,7 @@ public class ShopGUI implements Listener {
         if (!(event.getPlayer() instanceof Player)) {
             return;
         }
+        if (!event.getPlayer().equals(player.getPlayer())) return;
         if (!event.getInventory().getTitle().equalsIgnoreCase(this.inventory.getTitle())) {
             return;
         }
