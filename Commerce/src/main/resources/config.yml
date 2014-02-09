@@ -19,7 +19,7 @@ formats:
     already-have-tier-lore: "&aYou have unlocked this teir!"
     tier-price-lore: "&aPoints: &6<points>"
     tier-can-purchase-lore: "&aYou can unlock this tier with points!"
-    tier-erequired-level-lore: "&cThis requires level &a<level>&c."
+    tier-required-level-lore: "&cThis requires level &a<level>&c."
     tier-shop-title: "&bView/Purchase &cTiers"
     item-shop-title: "&bView/Purchase &6Items"
     info-title: "&3About the TBNR Shop:"

@@ -121,10 +121,12 @@ public final class Shop implements PlayerShop {
     void selectedTier(Tier tier) throws PurchaseException {
         if (!tier.isMustBePurchased()) return;
         this.api.purchaseTier(player, tier);
+        this.tierGui.updateContents(getTierItems());
     }
 
     void selectedItem(Class<? extends CommerceItem> anItem) throws PurchaseException {
         this.api.purchaseItem(player, anItem);
+        this.shopGui.updateContents(getShopItems());
     }
     private InventoryGUI getInvetoryGui(GuiKey key) {
         ArrayList<InventoryGUI.InventoryGUIItem> items = null;
