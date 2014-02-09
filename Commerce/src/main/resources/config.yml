@@ -35,5 +35,5 @@ formats:
     - "&boptions. &c&lIN ALL TRANSACTIONS, IF YOU HAVE"
     - "&c&lDONOR POINTS (CACTUS POINTS), THEY WILL BE USED IF POSSIBLE."
   currency:
-    donor: "Cactus Points"
-    points: "Points"
+    donor: "Cactus Point"
+    points: "Point"
