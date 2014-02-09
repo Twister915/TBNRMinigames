@@ -32,7 +32,7 @@ public abstract class AbstractPointBoost extends CommerceItem {
 
     private boolean shouldRevoke() {
         Date date_time = getObject("date_time", Date.class);
-        long l = date_time.getTime() + (daysLength() * 86400);
+        long l = date_time.getTime() + (daysLength() * 86400000);
         return new Date().getTime()  > l;
     }
     public abstract int percentageBoost();
