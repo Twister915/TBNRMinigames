@@ -122,11 +122,13 @@ public final class Shop implements PlayerShop {
         if (!tier.isMustBePurchased()) return;
         this.api.purchaseTier(player, tier);
         this.tierGui.updateContents(getTierItems());
+        close();
     }
 
     void selectedItem(Class<? extends CommerceItem> anItem) throws PurchaseException {
         this.api.purchaseItem(player, anItem);
         this.shopGui.updateContents(getShopItems());
+        close();
     }
     private InventoryGUI getInvetoryGui(GuiKey key) {
         ArrayList<InventoryGUI.InventoryGUIItem> items = null;
@@ -230,7 +232,7 @@ public final class Shop implements PlayerShop {
 
         @Override
         public void onGUIClose(InventoryGUI gui, Player player) {
-            if (this.key != GuiKey.Main) this.shopInstnace.openGui(GuiKey.Main);
+
         }
     }
 
