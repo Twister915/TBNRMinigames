@@ -18,7 +18,7 @@ public abstract class AbstractPointBoost extends CommerceItem {
     public AbstractPointBoost(GearzPlayer player, CommerceItemAPI api) throws GearzException {
         super(player, api);
         this.percentage = ((double)percentageBoost()/100)+1;
-        this.message = GearzCommerce.getInstance().getFormat("point-boost-message", false, new String[]{"<perc>", String.valueOf(percentageBoost())});
+        this.message = GearzCommerce.getInstance().getFormat("formats.point-boost-message", false, new String[]{"<perc>", String.valueOf(percentageBoost())});
     }
     @EventHandler
     public void onPointGain(PlayerPointChangeEvent event) {

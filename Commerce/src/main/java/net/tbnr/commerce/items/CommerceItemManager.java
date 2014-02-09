@@ -83,6 +83,7 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
     }
     @Override
     public void reloadPlayer(GearzPlayer player, Class<? extends CommerceItem>... recentlyPurchased) {
+        GearzCommerce.getInstance().getLogger().info("Loading player " + player.getUsername() + "...");
         BasicDBList commerce_purchases = getPurchaseList(player);
         if (this.playerCommerceData.containsKey(player)) {
             for (CommerceItem commerceItem : this.playerCommerceData.get(player).getItems()) {
