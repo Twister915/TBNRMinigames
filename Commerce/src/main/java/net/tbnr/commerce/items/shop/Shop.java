@@ -34,7 +34,8 @@ public final class Shop implements PlayerShop {
 
     private ArrayList<InventoryGUI.InventoryGUIItem> getShopItems() {
         ArrayList<InventoryGUI.InventoryGUIItem> items = new ArrayList<>();
-        String[] strings = {"<currency>", resolveName(CommerceItemAPI.PurchaseMethod.Points)};
+        String[] pointsStrings = {"<currency>", resolveName(CommerceItemAPI.PurchaseMethod.Points)};
+        String[] donorStrings = {"<currency>", resolveName(CommerceItemAPI.PurchaseMethod.Donor)};
         for (Class<? extends CommerceItem> aClass : api.getCommerceItems()) {
             CommerceItemMeta metaFor = api.getMetaFor(aClass);
             Tier tier = metaFor.tier();
@@ -42,9 +43,9 @@ public final class Shop implements PlayerShop {
             String title = ChatColor.translateAlternateColorCodes('&', metaFor.humanName());
             ItemStack stack = new ItemStack(tier.getRepItem());
             lore.add(GearzCommerce.getInstance().getFormat("formats.gui.tier-lore", true, new String[]{"<tier>", tier.getHumanName()}));
-            lore.add(GearzCommerce.getInstance().getFormat("formats.gui.price-lore", true, strings, new String[]{"<points>",
+            lore.add(GearzCommerce.getInstance().getFormat("formats.gui.price-lore", true, pointsStrings, new String[]{"<points>",
                     tier.isMustBePurchased() ? "&cN/A" : String.valueOf(tier.getPoints())}));
-            lore.add(GearzCommerce.getInstance().getFormat("formats.gui.price-lore", true, strings, new String[]{"<points>", String.valueOf(tier.getDonorCredits())}));
+            lore.add(GearzCommerce.getInstance().getFormat("formats.gui.price-lore", true, donorStrings, new String[]{"<points>", String.valueOf(tier.getDonorCredits())}));
             if (api.playerHasItem(player, aClass)) {
                 stack.addUnsafeEnchantment(Enchantment.SILK_TOUCH, 32);
                 lore.add(0, GearzCommerce.getInstance().getFormat("formats.gui.already-purchased-lore"));
@@ -131,7 +132,7 @@ public final class Shop implements PlayerShop {
 
     public static String resolveName(CommerceItemAPI.PurchaseMethod method) {
         if (method == CommerceItemAPI.PurchaseMethod.Donor) return GearzCommerce.getInstance().getFormat("formats.currency.donor");
-        else return GearzCommerce.getInstance().getFormat("foramts.currency.points");
+        else return GearzCommerce.getInstance().getFormat("formats.currency.points");
     }
 
     private void successfulPurchase(String item, Integer amount, String currency) {
