@@ -85,7 +85,7 @@ public final class Shop implements PlayerShop {
                     }
                     else {
                         stack.addUnsafeEnchantment(Enchantment.SILK_TOUCH, 32);
-                        lore.add(GearzCommerce.getInstance().getFormat("formats.gui.tier-required-level-lore", true, new String[]{"<level>", String.valueOf(tier.getRequiredLevel())}));
+                        lore.add(GearzCommerce.getInstance().getFormat("formats.gui.tier-required-level-lore", true, new String[]{"<level>", String.valueOf(tier.getRequiredLevel())}, new String[]{"<points>", String.valueOf(tier.getPoints())}));
                     }
                 }
             }
