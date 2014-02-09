@@ -28,7 +28,7 @@ public final class IntoTheShadows extends AbstractDeathItem {
         Location location = getPlayer().getPlayer().getLocation();
         Set<GearzPlayer> players = new HashSet<>();
         for (Player player : location.getWorld().getPlayers()) {
-            if (player.getLocation().distance(location) < 30) players.add(GearzPlayer.playerFromPlayer(player));
+            if (player.getLocation().distanceSquared(location) < 900) players.add(GearzPlayer.playerFromPlayer(player));
         }
         for (GearzPlayer player : players) {
             try {

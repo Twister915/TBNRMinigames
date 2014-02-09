@@ -1,18 +1,15 @@
 package net.tbnr.commerce.items.definitions;
 
-import net.tbnr.commerce.items.CommerceItem;
 import net.tbnr.commerce.items.CommerceItemAPI;
 import net.tbnr.commerce.items.CommerceItemMeta;
 import net.tbnr.commerce.items.Tier;
 import net.tbnr.gearz.GearzException;
-import net.tbnr.gearz.event.player.PlayerGameDeathEvent;
 import net.tbnr.gearz.player.GearzPlayer;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
-import org.bukkit.event.EventHandler;
 import org.bukkit.inventory.meta.FireworkMeta;
 
 @CommerceItemMeta(
