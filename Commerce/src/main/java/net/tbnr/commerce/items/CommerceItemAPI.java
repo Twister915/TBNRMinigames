@@ -157,7 +157,14 @@ public interface CommerceItemAPI {
      */
     public void testItemPurchase(GearzPlayer player, Class<? extends CommerceItem> item) throws PurchaseException;
 
-    public void purchaseItem(GearzPlayer player, Class<? extends CommerceItem> item) throws PurchaseException;
+    /**
+     *
+     * @param player
+     * @param item
+     * @return
+     * @throws PurchaseException
+     */
+    public PurchaseResult purchaseItem(GearzPlayer player, Class<? extends CommerceItem> item) throws PurchaseException;
 
     /**
      *
@@ -165,7 +172,7 @@ public interface CommerceItemAPI {
      * @param item
      * @return
      */
-    public void purchaseItem(GearzPlayer player, Class<? extends CommerceItem> item, PurchaseMethod method) throws PurchaseException;
+    public PurchaseResult purchaseItem(GearzPlayer player, Class<? extends CommerceItem> item, PurchaseMethod method) throws PurchaseException;
 
     /**
      * Check's whether a player can purchase a tier
@@ -181,7 +188,7 @@ public interface CommerceItemAPI {
      * @param tier ~ The tier to buy
      * @return boolean ~ if it succeeded
      */
-    public boolean purchaseTier(GearzPlayer player, Tier tier) throws PurchaseException;
+    public PurchaseResult purchaseTier(GearzPlayer player, Tier tier) throws PurchaseException;
 
     /**
      * Check If Player has a tier

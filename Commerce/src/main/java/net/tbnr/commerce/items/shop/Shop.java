@@ -5,10 +5,7 @@ import net.tbnr.commerce.GearzCommerce;
 import net.tbnr.commerce.items.*;
 import net.tbnr.gearz.player.GearzPlayer;
 import net.tbnr.util.InventoryGUI;
-import org.bukkit.ChatColor;
-import org.bukkit.Instrument;
-import org.bukkit.Material;
-import org.bukkit.Note;
+import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -37,6 +34,7 @@ public final class Shop implements PlayerShop {
 
     private ArrayList<InventoryGUI.InventoryGUIItem> getShopItems() {
         ArrayList<InventoryGUI.InventoryGUIItem> items = new ArrayList<>();
+        String[] strings = {"<currency>", resolveName(CommerceItemAPI.PurchaseMethod.Points)};
         for (Class<? extends CommerceItem> aClass : api.getCommerceItems()) {
             CommerceItemMeta metaFor = api.getMetaFor(aClass);
             Tier tier = metaFor.tier();
@@ -44,9 +42,9 @@ public final class Shop implements PlayerShop {
             String title = ChatColor.translateAlternateColorCodes('&', metaFor.humanName());
             ItemStack stack = new ItemStack(tier.getRepItem());
             lore.add(GearzCommerce.getInstance().getFormat("formats.gui.tier-lore", true, new String[]{"<tier>", tier.getHumanName()}));
-            lore.add(GearzCommerce.getInstance().getFormat("formats.gui.points-price-lore", true, new String[]{"<points>",
+            lore.add(GearzCommerce.getInstance().getFormat("formats.gui.price-lore", true, strings, new String[]{"<points>",
                     tier.isMustBePurchased() ? "&cN/A" : String.valueOf(tier.getPoints())}));
-            lore.add(GearzCommerce.getInstance().getFormat("formats.gui.donor-price-lore", true, new String[]{"<points>", String.valueOf(tier.getDonorCredits())}));
+            lore.add(GearzCommerce.getInstance().getFormat("formats.gui.price-lore", true, strings, new String[]{"<points>", String.valueOf(tier.getDonorCredits())}));
             if (api.playerHasItem(player, aClass)) {
                 stack.addUnsafeEnchantment(Enchantment.SILK_TOUCH, 32);
                 lore.add(0, GearzCommerce.getInstance().getFormat("formats.gui.already-purchased-lore"));
@@ -126,8 +124,19 @@ public final class Shop implements PlayerShop {
     }
 
     void selectedItem(Class<? extends CommerceItem> anItem) throws PurchaseException {
-        this.api.purchaseItem(player, anItem);
+        PurchaseResult purchaseResult = this.api.purchaseItem(player, anItem);
         this.shopGui.updateContents(getShopItems());
+        successfulPurchase(getApi().getMetaFor(anItem).humanName(), purchaseResult.getAmount(), resolveName(purchaseResult.getPurchaseMethod()));
+    }
+
+    public static String resolveName(CommerceItemAPI.PurchaseMethod method) {
+        if (method == CommerceItemAPI.PurchaseMethod.Donor) return GearzCommerce.getInstance().getFormat("formats.currency.donor");
+        else return GearzCommerce.getInstance().getFormat("foramts.currency.points");
+    }
+
+    private void successfulPurchase(String item, Integer amount, String currency) {
+        player.getTPlayer().sendMessage(GearzCommerce.getInstance().getFormat("formats.gui.successful-item-purchase", true, new String[]{"<item>", item}, new String[]{"<currency>", currency}, new String[]{"<amount>", String.valueOf(amount)}));
+        player.getTPlayer().playSound(Sound.ORB_PICKUP);
         close();
     }
     private InventoryGUI getInvetoryGui(GuiKey key) {

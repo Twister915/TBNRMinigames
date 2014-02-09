@@ -200,27 +200,31 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
     }
 
     @Override
-    public void purchaseItem(GearzPlayer player, Class<? extends CommerceItem> item) throws PurchaseException {
+    public PurchaseResult purchaseItem(GearzPlayer player, Class<? extends CommerceItem> item) throws PurchaseException {
         testItemPurchase(player, item);
-        if (!(player.getDonorPoints() >= getMetaFor(item).tier().getDonorCredits())) purchaseItem(player, item, PurchaseMethod.Points);
-        else purchaseItem(player, item, PurchaseMethod.Donor);
+        if (!(player.getDonorPoints() >= getMetaFor(item).tier().getDonorCredits())) return purchaseItem(player, item, PurchaseMethod.Points);
+        else return purchaseItem(player, item, PurchaseMethod.Donor);
     }
 
     @Override
-    public void purchaseItem(GearzPlayer player, Class<? extends CommerceItem> item, PurchaseMethod method) throws PurchaseException {
+    public PurchaseResult purchaseItem(GearzPlayer player, Class<? extends CommerceItem> item, PurchaseMethod method) throws PurchaseException {
         testItemPurchase(player, item);
         Tier tier = getMetaFor(item).tier();
+        Integer spent = 0;
         if (method == PurchaseMethod.Points) {
             if (tier.isMustBePurchased()) throw new PurchaseException("You cannot purchase this item using points!");
             if (player.getPoints() < tier.getPoints()) throw new PurchaseException("You don't have enough points for this purchase!");
-            player.addPoints(-1 * tier.getPoints());
+            spent = tier.getPoints();
+            player.addPoints(-1 * spent);
         }
         else {
             if (player.getDonorPoints() < tier.getDonorCredits()) throw new PurchaseException("You don't have enough donor points for this purchase!");
-            player.addDonorPoint(-1 * tier.getDonorCredits());
+            spent = tier.getDonorCredits();
+            player.addDonorPoint(-1 * spent);
         }
         givePlayerItem(player, item);
         player.getTPlayer().playSound(Sound.DRINK);
+        return new PurchaseResult(method, spent, true);
     }
 
     @Override
@@ -236,7 +240,7 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
     }
 
     @Override
-    public boolean purchaseTier(GearzPlayer player, Tier tier) throws PurchaseException{
+    public PurchaseResult purchaseTier(GearzPlayer player, Tier tier) throws PurchaseException{
         if (!canPurchaseTier(player, tier)) throw new PurchaseException("You cannot purchase this tier!");
         TPlayer tPlayer = player.getTPlayer();
         DBObject playerDocument = tPlayer.getPlayerDocument();
@@ -250,7 +254,7 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
         tiers_purchased.add(tier.toString());
         playerDocument.put("tiers_purchased", tiers_purchased);
         tPlayer.save();
-        return true;
+        return new PurchaseResult(PurchaseMethod.Points, tier.getPoints(), true);
     }
 
     @Override

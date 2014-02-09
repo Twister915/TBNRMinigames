@@ -10,8 +10,7 @@ formats:
     shop-title: "&aShop: Item Shop"
     tier-title: "&aShop: Tier Shop"
     tier-lore: "&6Tier: <tier>"
-    points-price-lore: "&aPoints: &6<points>"
-    donor-price-lore: "&aCactus Points: &6<points>"
+    price-lore: "&a<currency>: &6<points>"
     already-purchased-lore: "&aYou already have this item!"
     cannot-purchase: "&cYou cannot purchase this item yet!"
     cannot-purchase-reason: "&cYou cannot purchase this item: <reason>"
@@ -24,6 +23,7 @@ formats:
     item-shop-title: "&bView/Purchase &6Items"
     info-title: "&3About the TBNR Shop:"
     failed-purchase: "&cFailed to purchase item: <reason>"
+    successful-item-purchase: "&aYou have purchased &c<item>&a for &c<amount> <currency>s&a!"
     help-text:
     - "&bYou can purchase most items in the TBNR Shop"
     - "&busing donor credits, which you can purchase"
@@ -34,3 +34,6 @@ formats:
     - "&blevels. These tiers dictate price, and purchase"
     - "&boptions. &c&lIN ALL TRANSACTIONS, IF YOU HAVE"
     - "&c&lDONOR POINTS (CACTUS POINTS), THEY WILL BE USED IF POSSIBLE."
+  currency:
+    donor: "Cactus Points"
+    points: "Points"
