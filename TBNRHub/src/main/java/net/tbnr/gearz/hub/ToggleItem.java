@@ -11,9 +11,10 @@ import org.bukkit.event.player.PlayerInteractEvent;
  * User: Joey
  * Date: 9/29/13
  * Time: 12:19 PM
- * To change this template use File | Settings | File Templates.
+ * Either make this or don't >.>
  */
 @SuppressWarnings("unused")
+// @TODO FINISH THIS
 public abstract class ToggleItem implements Listener {
 
     private final Player player;

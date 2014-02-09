@@ -7,7 +7,6 @@ import com.mongodb.DBObject;
 import lombok.Data;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import net.tbnr.commerce.GearzCommerce;
 import net.tbnr.commerce.items.definitions.*;
 import net.tbnr.gearz.Gearz;
 import net.tbnr.gearz.player.GearzPlayer;
@@ -210,7 +209,7 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
     public PurchaseResult purchaseItem(GearzPlayer player, Class<? extends CommerceItem> item, PurchaseMethod method) throws PurchaseException {
         testItemPurchase(player, item);
         Tier tier = getMetaFor(item).tier();
-        Integer spent = 0;
+        int spent;
         if (method == PurchaseMethod.Points) {
             if (tier.isMustBePurchased()) throw new PurchaseException("You cannot purchase this item using points!");
             if (player.getPoints() < tier.getPoints()) throw new PurchaseException("You don't have enough points for this purchase!");

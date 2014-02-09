@@ -5,7 +5,6 @@ import com.mongodb.DBObject;
 import lombok.Data;
 import lombok.ToString;
 import net.tbnr.commerce.GearzCommerce;
-import net.tbnr.gearz.Gearz;
 import net.tbnr.gearz.GearzException;
 import net.tbnr.gearz.player.GearzPlayer;
 import org.bukkit.event.Listener;
