@@ -153,13 +153,17 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
         BasicDBList purchaseList = getPurchaseList(player);
         String key = metaFor.key();
         int index = -1;
+        boolean discovered = false;
         for (Object o : purchaseList) {
             index++;
             if (!(o instanceof BasicDBObject)) continue;
             BasicDBObject object = (BasicDBObject)o;
             if (!(object.get("key").equals(key))) continue;
-            purchaseList.remove(index);
+            discovered = true;
+            break;
         }
+        if (!discovered) return;
+        purchaseList.remove(index);
         DBObject playerDocument = player.getTPlayer().getPlayerDocument();
         playerDocument.put(dbListKey, purchaseList);
         player.getTPlayer().save();
