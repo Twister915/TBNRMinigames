@@ -246,6 +246,7 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
         } catch (ClassCastException ex) {
             tiers_purchased = new BasicDBList();
         }
+        if (tiers_purchased == null) tiers_purchased = new BasicDBList();
         tiers_purchased.add(tier.toString());
         playerDocument.put("tiers_purchased", tiers_purchased);
         tPlayer.save();
