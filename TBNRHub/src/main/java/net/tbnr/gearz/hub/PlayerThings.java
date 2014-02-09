@@ -4,6 +4,8 @@ import net.tbnr.util.player.TPlayerJoinEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType;
 
 /**
  * Created with IntelliJ IDEA.
@@ -28,5 +30,10 @@ public class PlayerThings implements Listener {
             player.setAllowFlight(true);
         }
         player.setResourcePack(rescPackLink);
+    }
+
+    @EventHandler
+    public void inventoryMove(InventoryClickEvent event) {
+        if (event.getSlotType() == InventoryType.SlotType.ARMOR) event.setCancelled(true);
     }
 }
