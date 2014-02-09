@@ -5,6 +5,7 @@ import com.mongodb.DBObject;
 import lombok.Data;
 import lombok.ToString;
 import net.tbnr.commerce.GearzCommerce;
+import net.tbnr.gearz.Gearz;
 import net.tbnr.gearz.GearzException;
 import net.tbnr.gearz.player.GearzPlayer;
 import org.bukkit.event.Listener;
@@ -53,6 +54,8 @@ public abstract class CommerceItem implements Listener {
         GearzCommerce.getInstance().getItemAPI().revokeItem(player, this);
         GearzCommerce.getInstance().getLogger().info("Revoking " + this.meta.humanName() + " from player " + this.player.getUsername());
     }
+
+    public GearzCommerce getPlugin() { return GearzCommerce.getInstance();}
 
     /**
      * Takes advantage of the fact we use a BasicDBObject to store data about a purchase

@@ -9,6 +9,7 @@ import net.tbnr.gearz.Gearz;
 import net.tbnr.gearz.GearzException;
 import net.tbnr.gearz.player.GearzPlayer;
 import net.tbnr.util.player.TPlayer;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 
 @CommerceItemMeta(
@@ -28,7 +29,12 @@ public final class SnowballRefill extends CommerceItem {
             tPlayer.giveItem(Material.SNOW_BALL, 256);
             tPlayer.sendMessage(GearzCommerce.getInstance().getFormat("formats.snowballs-delivered"));
             setObject("has-given", true);
-            revoke();
+            Bukkit.getScheduler().runTaskLater(getPlugin(), new Runnable() {
+                @Override
+                public void run() {
+                    revoke();
+                }
+            }, 1L);
         }
     }
 
