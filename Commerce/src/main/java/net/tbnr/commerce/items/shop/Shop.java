@@ -164,6 +164,10 @@ public final class Shop implements PlayerShop {
 
     @Override
     public void close() {
+        Player player1 = player.getPlayer();
+        this.shopGui.close(player1);
+        this.tierGui.close(player1);
+        this.mainGui.close(player1);
         this.currentGuiPhase = null;
         this.player.getPlayer().closeInventory();
     }
