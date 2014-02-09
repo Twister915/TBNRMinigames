@@ -15,9 +15,9 @@ import java.util.List;
 
 @Data
 public final class Shop implements PlayerShop {
-    private final InventoryGUI shopGui;
-    private final InventoryGUI tierGui;
-    private final InventoryGUI mainGui;
+    private final ShopGUI shopGui;
+    private final ShopGUI tierGui;
+    private final ShopGUI mainGui;
     private final GearzPlayer player;
     private final CommerceItemAPI api;
 
@@ -140,7 +140,7 @@ public final class Shop implements PlayerShop {
         player.getTPlayer().playSound(Sound.ORB_PICKUP);
         close();
     }
-    private InventoryGUI getInvetoryGui(GuiKey key) {
+    private ShopGUI getInvetoryGui(GuiKey key) {
         ArrayList<InventoryGUI.InventoryGUIItem> items = null;
         switch (key) {
             case Shop:
@@ -153,21 +153,20 @@ public final class Shop implements PlayerShop {
                 items = getMainItems();
                 break;
         }
-        return new InventoryGUI(items, GearzCommerce.getInstance().getFormat("formats.gui." + key.getKey() + "-title"), new InventoryDelegate(this, key), false);
+        return new ShopGUI(items, GearzCommerce.getInstance().getFormat("formats.gui." + key.getKey() + "-title"), new InventoryDelegate(this, key), false,  this.player);
     }
 
     @Override
     public void open() {
-        mainGui.open(player.getPlayer());
+        mainGui.open();
         this.currentGuiPhase = GuiKey.Main;
     }
 
     @Override
     public void close() {
-        Player player1 = player.getPlayer();
-        this.shopGui.close(player1);
-        this.tierGui.close(player1);
-        this.mainGui.close(player1);
+        this.shopGui.close();
+        this.tierGui.close();
+        this.mainGui.close();
         this.currentGuiPhase = null;
         this.player.getPlayer().closeInventory();
     }
@@ -175,29 +174,28 @@ public final class Shop implements PlayerShop {
     @Override
     public void openGui(GuiKey key) {
         if (this.currentGuiPhase == null) return;
-        Player player1 = player.getPlayer();
         if (key == GuiKey.Main) {
             if (this.currentGuiPhase == GuiKey.Main) return;
             this.currentGuiPhase = GuiKey.Main;
             switch (this.currentGuiPhase) {
                 case Shop:
-                    this.shopGui.close(player1);
+                    this.shopGui.close();
                     break;
                 case Tier:
-                    this.tierGui.close(player1);
+                    this.tierGui.close();
                     break;
             }
-            this.mainGui.open(player1);
+            this.mainGui.open();
             return;
         }
         if (this.currentGuiPhase != GuiKey.Main) return;
-        this.mainGui.close(player1);
+        this.mainGui.close();
         switch (key) {
             case Shop:
-                this.shopGui.open(player1);
+                this.shopGui.open();
                 break;
             case Tier:
-                this.tierGui.open(player1);
+                this.tierGui.open();
                 break;
         }
         this.currentGuiPhase = key;
@@ -205,13 +203,14 @@ public final class Shop implements PlayerShop {
 
     @RequiredArgsConstructor
     @Data
-    private static class InventoryDelegate implements InventoryGUI.InventoryGUICallback {
+    private static class InventoryDelegate implements ShopGUI.ShopGUICallback {
 
         private final Shop shopInstnace;
         private final GuiKey key;
 
         @Override
-        public void onItemSelect(InventoryGUI gui, InventoryGUI.InventoryGUIItem item, Player player) {
+        public void onItemSelect(ShopGUI gui, InventoryGUI.InventoryGUIItem item, GearzPlayer player1) {
+            Player player = player1.getPlayer();
             switch (key) {
                 case Shop:
                     if (!(item instanceof ItemInventoryItem)) return;
@@ -241,11 +240,12 @@ public final class Shop implements PlayerShop {
         }
 
         @Override
-        public void onGUIOpen(InventoryGUI gui, Player player) {
+        public void onGUIOpen(ShopGUI gui, GearzPlayer player) {
+
         }
 
         @Override
-        public void onGUIClose(InventoryGUI gui, Player player) {
+        public void onGUIClose(ShopGUI gui, GearzPlayer player) {
 
         }
     }
