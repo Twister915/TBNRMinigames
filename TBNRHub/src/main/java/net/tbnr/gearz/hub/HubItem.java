@@ -2,6 +2,7 @@ package net.tbnr.gearz.hub;
 
 import lombok.NonNull;
 import net.tbnr.gearz.hub.TBNRHub;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -62,6 +63,16 @@ public abstract class HubItem implements Listener {
 		HubItemMeta name = getClass().getAnnotation(HubItemMeta.class);
 		if(name == null) return "";
 		return TBNRHub.getInstance().getConfig().get("hub-items."+name.key()+".properties."+property);
+	}
+
+	/**
+	 * Returns the configuration section
+	 * @return Object ~ the configuration section
+	 */
+	public final ConfigurationSection getConfigurationSection() {
+		HubItemMeta name = getClass().getAnnotation(HubItemMeta.class);
+		if(name == null) return null;
+		return TBNRHub.getInstance().getConfig().getConfigurationSection("hub-items."+name.key()+".properties");
 	}
 
 	/**
