@@ -36,7 +36,7 @@ public class Restrictions implements Listener {
     @EventHandler
     @SuppressWarnings("unused")
     public void onWeatherChange(WeatherChangeEvent e) {
-        e.setCancelled(true);
+        if (e.toWeatherState()) e.setCancelled(true);
     }
 
     @EventHandler
