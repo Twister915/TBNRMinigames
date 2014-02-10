@@ -42,6 +42,7 @@ public final class FiftyVoteBoost extends CommerceItem {
         if (votesLeft <= 0) {
             revoke();
         }
+        setObject(storeKey, votesLeft);
     }
 
     @Override
@@ -51,9 +52,5 @@ public final class FiftyVoteBoost extends CommerceItem {
     @Override
     public void onPurchase() {
         votesLeft = setObject(storeKey, 50);
-    }
-    @Override
-    public void onDeregister() {
-        setObject(storeKey, votesLeft);
     }
 }
