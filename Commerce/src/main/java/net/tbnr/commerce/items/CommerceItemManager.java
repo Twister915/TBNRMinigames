@@ -7,6 +7,7 @@ import com.mongodb.DBObject;
 import lombok.Data;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import net.tbnr.commerce.GearzCommerce;
 import net.tbnr.commerce.items.definitions.*;
 import net.tbnr.gearz.Gearz;
 import net.tbnr.gearz.player.GearzPlayer;
