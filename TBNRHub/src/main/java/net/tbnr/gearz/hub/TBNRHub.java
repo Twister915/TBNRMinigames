@@ -19,6 +19,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -52,6 +53,8 @@ public class TBNRHub extends TPlugin implements TCommandHandler {
 
     @Override
     public void enable() {
+	    TBNRHub.instance = this;
+	    Gearz.getInstance().setLobbyServer(true);
         DBObject hub_arena = getMongoDB().getCollection("hub_arena").findOne();
         if (hub_arena != null) {
             try {
@@ -61,29 +64,43 @@ public class TBNRHub extends TPlugin implements TCommandHandler {
                 e.printStackTrace();
             }
         }
-        TBNRHub.instance = this;
-        Gearz.getInstance().setLobbyServer(true);
-        registerCommands(this);
-        cannon = new MultiserverCannons();
-        registerEvents(cannon);
-        registerCommands(cannon);
-        spawnHandler = new Spawn();
-        registerCommands(spawnHandler);
-        registerCommands(new WarpStarCommands());
-        registerEvents(spawnHandler);
-        registerEvents(new ColoredSigns());
-        registerEvents(new BouncyPads());
-        registerEvents(new LoginMessages());
-        registerEvents(new SnowballEXP());
-        hubItems = new HubItems("net.tbnr.gearz.hub.items");
-        registerEvents(hubItems);
-        registerEvents(new Restrictions());
-        registerEvents(new PlayerThings());
-        registerEvents(new BlastOffSigns());
-        SignEdit signedit = new SignEdit();
-        registerEvents(signedit);
-        registerCommands(signedit);
-        Bukkit.getScheduler().runTaskTimer(this, new SaveAllTask(), 0, 12000);
+
+	    cannon = new MultiserverCannons();
+	    spawnHandler = new Spawn();
+	    hubItems = new HubItems("net.tbnr.gearz.hub.items");
+
+	    SignEdit signedit = new SignEdit();
+
+	    TCommandHandler[] commandHandlers2Register = {
+			    this,
+			    cannon,
+			    spawnHandler,
+			    signedit,
+			    new WarpStarCommands()
+	    };
+
+	    Listener[] listeners2Register = {
+			    spawnHandler,
+			    cannon,
+			    new ColoredSigns(),
+			    new BouncyPads(),
+			    new LoginMessages(),
+			    new SnowballEXP(),
+			    new Restrictions(),
+			    new PlayerThings(),
+			    new BlastOffSigns(),
+			    hubItems,
+			    signedit
+	    };
+
+	    //Register all commands
+	    for(TCommandHandler commandHandler : commandHandlers2Register) registerCommands(commandHandler);
+
+	    //Register all events
+	    for(Listener listener : listeners2Register) registerEvents(listener);
+
+	    new SaveAllTask().runTaskTimer(this, 0, 12000);
+
         ServerManager.setGame("lobby");
         ServerManager.setStatusString("HUB_DEFAULT");
         ServerManager.setOpenForJoining(true);
@@ -144,9 +161,8 @@ public class TBNRHub extends TPlugin implements TCommandHandler {
     public static class SaveAllTask extends BukkitRunnable {
         @Override
         public void run() {
-            for (World world : Bukkit.getServer().getWorlds()) {
-                world.save();
-            }
+            for (World world : Bukkit.getServer().getWorlds()) world.save();
+
             Bukkit.broadcast(ChatColor.GREEN + "World saved!", "gearz.notifysave");
             TBNRHub.getInstance().getLogger().info("Saved the world.");
         }
@@ -155,9 +171,11 @@ public class TBNRHub extends TPlugin implements TCommandHandler {
     @SuppressWarnings("unused")
     @TCommand(name = "head", permission = "gearz.head", senders = {TCommandSender.Player}, usage = "/head <name>")
     public TCommandStatus head(CommandSender sender, TCommandSender type, TCommand meta, Command command, String[] args) {
+	    ItemStack stack;
+	    ItemMeta itemMeta;
         for (String s : args) {
-            ItemStack stack = new ItemStack(Material.SKULL_ITEM, 1, (short) SkullType.PLAYER.ordinal());
-            ItemMeta itemMeta = stack.getItemMeta();
+            stack = new ItemStack(Material.SKULL_ITEM, 1, (short) SkullType.PLAYER.ordinal());
+            itemMeta = stack.getItemMeta();
             assert itemMeta instanceof SkullMeta;
             SkullMeta m = (SkullMeta) itemMeta;
 

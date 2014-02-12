@@ -10,7 +10,6 @@ import net.tbnr.util.InventoryGUI;
 import net.tbnr.util.ServerSelector;
 import net.tbnr.util.player.TPlayer;
 import net.tbnr.util.player.TPlayerManager;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
