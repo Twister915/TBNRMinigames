@@ -25,13 +25,13 @@ hub-items:
           toggleOff: "<prefix>&aThe Other Players are Now Shown"
     speedup:
        isEnabled: true
-           properties:
-              name: "&d&oSpeed Up!&7 - &6&lClick Me!"
-              toggleOn: "<prefix>&cYou now have speed"
-              cooldown: "<prefix>&cYou have to wait another 3 seconds before you can use this item again"
-              toggleOff: "<prefix>&aYour speed has now been taken away"
-              speed-level: 4
-              jump-level: 3
+       properties:
+          name: "&d&oSpeed Up!&7 - &6&lClick Me!"
+          toggleOn: "<prefix>&cYou now have speed"
+          cooldown: "<prefix>&cYou have to wait another 3 seconds before you can use this item again"
+          toggleOff: "<prefix>&aYour speed has now been taken away"
+          speed-level: 4
+          jump-level: 3
 
 formats:
    world-teleport: "&aYou've been teleported to &e<world>&a!"
