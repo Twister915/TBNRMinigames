@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import org.reflections.Reflections;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -25,14 +26,12 @@ public class HubItems implements Listener {
     private final ArrayList<HubItem> items;
 
     private final WarpStarConfig warpStarConfig = null;
-
 	/**
 	 * Creates a new HubItems instance
 	 * @param itemPackage ~ the package where all the items are
 	 */
     public HubItems(String itemPackage) {
         items = new ArrayList<>();
-
 	    Reflections hubItemsReflection = new Reflections(itemPackage);
 
 	    Set<Class<? extends HubItem>> hubItems = hubItemsReflection.getSubTypesOf(HubItem.class);
@@ -43,7 +42,8 @@ public class HubItems implements Listener {
 		    if(itemMeta.hidden()) continue;
 		    if(TBNRHub.getInstance().getConfig().getBoolean("hub-items." + itemMeta.key()+ ".isEnabled")) {
 			    try {
-				    items.add(hubItem.newInstance());
+				    HubItem item = hubItem.newInstance();
+				    items.add(item);
 			    } catch (InstantiationException | IllegalAccessException e) {
 				    e.printStackTrace();
 			    }
@@ -59,21 +59,27 @@ public class HubItems implements Listener {
     @EventHandler
     @SuppressWarnings("unused")
     public void onPlayerJoin(PlayerJoinEvent event) {
+
+	    ItemStack itemStack;
         for (HubItem item : items) {
 	        if (!shouldAdd(event.getPlayer(), item.getItems())) continue;
-            if(item.getItems().get(0).getType() == Material.ANVIL) { // ONLY FOR DEBUG PURPOSES!
+            /*if(item.getItems().get(0).getType() == Material.ANVIL) {
                 if(!event.getPlayer().hasPermission("gearz.serverselector")) continue;
                 event.getPlayer().getInventory().addItem(item.getItems().get(0));
-            }
+            }*/
 
 	        HubItemMeta itemMeta = item.getClass().getAnnotation(HubItemMeta.class);
 	        if (itemMeta == null) continue;
 	        if(itemMeta.hidden()) continue;
+
 	        if(event.getPlayer().hasPermission(itemMeta.permission()) ||
 			        itemMeta.permission().isEmpty()) {
-		        event.getPlayer().getInventory().addItem(item.getItems().get(0));
+		        itemStack = item.getItems().get(0);
+		        event.getPlayer().getInventory().addItem(itemStack);
 	        }
         }
+
+
     }
 
     private boolean shouldAdd(Player player, List<ItemStack> item) {

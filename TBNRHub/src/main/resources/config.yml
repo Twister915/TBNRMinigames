@@ -26,10 +26,10 @@ hub-items:
     speedup:
        isEnabled: true
        properties:
-          name: "&d&oSpeed Up!&7 - &6&lClick Me!"
+          name: "&e&oSpeed Up!&7 - &6&lClick Me!"
           toggleOn: "<prefix>&cYou now have speed"
           cooldown: "<prefix>&cYou have to wait another 3 seconds before you can use this item again"
-          toggleOff: "<prefix>&aYour speed has now been taken away"
+          toggleOff: "<prefix>&aYour Speed has Now been taken Away!"
           speed-level: 4
           jump-level: 3
 

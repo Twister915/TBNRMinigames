@@ -16,11 +16,15 @@ import net.tbnr.gearz.hub.HubItemMeta;
 import net.tbnr.gearz.hub.TBNRHub;
 import net.tbnr.util.player.cooldowns.TCooldown;
 import net.tbnr.util.player.cooldowns.TCooldownManager;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -48,16 +52,15 @@ public class SpeedUp extends HubItem {
 	@Override
 	public List<ItemStack> getItems() {
 		List<ItemStack> items = new ArrayList<>();
-		ItemStack itemStack = new ItemStack(Material.POTION, 1, (short) 8258);
+		ItemStack itemStack = new ItemStack(Material.LEVER, 1);
 		ItemMeta meta = itemStack.getItemMeta();
 		meta.setDisplayName(getProperty("name", true));
 		itemStack.setItemMeta(meta);
 		items.add(itemStack);
 
-		ItemStack slowPotion = itemStack.clone();
-		slowPotion.setType(Material.POTION);
-		slowPotion.setDurability((short) 8202);
-		items.add(slowPotion);
+		ItemStack redstoneTorch = itemStack.clone();
+		redstoneTorch.setType(Material.REDSTONE_TORCH_ON);
+		items.add(redstoneTorch);
 		return items;
 	}
 
@@ -76,13 +79,11 @@ public class SpeedUp extends HubItem {
 		if(TCooldownManager.canContinueLocal(player.getName() + "_speedUp", new TCooldown(TimeUnit.SECONDS.toMillis(3)))) {
 			if (enabledFor.contains(player.getName())) {
 				player.sendMessage(getProperty("toggleOff", true, new String[]{"<prefix>", TBNRHub.getInstance().getChatPrefix()}));
-				player.getItemInHand().setType(Material.POTION);
-				player.getItemInHand().setDurability((short) 8202);
+				player.getItemInHand().setType(Material.LEVER);
 				enabledFor.remove(player.getName());
 			} else {
 				player.sendMessage(getProperty("toggleOn", true, new String[]{"<prefix>", TBNRHub.getInstance().getChatPrefix()}));
-				player.getItemInHand().setType(Material.POTION);
-				player.getItemInHand().setDurability((short) 8202);
+				player.getItemInHand().setType(Material.REDSTONE_TORCH_ON);
 				enabledFor.add(player.getName());
 			}
 			player.playSound(player.getLocation(), Sound.ARROW_HIT, 1, 1);
@@ -92,7 +93,7 @@ public class SpeedUp extends HubItem {
 	}
 
 	public void handleToggle(Player player) {
-		if (enabledFor.contains(player.getName())) {
+		if (!enabledFor.contains(player.getName())) {
 			player.removePotionEffect(PotionEffectType.JUMP);
 			player.removePotionEffect(PotionEffectType.SPEED);
 			return;
@@ -106,4 +107,13 @@ public class SpeedUp extends HubItem {
 		return enabledFor.contains(player.getName());
 	}
 
+	@EventHandler
+	void onPlayerJoinEvent(PlayerJoinEvent event) {
+		//////////////////////////////////// GET RID OF OLD SPEED UP /////////////////////////////////////////////
+
+		if(event.getPlayer().getInventory().contains(new ItemStack(Material.POTION))) event.getPlayer().getInventory().remove(new ItemStack(Material.POTION));
+		if(event.getPlayer().getInventory().contains(new ItemStack(Material.LEVER))) event.getPlayer().getInventory().remove(new ItemStack(Material.LEVER));
+
+		/////////////////////////////////////////////////////////////////////////////////////////////////////
+	}
 }

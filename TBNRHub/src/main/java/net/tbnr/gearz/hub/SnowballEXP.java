@@ -78,8 +78,7 @@ public class SnowballEXP implements Listener {
         ball.remove();
         try {
             thrower.playParticleEffect(new TPlayer.TParticleEffect(ball.getLocation(), Gearz.getRandom().nextFloat(), 2, 5, 2, WrapperPlayServerWorldParticles.ParticleEffect.MOB_SPELL_AMBIENT));
-        } catch (Exception ignored) {
-        }
+        } catch (Exception ignored) {}
         SnowballHitStorable snowballHitStorable = new SnowballHitStorable();
         Integer hits = (Integer) thrower.getStorable(TBNRHub.getInstance(), snowballHitStorable);
         if (hits == null) hits = 0;
