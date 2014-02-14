@@ -57,9 +57,9 @@ public class SpeedUp extends HubItem {
 		meta.setDisplayName(getProperty("name", true));
 		items.add(itemStack);
 
-		ItemStack slowPotion = itemStack.clone();
-		slowPotion.setType(Material.REDSTONE_TORCH_ON);
-		items.add(slowPotion);
+		ItemStack redstoneTorch = itemStack.clone();
+		redstoneTorch.setType(Material.REDSTONE_TORCH_ON);
+		items.add(redstoneTorch);
 		return items;
 	}
 
@@ -83,7 +83,6 @@ public class SpeedUp extends HubItem {
 			} else {
 				player.sendMessage(getProperty("toggleOn", true, new String[]{"<prefix>", TBNRHub.getInstance().getChatPrefix()}));
 				player.getItemInHand().setType(Material.REDSTONE_TORCH_ON);
-				player.getItemInHand().setDurability((short) 8202);
 				enabledFor.add(player.getName());
 			}
 			player.playSound(player.getLocation(), Sound.ARROW_HIT, 1, 1);
