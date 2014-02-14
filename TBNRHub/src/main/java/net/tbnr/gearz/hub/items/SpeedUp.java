@@ -65,6 +65,7 @@ public class SpeedUp extends HubItem {
 
 	@Override
 	public void rightClicked(Player player) {
+		TBNRHub.getInstance().getLogger().info("TEST RUNNING REDSTONE :)");
 		toggle(player);
 		handleToggle(player);
 	}
