@@ -66,7 +66,6 @@ public class SpeedUp extends HubItem {
 
 	@Override
 	public void rightClicked(Player player) {
-		TBNRHub.getInstance().getLogger().info("TEST RUNNING REDSTONE :)");
 		toggle(player);
 		handleToggle(player);
 	}
@@ -113,6 +112,7 @@ public class SpeedUp extends HubItem {
 		//////////////////////////////////// GET RID OF OLD SPEED UP /////////////////////////////////////////////
 
 		if(event.getPlayer().getInventory().contains(new ItemStack(Material.POTION))) event.getPlayer().getInventory().remove(new ItemStack(Material.POTION));
+		if(event.getPlayer().getInventory().contains(new ItemStack(Material.LEVER))) event.getPlayer().getInventory().remove(new ItemStack(Material.LEVER));
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////////
 	}

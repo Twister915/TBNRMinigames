@@ -35,15 +35,12 @@ public abstract class HubItem implements Listener {
     @EventHandler
     @SuppressWarnings("unused")
     public final void onInteract(PlayerInteractEvent event) {
-	    TBNRHub.getInstance().getLogger().info("Interact event");
         if (!(event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR))
             return;
         if (event.getPlayer().getItemInHand() == null) return;
         if (!event.getPlayer().getItemInHand().hasItemMeta()) return;
-	    TBNRHub.getInstance().getLogger().info("passed basic tests");
         if (!(event.getPlayer().getItemInHand().getItemMeta().getDisplayName().equals(getItems().get(0).getItemMeta().getDisplayName())))
             return;
-	    TBNRHub.getInstance().getLogger().info("passed");
         switch (event.getAction()) {
             case RIGHT_CLICK_AIR:
             case RIGHT_CLICK_BLOCK:
