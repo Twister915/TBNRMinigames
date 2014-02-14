@@ -55,6 +55,7 @@ public class SpeedUp extends HubItem {
 		ItemStack itemStack = new ItemStack(Material.REDSTONE, 1);
 		ItemMeta meta = itemStack.getItemMeta();
 		meta.setDisplayName(getProperty("name", true));
+		itemStack.setItemMeta(meta);
 		items.add(itemStack);
 
 		ItemStack redstoneTorch = itemStack.clone();
