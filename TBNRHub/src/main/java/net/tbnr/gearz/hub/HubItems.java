@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import org.reflections.Reflections;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -23,8 +24,13 @@ import java.util.Set;
 public class HubItems implements Listener {
 
     private final ArrayList<HubItem> items;
+	private final ArrayList<ItemStack> allowedItems;
 
     private final WarpStarConfig warpStarConfig = null;
+
+	private final ItemStack[] ALLOWED_ITEMS = {
+			new ItemStack(Material.SNOW_BALL)
+	};
 
 	/**
 	 * Creates a new HubItems instance
@@ -32,7 +38,8 @@ public class HubItems implements Listener {
 	 */
     public HubItems(String itemPackage) {
         items = new ArrayList<>();
-
+	    allowedItems = new ArrayList<>();
+	    allowedItems.addAll(Arrays.asList(this.ALLOWED_ITEMS));
 	    Reflections hubItemsReflection = new Reflections(itemPackage);
 
 	    Set<Class<? extends HubItem>> hubItems = hubItemsReflection.getSubTypesOf(HubItem.class);
@@ -43,7 +50,9 @@ public class HubItems implements Listener {
 		    if(itemMeta.hidden()) continue;
 		    if(TBNRHub.getInstance().getConfig().getBoolean("hub-items." + itemMeta.key()+ ".isEnabled")) {
 			    try {
-				    items.add(hubItem.newInstance());
+				    HubItem item = hubItem.newInstance();
+				    allowedItems.add(item.getItems().get(0));
+				    items.add(item);
 			    } catch (InstantiationException | IllegalAccessException e) {
 				    e.printStackTrace();
 			    }
@@ -59,6 +68,8 @@ public class HubItems implements Listener {
     @EventHandler
     @SuppressWarnings("unused")
     public void onPlayerJoin(PlayerJoinEvent event) {
+
+	    ItemStack itemStack;
         for (HubItem item : items) {
 	        if (!shouldAdd(event.getPlayer(), item.getItems())) continue;
             /*if(item.getItems().get(0).getType() == Material.ANVIL) {
@@ -69,11 +80,15 @@ public class HubItems implements Listener {
 	        HubItemMeta itemMeta = item.getClass().getAnnotation(HubItemMeta.class);
 	        if (itemMeta == null) continue;
 	        if(itemMeta.hidden()) continue;
+
 	        if(event.getPlayer().hasPermission(itemMeta.permission()) ||
 			        itemMeta.permission().isEmpty()) {
-		        event.getPlayer().getInventory().addItem(item.getItems().get(0));
+		        itemStack = item.getItems().get(0);
+		        event.getPlayer().getInventory().addItem(itemStack);
 	        }
         }
+
+
     }
 
     private boolean shouldAdd(Player player, List<ItemStack> item) {

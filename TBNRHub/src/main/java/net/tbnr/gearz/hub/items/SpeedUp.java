@@ -52,7 +52,7 @@ public class SpeedUp extends HubItem {
 	@Override
 	public List<ItemStack> getItems() {
 		List<ItemStack> items = new ArrayList<>();
-		ItemStack itemStack = new ItemStack(Material.LEVER, 1);
+		ItemStack itemStack = new ItemStack(Material.REDSTONE, 1);
 		ItemMeta meta = itemStack.getItemMeta();
 		meta.setDisplayName(getProperty("name", true));
 		items.add(itemStack);
@@ -78,11 +78,11 @@ public class SpeedUp extends HubItem {
 		if(TCooldownManager.canContinueLocal(player.getName() + "_speedUp", new TCooldown(TimeUnit.SECONDS.toMillis(3)))) {
 			if (enabledFor.contains(player.getName())) {
 				player.sendMessage(getProperty("toggleOff", true, new String[]{"<prefix>", TBNRHub.getInstance().getChatPrefix()}));
-				player.getItemInHand().setType(Material.LEVER);
+				player.getItemInHand().setType(Material.REDSTONE_TORCH_ON);
 				enabledFor.remove(player.getName());
 			} else {
 				player.sendMessage(getProperty("toggleOn", true, new String[]{"<prefix>", TBNRHub.getInstance().getChatPrefix()}));
-				player.getItemInHand().setType(Material.REDSTONE_TORCH_ON);
+				player.getItemInHand().setType(Material.REDSTONE);
 				enabledFor.add(player.getName());
 			}
 			player.playSound(player.getLocation(), Sound.ARROW_HIT, 1, 1);
