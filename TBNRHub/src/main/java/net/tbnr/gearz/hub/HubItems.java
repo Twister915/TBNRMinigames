@@ -24,22 +24,14 @@ import java.util.Set;
 public class HubItems implements Listener {
 
     private final ArrayList<HubItem> items;
-	private final ArrayList<ItemStack> allowedItems;
 
     private final WarpStarConfig warpStarConfig = null;
-
-	private final ItemStack[] ALLOWED_ITEMS = {
-			new ItemStack(Material.SNOW_BALL)
-	};
-
 	/**
 	 * Creates a new HubItems instance
 	 * @param itemPackage ~ the package where all the items are
 	 */
     public HubItems(String itemPackage) {
         items = new ArrayList<>();
-	    allowedItems = new ArrayList<>();
-	    allowedItems.addAll(Arrays.asList(this.ALLOWED_ITEMS));
 	    Reflections hubItemsReflection = new Reflections(itemPackage);
 
 	    Set<Class<? extends HubItem>> hubItems = hubItemsReflection.getSubTypesOf(HubItem.class);
@@ -51,7 +43,6 @@ public class HubItems implements Listener {
 		    if(TBNRHub.getInstance().getConfig().getBoolean("hub-items." + itemMeta.key()+ ".isEnabled")) {
 			    try {
 				    HubItem item = hubItem.newInstance();
-				    allowedItems.add(item.getItems().get(0));
 				    items.add(item);
 			    } catch (InstantiationException | IllegalAccessException e) {
 				    e.printStackTrace();
