@@ -121,7 +121,7 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 
 	@Override
 	protected boolean canUse(GearzPlayer player) {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -308,6 +308,7 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 			if(value > 100) value = 100;
 			if(value <= 0) value = 0;
 			this.zombies.put(p, value);
+			GPlague.getInstance().getLogger().info(p.getUsername()+" "+value);
 		}
 	}
 
@@ -351,26 +352,6 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 			addPoints(p, 200);
 		} else {
 			e.getPlayer().sendMessage(getPluginFormat("formats.waste-bone-meal", true));
-		}
-	}
-
-	@EventHandler
-	void onUpdateItemEvent(InventoryOpenEvent e) {
-		GPlague.getInstance().getLogger().info("Fire inventory open event");
-		if(e.getInventory() == null) return;
-		if(!e.getInventory().contains(new ItemStack(Material.INK_SACK, 1, (short) 15)) ||
-				!e.getInventory().contains(new ItemStack(Material.MILK_BUCKET))) {
-			GPlague.getInstance().getLogger().info("yes");
-			while(e.getInventory().iterator().hasNext()) {
-				ItemStack item = e.getInventory().iterator().next();
-				if(item == null || item.getType() == Material.AIR) continue;
-				if(item.isSimilar(new ItemStack(Material.INK_SACK, 1, (short) 15))) {
-					item.getItemMeta().setDisplayName("test");
-				}
-				if(item.isSimilar(new ItemStack(Material.MILK_BUCKET))) {
-					item.getItemMeta().setDisplayName("test");
-				}
-			}
 		}
 	}
 
