@@ -196,6 +196,11 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 	}
 
 	@Override
+	protected boolean useEnderBar(GearzPlayer player) {
+		return false;
+	}
+
+	@Override
 	public void onCountdownStart(Integer max, GameCountdown countdown) {
 		updateEnderBar(max, max);
 	}
