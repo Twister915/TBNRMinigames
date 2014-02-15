@@ -15,10 +15,12 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerToggleSprintEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.Potion;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
@@ -32,7 +34,7 @@ import java.util.*;
  */
 @GameMeta(
 		longName = "Plague",
-		shortName = "Pl",
+		shortName = "Plague",
 		version = "1.0",
 		description = "1 player is infected. 23 are human." +
 				"They move slower but have the power to sprint for limited times at extra speeds." +
@@ -94,7 +96,7 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 				game.updateXPBar();
 			}
 
-		}.runTaskLater(GPlague.getInstance(), 1);
+		}.runTaskTimer(GPlague.getInstance(), 0, 1);
 		GameCountdown countdown = new GameCountdown(this.state.getLength(), this, this);
 		countdown.start();
 	}
@@ -116,12 +118,17 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 
 	@Override
 	protected boolean canPvP(GearzPlayer attacker, GearzPlayer target) {
+		if(!zombies.containsKey(target) && zombies.containsKey(attacker)) {
+			int potionLevel = target.getTPlayer().getCurrentPotionLevel(PotionEffectType.POISON);
+			target.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.POISON, Integer.MAX_VALUE, potionLevel == -1 ? 0 : potionLevel+1));
+			return true;
+		}
 		return !(zombies.containsKey(attacker) && zombies.containsKey(target)) && !(getHumans().contains(attacker) && getHumans().contains(target));
 	}
 
 	@Override
 	protected boolean canUse(GearzPlayer player) {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -192,6 +199,11 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 
 	@Override
 	protected boolean allowHunger(GearzPlayer player) {
+		return false;
+	}
+
+	@Override
+	protected boolean useEnderBar(GearzPlayer player) {
 		return false;
 	}
 
@@ -270,7 +282,7 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 	@SuppressWarnings("unchecked")
 	private Set<GearzPlayer> getHumans() {
 		Set<GearzPlayer> players = (Set<GearzPlayer>) getPlayers().clone();
-		for(GearzPlayer p : players) {
+		for(GearzPlayer p : getPlayers()) {
 			if(p == null || !p.isValid()) continue;
 			if(zombies.containsKey(p)) players.remove(p);
 		}
@@ -280,7 +292,7 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 	public void makeZombie(GearzPlayer player) {
 		player.getTPlayer().setSuffix(ChatColor.GREEN.toString());
 		player.getPlayer().sendMessage(getPluginFormat("formats.turned-zombie", true));
-		zombies.put(player, 0F);
+		zombies.put(player, 0f);
 	}
 
 	public void makeHuman(GearzPlayer player) {
@@ -293,16 +305,17 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 		for(GearzPlayer p : zombiesClone) {
 			if(p == null || !p.isValid()) continue;
 			Player player = p.getPlayer();
-			float value = this.zombies.get(p);
-			player.setExp(value);
+			Float value = this.zombies.get(p);
+			player.setExp(value/100);
 
-			if(player.isSprinting()) value -= 0.002f;
-			if(player.isSneaking()) value += 0.001f;
+			if(player.isSprinting()) value -= 5f;
+			if(player.isSneaking()) value += 5f;
 
-			value += 0.001;
-			if(value >= 1) value = 0.009f;
-			if(value <= 0) value = 0f;
+			value += 5f;
+			if(value < 1) value = 10f;
+			if(value > 100) value = 100f;
 			this.zombies.put(p, value);
+			GPlague.getInstance().getLogger().info(p.getUsername()+" "+value);
 		}
 	}
 
@@ -341,7 +354,7 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 		if(zombies.containsKey(personClicked)) {
 			makeHuman(personClicked);
 			zombies.remove(personClicked);
-			p.sendMessage(getPluginFormat("cured-zombie", true, new String[]{"<player>", personClicked.getTPlayer().getPlayerName()}));
+			p.sendMessage(getPluginFormat("formats.cured-zombie", true, new String[]{"<player>", personClicked.getTPlayer().getPlayerName()}));
 			p.getInventory().removeItem(new ItemStack(Material.INK_SACK, 1, (short) 15));
 			addPoints(p, 200);
 		} else {
@@ -350,29 +363,11 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 	}
 
 	@EventHandler
-	void onUpdateItemEvent(InventoryOpenEvent e) {
-		if(e.getInventory() == null) return;
-		if(!e.getInventory().contains(new ItemStack(Material.INK_SACK, 1, (short) 15)) ||
-				!e.getInventory().contains(new ItemStack(Material.MILK_BUCKET))) {
-			while(e.getInventory().iterator().hasNext()) {
-				ItemStack item = e.getInventory().iterator().next();
-				if(item == null || item.getType() == Material.AIR) continue;
-				if(item.equals(new ItemStack(Material.INK_SACK, 1, (short) 15))) {
-					item.getItemMeta().setDisplayName("test");
-				}
-				if(item.equals(new ItemStack(Material.MILK_BUCKET))) {
-					item.getItemMeta().setDisplayName("test");
-				}
-			}
-		}
-	}
-
-	@EventHandler
 	void onPlayerSprintEvent(PlayerToggleSprintEvent e) {
 		if(e.getPlayer() != null) {
 			GearzPlayer pl = GearzPlayer.playerFromPlayer(e.getPlayer());
 			if(!pl.isValid() || pl == null || zombies.get(pl) == null) return;
-			if(zombies.get(pl) < 0.25) e.setCancelled(true);
+			if(zombies.get(pl) < 25) e.setCancelled(true);
 		}
 	}
 }
