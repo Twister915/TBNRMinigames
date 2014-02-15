@@ -270,7 +270,7 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 	@SuppressWarnings("unchecked")
 	private Set<GearzPlayer> getHumans() {
 		Set<GearzPlayer> players = (Set<GearzPlayer>) getPlayers().clone();
-		for(GearzPlayer p : players) {
+		for(GearzPlayer p : getPlayers()) {
 			if(p == null || !p.isValid()) continue;
 			if(zombies.containsKey(p)) players.remove(p);
 		}
