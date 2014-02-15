@@ -63,7 +63,7 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 
 	private PlagueArena plagueArena;
 
-	private final Map<GearzPlayer, Float> zombies = new HashMap<>();
+	private final Map<GearzPlayer, Integer> zombies = new HashMap<>();
 	private final Map<GearzPlayer, Integer> points = new HashMap<>();
 
 	public PlagueState state;
@@ -285,7 +285,7 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 	public void makeZombie(GearzPlayer player) {
 		player.getTPlayer().setSuffix(ChatColor.GREEN.toString());
 		player.getPlayer().sendMessage(getPluginFormat("formats.turned-zombie", true));
-		zombies.put(player, 0F);
+		zombies.put(player, 0);
 	}
 
 	public void makeHuman(GearzPlayer player) {
@@ -298,15 +298,15 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 		for(GearzPlayer p : zombiesClone) {
 			if(p == null || !p.isValid()) continue;
 			Player player = p.getPlayer();
-			float value = this.zombies.get(p);
-			player.setExp(value);
+			int value = this.zombies.get(p);
+			player.setExp(value/100);
 
-			if(player.isSprinting()) value -= 0.02f;
-			if(player.isSneaking()) value += 0.01f;
+			if(player.isSprinting()) value -= 5;
+			if(player.isSneaking()) value += 1;
 
-			value += 0.01;
-			if(value >= 1) value = 0.09f;
-			if(value <= 0) value = 0f;
+			value += 1;
+			if(value > 100) value = 100;
+			if(value <= 0) value = 0;
 			this.zombies.put(p, value);
 		}
 	}
@@ -379,7 +379,7 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 		if(e.getPlayer() != null) {
 			GearzPlayer pl = GearzPlayer.playerFromPlayer(e.getPlayer());
 			if(!pl.isValid() || pl == null || zombies.get(pl) == null) return;
-			if(zombies.get(pl) < 1) e.setCancelled(true);
+			if(zombies.get(pl) < 10) e.setCancelled(true);
 		}
 	}
 }
