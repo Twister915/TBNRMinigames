@@ -371,6 +371,7 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 	void onPlayerSprintEvent(PlayerToggleSprintEvent e) {
 		if(e.getPlayer() != null) {
 			GearzPlayer pl = GearzPlayer.playerFromPlayer(e.getPlayer());
+			if(!pl.isValid() || pl == null) return;
 			if(zombies.get(pl) < 0.25) e.setCancelled(true);
 		}
 	}
