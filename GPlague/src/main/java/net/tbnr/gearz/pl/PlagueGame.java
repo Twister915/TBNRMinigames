@@ -359,7 +359,7 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 		if(e.getPlayer() != null) {
 			GearzPlayer pl = GearzPlayer.playerFromPlayer(e.getPlayer());
 			if(!pl.isValid() || pl == null || zombies.get(pl) == null) return;
-			if(zombies.get(pl) < 0.25) e.setCancelled(true);
+			if(zombies.get(pl) < 25) e.setCancelled(true);
 		}
 	}
 }
