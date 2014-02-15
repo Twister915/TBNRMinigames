@@ -304,8 +304,8 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 			if(player.isSneaking()) value += 5f;
 
 			value += 5f;
-			if(value > 1) value = 99f;
-			if(value < 10) value = 10f;
+			if(value < 1) value = 10f;
+			if(value > 100) value = 100f;
 			this.zombies.put(p, value);
 			GPlague.getInstance().getLogger().info(p.getUsername()+" "+value);
 		}
