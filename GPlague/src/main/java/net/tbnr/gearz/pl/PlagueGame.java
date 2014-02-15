@@ -62,7 +62,7 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 
 	private PlagueArena plagueArena;
 
-	private final Map<GearzPlayer, Integer> zombies = new HashMap<>();
+	private final Map<GearzPlayer, Float> zombies = new HashMap<>();
 	private final Map<GearzPlayer, Integer> points = new HashMap<>();
 
 	public PlagueState state;
@@ -297,15 +297,15 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 		for(GearzPlayer p : zombiesClone) {
 			if(p == null || !p.isValid()) continue;
 			Player player = p.getPlayer();
-			int value = this.zombies.get(p);
+			Float value = this.zombies.get(p);
 			player.setExp(value/100);
 
-			if(player.isSprinting()) value -= 5;
-			if(player.isSneaking()) value += 1;
+			if(player.isSprinting()) value -= 0.2f;
+			if(player.isSneaking()) value += 0.1f;
 
-			value += 1;
-			if(value > 100) value = 99;
-			if(value < 0) value = 0;
+			value += 0.1f;
+			if(value > 100) value = 99.0f;
+			if(value < 0) value = 1.0f;
 			this.zombies.put(p, value);
 			GPlague.getInstance().getLogger().info(p.getUsername()+" "+value);
 		}
