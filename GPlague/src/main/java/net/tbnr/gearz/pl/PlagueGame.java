@@ -32,7 +32,7 @@ import java.util.*;
  */
 @GameMeta(
 		longName = "Plague",
-		shortName = "Pl",
+		shortName = "Plague",
 		version = "1.0",
 		description = "1 player is infected. 23 are human." +
 				"They move slower but have the power to sprint for limited times at extra speeds." +
