@@ -296,11 +296,11 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 			float value = this.zombies.get(p);
 			player.setExp(value);
 
-			if(player.isSprinting()) value -= 0.002f;
-			if(player.isSneaking()) value += 0.001f;
+			if(player.isSprinting()) value -= 0.02f;
+			if(player.isSneaking()) value += 0.01f;
 
-			value += 0.001;
-			if(value >= 1) value = 0.009f;
+			value += 0.01;
+			if(value >= 1) value = 0.09f;
 			if(value <= 0) value = 0f;
 			this.zombies.put(p, value);
 		}
@@ -341,7 +341,7 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 		if(zombies.containsKey(personClicked)) {
 			makeHuman(personClicked);
 			zombies.remove(personClicked);
-			p.sendMessage(getPluginFormat("cured-zombie", true, new String[]{"<player>", personClicked.getTPlayer().getPlayerName()}));
+			p.sendMessage(getPluginFormat("formats.cured-zombie", true, new String[]{"<player>", personClicked.getTPlayer().getPlayerName()}));
 			p.getInventory().removeItem(new ItemStack(Material.INK_SACK, 1, (short) 15));
 			addPoints(p, 200);
 		} else {
@@ -351,16 +351,18 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 
 	@EventHandler
 	void onUpdateItemEvent(InventoryOpenEvent e) {
+		GPlague.getInstance().getLogger().info("Fire inventory open event");
 		if(e.getInventory() == null) return;
 		if(!e.getInventory().contains(new ItemStack(Material.INK_SACK, 1, (short) 15)) ||
 				!e.getInventory().contains(new ItemStack(Material.MILK_BUCKET))) {
+			GPlague.getInstance().getLogger().info("yes");
 			while(e.getInventory().iterator().hasNext()) {
 				ItemStack item = e.getInventory().iterator().next();
 				if(item == null || item.getType() == Material.AIR) continue;
-				if(item.equals(new ItemStack(Material.INK_SACK, 1, (short) 15))) {
+				if(item.isSimilar(new ItemStack(Material.INK_SACK, 1, (short) 15))) {
 					item.getItemMeta().setDisplayName("test");
 				}
-				if(item.equals(new ItemStack(Material.MILK_BUCKET))) {
+				if(item.isSimilar(new ItemStack(Material.MILK_BUCKET))) {
 					item.getItemMeta().setDisplayName("test");
 				}
 			}
@@ -372,7 +374,7 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 		if(e.getPlayer() != null) {
 			GearzPlayer pl = GearzPlayer.playerFromPlayer(e.getPlayer());
 			if(!pl.isValid() || pl == null || zombies.get(pl) == null) return;
-			if(zombies.get(pl) < 0.25) e.setCancelled(true);
+			if(zombies.get(pl) < 1) e.setCancelled(true);
 		}
 	}
 }
