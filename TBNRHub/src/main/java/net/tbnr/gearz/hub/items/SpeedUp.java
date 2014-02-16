@@ -16,7 +16,6 @@ import net.tbnr.gearz.hub.HubItemMeta;
 import net.tbnr.gearz.hub.TBNRHub;
 import net.tbnr.util.player.cooldowns.TCooldown;
 import net.tbnr.util.player.cooldowns.TCooldownManager;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -24,7 +23,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 

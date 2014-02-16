@@ -158,10 +158,10 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 
 	@Override
 	protected void playerKilled(GearzPlayer dead, GearzPlayer killer) {
-		if(getHumans().size() == 0) finishGame();
 		if(getHumans().contains(dead)) {
 			makeZombie(dead);
 		}
+		if(getHumans().size() == 0) finishGame();
 		points.put(killer, 100);
 		updateScoreboard();
 	}

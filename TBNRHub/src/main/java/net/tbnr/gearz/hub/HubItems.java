@@ -1,7 +1,6 @@
 package net.tbnr.gearz.hub;
 
 import net.tbnr.gearz.hub.items.warpstar.WarpStarConfig;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -10,7 +9,6 @@ import org.bukkit.inventory.ItemStack;
 import org.reflections.Reflections;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
