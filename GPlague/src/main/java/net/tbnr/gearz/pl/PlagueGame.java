@@ -18,6 +18,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerToggleSprintEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.Potion;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
@@ -115,6 +118,11 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 
 	@Override
 	protected boolean canPvP(GearzPlayer attacker, GearzPlayer target) {
+		if(!zombies.containsKey(target) && zombies.containsKey(attacker)) {
+			int potionLevel = target.getTPlayer().getCurrentPotionLevel(PotionEffectType.POISON);
+			target.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.POISON, Integer.MAX_VALUE, potionLevel == -1 ? 0 : potionLevel+1));
+			return true;
+		}
 		return !(zombies.containsKey(attacker) && zombies.containsKey(target)) && !(getHumans().contains(attacker) && getHumans().contains(target));
 	}
 
@@ -300,7 +308,7 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 			Float value = this.zombies.get(p);
 			player.setExp(value/100);
 
-			if(player.isSprinting()) value -= 8f;
+			if(player.isSprinting()) value -= 5f;
 			if(player.isSneaking()) value += 5f;
 
 			value += 5f;
