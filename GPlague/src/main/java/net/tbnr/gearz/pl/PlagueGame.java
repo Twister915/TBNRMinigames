@@ -290,13 +290,11 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 	}
 
 	public void makeZombie(GearzPlayer player) {
-		player.getTPlayer().setSuffix(ChatColor.GREEN.toString());
 		player.getPlayer().sendMessage(getPluginFormat("formats.turned-zombie", true));
 		zombies.put(player, 0f);
 	}
 
 	public void makeHuman(GearzPlayer player) {
-		player.getTPlayer().setSuffix("");
 	}
 
 	@SuppressWarnings("unchecked")
