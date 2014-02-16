@@ -23,7 +23,8 @@ import java.util.List;
  * Latest Change: Added hub item meta
  */
 @HubItemMeta(
-        key = "warpstar"
+        key = "warpstar",
+		slot = 0
 )
 public class WarpStar extends HubItem {
 

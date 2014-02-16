@@ -61,23 +61,29 @@ public class HubItems implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
 
 	    ItemStack itemStack;
-        for (HubItem item : items) {
-	        if (!shouldAdd(event.getPlayer(), item.getItems())) continue;
+	    ItemStack itemInSlot;
+	    for (HubItem item : items) {
+		    if (!shouldAdd(event.getPlayer(), item.getItems())) continue;
             /*if(item.getItems().get(0).getType() == Material.ANVIL) {
                 if(!event.getPlayer().hasPermission("gearz.serverselector")) continue;
                 event.getPlayer().getInventory().addItem(item.getItems().get(0));
             }*/
 
-	        HubItemMeta itemMeta = item.getClass().getAnnotation(HubItemMeta.class);
-	        if (itemMeta == null) continue;
-	        if(itemMeta.hidden()) continue;
+		    HubItemMeta itemMeta = item.getClass().getAnnotation(HubItemMeta.class);
+		    if (itemMeta == null) continue;
+		    if(itemMeta.hidden()) continue;
 
-	        if(event.getPlayer().hasPermission(itemMeta.permission()) ||
-			        itemMeta.permission().isEmpty()) {
-		        itemStack = item.getItems().get(0);
-		        event.getPlayer().getInventory().addItem(itemStack);
-	        }
-        }
+		    if(event.getPlayer().hasPermission(itemMeta.permission()) ||
+				    itemMeta.permission().isEmpty()) {
+			    itemStack = item.getItems().get(0);
+			    itemInSlot = event.getPlayer().getInventory().getItem(itemMeta.slot());
+			    if(itemInSlot != null && itemInSlot.getType() != Material.AIR && itemMeta.slot() == -1) {
+				    event.getPlayer().getInventory().addItem(itemStack);
+				    continue;
+			    }
+			    event.getPlayer().getInventory().setItem(itemMeta.slot(), itemStack);
+		    }
+	    }
 
 
     }
