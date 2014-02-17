@@ -49,7 +49,7 @@ public class SnowballEXP implements Listener {
 		event.getPlayer().clearInventory();
 		Integer snowballs = (Integer) event.getPlayer().getStorable(TBNRHub.getInstance(), "snowballinventorycount");
 		if(snowballs == null) snowballs = 0;
-
+		TBNRHub.getInstance().getLogger().info(snowballs.toString());
 		event.getPlayer().giveItem(Material.SNOW_BALL, snowballs);
 	}
 
