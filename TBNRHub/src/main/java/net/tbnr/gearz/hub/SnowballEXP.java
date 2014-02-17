@@ -211,14 +211,13 @@ public class SnowballEXP implements Listener {
 	private int getSnowballsInInventory(Inventory inventory) {
 		ItemStack[] inv = inventory.getContents();
 
-		Integer cuantity = 0;
-		for(ItemStack item : inv) {
-			if(item == null ||
-					item.getType() == Material.AIR ||
-				item.getType() == Material.SNOW_BALL) continue;
-			cuantity = cuantity + item.getAmount();
+		Integer quantity = 0;
+		for (ItemStack item : inv) {
+			if ((item != null) && (item.getType() == Material.SNOW_BALL) && (item.getAmount() > 0)) {
+				quantity += item.getAmount();
+			}
 		}
-		TBNRHub.getInstance().getLogger().info(cuantity.toString());
-		return cuantity;
+		TBNRHub.getInstance().getLogger().info(quantity.toString());
+		return quantity;
 	}
 }
