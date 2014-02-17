@@ -20,6 +20,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.concurrent.TimeUnit;
@@ -35,20 +38,31 @@ public class SnowballEXP implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     @SuppressWarnings("unused")
     public void onJoin(TPlayerJoinEvent event) {
-        if (event.getPlayer().isFirstJoin()) {
+	    if (event.getPlayer().isFirstJoin()) {
             event.getPlayer().giveItem(Material.SNOW_BALL, 32);
             event.getPlayer().sendMessage(TBNRHub.getInstance().getFormat("formats.first-join-snowball"));
         }
     }
+
+	@EventHandler(priority = EventPriority.LOWEST)
+	public void onSnowballJoin(TPlayerJoinEvent event) {
+		event.getPlayer().clearInventory();
+		Integer snowballs = (Integer) event.getPlayer().getStorable(TBNRHub.getInstance(), "snowballinventorycount");
+		if(snowballs == null) snowballs = 0;
+
+		event.getPlayer().getPlayer().getInventory().addItem(new ItemStack(Material.SNOW_BALL, snowballs));
+	}
 
     @EventHandler(priority = EventPriority.MONITOR)
     @SuppressWarnings("unused")
     public void onSnowballHit(EntityDamageByEntityEvent event) {
         if (!(event.getDamager() instanceof Snowball)) return;
         if (!(event.getEntity() instanceof Player)) return;
+
         Snowball ball = (Snowball) event.getDamager();
         final TPlayer thrower = TPlayerManager.getInstance().getPlayer((Player) ball.getShooter());
         final TPlayer hit = TPlayerManager.getInstance().getPlayer((Player) event.getEntity());
+
         if (!thrower.getPlayer().canSee(hit.getPlayer())) return;
         if (thrower.getPlayer().equals(hit.getPlayer().getPlayer())) return;
         if (hit.getPlayer().isSneaking()) {
@@ -144,6 +158,12 @@ public class SnowballEXP implements Listener {
         event.setCancelled(true);
     }
 
+	@EventHandler
+	public void onQuit(PlayerQuitEvent event) {
+		final TPlayer player = TPlayerManager.getInstance().getPlayer(event.getPlayer());
+		player.store(TBNRHub.getInstance(), new SnowballInventoryCount(getSnowballsInInventory(event.getPlayer().getInventory())));
+	}
+
     private static class SnowballHitStorable implements TPlayerStorable {
         private int hits;
 
@@ -187,4 +207,17 @@ public class SnowballEXP implements Listener {
             return hits;
         }
     }
+
+	private int getSnowballsInInventory(Inventory inventory) {
+		ItemStack[] inv = inventory.getContents();
+
+		Integer cuantity = 0;
+		for(ItemStack item : inv) {
+			if(item == null ||
+					item.getType() == Material.AIR ||
+				item.getType() == Material.SNOW_BALL) continue;
+			cuantity = cuantity + item.getAmount();
+		}
+		return cuantity;
+	}
 }
