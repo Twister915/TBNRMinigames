@@ -45,12 +45,17 @@ public class SnowballEXP implements Listener {
     }
 
 	@EventHandler(priority = EventPriority.LOWEST)
-	public void onSnowballJoin(TPlayerJoinEvent event) {
+	public void onSnowballJoin(final TPlayerJoinEvent event) {
 		event.getPlayer().clearInventory();
-		Integer snowballs = (Integer) event.getPlayer().getStorable(TBNRHub.getInstance(), "snowballinventorycount");
-		if(snowballs == null) snowballs = 0;
-		TBNRHub.getInstance().getLogger().info(snowballs.toString());
-		event.getPlayer().giveItem(Material.SNOW_BALL, snowballs);
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				Integer snowballs = (Integer) event.getPlayer().getStorable(TBNRHub.getInstance(), "snowballinventorycount");
+				if(snowballs == null) snowballs = 0;
+				TBNRHub.getInstance().getLogger().info(snowballs.toString());
+				event.getPlayer().giveItem(Material.SNOW_BALL, snowballs);
+			}
+		}.runTaskLater(TBNRHub.getInstance(), 5);
 	}
 
     @EventHandler(priority = EventPriority.MONITOR)
