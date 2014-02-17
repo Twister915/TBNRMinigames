@@ -1,9 +1,11 @@
 package net.tbnr.gearz.hub;
 
 import net.tbnr.gearz.hub.items.warpstar.WarpStarConfig;
+import net.tbnr.util.player.TPlayerJoinEvent;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
@@ -56,14 +58,14 @@ public class HubItems implements Listener {
         warpStarConfig.refresh();
     }
 
-    @EventHandler
+    @EventHandler(priority= EventPriority.HIGHEST)
     @SuppressWarnings("unused")
-    public void onPlayerJoin(PlayerJoinEvent event) {
-
+    public void onPlayerJoin(TPlayerJoinEvent event) {
+		Player player = event.getPlayer().getPlayer();
 	    ItemStack itemStack;
 	    ItemStack itemInSlot;
 	    for (HubItem item : items) {
-		    if (!shouldAdd(event.getPlayer(), item.getItems())) continue;
+		    if (!shouldAdd(player, item.getItems())) continue;
             /*if(item.getItems().get(0).getType() == Material.ANVIL) {
                 if(!event.getPlayer().hasPermission("gearz.serverselector")) continue;
                 event.getPlayer().getInventory().addItem(item.getItems().get(0));
@@ -73,15 +75,15 @@ public class HubItems implements Listener {
 		    if (itemMeta == null) continue;
 		    if(itemMeta.hidden()) continue;
 
-		    if(event.getPlayer().hasPermission(itemMeta.permission()) ||
+		    if(player.hasPermission(itemMeta.permission()) ||
 				    itemMeta.permission().isEmpty()) {
 			    itemStack = item.getItems().get(0);
-			    itemInSlot = event.getPlayer().getInventory().getItem(itemMeta.slot());
+			    itemInSlot = player.getInventory().getItem(itemMeta.slot());
 			    if(itemInSlot != null && itemInSlot.getType() != Material.AIR && itemMeta.slot() == -1) {
-				    event.getPlayer().getInventory().addItem(itemStack);
+				    player.getInventory().addItem(itemStack);
 				    continue;
 			    }
-			    event.getPlayer().getInventory().setItem(itemMeta.slot(), itemStack);
+			    player.getInventory().setItem(itemMeta.slot(), itemStack);
 		    }
 	    }
 
