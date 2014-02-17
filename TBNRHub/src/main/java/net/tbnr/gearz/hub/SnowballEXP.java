@@ -55,7 +55,7 @@ public class SnowballEXP implements Listener {
 				TBNRHub.getInstance().getLogger().info(snowballs.toString());
 				event.getPlayer().giveItem(Material.SNOW_BALL, snowballs);
 			}
-		}.runTaskLater(TBNRHub.getInstance(), 1);
+		}.runTaskLater(TBNRHub.getInstance(), 5);
 	}
 
     @EventHandler(priority = EventPriority.MONITOR)
