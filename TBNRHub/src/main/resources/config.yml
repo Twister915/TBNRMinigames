@@ -32,6 +32,10 @@ hub-items:
           toggleOff: "<prefix>&aYour Speed has Now been taken Away!"
           speed-level: 4
           jump-level: 3
+    pass:
+       isEnabled: true
+       properties:
+          name: "&eSomething's &6Comin'!"
 
 formats:
    world-teleport: "&aYou've been teleported to &e<world>&a!"
