@@ -20,16 +20,16 @@ hub-items:
        isEnabled: true
        properties:
           name: "&d&oMagic Stick!&7 - &6&lClick Me!"
-          toggleOn: "<prefix>&cThe Other Players are Now Hidden"
+          toggleOn: "<prefix>&cThe other players are now hidden"
           cooldown: "<prefix>&cYou have to wait another 3 seconds before you can use this item again"
-          toggleOff: "<prefix>&aThe Other Players are Now Shown"
+          toggleOff: "<prefix>&aThe other players are Now shown"
     speedup:
        isEnabled: true
        properties:
           name: "&e&oSpeed Up!&7 - &6&lClick Me!"
           toggleOn: "<prefix>&cYou now have speed"
           cooldown: "<prefix>&cYou have to wait another 3 seconds before you can use this item again"
-          toggleOff: "<prefix>&aYour Speed has Now been taken Away!"
+          toggleOff: "<prefix>&aYour speed has now been taken away!"
           speed-level: 4
           jump-level: 3
     pass:
