@@ -35,7 +35,7 @@ hub-items:
     pass:
        isEnabled: true
        properties:
-          name: "&o&eSomething's &6Comin'"
+          name: "&e&oSomething's &6&oComin'"
 
 formats:
    world-teleport: "&aYou've been teleported to &e<world>&a!"
