@@ -42,7 +42,7 @@ public class HubItems implements Listener {
 		    HubItemMeta itemMeta = hubItem.getAnnotation(HubItemMeta.class);
             if (itemMeta == null) continue;
 		    if(itemMeta.hidden()) continue;
-		    if(TBNRHub.getInstance().getConfig().getBoolean("hub-items." + itemMeta.key()+ ".isEnabled")) {
+		    if(TBNRHub.getInstance().getConfig().getBoolean("hub-items." + itemMeta.key()+ ".isEnabled", false)) {
 			    try {
 				    HubItem item = hubItem.newInstance();
 				    items.add(item);
