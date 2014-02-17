@@ -218,6 +218,7 @@ public class SnowballEXP implements Listener {
 				item.getType() == Material.SNOW_BALL) continue;
 			cuantity = cuantity + item.getAmount();
 		}
+		TBNRHub.getInstance().getLogger().info(cuantity.toString());
 		return cuantity;
 	}
 }
