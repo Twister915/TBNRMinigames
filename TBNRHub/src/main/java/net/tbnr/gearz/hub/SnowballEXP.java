@@ -46,6 +46,7 @@ public class SnowballEXP implements Listener {
 
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onSnowballJoin(final TPlayerJoinEvent event) {
+		event.getPlayer().store(TBNRHub.getInstance(), new SnowballInventoryCount(getSnowballsInInventory(event.getPlayer().getPlayer().getInventory())));
 		event.getPlayer().clearInventory();
 		new BukkitRunnable() {
 			@Override
