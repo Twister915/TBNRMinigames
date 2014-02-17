@@ -20,5 +20,6 @@
         <module>TBNRHub</module>
         <module>Commerce</module>
         <module>GPlague</module>
+        <module>JAnnouncer</module>
     </modules>
 </project>
