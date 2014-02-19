@@ -227,6 +227,7 @@ public class TBNRHub extends TPlugin implements TCommandHandler {
 
 		int i = 0;
 		for(String string : getConfig().getStringList("hover-ping-text")) {
+			getLogger().info(string);
 			wrappedGameProfileArrayList.add(new WrappedGameProfile("id"+i, ChatColor.translateAlternateColorCodes('&', string)));
 			i++;
 		}
