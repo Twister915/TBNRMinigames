@@ -1,12 +1,5 @@
 package net.tbnr.gearz.hub;
 
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.PacketType.Protocol;
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.events.ListenerOptions;
-import com.comphenix.protocol.events.ListenerPriority;
-import com.comphenix.protocol.events.PacketAdapter;
-import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import com.comphenix.protocol.wrappers.WrappedServerPing;
 import com.mongodb.DBObject;
@@ -28,9 +21,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -38,7 +29,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.IOException;
 import java.net.SocketException;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
@@ -66,14 +56,14 @@ public class TBNRHub extends TPlugin implements TCommandHandler {
 
     @Override
     public void enable() {
-	    ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(this, ListenerPriority.NORMAL,
-			    Arrays.asList(PacketType.Status.Server.OUT_SERVER_INFO), ListenerOptions.ASYNC) {
+	   /* ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(this, ListenerPriority.NORMAL,
+			    Arrays.asList(PacketType.Status.Server.OUT_SERVER_INFO, Status.Server.OUT_PING), ListenerOptions.ASYNC) {
 
 		    public void onPacketSending(PacketEvent event) {
 			    getLogger().info("ping came Through!!!!!!!!!!!");
 			    handlePing(event.getPacket().getServerPings().read(0));
 		    }
-	    });
+	    });*/
 	    TBNRHub.instance = this;
 	    Gearz.getInstance().setLobbyServer(true);
         DBObject hub_arena = getMongoDB().getCollection("hub_arena").findOne();
