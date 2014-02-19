@@ -1,5 +1,14 @@
 package net.tbnr.gearz.hub;
 
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.PacketType.Protocol;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.events.ListenerOptions;
+import com.comphenix.protocol.events.ListenerPriority;
+import com.comphenix.protocol.events.PacketAdapter;
+import com.comphenix.protocol.events.PacketEvent;
+import com.comphenix.protocol.wrappers.WrappedGameProfile;
+import com.comphenix.protocol.wrappers.WrappedServerPing;
 import com.mongodb.DBObject;
 import lombok.Getter;
 import net.lingala.zip4j.exception.ZipException;
@@ -27,6 +36,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.IOException;
 import java.net.SocketException;
+import java.util.Arrays;
 
 /**
  * Created with IntelliJ IDEA.
@@ -112,6 +122,8 @@ public class TBNRHub extends TPlugin implements TCommandHandler {
         }
         thisServer.setPort(Bukkit.getPort());
         thisServer.save();
+
+	    addHoverPingText();
     }
 
     public MultiserverCannons getCannon() {
@@ -196,4 +208,27 @@ public class TBNRHub extends TPlugin implements TCommandHandler {
         }
         return builder.toString();
     }
+
+	public void addHoverPingText() {
+		ProtocolLibrary.getProtocolManager().addPacketListener(
+				new PacketAdapter(this, ListenerPriority.NORMAL,
+						Arrays.asList(PacketType.Status.Server.OUT_SERVER_INFO), ListenerOptions.ASYNC) {
+					@Override
+					public void onPacketReceiving(PacketEvent event) {
+						handlePing(event.getPacket().getServerPings().read(0));
+					}
+				}
+		);
+	}
+
+	public void handlePing(WrappedServerPing ping) {
+		ping.setPlayers(Arrays.asList(
+			new WrappedGameProfile("id1", getFormat(""));
+			int i = 0;
+			for(String string : getConfig().getStringList("hover-ping-text")) {
+				new WrappedGameProfile("id"+i, ChatColor.translateAlternateColorCodes('&', string));
+				i++;
+			}
+		}
+	}
 }

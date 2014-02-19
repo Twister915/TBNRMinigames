@@ -8,35 +8,40 @@ prefix: "&8[&6&lTBNR&8] "
 warped-to: "<prefix>&3You have been teleported to &a<warp>&3!"
 cant-drop: "<prefix>&cYou can't drop that!"
 hub-items:
-    warpstar:
-       isEnabled: true
-       properties:
-          name: "&a&oWarp Star!&7 - &6&lClick Me!"
-    shop:
-        isEnabled: true
-        properties:
-            name: "&6&lShop!&7 - &5&lClick Me!"
-    magicclock:
-       isEnabled: true
-       properties:
-          name: "&d&oMagic Stick!&7 - &6&lClick Me!"
-          toggleOn: "<prefix>&cThe other players are now hidden"
-          cooldown: "<prefix>&cYou have to wait another 3 seconds before you can use this item again"
-          toggleOff: "<prefix>&aThe other players are Now shown"
-    speedup:
-       isEnabled: true
-       properties:
-          name: "&e&oSpeed Up!&7 - &6&lClick Me!"
-          toggleOn: "<prefix>&cYou now have speed"
-          cooldown: "<prefix>&cYou have to wait another 3 seconds before you can use this item again"
-          toggleOff: "<prefix>&aYour speed has now been taken away!"
-          speed-level: 4
-          jump-level: 3
-    pass:
-       isEnabled: true
-       properties:
-          name: "&e&oSomething's &6&oComin'"
-
+   warpstar:
+      isEnabled: true
+      properties:
+         name: "&a&oWarp Star!&7 - &6&lClick Me!"
+   shop:
+      isEnabled: true
+      properties:
+         name: "&6&lShop!&7 - &5&lClick Me!"
+   magicclock:
+      isEnabled: true
+      properties:
+         name: "&d&oMagic Stick!&7 - &6&lClick Me!"
+         toggleOn: "<prefix>&cThe other players are now hidden"
+         cooldown: "<prefix>&cYou have to wait another 3 seconds before you can use this item again"
+         toggleOff: "<prefix>&aThe other players are Now shown"
+   speedup:
+      isEnabled: true
+      properties:
+         name: "&e&oSpeed Up!&7 - &6&lClick Me!"
+         toggleOn: "<prefix>&cYou now have speed"
+         cooldown: "<prefix>&cYou have to wait another 3 seconds before you can use this item again"
+         toggleOff: "<prefix>&aYour speed has now been taken away!"
+         speed-level: 4
+         jump-level: 3
+   pass:
+      isEnabled: true
+      properties:
+         name: "&e&oSomething's &6&oComin'"
+hover-ping-text:
+- "&c-TBNRHub-"
+- "&a|The Best|"
+- "&b|  Never |"
+- "&1-  Rest  |"
+- "&d----------"
 formats:
    world-teleport: "&aYou've been teleported to &e<world>&a!"
    snowball-hit: "&aYou have hit &3<player>&a with a snowball to earn XP! &3(You have &b<hits>&3 hits)."
