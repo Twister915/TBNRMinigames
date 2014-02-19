@@ -66,6 +66,13 @@ public class TBNRHub extends TPlugin implements TCommandHandler {
 
     @Override
     public void enable() {
+	    ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(this, ListenerPriority.NORMAL,
+			    Arrays.asList(PacketType.Status.Server.OUT_SERVER_INFO), ListenerOptions.ASYNC) {
+
+		    public void onPacketSending(PacketEvent event) {
+			    handlePing(event.getPacket().getServerPings().read(0));
+		    }
+	    });
 	    TBNRHub.instance = this;
 	    Gearz.getInstance().setLobbyServer(true);
         DBObject hub_arena = getMongoDB().getCollection("hub_arena").findOne();
@@ -209,4 +216,11 @@ public class TBNRHub extends TPlugin implements TCommandHandler {
         }
         return builder.toString();
     }
+
+	public void handlePing(WrappedServerPing ping) {
+		ping.setPlayers(Arrays.asList(
+				new WrappedGameProfile("id1", ChatColor.GOLD + "HI. " + ChatColor.GREEN +
+						"Test1!")
+		));
+	}
 }
