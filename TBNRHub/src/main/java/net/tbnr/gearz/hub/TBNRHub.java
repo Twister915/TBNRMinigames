@@ -28,7 +28,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -123,8 +125,6 @@ public class TBNRHub extends TPlugin implements TCommandHandler {
         }
         thisServer.setPort(Bukkit.getPort());
         thisServer.save();
-
-	    addHoverPingText();
     }
 
     public MultiserverCannons getCannon() {
@@ -209,34 +209,4 @@ public class TBNRHub extends TPlugin implements TCommandHandler {
         }
         return builder.toString();
     }
-
-	public void addHoverPingText() {
-		getLogger().info("added hover ping text");
-		ProtocolLibrary.getProtocolManager().addPacketListener(
-				new PacketAdapter(this, ListenerPriority.LOWEST,
-						Arrays.asList(PacketType.Status.Server.OUT_SERVER_INFO), ListenerOptions.ASYNC) {
-					@Override
-					public void onPacketReceiving(PacketEvent event) {
-						getLogger().info("packet recievied");
-						handlePing(event.getPacket().getServerPings().read(0));
-					}
-				}
-		);
-	}
-
-	public void handlePing(WrappedServerPing ping) {
-		/*ArrayList<WrappedGameProfile> wrappedGameProfileArrayList = new ArrayList<>();
-
-		int i = 1;
-		for(String string : getConfig().getStringList("hover-ping-text")) {
-			getLogger().info(string);
-			wrappedGameProfileArrayList.add(new WrappedGameProfile("id"+i, ChatColor.translateAlternateColorCodes('&', string)));
-			i++;
-		}*/
-
-		ping.setPlayers(
-				//wrappedGameProfileArrayList
-			Arrays.asList(new WrappedGameProfile("id1", "Test"))
-		);
-	}
 }
