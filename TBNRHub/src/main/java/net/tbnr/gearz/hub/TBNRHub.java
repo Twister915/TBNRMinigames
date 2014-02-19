@@ -225,15 +225,18 @@ public class TBNRHub extends TPlugin implements TCommandHandler {
 	}
 
 	public void handlePing(WrappedServerPing ping) {
-		ArrayList<WrappedGameProfile> wrappedGameProfileArrayList = new ArrayList<>();
+		/*ArrayList<WrappedGameProfile> wrappedGameProfileArrayList = new ArrayList<>();
 
-		int i = 0;
+		int i = 1;
 		for(String string : getConfig().getStringList("hover-ping-text")) {
 			getLogger().info(string);
 			wrappedGameProfileArrayList.add(new WrappedGameProfile("id"+i, ChatColor.translateAlternateColorCodes('&', string)));
 			i++;
-		}
+		}*/
 
-		ping.setPlayers(wrappedGameProfileArrayList);
+		ping.setPlayers(
+				//wrappedGameProfileArrayList
+			Arrays.asList(new WrappedGameProfile("id1", "Test"))
+		);
 	}
 }
