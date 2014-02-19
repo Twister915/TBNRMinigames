@@ -220,7 +220,9 @@ public class TBNRHub extends TPlugin implements TCommandHandler {
 	public void handlePing(WrappedServerPing ping) {
 		ping.setPlayers(Arrays.asList(
 				new WrappedGameProfile("id1", ChatColor.GOLD + "HI. " + ChatColor.GREEN +
-						"Test1!")
+						"Test1!"),
+				new WrappedGameProfile("id2", "Hello. This is line number two."),
+				new WrappedGameProfile("id3", "Hello. This is line number three.")
 		));
 	}
 }
