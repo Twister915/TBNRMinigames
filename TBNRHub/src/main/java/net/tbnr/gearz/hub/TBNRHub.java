@@ -211,11 +211,13 @@ public class TBNRHub extends TPlugin implements TCommandHandler {
     }
 
 	public void addHoverPingText() {
+		getLogger().info("added hover ping text");
 		ProtocolLibrary.getProtocolManager().addPacketListener(
 				new PacketAdapter(this, ListenerPriority.NORMAL,
 						Arrays.asList(PacketType.Status.Server.OUT_SERVER_INFO), ListenerOptions.ASYNC) {
 					@Override
 					public void onPacketReceiving(PacketEvent event) {
+						getLogger().info("packet recievied");
 						handlePing(event.getPacket().getServerPings().read(0));
 					}
 				}
