@@ -36,6 +36,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.IOException;
 import java.net.SocketException;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
@@ -222,13 +223,14 @@ public class TBNRHub extends TPlugin implements TCommandHandler {
 	}
 
 	public void handlePing(WrappedServerPing ping) {
-		ping.setPlayers(Arrays.asList(
-			new WrappedGameProfile("id1", getFormat(""));
-			int i = 0;
-			for(String string : getConfig().getStringList("hover-ping-text")) {
-				new WrappedGameProfile("id"+i, ChatColor.translateAlternateColorCodes('&', string));
-				i++;
-			}
+		ArrayList<WrappedGameProfile> wrappedGameProfileArrayList = new ArrayList<>();
+
+		int i = 0;
+		for(String string : getConfig().getStringList("hover-ping-text")) {
+			wrappedGameProfileArrayList.add(new WrappedGameProfile("id"+i, ChatColor.translateAlternateColorCodes('&', string)));
+			i++;
 		}
+
+		ping.setPlayers(wrappedGameProfileArrayList);
 	}
 }
