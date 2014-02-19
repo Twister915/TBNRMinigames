@@ -70,6 +70,7 @@ public class TBNRHub extends TPlugin implements TCommandHandler {
 			    Arrays.asList(PacketType.Status.Server.OUT_SERVER_INFO), ListenerOptions.ASYNC) {
 
 		    public void onPacketSending(PacketEvent event) {
+			    getLogger().info("ping came Through!!!!!!!!!!!");
 			    handlePing(event.getPacket().getServerPings().read(0));
 		    }
 	    });
