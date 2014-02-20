@@ -45,6 +45,7 @@ public final class DBGame extends GearzGame implements GameCountdownHandler {
     private DBArena dbarena;
     private HashMap<GearzPlayer, Integer> lives;
     private HashMap<GearzPlayer, Integer> score;
+    private HashMap<GearzPlayer, Integer> vHits;
     private GameCountdown countdown;
 
     public DBGame(List<GearzPlayer> players, Arena arena, GearzPlugin plugin, GameMeta meta, Integer id) {
@@ -53,6 +54,7 @@ public final class DBGame extends GearzGame implements GameCountdownHandler {
         this.dbarena = (DBArena) arena;
         this.lives = new HashMap<>();
         this.score = new HashMap<>();
+        this.vHits = new HashMap<>();
     }
 
     @Override
@@ -60,6 +62,7 @@ public final class DBGame extends GearzGame implements GameCountdownHandler {
         for (GearzPlayer player : getPlayers()) {
             lives.put(player, 75);
             score.put(player, 0);
+            vHits.put(player, 15);
         }
     }
 
@@ -156,6 +159,7 @@ public final class DBGame extends GearzGame implements GameCountdownHandler {
         GearzPlayer target1 = GearzPlayer.playerFromPlayer((Player) target);
         if (!isIngame(target1) || isSpectating(target1)) return;
         int value;
+        int gain = 0;
         GearzPlayer attacker;
         if (damager instanceof Snowball) {
             Snowball snowball = (Snowball) damager;
@@ -170,13 +174,23 @@ public final class DBGame extends GearzGame implements GameCountdownHandler {
         } else {
             attacker = GearzPlayer.playerFromPlayer((Player) damager);
             if (isSpectating(attacker)) return;
-            if (attacker.getPlayer().getItemInHand().getType() != Material.STICK) return;
-            value = 5;
+            Material item = attacker.getPlayer().getItemInHand().getType();
+            if (item != Material.STICK || item != Material.BLAZE_ROD) return;
+            if (item == Material.BLAZE_ROD){
+                value = 3;
+                gain = 2;
+            } else {
+                value = 5;
+            }
             attacker.getPlayer().playSound(attacker.getPlayer().getLocation(), Sound.FIREWORK_BLAST, 5f, 1f);
             attacker.getPlayer().sendMessage(getPluginFormat("formats.hit-player-stick", true, new String[]{"<player>", target1.getUsername()}, new String[]{"<points>", value + ""}));
         }
+        if(gain > 0){
+            addLives(attacker, gain);
+        }
         addScore(attacker, 1);
         removeScore(target1, value);
+        updateItem(attacker);
         fakeDeath(target1);
         updateScoreboard();
         checkGame();
@@ -196,6 +210,12 @@ public final class DBGame extends GearzGame implements GameCountdownHandler {
         stack = MinecraftReflection.getBukkitItemStack(stack);
         stack.addUnsafeEnchantment(Enchantment.KNOCKBACK, 3);
         player.getPlayer().getInventory().addItem(stack);
+        if(!vHits.containsKey(player)) return;
+        ItemStack stack1 = new ItemStack(Material.BLAZE_ROD, 1);
+        stack1 = MinecraftReflection.getBukkitItemStack(stack1);
+        stack1.addUnsafeEnchantment(Enchantment.KNOCKBACK, 3);
+        stack1.getItemMeta().setDisplayName("§4Vampire Stick : §3" + vHits.get(player));
+        player.getPlayer().getInventory().addItem(stack1);
     }
 
     @Override
@@ -213,6 +233,12 @@ public final class DBGame extends GearzGame implements GameCountdownHandler {
         player.getTPlayer().giveItem(Material.SNOW_BALL, 1);
     }
 
+    private void addLives(GearzPlayer player, int amt){
+        int sc = lives.get(player);
+        sc = sc + amt;
+        lives.put(player, sc);
+    }
+
     private void addScore(GearzPlayer player, int scr) {
         int sc = score.get(player) + scr;
         score.put(player, sc);
@@ -228,6 +254,23 @@ public final class DBGame extends GearzGame implements GameCountdownHandler {
         }
         player.getPlayer().sendMessage(getPluginFormat("formats.lost-points", true, new String[]{"<points>", scr + ""}));
         lives.put(player, sc);
+    }
+
+    private void updateItem(GearzPlayer player){
+        ItemStack item = player.getPlayer().getItemInHand();
+        if(item.getType() != Material.BLAZE_ROD) return;
+        if(!vHits.containsKey(player)){
+            item.setType(Material.AIR);
+            return;
+        }
+        if(vHits.get(player) <= 0){
+            vHits.remove(player);
+            item.setType(Material.AIR);
+        }
+        int vh = vHits.get(player);
+        vh--;
+        vHits.put(player, vh);
+        item.getItemMeta().setDisplayName("§4Vampire Stick : §3" + vHits.get(player));
     }
 
     private void checkGame() {
