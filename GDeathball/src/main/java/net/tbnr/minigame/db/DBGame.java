@@ -19,6 +19,7 @@ import org.bukkit.entity.*;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.HashMap;
@@ -187,10 +188,10 @@ public final class DBGame extends GearzGame implements GameCountdownHandler {
         }
         if(gain > 0){
             addLives(attacker, gain);
+            updateItem(attacker);
         }
         addScore(attacker, 1);
         removeScore(target1, value);
-        updateItem(attacker);
         fakeDeath(target1);
         updateScoreboard();
         checkGame();
@@ -214,7 +215,9 @@ public final class DBGame extends GearzGame implements GameCountdownHandler {
         ItemStack stack1 = new ItemStack(Material.BLAZE_ROD, 1);
         stack1 = MinecraftReflection.getBukkitItemStack(stack1);
         stack1.addUnsafeEnchantment(Enchantment.KNOCKBACK, 3);
-        stack1.getItemMeta().setDisplayName("§4Vampire Stick : §3" + vHits.get(player));
+        ItemMeta im = stack1.getItemMeta();
+        im.setDisplayName("§4Vampire Stick : §3" + vHits.get(player));
+        stack1.setItemMeta(im);
         player.getPlayer().getInventory().addItem(stack1);
     }
 
