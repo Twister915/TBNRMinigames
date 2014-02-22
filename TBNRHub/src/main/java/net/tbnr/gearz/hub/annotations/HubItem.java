@@ -1,4 +1,4 @@
-package net.tbnr.gearz.hub;
+package net.tbnr.gearz.hub.annotations;
 
 import lombok.NonNull;
 import net.tbnr.gearz.hub.TBNRHub;

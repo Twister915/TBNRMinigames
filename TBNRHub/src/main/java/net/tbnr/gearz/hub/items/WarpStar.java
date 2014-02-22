@@ -1,7 +1,7 @@
 package net.tbnr.gearz.hub.items;
 
-import net.tbnr.gearz.hub.HubItem;
-import net.tbnr.gearz.hub.HubItemMeta;
+import net.tbnr.gearz.hub.annotations.HubItem;
+import net.tbnr.gearz.hub.annotations.HubItemMeta;
 import net.tbnr.gearz.hub.TBNRHub;
 import net.tbnr.gearz.hub.items.warpstar.WarpStarConfig;
 import net.tbnr.gearz.player.GearzPlayer;

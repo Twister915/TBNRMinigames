@@ -1,6 +1,6 @@
 package net.tbnr.gearz.hub.items;
 
-import net.tbnr.gearz.hub.HubItem;
+import net.tbnr.gearz.hub.annotations.HubItem;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;

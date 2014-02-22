@@ -1,4 +1,4 @@
-package net.tbnr.gearz.hub;
+package net.tbnr.gearz.hub.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
