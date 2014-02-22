@@ -6,7 +6,9 @@ import net.lingala.zip4j.exception.ZipException;
 import net.tbnr.gearz.Gearz;
 import net.tbnr.gearz.GearzException;
 import net.tbnr.gearz.arena.ArenaManager;
-import net.tbnr.gearz.hub.items.warpstar.WarpStarCommands;
+import net.tbnr.gearz.hub.annotations.HubItems;
+import net.tbnr.gearz.hub.annotations.HubModules;
+import net.tbnr.gearz.hub.modules.*;
 import net.tbnr.gearz.server.Server;
 import net.tbnr.gearz.server.ServerManager;
 import net.tbnr.util.TPlugin;
@@ -19,7 +21,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -35,25 +36,26 @@ import java.net.SocketException;
  * Time: 2:34 PM
  * To change this template use File | Settings | File Templates.
  */
-public class TBNRHub extends TPlugin implements TCommandHandler {
-    private MultiserverCannons cannon;
+public class GearzHub extends TPlugin implements TCommandHandler {
     private Spawn spawnHandler;
-    private static TBNRHub instance;
+    private static GearzHub instance;
     @Getter
     private HubItems hubItems;
+    @Getter
+    private HubModules hubModules;
     @Getter private HubArena arena;
 
-    public TBNRHub() {
+    public GearzHub() {
         ConfigurationSerialization.registerClass(MultiserverCannon.class);
     }
 
-    public static TBNRHub getInstance() {
+    public static GearzHub getInstance() {
         return instance;
     }
 
     @Override
     public void enable() {
-	    TBNRHub.instance = this;
+	    GearzHub.instance = this;
 	    Gearz.getInstance().setLobbyServer(true);
         DBObject hub_arena = getMongoDB().getCollection("hub_arena").findOne();
         if (hub_arena != null) {
@@ -65,39 +67,9 @@ public class TBNRHub extends TPlugin implements TCommandHandler {
             }
         }
 
-	    cannon = new MultiserverCannons();
 	    spawnHandler = new Spawn();
 	    hubItems = new HubItems("net.tbnr.gearz.hub.items");
-
-	    SignEdit signedit = new SignEdit();
-
-	    TCommandHandler[] commandHandlers2Register = {
-			    this,
-			    cannon,
-			    spawnHandler,
-			    signedit,
-			    new WarpStarCommands()
-	    };
-
-	    Listener[] listeners2Register = {
-			    spawnHandler,
-			    cannon,
-			    new ColoredSigns(),
-			    new BouncyPads(),
-			    new LoginMessages(),
-			    new SnowballEXP(),
-			    new Restrictions(),
-			    new PlayerThings(),
-			    new BlastOffSigns(),
-			    hubItems,
-			    signedit
-	    };
-
-	    //Register all commands
-	    for(TCommandHandler commandHandler : commandHandlers2Register) registerCommands(commandHandler);
-
-	    //Register all events
-	    for(Listener listener : listeners2Register) registerEvents(listener);
+        hubModules = new HubModules("new.tbnr.gearz.hub.modules");
 
 	    new SaveAllTask().runTaskTimer(this, 0, 12000);
 
@@ -112,10 +84,6 @@ public class TBNRHub extends TPlugin implements TCommandHandler {
         }
         thisServer.setPort(Bukkit.getPort());
         thisServer.save();
-    }
-
-    public MultiserverCannons getCannon() {
-        return cannon;
     }
 
     public Spawn getSpawn() {
@@ -164,7 +132,7 @@ public class TBNRHub extends TPlugin implements TCommandHandler {
             for (World world : Bukkit.getServer().getWorlds()) world.save();
 
             Bukkit.broadcast(ChatColor.GREEN + "World saved!", "gearz.notifysave");
-            TBNRHub.getInstance().getLogger().info("Saved the world.");
+            GearzHub.getInstance().getLogger().info("Saved the world.");
         }
     }
 

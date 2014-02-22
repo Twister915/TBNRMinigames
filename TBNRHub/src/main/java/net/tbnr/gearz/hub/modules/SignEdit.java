@@ -1,5 +1,8 @@
-package net.tbnr.gearz.hub;
+package net.tbnr.gearz.hub.modules;
 
+import net.tbnr.gearz.hub.GearzHub;
+import net.tbnr.gearz.hub.annotations.HubModule;
+import net.tbnr.gearz.hub.annotations.HubModuleMeta;
 import net.tbnr.util.command.TCommand;
 import net.tbnr.util.command.TCommandHandler;
 import net.tbnr.util.command.TCommandSender;
@@ -28,12 +31,16 @@ import java.util.HashMap;
  * <p/>
  * Latest Change:
  */
-public class SignEdit implements Listener, TCommandHandler {
+@HubModuleMeta(
+        key = "signedit"
+)
+public class SignEdit extends HubModule implements Listener, TCommandHandler {
 
     private final HashMap<String, Sign> players;
     private final String name;
 
     public SignEdit() {
+        super(true, true);
         this.players = new HashMap<>();
         this.name = ChatColor.AQUA + "The magic SIGN!!!!!";
     }
@@ -49,7 +56,7 @@ public class SignEdit implements Listener, TCommandHandler {
         Sign sign = (Sign) event.getClickedBlock().getState();
         Sign gui = (Sign) event.getClickedBlock().getState();
         for (int i = 0; i <= sign.getLines().length - 1; i++) {
-            TBNRHub.getInstance().getLogger().info("SignEdit >>>> THE LINE is: " + sign.getLine(i));
+            GearzHub.getInstance().getLogger().info("SignEdit >>>> THE LINE is: " + sign.getLine(i));
             if (sign.getLine(i) == null) continue;
             gui.setLine(i, sign.getLine(i));
         }
@@ -62,7 +69,7 @@ public class SignEdit implements Listener, TCommandHandler {
         if (!this.players.containsKey(event.getPlayer().getName())) return;
         Sign sign = players.get(event.getPlayer().getName());
         for (int i = 0; i <= event.getLines().length - 1; i++) {
-            TBNRHub.getInstance().getLogger().info("SignEdit >>>> Line is: " + event.getLine(i));
+            GearzHub.getInstance().getLogger().info("SignEdit >>>> Line is: " + event.getLine(i));
             if (event.getLine(i) == null) continue;
             sign.setLine(i, event.getLine(i));
         }
@@ -114,6 +121,6 @@ public class SignEdit implements Listener, TCommandHandler {
 
     @Override
     public void handleCommandStatus(TCommandStatus status, CommandSender sender, TCommandSender senderType) {
-        TBNRHub.handleCommandStatus(status, sender);
+        GearzHub.handleCommandStatus(status, sender);
     }
 }

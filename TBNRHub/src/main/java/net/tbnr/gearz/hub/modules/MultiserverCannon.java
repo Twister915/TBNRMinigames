@@ -1,6 +1,7 @@
-package net.tbnr.gearz.hub;
+package net.tbnr.gearz.hub.modules;
 
 import net.tbnr.gearz.effects.GearzLabelEntity;
+import net.tbnr.gearz.hub.GearzHub;
 import net.tbnr.util.TPlugin;
 import net.tbnr.util.player.TPlayer;
 import net.tbnr.util.player.TPlayerDisconnectEvent;
@@ -32,9 +33,9 @@ public final class MultiserverCannon implements ConfigurationSerializable, Liste
         this.server = server;
         this.referenceBlock = TPlugin.parseLocationString(referenceBlock);
         this.referenceLook = TPlugin.parseLocationString(referenceLook);
-        if (TBNRHub.getInstance().getArena() != null) {
-            this.referenceBlock.setWorld(TBNRHub.getInstance().getArena().getWorld());
-            this.referenceLook.setWorld(TBNRHub.getInstance().getArena().getWorld());
+        if (GearzHub.getInstance().getArena() != null) {
+            this.referenceBlock.setWorld(GearzHub.getInstance().getArena().getWorld());
+            this.referenceLook.setWorld(GearzHub.getInstance().getArena().getWorld());
         }
         this.labels = new HashMap<>();
         for (TPlayer player : TPlayerManager.getInstance().getPlayers()) {
@@ -43,13 +44,13 @@ public final class MultiserverCannon implements ConfigurationSerializable, Liste
     }
 
     public void connecting(TPlayer player) {
-        this.labels.get(player).updateTag(TBNRHub.getInstance().getFormat("formats.connecting", false, new String[]{"<server>", server}));
+        this.labels.get(player).updateTag(GearzHub.getInstance().getFormat("formats.connecting", false, new String[]{"<server>", server}));
     }
 
     @EventHandler()
     @SuppressWarnings("unused")
     public void onPlayerJoin(final TPlayerJoinEvent event) {
-        Bukkit.getScheduler().runTaskLater(TBNRHub.getInstance(), new Runnable() {
+        Bukkit.getScheduler().runTaskLater(GearzHub.getInstance(), new Runnable() {
             @Override
             public void run() {
                 label(event.getPlayer());
@@ -58,7 +59,7 @@ public final class MultiserverCannon implements ConfigurationSerializable, Liste
     }
 
     private void label(TPlayer player) {
-        this.labels.put(player, new GearzLabelEntity(player.getPlayer(), TBNRHub.getInstance().getFormat("formats.server-label", false, new String[]{"<server>", this.server}), this.getReferenceBlock().clone().add(0, -0.4, 1)));
+        this.labels.put(player, new GearzLabelEntity(player.getPlayer(), GearzHub.getInstance().getFormat("formats.server-label", false, new String[]{"<server>", this.server}), this.getReferenceBlock().clone().add(0, -0.4, 1)));
 
     }
 
@@ -87,8 +88,8 @@ public final class MultiserverCannon implements ConfigurationSerializable, Liste
     public Map<String, Object> serialize() {
         Map<String, Object> stuff = new HashMap<>();
         stuff.put("server", this.server);
-        stuff.put("referenceBlock", TBNRHub.encodeLocationString(this.referenceBlock));
-        stuff.put("referenceLook", TBNRHub.encodeLocationString(this.referenceLook));
+        stuff.put("referenceBlock", GearzHub.encodeLocationString(this.referenceBlock));
+        stuff.put("referenceLook", GearzHub.encodeLocationString(this.referenceLook));
         return stuff;
     }
 

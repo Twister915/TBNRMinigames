@@ -1,6 +1,9 @@
-package net.tbnr.gearz.hub;
+package net.tbnr.gearz.hub.modules;
 
 import net.tbnr.gearz.Gearz;
+import net.tbnr.gearz.hub.GearzHub;
+import net.tbnr.gearz.hub.annotations.HubModule;
+import net.tbnr.gearz.hub.annotations.HubModuleMeta;
 import net.tbnr.gearz.netcommand.BouncyUtils;
 import net.tbnr.gearz.packets.wrapper.WrapperPlayServerWorldParticles;
 import net.tbnr.gearz.server.Server;
@@ -34,17 +37,22 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 @SuppressWarnings("ALL")
-public class MultiserverCannons implements Listener, TCommandHandler {
+@HubModuleMeta(
+        key = "servercannons"
+)
+public class MultiserverCannons extends HubModule implements Listener, TCommandHandler {
     private HashSet<TPlayer> actives = new HashSet<>();
     private HashMap<Location, MultiserverCannon> cannons = new HashMap<>();
+    private MultiserverCannon cannon;
 
     public MultiserverCannons() {
-        List pads = TBNRHub.getInstance().getConfig().getList("pads");
+        super(true, true);
+        List pads = GearzHub.getInstance().getConfig().getList("pads");
         if (pads == null) return;
         for (Object cannon : pads) {
             if (!(cannon instanceof MultiserverCannon)) continue;
             this.cannons.put(((MultiserverCannon) cannon).getReferenceBlock(), (MultiserverCannon) cannon);
-            TBNRHub.getInstance().registerEvents((MultiserverCannon) cannon);
+            GearzHub.getInstance().registerEvents((MultiserverCannon) cannon);
         }
     }
 
@@ -53,7 +61,7 @@ public class MultiserverCannons implements Listener, TCommandHandler {
         if (event.getPlayer().getGameMode() == GameMode.CREATIVE) return;
         final MultiserverCannon cannon = getCannon(event.getPlayer().getLocation().getBlock().getLocation());
         if (cannon == null) return;
-        final TPlayer player = TBNRHub.getInstance().getPlayerManager().getPlayer(event.getPlayer());
+        final TPlayer player = GearzHub.getInstance().getPlayerManager().getPlayer(event.getPlayer());
         final Player player1 = player.getPlayer();
         if (actives.contains(player)) return;
         event.setCancelled(true);
@@ -65,13 +73,13 @@ public class MultiserverCannons implements Listener, TCommandHandler {
             e.printStackTrace();
         }
         //MultiserverCannonProcess multiserverCannonProcess = new MultiserverCannonProcess(player, cannon);
-        //TBNRHub.getInstance().registerEvents(multiserverCannonProcess);
-        //Bukkit.getScheduler().scheduleSyncDelayedTask(TBNRHub.getInstance(), multiserverCannonProcess, 35);
+        //GearzHub.getInstance().registerEvents(multiserverCannonProcess);
+        //Bukkit.getScheduler().scheduleSyncDelayedTask(GearzHub.getInstance(), multiserverCannonProcess, 35);
         this.actives.add(player);
         player1.setVelocity(player1.getLocation().getDirection().add(new Vector(0, 2, 0)));
         player1.setAllowFlight(true);
         player.playSound(Sound.ORB_PICKUP);
-        Bukkit.getScheduler().runTaskLater(TBNRHub.getInstance(), new Runnable() {
+        Bukkit.getScheduler().runTaskLater(GearzHub.getInstance(), new Runnable() {
             @Override
             public void run() {
                 if (!player1.isOnline()) return;
@@ -80,7 +88,7 @@ public class MultiserverCannons implements Listener, TCommandHandler {
                 String serverFor = getServerFor(cannon.getServer(), false);
                 if (serverFor == null) getServerFor(cannon.getServer(), true);
                 if (serverFor == null) {
-                    player1.sendMessage(TBNRHub.getInstance().getFormat("formats.servers-full", false, new String[]{"<server>", cannon.getServer()}));
+                    player1.sendMessage(GearzHub.getInstance().getFormat("formats.servers-full", false, new String[]{"<server>", cannon.getServer()}));
                     return;
                 }
                 BouncyUtils.sendPlayerToServer(player1, serverFor);
@@ -123,7 +131,7 @@ public class MultiserverCannons implements Listener, TCommandHandler {
             return TCommandStatus.INVALID_ARGS;
         MultiserverCannon existing = getCannon(pressure.getLocation());
         MultiserverCannon cannon = new MultiserverCannon(args[0], TPlugin.encodeLocationString(pressure.getLocation()), TPlugin.encodeLocationString(player.getLocation()));
-        List pads = TBNRHub.getInstance().getConfig().getList("pads");
+        List pads = GearzHub.getInstance().getConfig().getList("pads");
         if (pads == null) {
             pads = new ArrayList();
         }
@@ -133,8 +141,8 @@ public class MultiserverCannons implements Listener, TCommandHandler {
         }
         pads.add(cannon);
         cannons.put(cannon.getReferenceBlock(), cannon);
-        TBNRHub.getInstance().getConfig().set("pads", pads);
-        TBNRHub.getInstance().saveConfig();
+        GearzHub.getInstance().getConfig().set("pads", pads);
+        GearzHub.getInstance().saveConfig();
         player.sendMessage(ChatColor.GREEN + "Setup a pad for " + args[0]);
         return TCommandStatus.SUCCESSFUL;
     }
@@ -150,13 +158,13 @@ public class MultiserverCannons implements Listener, TCommandHandler {
         if (existing == null) {
             return TCommandStatus.INVALID_ARGS;
         }
-        List pads = TBNRHub.getInstance().getConfig().getList("pads");
+        List pads = GearzHub.getInstance().getConfig().getList("pads");
         if (!pads.contains(existing)) {
             return TCommandStatus.INVALID_ARGS;
         }
         pads.remove(existing);
-        TBNRHub.getInstance().getConfig().set("pads", pads);
-        TBNRHub.getInstance().saveConfig();
+        GearzHub.getInstance().getConfig().set("pads", pads);
+        GearzHub.getInstance().saveConfig();
         existing.removeLabelAll();
         player.sendMessage(ChatColor.GREEN + "Removed a pad for " + existing.getServer());
         this.cannons.remove(existing.getReferenceBlock());
@@ -164,7 +172,7 @@ public class MultiserverCannons implements Listener, TCommandHandler {
     }
 
     private MultiserverCannon getCannon(Location location) {
-        /*List pads = TBNRHub.getInstance().getConfig().getList("pads");
+        /*List pads = GearzHub.getInstance().getConfig().getList("pads");
         if (pads == null) {
             return null;
         }
@@ -178,7 +186,7 @@ public class MultiserverCannons implements Listener, TCommandHandler {
 
     @Override
     public void handleCommandStatus(TCommandStatus status, org.bukkit.command.CommandSender sender, TCommandSender senderType) {
-        TBNRHub.handleCommandStatus(status, sender);
+        GearzHub.handleCommandStatus(status, sender);
     }
 
     public static enum ProcessState {
@@ -253,13 +261,13 @@ public class MultiserverCannons implements Listener, TCommandHandler {
                     if (serverFor == null) serverFor = getServerFor(cannon.getServer(), true);
                     if (serverFor == null) serverFor = cannon.getServer();
                     BouncyUtils.sendPlayerToServer(this.player.getPlayer(), serverFor);
-                    this.player.getPlayer().teleport(TBNRHub.getInstance().getSpawn().getSpawn());
+                    this.player.getPlayer().teleport(GearzHub.getInstance().getSpawn().getSpawn());
                     try {
                         this.player.playParticleEffect(new TPlayer.TParticleEffect(player.getPlayer().getLocation(), Gearz.getRandom().nextFloat(), 1, 10, 2, WrapperPlayServerWorldParticles.ParticleEffect.HEART));
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    TBNRHub.getInstance().getCannon().actives.remove(player);
+                    GearzHub.getInstance().getCannon().actives.remove(player);
                     return false;
             }
             return false;
@@ -284,7 +292,7 @@ public class MultiserverCannons implements Listener, TCommandHandler {
         }
 
         private void reregister(int time) {
-            Bukkit.getScheduler().scheduleSyncDelayedTask(TBNRHub.getInstance(), this, time);
+            Bukkit.getScheduler().scheduleSyncDelayedTask(GearzHub.getInstance(), this, time);
         }
 
         @EventHandler

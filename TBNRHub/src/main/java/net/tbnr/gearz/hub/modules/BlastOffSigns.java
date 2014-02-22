@@ -1,8 +1,11 @@
-package net.tbnr.gearz.hub;
+package net.tbnr.gearz.hub.modules;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import net.tbnr.gearz.hub.GearzHub;
+import net.tbnr.gearz.hub.annotations.HubModule;
+import net.tbnr.gearz.hub.annotations.HubModuleMeta;
 import net.tbnr.gearz.netcommand.BouncyUtils;
 import net.tbnr.gearz.server.Server;
 import net.tbnr.gearz.server.ServerManager;
@@ -32,8 +35,17 @@ import java.util.Map;
  *
  * Latest Change:
  */
-public class BlastOffSigns implements Listener {
+@HubModuleMeta (
+        key = "blastoff"
+)
+public class BlastOffSigns extends HubModule implements Listener {
     final private Map<TPlayer, SignData> inUse = new HashMap<>();
+    Integer distance;
+
+    public BlastOffSigns() {
+        super(false, true);
+        distance = (Integer) getPropertyObject("distance");
+    }
 
     @EventHandler
     @SuppressWarnings("unused")
@@ -43,7 +55,7 @@ public class BlastOffSigns implements Listener {
         if (block.getType() != Material.SIGN && block.getType() != Material.WALL_SIGN) return;
         Sign sign = (Sign) block.getState();
         final String[] lines = sign.getLines();
-        if (lines[0] == null || lines[1] == null || ServerManager.getServersWithGame(lines[1]).size() == 0 || !lines[0].equals(TBNRHub.getInstance().getFormat("formats.blastoff-topline", true))) return;
+        if (lines[0] == null || lines[1] == null || ServerManager.getServersWithGame(lines[1]).size() == 0 || !lines[0].equals(GearzHub.getInstance().getFormat("formats.blastoff-topline", true))) return;
         final ServerSelector serverSelector = new ServerSelector(lines[1], new ServerSelector.SelectorCallback() {
             @Override
             public void onItemSelect(ServerSelector selector, InventoryGUI.InventoryGUIItem item, Player player) {
@@ -96,7 +108,7 @@ public class BlastOffSigns implements Listener {
             inUse.remove(tPlayer);
             return;
         }
-        if (y - signData.getStart() >= TBNRHub.getInstance().getConfig().getInt("blastoff.distance")) {
+        if (y - signData.getStart() >= distance) {
             BouncyUtils.sendPlayerToServer(player, signData.getServer().getBungee_name());
             inUse.remove(tPlayer);
         }

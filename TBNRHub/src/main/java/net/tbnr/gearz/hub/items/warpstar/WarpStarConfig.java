@@ -1,6 +1,6 @@
 package net.tbnr.gearz.hub.items.warpstar;
 
-import net.tbnr.gearz.hub.TBNRHub;
+import net.tbnr.gearz.hub.GearzHub;
 import net.tbnr.util.InventoryGUI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -33,7 +33,7 @@ public class WarpStarConfig {
     public void refresh() {
         warps = new ArrayList<>();
         locations = new HashMap<>();
-        ConfigurationSection section = TBNRHub.getInstance().getConfig().getConfigurationSection("hub.warps");
+        ConfigurationSection section = GearzHub.getInstance().getConfig().getConfigurationSection("hub.warps");
         if (section == null) {
             return;
         }

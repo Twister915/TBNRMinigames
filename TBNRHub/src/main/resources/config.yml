@@ -32,7 +32,29 @@ hub-items:
           toggleOff: "<prefix>&aYour Speed has Now been taken Away!"
           speed-level: 4
           jump-level: 3
-
+hub-modules:
+  blastoff:
+    isEnabled: true
+    properties:
+      distance: 15
+  bouncypads:
+    isEnabled: true
+  coloredsigns:
+    isEnabled: true
+  loginmessagees:
+    isEnabled: true
+  servercannons:
+    isEnabled: true
+  texturepack:
+    isEnabled: true
+    properties:
+      url: "http://four.tbnr.pw/tbnr_tex.zip"
+  restrictions:
+    isEnabled: true
+  signedit:
+    isEnabled: true
+  snowballexp:
+    isEnabled: true
 formats:
    world-teleport: "&aYou've been teleported to &e<world>&a!"
    snowball-hit: "&aYou have hit &3<player>&a with a snowball to earn XP! &3(You have &b<hits>&3 hits)."

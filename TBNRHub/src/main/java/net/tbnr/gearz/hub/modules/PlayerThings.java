@@ -1,5 +1,8 @@
-package net.tbnr.gearz.hub;
+package net.tbnr.gearz.hub.modules;
 
+import net.tbnr.gearz.hub.GearzHub;
+import net.tbnr.gearz.hub.annotations.HubModule;
+import net.tbnr.gearz.hub.annotations.HubModuleMeta;
 import net.tbnr.util.player.TPlayerJoinEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,12 +18,16 @@ import org.bukkit.event.inventory.InventoryType;
  * To change this template use File | Settings | File Templates.
  */
 @SuppressWarnings("unused")
-public class PlayerThings implements Listener {
+@HubModuleMeta(
+        key = "texturepack"
+)
+public class PlayerThings extends HubModule implements Listener {
 
     private final String rescPackLink;
 
     public PlayerThings() {
-        rescPackLink = TBNRHub.getInstance().getConfig().getString("resource-pack-link");
+        super(false, true);
+        rescPackLink = getProperty("url");
     }
 
     @EventHandler

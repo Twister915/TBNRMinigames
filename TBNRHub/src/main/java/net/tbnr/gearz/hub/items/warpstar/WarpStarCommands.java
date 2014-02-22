@@ -1,6 +1,6 @@
 package net.tbnr.gearz.hub.items.warpstar;
 
-import net.tbnr.gearz.hub.TBNRHub;
+import net.tbnr.gearz.hub.GearzHub;
 import net.tbnr.util.command.TCommand;
 import net.tbnr.util.command.TCommandHandler;
 import net.tbnr.util.command.TCommandSender;
@@ -42,9 +42,9 @@ public class WarpStarCommands implements TCommandHandler {
 
         String name = ChatColor.translateAlternateColorCodes('&', args[1]);
         ArrayList<String> lore = new ArrayList<>();
-        lore.add(TBNRHub.getInstance().compile(args, 2, args.length));
+        lore.add(GearzHub.getInstance().compile(args, 2, args.length));
 
-        ConfigurationSection section = TBNRHub.getInstance().getConfig().createSection("hub.warps." + ChatColor.stripColor(name).toLowerCase());
+        ConfigurationSection section = GearzHub.getInstance().getConfig().createSection("hub.warps." + ChatColor.stripColor(name).toLowerCase());
 
         section.set("item", material.name());
         section.set("name", args[1]);
@@ -60,10 +60,10 @@ public class WarpStarCommands implements TCommandHandler {
 
         section.set("location", location);
 
-        TBNRHub.getInstance().getConfig().set("hub.warps." + ChatColor.stripColor(name).toLowerCase(), section);
-        TBNRHub.getInstance().saveConfig();
+        GearzHub.getInstance().getConfig().set("hub.warps." + ChatColor.stripColor(name).toLowerCase(), section);
+        GearzHub.getInstance().saveConfig();
         p.sendMessage(ChatColor.GREEN + "Warp set!");
-        TBNRHub.getInstance().getHubItems().refreshWarpStar();
+        GearzHub.getInstance().getHubItems().refreshWarpStar();
         return TCommandStatus.SUCCESSFUL;
     }
 
@@ -74,14 +74,14 @@ public class WarpStarCommands implements TCommandHandler {
             senders = {TCommandSender.Player})
     @SuppressWarnings("unused")
     public TCommandStatus delWarp(CommandSender sender, TCommandSender type, TCommand meta, Command command, String[] args) {
-        ConfigurationSection warp = TBNRHub.getInstance().getConfig().getConfigurationSection("hub.warps." + args[0]);
+        ConfigurationSection warp = GearzHub.getInstance().getConfig().getConfigurationSection("hub.warps." + args[0]);
         if (warp == null || args.length != 1) {
             return TCommandStatus.INVALID_ARGS;
         }
-        TBNRHub.getInstance().getConfig().set("hub.warps." + args[0], null);
-        TBNRHub.getInstance().saveConfig();
+        GearzHub.getInstance().getConfig().set("hub.warps." + args[0], null);
+        GearzHub.getInstance().saveConfig();
         sender.sendMessage(ChatColor.GREEN + "Warp deleted!");
-        TBNRHub.getInstance().getHubItems().refreshWarpStar();
+        GearzHub.getInstance().getHubItems().refreshWarpStar();
         return TCommandStatus.SUCCESSFUL;
     }
 
@@ -93,7 +93,7 @@ public class WarpStarCommands implements TCommandHandler {
     @SuppressWarnings("unused")
     public TCommandStatus listWarp(CommandSender sender, TCommandSender type, TCommand meta, Command command, String[] args) {
         sender.sendMessage(ChatColor.GOLD + "Warps:");
-        for (String string : TBNRHub.getInstance().getConfig().getStringList("hub.warps")) {
+        for (String string : GearzHub.getInstance().getConfig().getStringList("hub.warps")) {
             sender.sendMessage(ChatColor.RED + string);
         }
         return TCommandStatus.SUCCESSFUL;
@@ -101,7 +101,7 @@ public class WarpStarCommands implements TCommandHandler {
 
     @Override
     public void handleCommandStatus(TCommandStatus status, CommandSender sender, TCommandSender senderType) {
-        TBNRHub.handleCommandStatus(status, sender);
+        GearzHub.handleCommandStatus(status, sender);
     }
 }
 

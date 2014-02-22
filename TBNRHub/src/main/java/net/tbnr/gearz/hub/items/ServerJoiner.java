@@ -1,8 +1,8 @@
 package net.tbnr.gearz.hub.items;
 
-import net.tbnr.gearz.hub.HubItem;
-import net.tbnr.gearz.hub.HubItemMeta;
-import net.tbnr.gearz.hub.TBNRHub;
+import net.tbnr.gearz.hub.GearzHub;
+import net.tbnr.gearz.hub.annotations.HubItem;
+import net.tbnr.gearz.hub.annotations.HubItemMeta;
 import net.tbnr.gearz.netcommand.BouncyUtils;
 import net.tbnr.gearz.server.Server;
 import net.tbnr.gearz.server.ServerManager;
@@ -42,7 +42,7 @@ public class ServerJoiner extends HubItem {
         this.callback = new ServerJoinerCallback();
         this.mainGUI = new InventoryGUI(getGameTypes(), "Server Selector", callback);
         updateGUIs();
-        Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(TBNRHub.getInstance(), new ServerJoinerUpdater(this), 0, 20);
+        Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(GearzHub.getInstance(), new ServerJoinerUpdater(this), 0, 20);
     }
 
     public void updateGameTypes(){

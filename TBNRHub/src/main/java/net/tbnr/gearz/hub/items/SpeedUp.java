@@ -11,12 +11,11 @@
 
 package net.tbnr.gearz.hub.items;
 
-import net.tbnr.gearz.hub.HubItem;
-import net.tbnr.gearz.hub.HubItemMeta;
-import net.tbnr.gearz.hub.TBNRHub;
+import net.tbnr.gearz.hub.GearzHub;
+import net.tbnr.gearz.hub.annotations.HubItem;
+import net.tbnr.gearz.hub.annotations.HubItemMeta;
 import net.tbnr.util.player.cooldowns.TCooldown;
 import net.tbnr.util.player.cooldowns.TCooldownManager;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -24,7 +23,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -78,17 +76,17 @@ public class SpeedUp extends HubItem {
 	public void toggle(Player player) {
 		if(TCooldownManager.canContinueLocal(player.getName() + "_speedUp", new TCooldown(TimeUnit.SECONDS.toMillis(3)))) {
 			if (enabledFor.contains(player.getName())) {
-				player.sendMessage(getProperty("toggleOff", true, new String[]{"<prefix>", TBNRHub.getInstance().getChatPrefix()}));
+				player.sendMessage(getProperty("toggleOff", true, new String[]{"<prefix>", GearzHub.getInstance().getChatPrefix()}));
 				player.getItemInHand().setType(Material.LEVER);
 				enabledFor.remove(player.getName());
 			} else {
-				player.sendMessage(getProperty("toggleOn", true, new String[]{"<prefix>", TBNRHub.getInstance().getChatPrefix()}));
+				player.sendMessage(getProperty("toggleOn", true, new String[]{"<prefix>", GearzHub.getInstance().getChatPrefix()}));
 				player.getItemInHand().setType(Material.REDSTONE_TORCH_ON);
 				enabledFor.add(player.getName());
 			}
 			player.playSound(player.getLocation(), Sound.ARROW_HIT, 1, 1);
 		} else {
-			player.sendMessage(getProperty("cooldown", true, new String[]{"<prefix>", TBNRHub.getInstance().getChatPrefix()}));
+			player.sendMessage(getProperty("cooldown", true, new String[]{"<prefix>", GearzHub.getInstance().getChatPrefix()}));
 		}
 	}
 

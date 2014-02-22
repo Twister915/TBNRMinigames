@@ -1,4 +1,4 @@
-package net.tbnr.gearz.hub;
+package net.tbnr.gearz.hub.items;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

@@ -1,5 +1,7 @@
-package net.tbnr.gearz.hub;
+package net.tbnr.gearz.hub.modules;
 
+import net.tbnr.gearz.hub.annotations.HubModule;
+import net.tbnr.gearz.hub.annotations.HubModuleMeta;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -18,7 +20,14 @@ import org.bukkit.util.Vector;
  * Time: 2:36 PM
  * To change this template use File | Settings | File Templates.
  */
-public class BouncyPads implements Listener {
+@HubModuleMeta(
+        key = "bouncypads"
+)
+public class BouncyPads extends HubModule implements Listener {
+    public BouncyPads() {
+        super(false, true);
+    }
+
     @EventHandler(priority = EventPriority.MONITOR)
     @SuppressWarnings("unused")
     public void onInteract(PlayerInteractEvent event) {
