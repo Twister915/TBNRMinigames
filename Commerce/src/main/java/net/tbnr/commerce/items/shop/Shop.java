@@ -210,7 +210,6 @@ public final class Shop implements PlayerShop {
         private final Shop shopInstnace;
         private final GuiKey key;
 
-        @Override
         public void onItemSelect(ShopGUI gui, InventoryGUI.InventoryGUIItem item, GearzPlayer player1) {
             Player player = player1.getPlayer();
             switch (key) {
