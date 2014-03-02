@@ -1,7 +1,7 @@
 package net.tbnr.gearz.hub.items.warpstar;
 
 import net.tbnr.gearz.hub.TBNRHub;
-import net.tbnr.util.InventoryGUI;
+import net.tbnr.util.inventory.InventoryGUI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;

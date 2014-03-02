@@ -22,4 +22,5 @@ public @interface HubItemMeta {
 
 	public String permission() default "";
 
+	public int slot() default -1;
 }

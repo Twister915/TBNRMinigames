@@ -38,7 +38,8 @@ import java.util.concurrent.TimeUnit;
  * Latest Change:
  */
 @HubItemMeta(
-		key = "speedup"
+		key = "speedup",
+		slot = 4
 )
 public class SpeedUp extends HubItem {
 	final List<String> enabledFor = new ArrayList<>();
@@ -103,15 +104,5 @@ public class SpeedUp extends HubItem {
 
 	public boolean isEnabled(Player player) {
 		return enabledFor.contains(player.getName());
-	}
-
-	@EventHandler
-	void onPlayerJoinEvent(PlayerJoinEvent event) {
-		//////////////////////////////////// GET RID OF OLD SPEED UP /////////////////////////////////////////////
-
-		if(event.getPlayer().getInventory().contains(new ItemStack(Material.POTION))) event.getPlayer().getInventory().remove(new ItemStack(Material.POTION));
-		if(event.getPlayer().getInventory().contains(new ItemStack(Material.LEVER))) event.getPlayer().getInventory().remove(new ItemStack(Material.LEVER));
-
-		/////////////////////////////////////////////////////////////////////////////////////////////////////
 	}
 }

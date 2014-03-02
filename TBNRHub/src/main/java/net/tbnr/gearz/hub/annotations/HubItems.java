@@ -2,10 +2,12 @@ package net.tbnr.gearz.hub.annotations;
 
 import net.tbnr.gearz.hub.TBNRHub;
 import net.tbnr.gearz.hub.items.warpstar.WarpStarConfig;
+import net.tbnr.util.player.TPlayerJoinEvent;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.reflections.Reflections;
 
@@ -39,7 +41,7 @@ public class HubItems implements Listener {
 		    HubItemMeta itemMeta = hubItem.getAnnotation(HubItemMeta.class);
             if (itemMeta == null) continue;
 		    if(itemMeta.hidden()) continue;
-		    if(TBNRHub.getInstance().getConfig().getBoolean("hub-items." + itemMeta.key()+ ".isEnabled")) {
+		    if(TBNRHub.getInstance().getConfig().getBoolean("hub-items." + itemMeta.key()+ ".isEnabled", false)) {
 			    try {
 				    HubItem item = hubItem.newInstance();
 				    items.add(item);
@@ -55,28 +57,34 @@ public class HubItems implements Listener {
         warpStarConfig.refresh();
     }
 
-    @EventHandler
+    @EventHandler(priority= EventPriority.HIGHEST)
     @SuppressWarnings("unused")
-    public void onPlayerJoin(PlayerJoinEvent event) {
-
+    public void onPlayerJoin(TPlayerJoinEvent event) {
+		Player player = event.getPlayer().getPlayer();
 	    ItemStack itemStack;
-        for (HubItem item : items) {
-	        if (!shouldAdd(event.getPlayer(), item.getItems())) continue;
+	    ItemStack itemInSlot;
+	    for (HubItem item : items) {
+		    if (!shouldAdd(player, item.getItems())) continue;
             /*if(item.getItems().get(0).getType() == Material.ANVIL) {
                 if(!event.getPlayer().hasPermission("gearz.serverselector")) continue;
                 event.getPlayer().getInventory().addItem(item.getItems().get(0));
             }*/
 
-	        HubItemMeta itemMeta = item.getClass().getAnnotation(HubItemMeta.class);
-	        if (itemMeta == null) continue;
-	        if(itemMeta.hidden()) continue;
+		    HubItemMeta itemMeta = item.getClass().getAnnotation(HubItemMeta.class);
+		    if (itemMeta == null) continue;
+		    if(itemMeta.hidden()) continue;
 
-	        if(event.getPlayer().hasPermission(itemMeta.permission()) ||
-			        itemMeta.permission().isEmpty()) {
-		        itemStack = item.getItems().get(0);
-		        event.getPlayer().getInventory().addItem(itemStack);
-	        }
-        }
+		    if(player.hasPermission(itemMeta.permission()) ||
+				    itemMeta.permission().isEmpty()) {
+			    itemStack = item.getItems().get(0);
+			    itemInSlot = player.getInventory().getItem(itemMeta.slot());
+			    if(itemInSlot != null && itemInSlot.getType() != Material.AIR && itemMeta.slot() == -1) {
+				    player.getInventory().addItem(itemStack);
+				    continue;
+			    }
+			    player.getInventory().setItem(itemMeta.slot(), itemStack);
+		    }
+	    }
 
 
     }

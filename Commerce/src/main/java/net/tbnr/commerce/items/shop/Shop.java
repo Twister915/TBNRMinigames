@@ -4,7 +4,7 @@ import lombok.*;
 import net.tbnr.commerce.GearzCommerce;
 import net.tbnr.commerce.items.*;
 import net.tbnr.gearz.player.GearzPlayer;
-import net.tbnr.util.InventoryGUI;
+import net.tbnr.util.inventory.InventoryGUI;
 import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -210,7 +210,6 @@ public final class Shop implements PlayerShop {
         private final Shop shopInstnace;
         private final GuiKey key;
 
-        @Override
         public void onItemSelect(ShopGUI gui, InventoryGUI.InventoryGUIItem item, GearzPlayer player1) {
             Player player = player1.getPlayer();
             switch (key) {

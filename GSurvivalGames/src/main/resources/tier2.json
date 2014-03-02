@@ -71,6 +71,10 @@
             "material":"ARROW",
             "data":0,
             "chance":100
+        },{
+            "material":"FLINT_AND_STEEL",
+            "data":0,
+            "chance":100
         }
     ]
 }

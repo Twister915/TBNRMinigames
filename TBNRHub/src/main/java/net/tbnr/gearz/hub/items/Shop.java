@@ -19,7 +19,8 @@ import java.util.List;
  * Latest Change:
  */
 @HubItemMeta(
-		key = "shop"
+		key = "shop",
+		slot = 8
 )
 public class Shop extends HubItem {
 

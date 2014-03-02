@@ -28,7 +28,8 @@ import java.util.concurrent.TimeUnit;
  * Latest Change:
  */
 @HubItemMeta(
-        key = "magicclock"
+        key = "magicclock",
+		slot = 2
 )
 public class MagicClock extends HubItem {
     final List<String> enabledFor = new ArrayList<>();
@@ -98,17 +99,6 @@ public class MagicClock extends HubItem {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-	    //////////////////////////////////// GET RID OF OLD STAR /////////////////////////////////////////////
-
-	    ItemStack itemStack = new ItemStack(Material.NETHER_STAR, 1);
-	    ItemMeta meta = itemStack.getItemMeta();
-	    meta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.ITALIC + "Magic Star!" + ChatColor.GRAY + " - " + ChatColor.YELLOW + "" + ChatColor.BOLD + "Click me!");
-	    itemStack.setItemMeta(meta);
-
-	    if(event.getPlayer().getInventory().contains(itemStack)) event.getPlayer().getInventory().remove(itemStack);
-
-	    /////////////////////////////////////////////////////////////////////////////////////////////////////
-
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (isEnabled(player)) player.hidePlayer(event.getPlayer());
         }

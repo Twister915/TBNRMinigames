@@ -1,5 +1,14 @@
 package net.tbnr.gearz.hub;
 
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.PacketType.Status;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.events.ListenerOptions;
+import com.comphenix.protocol.events.ListenerPriority;
+import com.comphenix.protocol.events.PacketAdapter;
+import com.comphenix.protocol.events.PacketEvent;
+import com.comphenix.protocol.wrappers.WrappedGameProfile;
+import com.comphenix.protocol.wrappers.WrappedServerPing;
 import com.mongodb.DBObject;
 import lombok.Getter;
 import net.lingala.zip4j.exception.ZipException;
@@ -28,6 +37,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.IOException;
 import java.net.SocketException;
+import java.util.Arrays;
 
 /**
  * Created with IntelliJ IDEA.
@@ -54,6 +64,14 @@ public class TBNRHub extends TPlugin implements TCommandHandler {
 
     @Override
     public void enable() {
+	   ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(this, ListenerPriority.NORMAL,
+			    Arrays.asList(PacketType.Status.Server.OUT_SERVER_INFO, Status.Server.OUT_PING), ListenerOptions.ASYNC) {
+
+		    public void onPacketSending(PacketEvent event) {
+			    getLogger().info("ping came Through!!!!!!!!!!!");
+			    handlePing(event.getPacket().getServerPings().read(0));
+		    }
+	    });
 	    TBNRHub.instance = this;
 	    Gearz.getInstance().setLobbyServer(true);
         DBObject hub_arena = getMongoDB().getCollection("hub_arena").findOne();
@@ -197,4 +215,13 @@ public class TBNRHub extends TPlugin implements TCommandHandler {
         }
         return builder.toString();
     }
+
+	public void handlePing(WrappedServerPing ping) {
+		ping.setPlayers(Arrays.asList(
+				new WrappedGameProfile("id1", ChatColor.GOLD + "HI. " + ChatColor.GREEN +
+						"Test1!"),
+				new WrappedGameProfile("id2", "Hello. This is line number two."),
+				new WrappedGameProfile("id3", "Hello. This is line number three.")
+		));
+	}
 }
