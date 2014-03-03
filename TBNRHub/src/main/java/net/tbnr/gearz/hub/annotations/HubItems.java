@@ -85,8 +85,6 @@ public class HubItems implements Listener {
 			    player.getInventory().setItem(itemMeta.slot(), itemStack);
 		    }
 	    }
-
-
     }
 
     private boolean shouldAdd(Player player, List<ItemStack> item) {

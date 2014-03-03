@@ -312,6 +312,9 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
                 }
                 points.add(p);
                 TPlayer tPlayer = player.getTPlayer();
+                if (tPlayer.getPlayer().isInsideVehicle()) {
+                    tPlayer.getPlayer().eject();
+                }
                 tPlayer.teleport(this.sgArena.pointToLocation(p));
                 tPlayer.playSound(Sound.LEVEL_UP);
             }
