@@ -1,6 +1,7 @@
 package net.tbnr.gearz.pl;
 
 import lombok.Getter;
+import net.tbnr.gearz.Gearz;
 import net.tbnr.gearz.GearzPlugin;
 import net.tbnr.gearz.arena.Arena;
 import net.tbnr.gearz.effects.EnderBar;
@@ -18,6 +19,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerToggleSprintEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -70,6 +72,9 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 
 	public PlagueState state;
 
+	private ItemStack cureZombie;
+	private ItemStack curePoison;
+
 	/**
 	 * New game in this arena
 	 *
@@ -86,6 +91,7 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 
 	@Override
 	protected void gamePreStart() {
+		setItems();
 		this.state = PlagueState.IN_GAME;
 		assignJobs();
 		final PlagueGame game = this;
@@ -123,11 +129,17 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 			target.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.POISON, Integer.MAX_VALUE, potionLevel == -1 ? 0 : potionLevel+1));
 			return true;
 		}
-		return !(zombies.containsKey(attacker) && zombies.containsKey(target)) && !(getHumans().contains(attacker) && getHumans().contains(target));
+		return zombies.containsKey(attacker) && !zombies.containsKey(target);
 	}
 
 	@Override
 	protected boolean canUse(GearzPlayer player) {
+		if(player.getPlayer().getItemInHand().equals(curePoison)) {
+			player.getTPlayer().removePotionEffects(PotionEffectType.POISON);
+			player.getPlayer().sendMessage(getPluginFormat("formats.cure-poison", true));
+			player.getPlayer().getInventory().removeItem(curePoison);
+			return false;
+		}
 		return true;
 	}
 
@@ -158,12 +170,17 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 
 	@Override
 	protected void playerKilled(GearzPlayer dead, GearzPlayer killer) {
-		if(getHumans().size() == 0) finishGame();
-		if(getHumans().contains(dead)) {
-			makeZombie(dead);
-		}
+		if(getHumans().size() <= 0) finish();
+		if(getHumans().contains(dead)) makeZombie(dead);
 		points.put(killer, 100);
 		updateScoreboard();
+
+		//gives random num between 0 - 9 inclusive
+		int random = Gearz.getRandom().nextInt(10);
+
+		// 1 in 10 chance of getting each one. So there is a 1 in 5 chance of getting any number
+		if(random == 0) dead.getPlayer().getWorld().dropItemNaturally(dead.getPlayer().getLocation(), curePoison);
+		if(random == 1) dead.getPlayer().getWorld().dropItemNaturally(dead.getPlayer().getLocation(), cureZombie);
 	}
 
 	@Override
@@ -219,16 +236,7 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 
 	@Override
 	public void onCountdownComplete(GameCountdown countdown) {
-		for (GearzPlayer player : allPlayers()) {
-			EnderBar.remove(player);
-		}
-		GearzPlayer max = getMostPoints();
-		broadcast(getPluginFormat("formats.winner", true, new String[]{"<player>", max.getUsername()}));
-		addGPoints(max, 250);
-		addWin(max);
-		max.getTPlayer().playSound(Sound.ENDERDRAGON_GROWL);
-		getArena().getWorld().strikeLightningEffect(max.getPlayer().getLocation());
-		finishGame();
+		finish();
 	}
 
 	@Override
@@ -239,6 +247,21 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 	}
 
 	/////////////////// PRIVATE METHODS //////////////////////////
+
+	public void setItems() {
+		//Cure Poison
+		ItemStack curePoison = new ItemStack(Material.MILK_BUCKET, 1);
+		ItemMeta curePoisonItemMeta = curePoison.getItemMeta();
+		curePoisonItemMeta.setDisplayName(getPluginFormat("formats.poison-cure", false));
+		curePoison.setItemMeta(curePoisonItemMeta);
+		this.curePoison = curePoison;
+		//Cure Zombie
+		ItemStack cureZombie = new ItemStack(Material.INK_SACK, 1, (byte)15);
+		ItemMeta cureZombieItemMeta = cureZombie.getItemMeta();
+		cureZombieItemMeta.setDisplayName(getPluginFormat("zombie-cure", false));
+		cureZombie.setItemMeta(cureZombieItemMeta);
+		this.cureZombie = cureZombie;
+	}
 
 	private void updateScoreboard() {
 		for (GearzPlayer player : getPlayers()) {
@@ -295,6 +318,8 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 	}
 
 	public void makeHuman(GearzPlayer player) {
+		zombies.remove(player);
+		player.getPlayer().sendMessage(getPluginFormat("formats.made-player", true));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -339,24 +364,49 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 		return most;
 	}
 
+	public void finish() {
+		for (GearzPlayer player : allPlayers()) EnderBar.remove(player);
+		GearzPlayer max = getMostPoints();
+		broadcast(getPluginFormat("formats.winner", true, new String[]{"<player>", max.getUsername()}));
+		addGPoints(max, 250);
+		addWin(max);
+		max.getTPlayer().playSound(Sound.ENDERDRAGON_GROWL);
+		getArena().getWorld().strikeLightningEffect(max.getPlayer().getLocation());
+		finishGame();
+	}
+
 	//////////////// I'm An exception to the rule /////////////////////////////
 
-	@SuppressWarnings("SuspiciousMethodCalls")
 	@EventHandler
 	void onBonemealZombieEvent(PlayerInteractEntityEvent e) {
 		ItemStack item = e.getPlayer().getItemInHand();
-		if(item.getType() != Material.INK_SACK || item.getDurability() != (short) 15 || !(e.getRightClicked() instanceof Player)) return;
+		if(!item.equals(cureZombie) || !(e.getRightClicked() instanceof Player) || !item.equals(curePoison)) return;
 		GearzPlayer personClicked = GearzPlayer.playerFromPlayer((Player) e.getRightClicked());
-		if(personClicked == null) return;
-		Player p = e.getPlayer();
-		if(zombies.containsKey(personClicked)) {
-			makeHuman(personClicked);
-			zombies.remove(personClicked);
-			p.sendMessage(getPluginFormat("formats.cured-zombie", true, new String[]{"<player>", personClicked.getTPlayer().getPlayerName()}));
-			p.getInventory().removeItem(new ItemStack(Material.INK_SACK, 1, (short) 15));
-			addPoints(p, 200);
-		} else {
-			e.getPlayer().sendMessage(getPluginFormat("formats.waste-bone-meal", true));
+		GearzPlayer player = GearzPlayer.playerFromPlayer((Player) e.getPlayer());
+
+		if(personClicked == null || !personClicked.isValid()) return;
+		if(player == null || !player.isValid()) return;
+
+		if(item.equals(curePoison)) {
+			if(personClicked.getTPlayer().hasPotionEffect(PotionEffectType.POISON)) {
+				personClicked.getTPlayer().removePotionEffects(PotionEffectType.POISON);
+				player.getPlayer().sendMessage(getPluginFormat("formats.cured-poison-other", true, new String[]{"<player>", personClicked.getTPlayer().getPlayerName()}));
+				player.getPlayer().getInventory().removeItem(curePoison);
+				addPoints(player, 200);
+			} else {
+				player.getPlayer().sendMessage(getPluginFormat("formats.waste-milk", true));
+			}
+		}
+		if(item.equals(cureZombie)) {
+			if(zombies.containsKey(personClicked)) {
+				makeHuman(personClicked);
+				zombies.remove(personClicked);
+				player.getPlayer().sendMessage(getPluginFormat("formats.cured-zombie", true, new String[]{"<player>", personClicked.getTPlayer().getPlayerName()}));
+				player.getPlayer().getInventory().removeItem(cureZombie);
+				addPoints(player, 200);
+			} else {
+				player.getPlayer().sendMessage(getPluginFormat("formats.waste-bone-meal", true));
+			}
 		}
 	}
 
