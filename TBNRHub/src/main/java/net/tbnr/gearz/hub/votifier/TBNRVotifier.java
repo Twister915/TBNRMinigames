@@ -2,7 +2,6 @@ package net.tbnr.gearz.hub.votifier;
 
 import net.tbnr.gearz.hub.TBNRHub;
 import net.tbnr.gearz.player.GearzPlayer;
-import net.tbnr.gearz.votifier.VotifierListener;
 import net.tbnr.util.player.TPlayer;
 import net.tbnr.util.player.TPlayerDisconnectEvent;
 import net.tbnr.util.player.TPlayerJoinEvent;
@@ -12,10 +11,9 @@ import org.bukkit.event.Listener;
 import java.util.Date;
 import java.util.HashMap;
 
-public class TBNRVotifier implements VotifierListener, Listener {
+public class TBNRVotifier implements /*VotifierListener,*/ Listener {
     private HashMap<GearzPlayer, Date> timeJoined;
 
-    @Override
     public void onVote(GearzPlayer player, String site, Date time) {
         /*
         Log vote
