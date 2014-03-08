@@ -177,8 +177,8 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 
 	@Override
 	protected void playerKilled(GearzPlayer dead, GearzPlayer killer) {
-		if(getHumans().size() <= 0) finish();
 		if(getHumans().contains(dead)) makeZombie(dead);
+		if(getHumans().size() <= 0) finish();
 		points.put(killer, 100);
 		updateScoreboard();
 
@@ -415,6 +415,7 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 				player.getPlayer().sendMessage(getPluginFormat("formats.waste-bone-meal", true));
 			}
 		}
+		e.setCancelled(true);
 	}
 
 	@EventHandler
