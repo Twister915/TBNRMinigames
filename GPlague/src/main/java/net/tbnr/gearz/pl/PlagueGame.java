@@ -353,7 +353,10 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 
 			value += 0.05f;
 			GPlague.getInstance().getLogger().info("After default value added, value is "+value);
-			if(value < 0f) value = 0f;
+			if(value < 0f) {
+				value = 0f;
+				player.setSprinting(false);
+			}
 			if(value > 1f) value = 1f;
 
 			GPlague.getInstance().getLogger().info("final value is "+value);
