@@ -355,6 +355,7 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 
 			player.setExp(value);
 			this.zombies.put(gearzPlayer, value);
+			GPlague.getInstance().getLogger().info(gearzPlayer.getUsername()+" "+value);
 		}
 	}
 
@@ -429,11 +430,10 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 
 	@EventHandler
 	void onPlayerSprintEvent(PlayerToggleSprintEvent e) {
-		if(e.getPlayer() != null) {
-			GearzPlayer pl = GearzPlayer.playerFromPlayer(e.getPlayer());
-			if(!pl.isValid() || pl == null || zombies.get(pl) == null) return;
-			if(zombies.get(pl) < 0.2) e.setCancelled(true);
-		}
+		if(e.getPlayer() == null) return;
+		GearzPlayer pl = GearzPlayer.playerFromPlayer(e.getPlayer());
+		if(!pl.isValid() || pl == null || zombies.get(pl) == null) return;
+		if(zombies.get(pl) < 0.2) e.setCancelled(true);
 	}
 
 }
