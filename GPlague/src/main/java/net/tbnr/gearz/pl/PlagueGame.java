@@ -17,6 +17,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerToggleSprintEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -110,6 +111,11 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 	@Override
 	protected void gameStarting() {
 
+		//DEBUG
+		for(Player p : Bukkit.getOnlinePlayers()) {
+			p.getInventory().addItem(curePoison);
+			p.getInventory().addItem(cureZombie);
+		}
 	}
 
 	@Override
@@ -129,7 +135,7 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 			target.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.POISON, Integer.MAX_VALUE, potionLevel == -1 ? 0 : potionLevel+1));
 			return true;
 		}
-		return zombies.containsKey(attacker) && !zombies.containsKey(target);
+		return !zombies.containsKey(attacker) && zombies.containsKey(target);
 	}
 
 	@Override
