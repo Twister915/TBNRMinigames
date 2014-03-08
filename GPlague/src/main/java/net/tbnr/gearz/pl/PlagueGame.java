@@ -341,20 +341,22 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 	@SuppressWarnings("unchecked")
 	public void updateXPBar() {
 		Set<GearzPlayer> zombiesClone = this.zombies.keySet();
-		for(GearzPlayer p : zombiesClone) {
-			if(p == null || !p.isValid()) continue;
-			Player player = p.getPlayer();
-			Float value = this.zombies.get(p);
-			player.setExp(value);
+		for(GearzPlayer gearzPlayer : zombiesClone) {
+			if(gearzPlayer == null || !gearzPlayer.isValid()) continue;
+			Player player = gearzPlayer.getPlayer();
+			float value = this.zombies.get(gearzPlayer);
 
+			GPlague.getInstance().getLogger().info(gearzPlayer.getUsername()+" "+player.isSprinting());
 			if(player.isSprinting()) value -= 0.1f;
 			if(player.isSneaking()) value += 0.05f;
 
 			value += 0.05f;
-			if(value < 0.0) value = 0f;
+			if(value < 0f) value = 0f;
 			if(value > 1f) value = 1f;
-			this.zombies.put(p, value);
-			GPlague.getInstance().getLogger().info(p.getUsername()+" "+value);
+
+			player.setExp(value);
+			this.zombies.put(gearzPlayer, value);
+			GPlague.getInstance().getLogger().info(gearzPlayer.getUsername()+" "+value);
 		}
 	}
 
