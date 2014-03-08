@@ -104,6 +104,15 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 			}
 
 		}.runTaskTimer(GPlague.getInstance(), 0, 1);
+
+
+
+		for(GearzPlayer player : getPlayers()) {
+			if(!player.isValid() || player == null) continue;
+			if(points.containsKey(player)) continue;
+			points.put(player, 0);
+		}
+
 		GameCountdown countdown = new GameCountdown(this.state.getLength(), this, this);
 		countdown.start();
 	}
