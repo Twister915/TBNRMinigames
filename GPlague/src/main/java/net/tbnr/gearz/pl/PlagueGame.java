@@ -265,7 +265,7 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 		//Cure Zombie
 		ItemStack cureZombie = new ItemStack(Material.INK_SACK, 1, (byte)15);
 		ItemMeta cureZombieItemMeta = cureZombie.getItemMeta();
-		cureZombieItemMeta.setDisplayName(getPluginFormat("zombie-cure", false));
+		cureZombieItemMeta.setDisplayName(getPluginFormat("formats.zombie-cure", false));
 		cureZombie.setItemMeta(cureZombieItemMeta);
 		this.cureZombie = cureZombie;
 	}
