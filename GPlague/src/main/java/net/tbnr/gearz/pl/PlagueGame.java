@@ -345,15 +345,20 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 			if(gearzPlayer == null || !gearzPlayer.isValid()) continue;
 			Player player = gearzPlayer.getPlayer();
 			float value = this.zombies.get(gearzPlayer);
-
+			GPlague.getInstance().getLogger().info("Standard value is "+value);
 			if(player.isSprinting()) value -= 0.1f;
+			GPlague.getInstance().getLogger().info("After sprinting value is "+value);
 			if(player.isSneaking()) value += 0.05f;
+			GPlague.getInstance().getLogger().info("After sneaking value is "+value);
 
 			value += 0.05f;
+			GPlague.getInstance().getLogger().info("After default value added, value is "+value);
 			if(value < 0f) value = 0f;
 			if(value > 1f) value = 1f;
 
+			GPlague.getInstance().getLogger().info("final value is "+value);
 			player.setExp(value);
+
 			this.zombies.put(gearzPlayer, value);
 			GPlague.getInstance().getLogger().info(gearzPlayer.getUsername()+" "+value);
 		}
