@@ -11,3 +11,4 @@ formats:
   poison-cure: "<p>Right Click To Cure Yourself Of Poison Or Another Person!"
   zombie-cure: "<p>Right Click To Cure Yourself (Become Human) Or Another Person!"
   cured-poison-other: "<p>You have cured <player> of poison, well done!"
+  scoreboard-title: "<p>Points<s>!"
