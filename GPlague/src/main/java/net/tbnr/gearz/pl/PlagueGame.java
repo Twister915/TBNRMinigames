@@ -132,7 +132,8 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 	protected boolean canPvP(GearzPlayer attacker, GearzPlayer target) {
 		if(!zombies.containsKey(target) && zombies.containsKey(attacker)) {
 			int potionLevel = target.getTPlayer().getCurrentPotionLevel(PotionEffectType.POISON);
-			target.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.POISON, Integer.MAX_VALUE, potionLevel == -1 ? 0 : potionLevel+1));
+			target.getPlayer().removePotionEffect(PotionEffectType.POISON);
+			target.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.POISON, 1200, potionLevel == -1 ? 0 : potionLevel+1));
 			return true;
 		}
 		return !zombies.containsKey(attacker) && zombies.containsKey(target);
