@@ -188,7 +188,7 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 	@Override
 	protected void playerKilled(GearzPlayer dead, GearzPlayer killer) {
 		if(getHumans().contains(dead)) makeZombie(dead);
-		if(getHumans().size() <= 0) finish();
+		if(getHumans().size() <= 0 || zombies.size() <= 0) finish();
 		points.put(killer, 100);
 		updateScoreboard();
 
@@ -207,7 +207,7 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 
 	@Override
 	protected boolean canDropItem(GearzPlayer player, ItemStack itemToDrop) {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -332,11 +332,13 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 	public void makeZombie(GearzPlayer player) {
 		player.getPlayer().sendMessage(getPluginFormat("formats.turned-zombie", true));
 		zombies.put(player, 0f);
+		if(getHumans().size() <= 0 || zombies.size() <= 0) finish();
 	}
 
 	public void makeHuman(GearzPlayer player) {
 		zombies.remove(player);
-		player.getPlayer().sendMessage(getPluginFormat("formats.made-player", true));
+		player.getPlayer().sendMessage(getPluginFormat("formats.made-human", true));
+		if(getHumans().size() <= 0 || zombies.size() <= 0) finish();
 	}
 
 	@SuppressWarnings("unchecked")
