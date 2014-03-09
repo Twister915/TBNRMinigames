@@ -50,7 +50,7 @@ import java.util.*;
 				"An infected win when everyone is infected, humans win when all the infected are cured." +
 				"A poisoned player will count as infected for this purpose (meaning there must be no poison or infected present for the game to end)",
 		key = "plague",
-		minPlayers = 2,
+		minPlayers = 4,
 		maxPlayers = 28,
 		mainColor = ChatColor.GREEN,
 		secondaryColor = ChatColor.GOLD)
