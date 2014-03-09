@@ -120,12 +120,6 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 
 	@Override
 	protected void gameStarting() {
-
-		//DEBUG
-		for(Player p : Bukkit.getOnlinePlayers()) {
-			p.getInventory().addItem(curePoison);
-			p.getInventory().addItem(cureZombie);
-		}
 	}
 
 	@Override
@@ -373,7 +367,9 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 	private void assignJobs(GearzPlayer exclude) {
 		Set<GearzPlayer> players = (Set<GearzPlayer>) getPlayers().clone();
 		if(exclude != null) players.remove(exclude);
-		makeZombie((GearzPlayer) getPlayers().toArray()[new Random().nextInt(getPlayers().size())]);
+		for(int i = 0, l = getPlayers().size()/8 <= 0 ? 1 : getPlayers().size()/8; i < l; i++) {
+			makeZombie((GearzPlayer) getPlayers().toArray()[new Random().nextInt(getPlayers().size())]);
+		}
 	}
 
 	public GearzPlayer getMostPoints() {
@@ -407,16 +403,13 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 	@EventHandler
 	void onBonemealZombieEvent(PlayerInteractEntityEvent e) {
 		ItemStack item = e.getPlayer().getItemInHand();
-		GPlague.getInstance().getLogger().info("Fired Event! EntityInteract!");
 		if(!(e.getRightClicked() instanceof Player) || (!item.equals(curePoison) && !item.equals(cureZombie))) return;
 		GearzPlayer personClicked = GearzPlayer.playerFromPlayer((Player) e.getRightClicked());
 		GearzPlayer player = GearzPlayer.playerFromPlayer((Player) e.getPlayer());
 
 		if(personClicked == null || !personClicked.isValid()) return;
 		if(player == null || !player.isValid()) return;
-		GPlague.getInstance().getLogger().info("Passed first tests");
 		if(item.equals(curePoison)) {
-			GPlague.getInstance().getLogger().info("is CurePoison");
 			if(personClicked.getTPlayer().hasPotionEffect(PotionEffectType.POISON)) {
 				personClicked.getTPlayer().removePotionEffects(PotionEffectType.POISON);
 				player.getPlayer().sendMessage(getPluginFormat("formats.cured-poison-other", true, new String[]{"<player>", personClicked.getTPlayer().getPlayerName()}));
@@ -427,7 +420,6 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 			}
 		}
 		if(item.equals(cureZombie)) {
-			GPlague.getInstance().getLogger().info("isCureZombie");
 			if(zombies.containsKey(personClicked)) {
 				makeHuman(personClicked);
 				zombies.remove(personClicked);
