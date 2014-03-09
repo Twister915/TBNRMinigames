@@ -16,6 +16,8 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.EntityRegainHealthEvent;
+import org.bukkit.event.entity.EntityRegainHealthEvent.RegainReason;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -142,8 +144,12 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 	protected boolean canPvP(GearzPlayer attacker, GearzPlayer target) {
 		if(!zombies.containsKey(target) && zombies.containsKey(attacker)) {
 			int potionLevel = target.getTPlayer().getCurrentPotionLevel(PotionEffectType.POISON);
+			int potionDuration = target.getTPlayer().getCurrentPotionDuration(PotionEffectType.POISON);
 			target.getPlayer().removePotionEffect(PotionEffectType.POISON);
-			target.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.POISON, 1200, potionLevel == -1 ? 0 : potionLevel+1));
+			target.getPlayer().addPotionEffect(new PotionEffect(
+					PotionEffectType.POISON,
+					potionDuration == -1 ? 300 : potionDuration,
+					potionLevel == -1 ? 0 : potionLevel+1));
 			return true;
 		}
 		return !zombies.containsKey(attacker) && zombies.containsKey(target);
@@ -456,5 +462,10 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 		if(zombies.get(pl) <= 0.25) {
 			e.getPlayer().setSprinting(false);
 		}
+	}
+
+	@EventHandler
+	void onEntityRegainHealthEvent(EntityRegainHealthEvent e) {
+		if(e.getRegainReason() == RegainReason.REGEN) e.setCancelled(true);
 	}
 }
