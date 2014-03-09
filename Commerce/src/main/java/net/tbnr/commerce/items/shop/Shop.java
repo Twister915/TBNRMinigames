@@ -4,7 +4,7 @@ import lombok.*;
 import net.tbnr.commerce.GearzCommerce;
 import net.tbnr.commerce.items.*;
 import net.tbnr.gearz.player.GearzPlayer;
-import net.tbnr.util.inventory.InventoryGUI;
+import net.tbnr.util.InventoryGUI;
 import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -41,7 +41,7 @@ public final class Shop implements PlayerShop {
             Tier tier = metaFor.tier();
             List<String> lore = new ArrayList<>();
             String title = ChatColor.translateAlternateColorCodes('&', metaFor.humanName());
-            ItemStack stack = new ItemStack(tier.getRepItem());
+            ItemStack stack = new ItemStack(metaFor.item());
             lore.add(GearzCommerce.getInstance().getFormat("formats.gui.tier-lore", true, new String[]{"<tier>", tier.getHumanName()}));
             lore.add(GearzCommerce.getInstance().getFormat("formats.gui.price-lore", true, pointsStrings, new String[]{"<points>",
                     tier.isMustBePurchased() ? "&cN/A" : String.valueOf(tier.getPoints())}));

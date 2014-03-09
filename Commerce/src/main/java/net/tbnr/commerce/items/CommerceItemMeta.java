@@ -1,5 +1,7 @@
 package net.tbnr.commerce.items;
 
+import org.bukkit.Material;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -16,4 +18,5 @@ public @interface CommerceItemMeta {
     public String key();
     public String humanName();
     public Tier tier();
+    public Material item() default Material.GRASS;
 }
