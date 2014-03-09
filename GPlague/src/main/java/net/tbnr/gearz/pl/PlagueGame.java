@@ -401,7 +401,7 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 	@EventHandler
 	void onBonemealZombieEvent(PlayerInteractEntityEvent e) {
 		ItemStack item = e.getPlayer().getItemInHand();
-		if(!item.equals(cureZombie) || !(e.getRightClicked() instanceof Player) || !item.equals(curePoison)) return;
+		if(!(e.getRightClicked() instanceof Player) || (!item.equals(curePoison) && !item.equals(cureZombie))) return;
 		GearzPlayer personClicked = GearzPlayer.playerFromPlayer((Player) e.getRightClicked());
 		GearzPlayer player = GearzPlayer.playerFromPlayer((Player) e.getPlayer());
 
@@ -437,7 +437,7 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 		if(e.getPlayer() == null) return;
 		GearzPlayer pl = GearzPlayer.playerFromPlayer(e.getPlayer());
 		if(!pl.isValid() || pl == null || zombies.get(pl) == null) return;
-		if(zombies.get(pl) < 0.2) e.setCancelled(true);
+		if(zombies.get(pl) < 0.4) e.setCancelled(true);
 	}
 
 }
