@@ -18,6 +18,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerToggleSprintEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -440,6 +441,16 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 		if(!pl.isValid() || pl == null || zombies.get(pl) == null) return;
 		if(zombies.get(pl) < 0.4) {
 			e.setCancelled(true);
+			e.getPlayer().setSprinting(false);
+		}
+	}
+
+	@EventHandler
+	void onPlayerMoveEvent(PlayerMoveEvent e) {
+		if(e.getPlayer() == null || !e.getPlayer().isSprinting()) return;
+		GearzPlayer pl = GearzPlayer.playerFromPlayer(e.getPlayer());
+		if(!pl.isValid() || pl == null || zombies.get(pl) == null) return;
+		if(zombies.get(pl) < 0.4) {
 			e.getPlayer().setSprinting(false);
 		}
 	}
