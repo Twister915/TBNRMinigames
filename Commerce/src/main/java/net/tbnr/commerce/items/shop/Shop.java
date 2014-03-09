@@ -4,7 +4,7 @@ import lombok.*;
 import net.tbnr.commerce.GearzCommerce;
 import net.tbnr.commerce.items.*;
 import net.tbnr.gearz.player.GearzPlayer;
-import net.tbnr.util.InventoryGUI;
+import net.tbnr.util.inventory.InventoryGUI;
 import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
