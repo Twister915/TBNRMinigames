@@ -157,6 +157,7 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 			player.getPlayer().getInventory().removeItem(curePoison);
 			return false;
 		}
+		if(player.getPlayer().getItemInHand().equals(cureZombie)) return false;
 		return true;
 	}
 
