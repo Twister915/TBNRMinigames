@@ -32,6 +32,14 @@
             "data" : 0,
             "chance" : 100
         },{
+            "material" : "IRON_INGOT",
+            "data" : 0,
+            "chance" : 100
+        },{
+            "material" : "IRON_INGOT",
+            "data" : 0,
+            "chance" : 100
+        },{
             "material" : "DIAMOND",
             "data" : 0,
             "chance" : 100
