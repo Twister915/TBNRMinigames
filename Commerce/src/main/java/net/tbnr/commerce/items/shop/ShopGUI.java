@@ -3,7 +3,7 @@ package net.tbnr.commerce.items.shop;
 import lombok.Getter;
 import net.tbnr.gearz.Gearz;
 import net.tbnr.gearz.player.GearzPlayer;
-import net.tbnr.util.InventoryGUI;
+import net.tbnr.util.inventory.InventoryGUI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
