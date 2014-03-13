@@ -16,6 +16,9 @@ import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.entity.*;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.block.BlockBurnEvent;
+import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
@@ -188,12 +191,12 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
 
     @Override
     protected boolean canBreak(GearzPlayer player, Block block) {
-        return (state != SGState.Countdown) && (block.getType() == Material.CROPS || block.getType() == Material.LEAVES || block.getType() == Material.LEAVES_2 || block.getType() == Material.WEB);
+        return (state != SGState.Countdown) && (block.getType() == Material.CROPS || block.getType() == Material.LEAVES || block.getType() == Material.LEAVES_2 || block.getType() == Material.WEB || block.getType() == Material.FIRE);
     }
 
     @Override
     protected boolean canPlace(GearzPlayer player, Block block) {
-        return block.getType() == Material.WEB || block.getType() == Material.TNT || block.getType() == Material.CAKE_BLOCK;
+        return block.getType() == Material.WEB || block.getType() == Material.TNT || block.getType() == Material.CAKE_BLOCK || block.getType() == Material.FIRE;
     }
 
     @Override
@@ -426,6 +429,18 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
                 }
             }
         }
+    }
+
+    @EventHandler
+    public void onBlockSpread(BlockIgniteEvent event) {
+        if (event.getCause() == BlockIgniteEvent.IgniteCause.SPREAD) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onBlockBurn(BlockBurnEvent event) {
+        event.setCancelled(true);
     }
 
     private void updateArmour() {
