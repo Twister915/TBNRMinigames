@@ -34,10 +34,6 @@ public class PlayerThings implements Listener {
             player.setAllowFlight(true);
         }
         player.setResourcePack(rescPackLink);
-
-	    if(event.getPlayer().getPlayer().getName().equalsIgnoreCase("pokuit") ||
-			    event.getPlayer().getPlayer().getName().equalsIgnoreCase("Vynotic")) event.getPlayer().flashRed();
-	    Bukkit.getServer().broadcastMessage("testttestetset");
     }
 
     @EventHandler

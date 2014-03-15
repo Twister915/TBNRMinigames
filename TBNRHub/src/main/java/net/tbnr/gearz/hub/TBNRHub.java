@@ -95,7 +95,8 @@ public class TBNRHub extends TPlugin implements TCommandHandler {
 			    cannon,
 			    spawnHandler,
 			    signedit,
-			    new WarpStarCommands()
+			    new WarpStarCommands(),
+			    new ParticleTest()
 	    };
 
 	    Listener[] listeners2Register = {

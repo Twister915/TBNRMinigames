@@ -28,3 +28,5 @@ commands:
   magicsign:
     description: Gives you a magic edit sign
     aliases: [ editsign, signedit ]
+  particles:
+    description: Plays particles

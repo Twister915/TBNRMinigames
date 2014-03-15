@@ -334,12 +334,14 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 	public void makeZombie(GearzPlayer player) {
 		player.getPlayer().sendMessage(getPluginFormat("formats.turned-zombie", true));
 		zombies.put(player, 0f);
+		player.getTPlayer().flashRed();
 		if(getHumans().size() <= 0 || zombies.size() <= 0) finish();
 	}
 
 	public void makeHuman(GearzPlayer player) {
 		zombies.remove(player);
 		player.getPlayer().sendMessage(getPluginFormat("formats.made-human", true));
+		if(player.getTPlayer().isFlashingRed()) player.getTPlayer().stopFlashRed();
 		if(getHumans().size() <= 0 || zombies.size() <= 0) finish();
 	}
 
