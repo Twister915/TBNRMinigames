@@ -5,20 +5,24 @@ import net.tbnr.gearz.Gearz;
 import net.tbnr.gearz.GearzPlugin;
 import net.tbnr.gearz.arena.Arena;
 import net.tbnr.gearz.effects.EnderBar;
+import net.tbnr.gearz.event.player.PlayerGameDamageEvent;
 import net.tbnr.gearz.game.GameCountdown;
 import net.tbnr.gearz.game.GameCountdownHandler;
 import net.tbnr.gearz.game.GameMeta;
 import net.tbnr.gearz.game.GearzGame;
+import net.tbnr.gearz.packets.wrapper.WrapperPlayServerWorldParticles.ParticleEffect;
 import net.tbnr.gearz.player.GearzPlayer;
 import net.tbnr.util.player.TPlayer;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import net.tbnr.util.player.TPlayer.TParticleEffect;
+import net.tbnr.util.player.TPlayerManager;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent.RegainReason;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
@@ -53,7 +57,7 @@ import java.util.*;
 				"An infected win when everyone is infected, humans win when all the infected are cured." +
 				"A poisoned player will count as infected for this purpose (meaning there must be no poison or infected present for the game to end)",
 		key = "plague",
-		minPlayers = 4,
+		minPlayers = 2,
 		maxPlayers = 28,
 		mainColor = ChatColor.GREEN,
 		secondaryColor = ChatColor.GOLD)
@@ -72,7 +76,7 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 
 	private PlagueArena plagueArena;
 
-	private final Map<GearzPlayer, Float> zombies = new HashMap<>();
+	private final Map<GearzPlayer, Double> zombies = new HashMap<>();
 	private final Map<GearzPlayer, Integer> points = new HashMap<>();
 
 	public PlagueState state;
@@ -104,7 +108,7 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 
 			@Override
 			public void run() {
-				game.updateXPBar();
+				game.updateHungerBar();
 			}
 
 		}.runTaskTimer(GPlague.getInstance(), 0, 1);
@@ -115,10 +119,18 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 			if(!player.isValid() || player == null) continue;
 			if(points.containsKey(player)) continue;
 			points.put(player, 0);
+			player.getPlayer().setFoodLevel(20);
 		}
 
 		GameCountdown countdown = new GameCountdown(this.state.getLength(), this, this);
 		countdown.start();
+
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				updateParticles();
+			}
+		}.runTaskTimer(GPlague.getInstance(), 0, 12);
 	}
 
 	@Override
@@ -209,7 +221,7 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 
 	@Override
 	protected boolean canDropItem(GearzPlayer player, ItemStack itemToDrop) {
-		return true;
+		return itemToDrop.getType() != Material.SKULL;
 	}
 
 	@Override
@@ -241,6 +253,11 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 	@Override
 	protected boolean useEnderBar(GearzPlayer player) {
 		return false;
+	}
+
+	@Override
+	protected void onDeath(GearzPlayer player) {
+		if(getHumans().size() <= 0 || zombies.size() <= 0) finish();
 	}
 
 	@Override
@@ -293,6 +310,21 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 		}
 	}
 
+	private void updateParticles() {
+		HashSet<GearzPlayer> zombieClone = new HashSet<>();
+		zombieClone.addAll(zombies.keySet());
+		try {
+			for(GearzPlayer gPlayer : zombieClone) {
+				for(Player player : Bukkit.getOnlinePlayers()) {
+					TPlayerManager.getInstance().getPlayer(player).playParticleEffect(new TParticleEffect(gPlayer.getPlayer().getLocation(), 0, 0.5f, 10000, 0, ParticleEffect.TOWN_AURA));
+				}
+			}
+		} catch(Exception ignored) {
+			//ignore
+		}
+
+	}
+
 	private void assignJobs() {
 		assignJobs(null);
 	}
@@ -333,8 +365,9 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 
 	public void makeZombie(GearzPlayer player) {
 		player.getPlayer().sendMessage(getPluginFormat("formats.turned-zombie", true));
-		zombies.put(player, 0f);
+		zombies.put(player, 0d);
 		player.getTPlayer().flashRed();
+		player.getPlayer().getInventory().setHelmet(new ItemStack(Material.SKULL));
 		if(getHumans().size() <= 0 || zombies.size() <= 0) finish();
 	}
 
@@ -342,27 +375,32 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 		zombies.remove(player);
 		player.getPlayer().sendMessage(getPluginFormat("formats.made-human", true));
 		if(player.getTPlayer().isFlashingRed()) player.getTPlayer().stopFlashRed();
+		player.getPlayer().getInventory().setHelmet(null);
+		player.getPlayer().setFoodLevel(20);
 		if(getHumans().size() <= 0 || zombies.size() <= 0) finish();
 	}
 
 	@SuppressWarnings("unchecked")
-	public void updateXPBar() {
+	public void updateHungerBar() {
 		Set<GearzPlayer> zombiesClone = this.zombies.keySet();
 		for(GearzPlayer gearzPlayer : zombiesClone) {
 			if(gearzPlayer == null || !gearzPlayer.isValid()) continue;
 			Player player = gearzPlayer.getPlayer();
-			float value = this.zombies.get(gearzPlayer);
-			if(player.isSprinting()) value -= 0.1f;
-			if(player.isSneaking()) value += 0.005f;
 
-			value += 0.005f;
-			if(value < 0f) {
-				value = 0f;
-				player.setSprinting(false);
-			}
-			if(value > 1f) value = 1f;
 
-			player.setExp(value);
+			double value = this.zombies.get(gearzPlayer);
+			if(player.isSprinting()) value -= 2;
+			if(player.isSneaking()) value += 0.5;
+
+			value += 0.5;
+
+			if(value > 20) value = 20;
+
+			if(value < 0) value = 0;
+
+			int foodLevel = (int) value;
+
+			player.setFoodLevel(foodLevel);
 
 			this.zombies.put(gearzPlayer, value);
 		}
@@ -439,28 +477,12 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 	}
 
 	@EventHandler
-	void onPlayerSprintEvent(PlayerToggleSprintEvent e) {
-		if(e.getPlayer() == null) return;
-		GearzPlayer pl = GearzPlayer.playerFromPlayer(e.getPlayer());
-		if(!pl.isValid() || pl == null || zombies.get(pl) == null) return;
-		if(zombies.get(pl) <= 0.25) {
-			e.setCancelled(true);
-			e.getPlayer().setSprinting(false);
-		}
-	}
-
-	@EventHandler
-	void onPlayerMoveEvent(PlayerMoveEvent e) {
-		if(e.getPlayer() == null || !e.getPlayer().isSprinting()) return;
-		GearzPlayer pl = GearzPlayer.playerFromPlayer(e.getPlayer());
-		if(!pl.isValid() || pl == null || zombies.get(pl) == null) return;
-		if(zombies.get(pl) <= 0.25) {
-			e.getPlayer().setSprinting(false);
-		}
-	}
-
-	@EventHandler
 	void onEntityRegainHealthEvent(EntityRegainHealthEvent e) {
-		if(e.getRegainReason() == RegainReason.REGEN) e.setCancelled(true);
+		e.setCancelled(true);
+	}
+
+	@EventHandler(priority = EventPriority.LOWEST)
+	void onPlayerDamageEvent(EntityDamageEvent event) {
+		if(event.getCause() == DamageCause.STARVATION) event.setCancelled(true);
 	}
 }

@@ -16,11 +16,9 @@ import net.tbnr.util.command.TCommand;
 import net.tbnr.util.command.TCommandHandler;
 import net.tbnr.util.command.TCommandSender;
 import net.tbnr.util.command.TCommandStatus;
-import net.tbnr.util.player.TPlayer;
 import net.tbnr.util.player.TPlayer.TParticleEffect;
 import net.tbnr.util.player.TPlayerManager;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -41,16 +39,16 @@ public class ParticleTest implements TCommandHandler {
 
 	@TCommand(
 			name = "particles",
-			usage = "/particles <particle>",
+			usage = "/particles <particle> <amount>",
 			permission = "gearz.particles",
 			senders = {TCommandSender.Player})
 	@SuppressWarnings("unused")
-	public TCommandStatus listWarp(CommandSender sender, TCommandSender type, TCommand meta, Command command, String[] args) {
+	public TCommandStatus particles(CommandSender sender, TCommandSender type, TCommand meta, Command command, String[] args) {
 		Location senderLocation = ((Player) sender).getLocation();
-		if(args.length != 2) return TCommandStatus.FEW_ARGS;
+		if(args.length != 1 && args.length != 2) return TCommandStatus.FEW_ARGS;
 		try {
 			for(Player p : Bukkit.getOnlinePlayers()) {
-				TPlayerManager.getInstance().getPlayer(p).playParticleEffect(new TParticleEffect(senderLocation, 0, 0, 1, 0, ParticleEffect.fromName(args[1])));
+				TPlayerManager.getInstance().getPlayer(p).playParticleEffect(new TParticleEffect(senderLocation, 0, 3, args.length == 2 ? Integer.parseInt(args[1]) : 1, 0, ParticleEffect.fromName(args[0])));
 			}
 		} catch(Exception e) {
 			return TCommandStatus.INVALID_ARGS;
