@@ -103,7 +103,18 @@ public class MultiserverCannons implements Listener, TCommandHandler {
             }
             if (s.getPlayerCount() > server2.getPlayerCount()) server2 = s;
         }
-        if (server2 == null) return null;
+        if (server2 == null) {
+            for (Server s : server) {
+                if (!s.isCanJoin()) continue;
+                if (s.getMaximumPlayers() == s.getPlayerCount() && !allowFulls) continue;
+                if (server2 == null) {
+                    server2 = s;
+                    continue;
+                }
+                if (s.getPlayerCount() > server2.getPlayerCount()) server2 = s;
+            }
+            return null;
+        }
         return server2.getBungee_name();
     }
 
