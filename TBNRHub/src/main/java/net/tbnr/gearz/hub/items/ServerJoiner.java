@@ -1,8 +1,8 @@
 package net.tbnr.gearz.hub.items;
 
+import net.tbnr.gearz.hub.TBNRHub;
 import net.tbnr.gearz.hub.annotations.HubItem;
 import net.tbnr.gearz.hub.annotations.HubItemMeta;
-import net.tbnr.gearz.hub.TBNRHub;
 import net.tbnr.gearz.netcommand.BouncyUtils;
 import net.tbnr.gearz.server.Server;
 import net.tbnr.gearz.server.ServerManager;
