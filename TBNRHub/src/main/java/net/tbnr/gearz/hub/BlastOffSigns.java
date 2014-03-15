@@ -24,6 +24,7 @@ import org.bukkit.util.Vector;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 /**
  * Created by Jake on 12/27/13.
@@ -43,7 +44,8 @@ public class BlastOffSigns implements Listener {
         if (!(block.getState() instanceof Sign)) return;
         Sign sign = (Sign) block.getState();
         final String[] lines = sign.getLines();
-        if (lines.length != 2 || ServerManager.getServersWithGame(lines[1]).size() == 0 || !lines[0].equals(TBNRHub.getInstance().getFormat("formats.blastoff-topline", true))) return;
+        if (ServerManager.getServersWithGame(lines[1]).size() == 0) return;
+        if (!lines[0].equals(TBNRHub.getInstance().getFormat("formats.blastoff-topline", true))) return;
         final ServerSelector serverSelector = new ServerSelector(lines[1], new ServerSelector.SelectorCallback() {
             @Override
             public void onItemSelect(ServerSelector selector, InventoryGUI.InventoryGUIItem item, Player player) {
