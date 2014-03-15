@@ -5,11 +5,13 @@ import net.tbnr.commerce.items.CommerceItemMeta;
 import net.tbnr.commerce.items.Tier;
 import net.tbnr.gearz.GearzException;
 import net.tbnr.gearz.player.GearzPlayer;
+import org.bukkit.Material;
 
 @CommerceItemMeta(
         tier = Tier.Heroic,
         humanName = "40% Point Boost (5 Days)",
-        key = "5_40_point_boost"
+        key = "5_40_point_boost",
+        item = Material.POTION
 )
 public final class PointBoost5Day40Perc extends AbstractPointBoost {
     public PointBoost5Day40Perc(GearzPlayer player, CommerceItemAPI api) throws GearzException {

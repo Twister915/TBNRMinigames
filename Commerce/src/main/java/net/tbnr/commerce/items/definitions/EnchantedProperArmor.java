@@ -5,13 +5,15 @@ import net.tbnr.commerce.items.CommerceItemMeta;
 import net.tbnr.commerce.items.Tier;
 import net.tbnr.gearz.GearzException;
 import net.tbnr.gearz.player.GearzPlayer;
+import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
 @CommerceItemMeta(
         humanName = "Enchanted Proper Armor",
         key = "enchanted_proper_armor",
-        tier = Tier.Awesome
+        tier = Tier.Awesome,
+        item = Material.DIAMOND_CHESTPLATE
 )
 public final class EnchantedProperArmor extends EnchantedColorArmor {
     public EnchantedProperArmor(GearzPlayer player, CommerceItemAPI api) throws GearzException {

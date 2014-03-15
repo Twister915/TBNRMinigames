@@ -19,7 +19,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 @CommerceItemMeta(
         key = "rose_of_death",
         humanName = "Romantic Death",
-        tier = Tier.Diamond_Veteran
+        tier = Tier.Diamond_Veteran,
+        item = Material.RED_ROSE
 )
 public final class RoseOfDeath extends CommerceItem {
     public RoseOfDeath(GearzPlayer player, CommerceItemAPI api) throws GearzException {

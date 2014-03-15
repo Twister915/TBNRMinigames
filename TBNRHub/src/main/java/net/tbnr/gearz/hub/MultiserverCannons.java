@@ -93,17 +93,28 @@ public class MultiserverCannons implements Listener, TCommandHandler {
         List<net.tbnr.gearz.server.Server> server = ServerManager.getServersWithGame(game);
         if (server == null) return game;
         Server server2 = null;
+        Server backupServer = null;
+        int x = 0;
         for (Server s : server) {
             if (!s.getStatusString().equals("lobby")) continue;
             if (!s.isCanJoin()) continue;
             if (s.getMaximumPlayers() == s.getPlayerCount() && !allowFulls) continue;
+            if (x == 0) {
+                backupServer = s;
+                x++;
+            }
             if (server2 == null) {
                 server2 = s;
                 continue;
             }
             if (s.getPlayerCount() > server2.getPlayerCount()) server2 = s;
         }
-        if (server2 == null) return null;
+        if (server2 == null) {
+            if (backupServer != null) {
+                return backupServer.getBungee_name();
+            }
+            return null;
+        }
         return server2.getBungee_name();
     }
 

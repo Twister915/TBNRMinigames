@@ -1,12 +1,11 @@
 package net.tbnr.gearz.hub.items;
 
+import net.tbnr.gearz.hub.TBNRHub;
 import net.tbnr.gearz.hub.annotations.HubItem;
 import net.tbnr.gearz.hub.annotations.HubItemMeta;
-import net.tbnr.gearz.hub.TBNRHub;
 import net.tbnr.util.player.cooldowns.TCooldown;
 import net.tbnr.util.player.cooldowns.TCooldownManager;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;

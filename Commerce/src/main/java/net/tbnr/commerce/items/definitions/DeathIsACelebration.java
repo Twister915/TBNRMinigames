@@ -8,6 +8,7 @@ import net.tbnr.gearz.player.GearzPlayer;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.inventory.meta.FireworkMeta;
@@ -15,7 +16,8 @@ import org.bukkit.inventory.meta.FireworkMeta;
 @CommerceItemMeta(
         humanName = "Death Is A Celebration",
         key = "death_is_a_celebration",
-        tier = Tier.Diamond_Veteran
+        tier = Tier.Diamond_Veteran,
+        item = Material.FIREWORK
 )
 public final class DeathIsACelebration extends AbstractDeathItem {
     public DeathIsACelebration(GearzPlayer player, CommerceItemAPI api) throws GearzException {
