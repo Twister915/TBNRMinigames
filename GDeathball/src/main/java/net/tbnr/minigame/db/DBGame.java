@@ -34,7 +34,10 @@ import java.util.Map;
 @GameMeta(
         shortName = "DB",
         longName = "Deathball",
-        description = "All players have Speed 4, Jump 5 and take no fall damage. Players are armed with unlimited snowballs and aim to hit other players, reducing their lives. Players are out when they hit 0 points. Secondary weapon is a stick with knock-back 3 that affects points the same as 5 snowballs. The winner is the player with most points, the game will end early if only one player remains.",
+        description = "All players have Speed 4, Jump 5 and take no fall damage. Players are armed with unlimited snowballs"+
+		        " and aim to hit other players, reducing their lives. Players are out when they hit 0 points."+
+		        " Secondary weapon is a stick with knock-back 3 that affects points the same as 5 snowballs."+
+		        " The winner is the player with most points, the game will end early if only one player remains.",
         mainColor = ChatColor.DARK_AQUA,
         secondaryColor = ChatColor.DARK_PURPLE,
         author = "Rigi",
