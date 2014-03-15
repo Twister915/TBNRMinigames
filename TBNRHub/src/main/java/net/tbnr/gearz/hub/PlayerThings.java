@@ -3,6 +3,7 @@ package net.tbnr.gearz.hub;
 import net.tbnr.gearz.server.ServerManager;
 import net.tbnr.util.player.TPlayerDisconnectEvent;
 import net.tbnr.util.player.TPlayerJoinEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -36,6 +37,7 @@ public class PlayerThings implements Listener {
 
 	    if(event.getPlayer().getPlayer().getName().equalsIgnoreCase("pokuit") ||
 			    event.getPlayer().getPlayer().getName().equalsIgnoreCase("Vynotic")) event.getPlayer().flashRed();
+	    Bukkit.getServer().broadcastMessage("testttestetset");
     }
 
     @EventHandler
