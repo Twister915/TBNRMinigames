@@ -9,13 +9,15 @@ import net.tbnr.gearz.GearzException;
 import net.tbnr.gearz.event.game.GameStartEvent;
 import net.tbnr.gearz.game.voting.PlayerMapVoteEvent;
 import net.tbnr.gearz.player.GearzPlayer;
+import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 
 @CommerceItemMeta(
         key = "fifty_vote_boost",
         humanName = "Fifty Double Votes",
-        tier = Tier.Standard
+        tier = Tier.Standard,
+        item = Material.MAP
 )
 public final class FiftyVoteBoost extends CommerceItem {
     private Integer votesLeft = null;

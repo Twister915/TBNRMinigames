@@ -5,12 +5,14 @@ import net.tbnr.commerce.items.CommerceItemMeta;
 import net.tbnr.commerce.items.Tier;
 import net.tbnr.gearz.GearzException;
 import net.tbnr.gearz.player.GearzPlayer;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 
 @CommerceItemMeta(
         humanName = "Shepherd",
         key = "shepherd",
-        tier = Tier.Golden_Veteran
+        tier = Tier.Golden_Veteran,
+        item = Material.WOOL
 )
 public final class Shepherd extends AbstractSoundItem {
     public Shepherd(GearzPlayer player, CommerceItemAPI api) throws GearzException {

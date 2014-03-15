@@ -14,7 +14,8 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 @CommerceItemMeta(
         key = "colored_armor",
         tier = Tier.Heroic,
-        humanName = "Colored Armor"
+        humanName = "Colored Armor",
+        item = Material.LEATHER_CHESTPLATE
 )
 public class ColoredArmor extends AbstractArmorItem {
     private static final Material[] leatherArmor =

@@ -15,7 +15,8 @@ import org.bukkit.Material;
 @CommerceItemMeta(
         tier = Tier.Standard,
         key = "snowball_refill",
-        humanName = "256x Snowballs in Hub"
+        humanName = "256x Snowballs in Hub",
+        item = Material.SNOW_BALL
 )
 public final class SnowballRefill extends CommerceItem {
     public SnowballRefill(GearzPlayer player, CommerceItemAPI api) throws GearzException {

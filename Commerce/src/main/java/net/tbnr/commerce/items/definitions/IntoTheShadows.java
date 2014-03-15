@@ -8,15 +8,17 @@ import net.tbnr.gearz.packets.wrapper.WrapperPlayServerWorldParticles;
 import net.tbnr.gearz.player.GearzPlayer;
 import net.tbnr.util.player.TPlayer;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @CommerceItemMeta(
-        humanName = "Into The Shdows",
+        humanName = "Into The Shadows",
         key = "into_the_shadows",
-        tier = Tier.Diamond_Veteran
+        tier = Tier.Diamond_Veteran,
+        item = Material.INK_SACK
 )
 public final class IntoTheShadows extends AbstractDeathItem {
     public IntoTheShadows(GearzPlayer player, CommerceItemAPI api) throws GearzException {

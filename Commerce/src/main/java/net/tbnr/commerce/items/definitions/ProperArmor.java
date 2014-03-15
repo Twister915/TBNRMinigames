@@ -12,7 +12,8 @@ import org.bukkit.inventory.ItemStack;
 @CommerceItemMeta(
         tier = Tier.Heroic,
         key = "proper_armor",
-        humanName = "Proper Armor"
+        humanName = "Proper Armor",
+        item = Material.DIAMOND_CHESTPLATE
 )
 public final class ProperArmor extends AbstractArmorItem {
 

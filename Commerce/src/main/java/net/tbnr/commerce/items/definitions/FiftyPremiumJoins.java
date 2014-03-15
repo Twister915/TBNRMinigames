@@ -8,12 +8,14 @@ import net.tbnr.commerce.items.Tier;
 import net.tbnr.gearz.GearzException;
 import net.tbnr.gearz.event.player.PlayerPriorityDetermineEvent;
 import net.tbnr.gearz.player.GearzPlayer;
+import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 
 @CommerceItemMeta(
         tier = Tier.Standard,
         key = "fifty_premium_joins",
-        humanName = "50x Premium Joins"
+        humanName = "50x Premium Joins",
+        item = Material.PAPER
 )
 public final class FiftyPremiumJoins extends CommerceItem {
     private Integer joinsLeft;
