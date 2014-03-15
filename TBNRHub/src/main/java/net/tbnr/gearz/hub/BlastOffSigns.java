@@ -40,10 +40,10 @@ public class BlastOffSigns implements Listener {
     public void onPlayerInteract(PlayerInteractEvent event) {
         if (event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
         Block block = event.getClickedBlock();
-        if (block.getType() != Material.SIGN && block.getType() != Material.WALL_SIGN) return;
+        if (!(block.getState() instanceof Sign)) return;
         Sign sign = (Sign) block.getState();
         final String[] lines = sign.getLines();
-        if (lines[0] == null || lines[1] == null || ServerManager.getServersWithGame(lines[1]).size() == 0 || !lines[0].equals(TBNRHub.getInstance().getFormat("formats.blastoff-topline", true))) return;
+        if (lines.length != 2 || ServerManager.getServersWithGame(lines[1]).size() == 0 || !lines[0].equals(TBNRHub.getInstance().getFormat("formats.blastoff-topline", true))) return;
         final ServerSelector serverSelector = new ServerSelector(lines[1], new ServerSelector.SelectorCallback() {
             @Override
             public void onItemSelect(ServerSelector selector, InventoryGUI.InventoryGUIItem item, Player player) {
