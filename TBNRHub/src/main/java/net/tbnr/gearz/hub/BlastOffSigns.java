@@ -57,12 +57,17 @@ public class BlastOffSigns implements Listener {
                  * Therefore it causes and IndexOutOfBoundsException
                  * @see java.lang.IndexOutOfBoundsException
                  */
-                Server server = selector.getServers().get(
-                        /** if */ item.getSlot() > selector.getServers().size() ?
-                        /** true */ 0 : /** false */ item.getSlot()
-                );
+                Server server;
+                try {
+                    server = selector.getServers().get(
+                            /** if */item.getSlot() > selector.getServers().size() ?
+                            /** true */0 : /** false */item.getSlot()
+                    );
+                } catch (IndexOutOfBoundsException e) {
+                    return;
+                }
 
-                if (server.isCanJoin()) {
+                if (server != null && server.isCanJoin()) {
                     selector.close(player);
                     SignData signData = new SignData(server, player.getLocation().getBlockY());
                     inUse.put(TPlayerManager.getInstance().getPlayer(player), signData);
