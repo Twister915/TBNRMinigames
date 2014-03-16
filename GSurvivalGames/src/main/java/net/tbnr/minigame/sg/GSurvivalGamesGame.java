@@ -19,6 +19,7 @@ import org.bukkit.block.Chest;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBurnEvent;
+import org.bukkit.event.block.BlockFadeEvent;
 import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
@@ -58,6 +59,7 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
     private final static Integer countdownLength = 30;
     private Integer startingPlayers;
     private double maxCornicopiaDistance;
+    private List<Location> frozenBlocks = new ArrayList<>();
 
     private GearzPlayer victor = null;
 
@@ -392,45 +394,52 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
     }
 
     @Override
-    protected void onDamage(Entity damager, Entity target, EntityDamageByEntityEvent event){
-        if(!(damager instanceof Snowball)) return;
-        if(!(target instanceof Player)) return;
+    protected void onDamage(Entity damager, Entity target, EntityDamageByEntityEvent event) {
+        if (!(damager instanceof Snowball)) return;
+        if (!(target instanceof Player)) return;
         GearzPlayer target1 = GearzPlayer.playerFromPlayer((Player) target);
-        if(!isPlaying(target1)) return;
+        if (!isPlaying(target1)) return;
         GearzPlayer attacker;
         Snowball snowball = (Snowball) damager;
-        if(!(snowball.getShooter() instanceof Player)) return;
+        if (!(snowball.getShooter() instanceof Player)) return;
         attacker = GearzPlayer.playerFromPlayer((Player) snowball.getShooter());
         Player attackerP = attacker.getPlayer();
-        if(attacker.equals(target1)) return;
-        if(isSpectating(attacker)) return;
+        if (attacker.equals(target1)) return;
+        if (isSpectating(attacker)) return;
         final Player targPlayer = target1.getPlayer();
         Location targLoc = targPlayer.getLocation();
         final int pX = targLoc.getBlockX();
         final int pY = targLoc.getBlockY();
         final int pZ = targLoc.getBlockZ();
-        targPlayer.teleport(new Location(targPlayer.getWorld(), pX+0.5, pY, pZ+0.5));
+        targPlayer.teleport(new Location(targPlayer.getWorld(), pX + 0.5, pY, pZ + 0.5));
         targPlayer.sendMessage(getPluginFormat("formats.snowball-hit-by", true, new String[]{"<player>", attacker.getUsername()}));
         attackerP.sendMessage(getPluginFormat("formats.snowball-hit", true, new String[]{"<player>", targPlayer.getName()}));
         for (int x = pX - 1; x <= pX + 1; x++) {
             for (int y = pY - 1; y <= pY + 2; y++) {
                 for (int z = pZ - 1; z <= pZ + 1; z++) {
-                    final Block block = targPlayer.getWorld().getBlockAt(x,y,z);
-                    if(block.getType().equals(Material.AIR)){
+                    final Block block = targPlayer.getWorld().getBlockAt(x, y, z);
+                    if (block.getType().equals(Material.AIR)) {
                         block.setType(Material.ICE);
-                    } else{
+                        this.frozenBlocks.add(block.getLocation());
+                    } else {
                         continue;
                     }
-                    Bukkit.getScheduler().scheduleSyncDelayedTask(getPlugin(), new Runnable(){
-                        public void run(){
-                            if(block.getType().equals(Material.ICE)){
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(getPlugin(), new Runnable() {
+                        public void run() {
+                            if (block.getType().equals(Material.ICE)) {
                                 block.setType(Material.AIR);
+                                frozenBlocks.remove(block.getLocation());
                             }
                         }
                     }, getPlugin().getConfig().getLong("freezelength"));
                 }
             }
         }
+    }
+
+    @EventHandler
+    public void onBlockMelt(BlockFadeEvent event) {
+        if (this.frozenBlocks.contains(event.getBlock().getLocation())) event.setCancelled(true);
     }
 
     @EventHandler
