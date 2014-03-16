@@ -14,6 +14,7 @@ import net.tbnr.util.ColoringUtils;
 import net.tbnr.util.player.TPlayer;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.Chest;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -114,6 +115,7 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
         Location absolute = this.sgArena.pointToLocation(p);
         absolute.getBlock().breakNaturally();
         absolute.getBlock().setType(Material.CHEST);
+        absolute.getBlock().getRelative(BlockFace.UP).setType(Material.AIR);
         Chest chest = (Chest) absolute.getBlock().getState();
         Loot loot = new Loot(tier, chest);
         this.loots.put(p, loot);
