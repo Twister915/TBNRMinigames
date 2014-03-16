@@ -367,7 +367,7 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 		player.getPlayer().sendMessage(getPluginFormat("formats.turned-zombie", true));
 		zombies.put(player, 0d);
 		player.getTPlayer().flashRed();
-		player.getPlayer().getInventory().setHelmet(new ItemStack(Material.SKULL));
+		player.getPlayer().getInventory().setHelmet(new ItemStack(Material.SKULL, 0, (short) SkullType.ZOMBIE.ordinal(), (byte) SkullType.ZOMBIE.ordinal()));
 		if(getHumans().size() <= 0 || zombies.size() <= 0) finish();
 	}
 
