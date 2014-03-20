@@ -37,7 +37,10 @@ import java.util.List;
         minPlayers = 12,
         maxPlayers = 24,
         key = "survivalgames",
-        description = "An elimination death match with loot chests in the map",
+        description = "An elimination based game mode where players must defend themselves, " +
+                "but also attack others, to become the winner of the Survival Games. There are " +
+                "loot chests throughout the map. These chests contant items essential to being the" +
+                "champion! ",
         pvpMode = GameMeta.PvPMode.FreeForAll,
         shortName = "SG",
         version = "1.2"
@@ -364,10 +367,16 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
         Bukkit.getScheduler().runTaskLater(getPlugin(), new Runnable() {
             @Override
             public void run() {
-                if (getPlayers().size() == 1) {
+                if (getPlayers().size() == 1 || getPlayers().size() == 0) {
                     HashSet<GearzPlayer> players1 = getPlayers();
                     GearzPlayer[] players = players1.toArray(new GearzPlayer[players1.size()]);
                     GearzPlayer winner = players[0];
+                    if (winner == null) {
+                        Bukkit.broadcastMessage(ChatColor.GOLD + "Well...this is odd! It seems we have a tie. This is not intended, and the devs are working on a fix for it! Stay tuned!");
+                        finishGame();
+                        state = SGState.Over;
+                        return;
+                    }
                     broadcast(getPluginFormat("formats.winner", true, new String[]{"<winner>", winner.getUsername()}));
                     addGPoints(winner, 100);
                     addWin(winner);
