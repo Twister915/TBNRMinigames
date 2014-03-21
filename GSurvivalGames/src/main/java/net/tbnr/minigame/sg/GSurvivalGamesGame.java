@@ -39,7 +39,7 @@ import java.util.List;
         key = "survivalgames",
         description = "An elimination based game mode where players must defend themselves, " +
                 "but also attack others, to become the winner of the Survival Games. There are " +
-                "loot chests throughout the map. These chests contant items essential to being the" +
+                "loot chests throughout the map. These chests contain items essential to being the " +
                 "champion! ",
         pvpMode = GameMeta.PvPMode.FreeForAll,
         shortName = "SG",
