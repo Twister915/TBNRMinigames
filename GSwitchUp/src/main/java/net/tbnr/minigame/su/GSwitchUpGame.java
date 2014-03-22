@@ -79,6 +79,12 @@ public final class GSwitchUpGame extends GearzGame implements GameCountdownHandl
                 updateScoreboard();
             }
         }, 1L);
+        Bukkit.getScheduler().runTaskLater(getPlugin(), new Runnable() {
+            @Override
+            public void run() {
+                regenerateItems();
+            }
+        }, 45 * 20);
     }
 
     @Override
@@ -309,6 +315,38 @@ public final class GSwitchUpGame extends GearzGame implements GameCountdownHandl
                 player2.setScoreBoardSide(player1.getUsername(), this.killsThisGame.get(player1));
             }
         }
+    }
+
+    private void regenerateItems() {
+        GearzClass mageClass = getClassByName("Mage");
+        for (GearzPlayer mage : getPlayersByClass("Mage")) {
+            GearzClassSelector.giveClassToPlayer(mage, mageClass);
+        }
+        GearzClass archerClass = getClassByName("Archer");
+        for (GearzPlayer archer : getPlayersByClass("Archer")) {
+            archer.getPlayer().getInventory().addItem(archerClass.getItems().get(1).getItemStack());
+        }
+    }
+
+    private List<GearzPlayer> getPlayersByClass(String className) {
+        List<GearzPlayer> players = new ArrayList<>();
+        for (Map.Entry<GearzPlayer, GearzClass> classPlayer : this.currentClasses.entrySet()) {
+            GearzPlayer player = classPlayer.getKey();
+            GearzClass clazz = classPlayer.getValue();
+            if (clazz.getName().equalsIgnoreCase(className)) {
+                players.add(player);
+            }
+        }
+        return players;
+    }
+
+    private GearzClass getClassByName(String name) {
+        for (GearzClass clazz : this.classesToCycle) {
+            if (clazz.getName().equalsIgnoreCase(name)) {
+                return clazz;
+            }
+        }
+        return null;
     }
 
     private void loadClasses() {
