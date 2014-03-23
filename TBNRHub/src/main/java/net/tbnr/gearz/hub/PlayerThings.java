@@ -1,6 +1,11 @@
 package net.tbnr.gearz.hub;
 
+import net.gearz.settings.SettingBuilder;
+import net.gearz.settings.base.BaseSetting;
+import net.gearz.settings.type.BooleanType;
 import net.tbnr.gearz.server.ServerManager;
+import net.tbnr.gearz.settings.PlayerSettings;
+import net.tbnr.gearz.settings.SettingsRegistration;
 import net.tbnr.util.player.TPlayerDisconnectEvent;
 import net.tbnr.util.player.TPlayerJoinEvent;
 import org.bukkit.Bukkit;
@@ -33,8 +38,16 @@ public class PlayerThings implements Listener {
         if (player.hasPermission("gearz.flight")) {
             player.setAllowFlight(true);
         }
-        player.setResourcePack(rescPackLink);
+        if (PlayerSettings.getManager(player).getValue(PlayerThings.TEXTURE_PACK, Boolean.class)) {
+            player.setResourcePack(rescPackLink);
+        }
     }
+
+    public static BaseSetting TEXTURE_PACK = new SettingBuilder()
+            .name("TexturePack")
+            .type(new BooleanType())
+            .defaultValue(true)
+            .description("Toggle the TBNR texture pack.").get();
 
     @EventHandler
     public void onQuit(TPlayerDisconnectEvent event) {
