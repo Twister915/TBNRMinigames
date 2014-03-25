@@ -5,7 +5,6 @@ import net.tbnr.gearz.Gearz;
 import net.tbnr.gearz.GearzPlugin;
 import net.tbnr.gearz.arena.Arena;
 import net.tbnr.gearz.effects.EnderBar;
-import net.tbnr.gearz.event.player.PlayerGameDamageEvent;
 import net.tbnr.gearz.game.GameCountdown;
 import net.tbnr.gearz.game.GameCountdownHandler;
 import net.tbnr.gearz.game.GameMeta;
@@ -24,10 +23,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
-import org.bukkit.event.entity.EntityRegainHealthEvent.RegainReason;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerToggleSprintEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
@@ -367,7 +363,7 @@ public class PlagueGame extends GearzGame implements GameCountdownHandler {
 		player.getPlayer().sendMessage(getPluginFormat("formats.turned-zombie", true));
 		zombies.put(player, 0d);
 		player.getTPlayer().flashRed();
-		player.getPlayer().getInventory().setHelmet(new ItemStack(Material.SKULL, 0, (short) SkullType.ZOMBIE.ordinal(), (byte) SkullType.ZOMBIE.ordinal()));
+		player.getPlayer().getInventory().setHelmet(new ItemStack(Material.SKULL, 0, (short) SkullType.ZOMBIE.ordinal()));
 		if(getHumans().size() <= 0 || zombies.size() <= 0) finish();
 	}
 

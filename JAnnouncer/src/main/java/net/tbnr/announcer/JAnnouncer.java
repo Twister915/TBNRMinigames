@@ -6,7 +6,12 @@ import net.tbnr.announcer.announces.AnnouncerManager;
 import net.tbnr.util.TPlugin;
 
 /**
- * Created by Joey on 2/16/14.
+ *
+ * <p>
+ * Latest Change:
+ * <p>
+ * @author Joey
+ * @since 2/16/14
  */
 public class JAnnouncer extends TPlugin {
     @Getter private static JAnnouncer instance;

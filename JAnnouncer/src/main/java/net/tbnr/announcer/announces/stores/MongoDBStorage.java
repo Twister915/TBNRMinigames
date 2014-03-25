@@ -6,7 +6,12 @@ import net.tbnr.announcer.announces.AnnouncementStorage;
 import java.util.List;
 
 /**
- * Created by Joey on 2/16/14.
+ *
+ * <p>
+ * Latest Change:
+ * <p>
+ * @author Joey
+ * @since 2/16/14
  */
 public class MongoDBStorage implements AnnouncementStorage {
     @Override

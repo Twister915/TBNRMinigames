@@ -4,7 +4,12 @@ import net.tbnr.announcer.effects.AnnouncementEffect;
 import net.tbnr.gearz.player.GearzPlayer;
 
 /**
- * Created by Joey on 2/16/14.
+ *
+ * <p>
+ * Latest Change:
+ * <p>
+ * @author Joey
+ * @since 2/16/14
  */
 public class BouncingBold extends AnnouncementEffect {
     private int index = 0;

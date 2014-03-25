@@ -3,7 +3,12 @@ package net.tbnr.gearz.hub.votifier;
 import net.tbnr.util.player.TPlayerStorable;
 
 /**
- * Created by Joey on 2/28/14.
+ *
+ * <p>
+ * Latest Change:
+ * <p>
+ * @author Joey
+ * @since 2/28/14
  */
 public class FlightTimeOwed implements TPlayerStorable {
     @Override
