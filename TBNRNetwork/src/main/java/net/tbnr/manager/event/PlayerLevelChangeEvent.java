@@ -12,23 +12,23 @@
 package net.tbnr.manager.event;
 
 
-import net.tbnr.gearz.player.GearzPlayer;
+import net.tbnr.manager.TBNRPlayer;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 public final class PlayerLevelChangeEvent extends Event {
     private final Integer oldLevel;
     private final Integer newLevel;
-    private final GearzPlayer player;
+    private final TBNRPlayer player;
     private static final HandlerList handlers = new HandlerList();
 
-    public PlayerLevelChangeEvent(Integer oldLevel, Integer newLevel, GearzPlayer player) {
+    public PlayerLevelChangeEvent(Integer oldLevel, Integer newLevel, TBNRPlayer player) {
         this.oldLevel = oldLevel;
         this.newLevel = newLevel;
         this.player = player;
     }
 
-    public GearzPlayer getPlayer() {
+    public TBNRPlayer getPlayer() {
         return player;
     }
 

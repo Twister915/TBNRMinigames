@@ -12,15 +12,16 @@
 package net.tbnr.manager.event;
 
 import net.tbnr.gearz.player.GearzPlayer;
+import net.tbnr.manager.TBNRPlayer;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 public final class PlayerChangeDonorPointsEvent extends Event {
     private final Integer oldPoint;
     private final Integer newPoint;
-    private final GearzPlayer player;
+    private final TBNRPlayer player;
 
-    public PlayerChangeDonorPointsEvent(Integer current_points, Integer newPoint, GearzPlayer player) {
+    public PlayerChangeDonorPointsEvent(Integer current_points, Integer newPoint, TBNRPlayer player) {
         this.oldPoint = current_points;
         this.newPoint = newPoint;
         this.player = player;

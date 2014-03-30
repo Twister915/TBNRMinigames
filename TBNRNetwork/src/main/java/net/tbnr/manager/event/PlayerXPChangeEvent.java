@@ -12,16 +12,17 @@
 package net.tbnr.manager.event;
 
 import net.tbnr.gearz.player.GearzPlayer;
+import net.tbnr.manager.TBNRPlayer;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 public final class PlayerXPChangeEvent extends Event {
     private final Integer oldXp;
     private final Integer newXp;
-    private final GearzPlayer player;
+    private final TBNRPlayer player;
     private static final HandlerList handlers = new HandlerList();
 
-    public PlayerXPChangeEvent(Integer oldXp, Integer newXp, GearzPlayer player) {
+    public PlayerXPChangeEvent(Integer oldXp, Integer newXp, TBNRPlayer player) {
         this.oldXp = oldXp;
         this.newXp = newXp;
         this.player = player;
@@ -32,7 +33,7 @@ public final class PlayerXPChangeEvent extends Event {
      *
      * @return A GearzPlayer object
      */
-    public GearzPlayer getPlayer() {
+    public TBNRPlayer getPlayer() {
         return player;
     }
 

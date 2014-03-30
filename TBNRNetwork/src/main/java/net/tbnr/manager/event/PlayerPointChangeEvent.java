@@ -12,7 +12,7 @@ package net.tbnr.manager.event;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.tbnr.gearz.player.GearzPlayer;
+import net.tbnr.manager.TBNRPlayer;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -20,7 +20,7 @@ import org.bukkit.event.HandlerList;
 public final class PlayerPointChangeEvent extends Event implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
     @Getter
-    private final GearzPlayer player;
+    private final TBNRPlayer player;
     @Getter
     private final Integer oldPoints;
     @Getter
@@ -29,7 +29,7 @@ public final class PlayerPointChangeEvent extends Event implements Cancellable {
     private Integer points;
     private boolean canceled;
 
-    public PlayerPointChangeEvent(GearzPlayer player, Integer oldPoints, Integer newPoints, Integer points) {
+    public PlayerPointChangeEvent(TBNRPlayer player, Integer oldPoints, Integer newPoints, Integer points) {
         this.player = player;
         this.oldPoints = oldPoints;
         this.newPoints = newPoints;
