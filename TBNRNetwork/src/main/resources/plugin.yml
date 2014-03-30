@@ -3,3 +3,6 @@ authors: [Twister915]
 version: 1.2
 description: Manages TBNR specifics for Gearz
 main: net.tbnr.manager.TBNRNetworkManager
+commands:
+    xp:
+      description: Xp

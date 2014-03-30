@@ -2,11 +2,12 @@ package net.tbnr.gearz.hh;
 
 import net.tbnr.gearz.GearzException;
 import net.tbnr.gearz.GearzPlugin;
+import net.tbnr.manager.TBNRPlugin;
 
 /**
  * HeadHunter class
  */
-public final class GHeadHunter extends GearzPlugin {
+public final class GHeadHunter extends TBNRPlugin {
     @Override
     public void enable() {
         try {

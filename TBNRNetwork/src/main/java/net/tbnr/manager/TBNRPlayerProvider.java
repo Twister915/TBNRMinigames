@@ -1,6 +1,6 @@
 package net.tbnr.manager;
 
-import net.tbnr.gearz.game.GearzPlayerProvider;
+import net.tbnr.gearz.network.GearzPlayerProvider;
 import net.tbnr.util.player.TPlayer;
 
 public class TBNRPlayerProvider extends GearzPlayerProvider<TBNRPlayer> {

@@ -12,6 +12,9 @@ import net.tbnr.gearz.game.classes.GearzClass;
 import net.tbnr.gearz.game.classes.GearzClassReadException;
 import net.tbnr.gearz.game.classes.GearzClassSelector;
 import net.tbnr.gearz.player.GearzPlayer;
+import net.tbnr.manager.TBNRMinigame;
+import net.tbnr.manager.TBNRPlayer;
+import net.tbnr.manager.TBNRPlayerProvider;
 import net.tbnr.util.player.TPlayer;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -34,19 +37,19 @@ import java.util.*;
         secondaryColor = ChatColor.GRAY,
         maxPlayers = 24,
         minPlayers = 3)
-public final class GSwitchUpGame extends GearzGame implements GameCountdownHandler {
+public final class GSwitchUpGame extends TBNRMinigame implements GameCountdownHandler {
     private List<GearzClass> classesToCycle;
-    private final HashMap<GearzPlayer, GearzClass> currentClasses = new HashMap<>();
+    private final HashMap<TBNRPlayer, GearzClass> currentClasses = new HashMap<>();
     private int killsInRound = 0;
     private int roundsPlayed = 0;
     private final static int killsPerRound = 15;
     private final static int roundsPerGame = 5;
     private GSwitchUpArena gSwitchUpArena;
-    private final HashMap<GearzPlayer, Integer> killsThisGame = new HashMap<>();
+    private final HashMap<TBNRPlayer, Integer> killsThisGame = new HashMap<>();
     private static final String[] classFilenames = new String[]{"boomer.json", "juggernaut.json", "archer.json", "bowman.json", "creativebuilder.json", "gentleman.json", "mage.json", "cheeseknight.json", "viking.json"};
     private boolean gracePeriod = false;
     private GameCountdown gracePeriodCountdown = null;
-    private final List<GearzPlayer> skipOnActivate = new ArrayList<>();
+    private final List<TBNRPlayer> skipOnActivate = new ArrayList<>();
 
     /**
      * New game in this arena
@@ -57,8 +60,8 @@ public final class GSwitchUpGame extends GearzGame implements GameCountdownHandl
      * @param meta    The meta of the game.
      * @param id      The id of the arena
      */
-    public GSwitchUpGame(List<GearzPlayer> players, Arena arena, GearzPlugin plugin, GameMeta meta, Integer id) {
-        super(players, arena, plugin, meta, id);
+    public GSwitchUpGame(List<TBNRPlayer> players, Arena arena, GearzPlugin<TBNRPlayer> plugin, GameMeta meta, Integer id, TBNRPlayerProvider playerProvider) {
+        super(players, arena, plugin, meta, id, playerProvider);
         if (!(arena instanceof GSwitchUpArena)) throw new RuntimeException("Invalid arena class");
         this.gSwitchUpArena = (GSwitchUpArena) arena;
     }
@@ -67,7 +70,7 @@ public final class GSwitchUpGame extends GearzGame implements GameCountdownHandl
     protected void gameStarting() {
         if (GSwitchUpGame.classFilenames.length <= 2) stopGame();
         loadClasses();
-        for (GearzPlayer player : getPlayers()) {
+        for (TBNRPlayer player : getPlayers()) {
             skipOnActivate.add(player);
             killsThisGame.put(player, 0);
         }
@@ -93,27 +96,27 @@ public final class GSwitchUpGame extends GearzGame implements GameCountdownHandl
     }
 
     @Override
-    protected boolean canBuild(GearzPlayer player) {
+    protected boolean canBuild(TBNRPlayer player) {
         return false;
     }
 
     @Override
-    protected boolean canPvP(GearzPlayer attacker, GearzPlayer target) {
+    protected boolean canPvP(TBNRPlayer attacker, TBNRPlayer target) {
         return !gracePeriod;
     }
 
     @Override
-    protected boolean canUse(GearzPlayer player) {
+    protected boolean canUse(TBNRPlayer player) {
         return true;
     }
 
     @Override
-    protected boolean canBreak(GearzPlayer player, Block block) {
+    protected boolean canBreak(TBNRPlayer player, Block block) {
         return false;
     }
 
     @Override
-    protected boolean canPlace(GearzPlayer player, Block block) {
+    protected boolean canPlace(TBNRPlayer player, Block block) {
         if (block.getType() == Material.TNT) {
             gSwitchUpArena.getWorld().spawnEntity(block.getLocation(), EntityType.PRIMED_TNT);
             block.setType(Material.AIR);
@@ -123,22 +126,22 @@ public final class GSwitchUpGame extends GearzGame implements GameCountdownHandl
     }
 
     @Override
-    protected boolean canMove(GearzPlayer player) {
+    protected boolean canMove(TBNRPlayer player) {
         return true;
     }
 
     @Override
-    protected boolean canDrawBow(GearzPlayer player) {
+    protected boolean canDrawBow(TBNRPlayer player) {
         return !this.gracePeriod;
     }
 
     @Override
-    protected void playerKilled(GearzPlayer dead, LivingEntity killer) {
+    protected void playerKilled(TBNRPlayer dead, LivingEntity killer) {
         playerDied(dead);
     }
 
     @Override
-    protected void playerKilled(GearzPlayer dead, GearzPlayer killer) {
+    protected void playerKilled(TBNRPlayer dead, TBNRPlayer killer) {
         addGPoints(killer, 5);
         Integer integer = this.killsThisGame.get(killer);
         if (integer == null) integer = 0;
@@ -150,22 +153,22 @@ public final class GSwitchUpGame extends GearzGame implements GameCountdownHandl
     }
 
     @Override
-    protected void mobKilled(LivingEntity killed, GearzPlayer killer) {
+    protected void mobKilled(LivingEntity killed, TBNRPlayer killer) {
 
     }
 
     @Override
-    protected boolean canDropItem(GearzPlayer player, ItemStack itemToDrop) {
+    protected boolean canDropItem(TBNRPlayer player, ItemStack itemToDrop) {
         return false;
     }
 
     @Override
-    protected Location playerRespawn(GearzPlayer player) {
+    protected Location playerRespawn(TBNRPlayer player) {
         return this.gSwitchUpArena.pointToLocation(this.gSwitchUpArena.spawnPoints.random());
     }
 
     @Override
-    protected boolean canPlayerRespawn(GearzPlayer player) {
+    protected boolean canPlayerRespawn(TBNRPlayer player) {
         return true;
     }
 
@@ -175,7 +178,7 @@ public final class GSwitchUpGame extends GearzGame implements GameCountdownHandl
     }
 
     @Override
-    protected void activatePlayer(GearzPlayer player) {
+    protected void activatePlayer(TBNRPlayer player) {
         if (this.skipOnActivate.contains(player)) {
             this.skipOnActivate.remove(player);
             return;
@@ -186,32 +189,32 @@ public final class GSwitchUpGame extends GearzGame implements GameCountdownHandl
     }
 
     @Override
-    protected boolean allowHunger(GearzPlayer player) {
+    protected boolean allowHunger(TBNRPlayer player) {
         return false;
     }
 
     @Override
-    public void onDeath(GearzPlayer player) {
+    public void onDeath(TBNRPlayer player) {
         playerDied(player);
     }
 
-    private void playerDied(GearzPlayer player) {
+    private void playerDied(TBNRPlayer player) {
         if (this.killsInRound >= GSwitchUpGame.killsPerRound) {
             this.skipOnActivate.add(player);
             if (!this.nextRound()) {
-                GearzPlayer leader = getLeader();
+                TBNRPlayer leader = getLeader();
                 broadcast(getPluginFormat("formats.win", true, new String[]{"<winner>", leader.getUsername()}));
                 addGPoints(leader, 150);
                 addWin(leader);
-                List<GearzPlayer> players2 = new ArrayList<>(this.killsThisGame.keySet());
-                Collections.sort(players2, new Comparator<GearzPlayer>() {
+                List<TBNRPlayer> players2 = new ArrayList<>(this.killsThisGame.keySet());
+                Collections.sort(players2, new Comparator<TBNRPlayer>() {
                     @Override
-                    public int compare(GearzPlayer o1, GearzPlayer o2) {
+                    public int compare(TBNRPlayer o1, TBNRPlayer o2) {
                         return killsThisGame.get(o2) - killsThisGame.get(o1);
                     }
                 });
                 int length = Math.min(8, getPlayers().size());
-                GearzPlayer[] players = new GearzPlayer[length];
+                TBNRPlayer[] players = new TBNRPlayer[length];
                 for (int x = 0; x < length; x++) {
                     players[x] = players2.get(x);
                 }
@@ -225,7 +228,7 @@ public final class GSwitchUpGame extends GearzGame implements GameCountdownHandl
     private boolean nextRound() {
         if (this.roundsPlayed >= GSwitchUpGame.roundsPerGame) return false;
         this.killsInRound = 0;
-        GearzPlayer leader = getLeader();
+        TBNRPlayer leader = getLeader();
         addGPoints(leader, 30);
         broadcast(getPluginFormat("formats.next-round", true, new String[]{"<leader>", leader.getUsername()}));
         Bukkit.getScheduler().runTaskLater(getPlugin(), new Runnable() {
@@ -238,9 +241,9 @@ public final class GSwitchUpGame extends GearzGame implements GameCountdownHandl
         return true;
     }
 
-    private GearzPlayer getLeader() {
-        GearzPlayer player = null;
-        for (Map.Entry<GearzPlayer, Integer> pointEntry : this.killsThisGame.entrySet()) {
+    private TBNRPlayer getLeader() {
+        TBNRPlayer player = null;
+        for (Map.Entry<TBNRPlayer, Integer> pointEntry : this.killsThisGame.entrySet()) {
             if (player == null || this.killsThisGame.get(player) < pointEntry.getValue()) {
                 player = pointEntry.getKey();
             }
@@ -250,7 +253,7 @@ public final class GSwitchUpGame extends GearzGame implements GameCountdownHandl
 
     private void shuffleClasses() {
         startGracePeriod();
-        for (GearzPlayer player : getPlayers()) {
+        for (TBNRPlayer player : getPlayers()) {
             player.getPlayer().playNote(player.getPlayer().getLocation(), Instrument.PIANO, Note.natural(1, Note.Tone.C));
             player.getTPlayer().resetPlayer();
             GearzClass clazz = this.currentClasses.get(player);
@@ -279,7 +282,7 @@ public final class GSwitchUpGame extends GearzGame implements GameCountdownHandl
         } else {
             health = ((float) (GSwitchUpGame.killsPerRound - this.killsInRound) / (float) GSwitchUpGame.killsPerRound);
         }
-        for (GearzPlayer player : allPlayers()) {
+        for (TBNRPlayer player : allPlayers()) {
             String currentText;
             if (enderText == null) {
                 currentText = getPluginFormat("formats.standard-bar", false, new String[]{"<kills>", String.valueOf(GSwitchUpGame.killsPerRound - this.killsInRound)}, new String[]{"<switches>", String.valueOf(GSwitchUpGame.roundsPerGame - this.roundsPlayed)}, new String[]{"<class>", this.currentClasses.get(player) == null ? "Spectator" : this.currentClasses.get(player).getName()});
@@ -294,10 +297,10 @@ public final class GSwitchUpGame extends GearzGame implements GameCountdownHandl
 
     private void setupScoreboard() {
         HashMap<String, Integer> values = new HashMap<>();
-        for (GearzPlayer player1 : getPlayers()) {
+        for (TBNRPlayer player1 : getPlayers()) {
             values.put(player1.getUsername(), -1);
         }
-        for (GearzPlayer player : allPlayers()) {
+        for (TBNRPlayer player : allPlayers()) {
             TPlayer tPlayer = player.getTPlayer();
             tPlayer.resetScoreboard();
             tPlayer.setScoreboardSideTitle(getPluginFormat("formats.scoreboard-title", false));
@@ -309,9 +312,9 @@ public final class GSwitchUpGame extends GearzGame implements GameCountdownHandl
     }
 
     private void updateScoreboard() {
-        for (GearzPlayer player : allPlayers()) {
+        for (TBNRPlayer player : allPlayers()) {
             TPlayer player2 = player.getTPlayer();
-            for (GearzPlayer player1 : getPlayers()) {
+            for (TBNRPlayer player1 : getPlayers()) {
                 player2.setScoreBoardSide(player1.getUsername(), this.killsThisGame.get(player1));
             }
         }
@@ -319,19 +322,19 @@ public final class GSwitchUpGame extends GearzGame implements GameCountdownHandl
 
     private void regenerateItems() {
         GearzClass mageClass = getClassByName("Mage");
-        for (GearzPlayer mage : getPlayersByClass("Mage")) {
+        for (TBNRPlayer mage : getPlayersByClass("Mage")) {
             GearzClassSelector.giveClassToPlayer(mage, mageClass);
         }
         GearzClass archerClass = getClassByName("Archer");
-        for (GearzPlayer archer : getPlayersByClass("Archer")) {
+        for (TBNRPlayer archer : getPlayersByClass("Archer")) {
             archer.getPlayer().getInventory().addItem(archerClass.getItems().get(1).getItemStack());
         }
     }
 
-    private List<GearzPlayer> getPlayersByClass(String className) {
-        List<GearzPlayer> players = new ArrayList<>();
-        for (Map.Entry<GearzPlayer, GearzClass> classPlayer : this.currentClasses.entrySet()) {
-            GearzPlayer player = classPlayer.getKey();
+    private List<TBNRPlayer> getPlayersByClass(String className) {
+        List<TBNRPlayer> players = new ArrayList<>();
+        for (Map.Entry<TBNRPlayer, GearzClass> classPlayer : this.currentClasses.entrySet()) {
+            TBNRPlayer player = classPlayer.getKey();
             GearzClass clazz = classPlayer.getValue();
             if (clazz.getName().equalsIgnoreCase(className)) {
                 players.add(player);
@@ -368,15 +371,15 @@ public final class GSwitchUpGame extends GearzGame implements GameCountdownHandl
     }
 
     @Override
-    public void removePlayerFromGame(GearzPlayer player) {
+    public void removePlayerFromGame(TBNRPlayer player) {
         this.killsThisGame.remove(player);
-        for (GearzPlayer player1 : allPlayers()) {
+        for (TBNRPlayer player1 : allPlayers()) {
             player1.getTPlayer().removeScoreboardSide(player.getUsername());
         }
     }
 
     @Override
-    public boolean useEnderBar(GearzPlayer player) {
+    public boolean useEnderBar(TBNRPlayer player) {
         return false;
     }
 
@@ -394,7 +397,7 @@ public final class GSwitchUpGame extends GearzGame implements GameCountdownHandl
 
     @Override
     public void onCountdownComplete(GameCountdown countdown) {
-        for (GearzPlayer player : allPlayers()) {
+        for (TBNRPlayer player : allPlayers()) {
             player.getPlayer().playNote(player.getPlayer().getLocation(), Instrument.PIANO, Note.natural(1, Note.Tone.G));
         }
         broadcast(getPluginFormat("formats.grace-period-end"));

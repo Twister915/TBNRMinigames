@@ -3,4 +3,4 @@ authors: [Twister915]
 version: 1.0
 main: net.tbnr.gearz.hh.GHeadHunter
 description: HeadHunter game!
-depend: [Gearz]
+depend: [Gearz, TBNRNetwork]

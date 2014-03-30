@@ -5,7 +5,7 @@ import net.tbnr.gearz.arena.Arena;
 import net.tbnr.gearz.game.GameMeta;
 import net.tbnr.gearz.game.GameStopCause;
 import net.tbnr.gearz.game.GearzGame;
-import net.tbnr.gearz.game.GearzPlayerProvider;
+import net.tbnr.gearz.network.GearzPlayerProvider;
 
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +26,7 @@ public abstract class TBNRMinigame extends GearzGame<TBNRPlayer> {
      */
     public TBNRMinigame(List<TBNRPlayer> players, Arena arena, GearzPlugin<TBNRPlayer> plugin, GameMeta meta, Integer id, GearzPlayerProvider<TBNRPlayer> playerProvider) {
         super(players, arena, plugin, meta, id, playerProvider);
+        this.pendingPoints = new HashMap<>();
     }
 
     protected void addGPoints(TBNRPlayer player, Integer points) {

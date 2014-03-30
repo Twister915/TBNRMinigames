@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import net.tbnr.gearz.GearzPlugin;
 import net.tbnr.gearz.arena.Arena;
 import net.tbnr.gearz.game.GameMeta;
-import net.tbnr.gearz.game.GearzPlayerProvider;
+import net.tbnr.gearz.network.GearzPlayerProvider;
 import net.tbnr.manager.TBNRMinigame;
 import net.tbnr.manager.TBNRPlayer;
 import net.tbnr.util.ColoringUtils;

@@ -6,8 +6,9 @@ import net.tbnr.gearz.effects.EnderBar;
 import net.tbnr.gearz.game.GameCountdown;
 import net.tbnr.gearz.game.GameCountdownHandler;
 import net.tbnr.gearz.game.GameMeta;
-import net.tbnr.gearz.game.GearzGame;
-import net.tbnr.gearz.player.GearzPlayer;
+import net.tbnr.gearz.network.GearzPlayerProvider;
+import net.tbnr.manager.TBNRMinigame;
+import net.tbnr.manager.TBNRPlayer;
 import net.tbnr.util.player.TPlayer;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -36,9 +37,9 @@ import java.util.*;
         maxPlayers = 48,
         mainColor = ChatColor.DARK_AQUA,
         secondaryColor = ChatColor.DARK_RED)
-public final class HeadHunterGame extends GearzGame implements GameCountdownHandler {
+public final class HeadHunterGame extends TBNRMinigame implements GameCountdownHandler {
     private HeadHunterArena hhArena;
-    private HashMap<GearzPlayer, Integer> pointsAwarded;
+    private HashMap<TBNRPlayer, Integer> pointsAwarded;
 
     /**
      * New game in this arena
@@ -48,8 +49,8 @@ public final class HeadHunterGame extends GearzGame implements GameCountdownHand
      * @param plugin  The plugin that handles this Game.
      * @param meta    The meta of the game.
      */
-    public HeadHunterGame(List<GearzPlayer> players, Arena arena, GearzPlugin plugin, GameMeta meta, Integer id) {
-        super(players, arena, plugin, meta, id);
+    public HeadHunterGame(List<TBNRPlayer> players, Arena arena, GearzPlugin<TBNRPlayer> plugin, GameMeta meta, Integer id, GearzPlayerProvider<TBNRPlayer> playerProvider) {
+        super(players, arena, plugin, meta, id, playerProvider);
         if (!(arena instanceof HeadHunterArena)) throw new RuntimeException("Invalid game class");
         this.hhArena = (HeadHunterArena) arena;
         this.pointsAwarded = new HashMap<>();
@@ -57,7 +58,7 @@ public final class HeadHunterGame extends GearzGame implements GameCountdownHand
 
     @Override
     protected void gameStarting() {
-        for (GearzPlayer player : getPlayers()) {
+        for (TBNRPlayer player : getPlayers()) {
             this.pointsAwarded.put(player, 0);
         }
         updateScoreboard();
@@ -67,13 +68,13 @@ public final class HeadHunterGame extends GearzGame implements GameCountdownHand
 
     @Override
     protected void gameEnding() {
-        GearzPlayer[] players = getTop(Math.min(8, getPlayers().size()));
+        TBNRPlayer[] players = getTop(Math.min(8, getPlayers().size()));
         displayWinners(players);
     }
 
-    private GearzPlayer[] getTop(int l) {
-        List<GearzPlayer> sortedPoints = getSortedPoints();
-        GearzPlayer[] players = new GearzPlayer[l];
+    private TBNRPlayer[] getTop(int l) {
+        List<TBNRPlayer> sortedPoints = getSortedPoints();
+        TBNRPlayer[] players = new TBNRPlayer[l];
         for (int x = 0; x < l; x++) {
             players[x] = sortedPoints.get(x);
         }
@@ -81,18 +82,18 @@ public final class HeadHunterGame extends GearzGame implements GameCountdownHand
     }
 
     @Override
-    protected boolean canBuild(GearzPlayer player) {
+    protected boolean canBuild(TBNRPlayer player) {
         return false;
     }
 
     @Override
-    protected boolean canPvP(GearzPlayer attacker, GearzPlayer target) {
+    protected boolean canPvP(TBNRPlayer attacker, TBNRPlayer target) {
         return true;
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    protected boolean canUse(GearzPlayer player) {
+    protected boolean canUse(TBNRPlayer player) {
         ItemStack itemInHand = player.getPlayer().getItemInHand();
         if (itemInHand.getType() == Material.DIAMOND) {
             int i = killsInInventory(player);
@@ -114,32 +115,32 @@ public final class HeadHunterGame extends GearzGame implements GameCountdownHand
     }
 
     @Override
-    protected boolean canBreak(GearzPlayer player, Block block) {
+    protected boolean canBreak(TBNRPlayer player, Block block) {
         return false;
     }
 
     @Override
-    protected boolean canPlace(GearzPlayer player, Block block) {
+    protected boolean canPlace(TBNRPlayer player, Block block) {
         return false;
     }
 
     @Override
-    protected boolean canMove(GearzPlayer player) {
+    protected boolean canMove(TBNRPlayer player) {
         return true;
     }
 
     @Override
-    protected boolean canDrawBow(GearzPlayer player) {
+    protected boolean canDrawBow(TBNRPlayer player) {
         return true;
     }
 
     @Override
-    protected void playerKilled(GearzPlayer dead, LivingEntity killer) {
+    protected void playerKilled(TBNRPlayer dead, LivingEntity killer) {
 
     }
 
     @Override
-    protected void playerKilled(GearzPlayer dead, GearzPlayer killer) {
+    protected void playerKilled(TBNRPlayer dead, TBNRPlayer killer) {
         Player player = dead.getPlayer();
         Player player1 = killer.getPlayer();
         addGPoints(killer, Math.max(1, killsInInventory(dead)) * 2);
@@ -153,21 +154,21 @@ public final class HeadHunterGame extends GearzGame implements GameCountdownHand
     }
 
     @Override
-    protected void mobKilled(LivingEntity killed, GearzPlayer killer) {
+    protected void mobKilled(LivingEntity killed, TBNRPlayer killer) {
     }
 
     @Override
-    protected boolean canDropItem(GearzPlayer player, ItemStack itemToDrop) {
+    protected boolean canDropItem(TBNRPlayer player, ItemStack itemToDrop) {
         return false;
     }
 
     @Override
-    protected Location playerRespawn(GearzPlayer player) {
+    protected Location playerRespawn(TBNRPlayer player) {
         return getArena().pointToLocation(this.hhArena.spawnPoints.random());
     }
 
     @Override
-    protected boolean canPlayerRespawn(GearzPlayer player) {
+    protected boolean canPlayerRespawn(TBNRPlayer player) {
         return true;
     }
 
@@ -177,19 +178,19 @@ public final class HeadHunterGame extends GearzGame implements GameCountdownHand
     }
 
     @Override
-    protected void activatePlayer(GearzPlayer player) {
+    protected void activatePlayer(TBNRPlayer player) {
 	    if(!player.isValid()) return;
         player.getTPlayer().giveItem(Material.STONE_AXE);
         player.getTPlayer().giveItem(Material.DIAMOND, 1, (short) 0, getPluginFormat("formats.diamond-title", false), new String[0], 9);
     }
 
     @Override
-    protected boolean allowHunger(GearzPlayer player) {
+    protected boolean allowHunger(TBNRPlayer player) {
         return false;
     }
 
     @Override
-    public boolean canPickup(final GearzPlayer player, Item item) {
+    public boolean canPickup(final TBNRPlayer player, Item item) {
         if (item.getItemStack().getType() != Material.SKULL_ITEM) {
             item.remove();
             return false;
@@ -207,12 +208,12 @@ public final class HeadHunterGame extends GearzGame implements GameCountdownHand
     }
 
     @Override
-    public void removePlayerFromGame(GearzPlayer player) {
+    public void removePlayerFromGame(TBNRPlayer player) {
         if (this.pointsAwarded.containsKey(player)) this.pointsAwarded.remove(player);
         updateScoreboard();
     }
 
-    private int killsInInventory(GearzPlayer player) {
+    private int killsInInventory(TBNRPlayer player) {
         int damage = 0;
         for (ItemStack s : player.getPlayer().getInventory()) {
             if (s == null) continue;
@@ -222,17 +223,17 @@ public final class HeadHunterGame extends GearzGame implements GameCountdownHand
     }
 
     private void updateScoreboard() {
-        for (GearzPlayer player : getPlayers()) {
+        for (TBNRPlayer player : getPlayers()) {
             if (!player.isValid()) continue;
             TPlayer tPlayer = player.getTPlayer();
             tPlayer.setScoreboardSideTitle(getPluginFormat("formats.scoreboard-title", false));
-            for (Map.Entry<GearzPlayer, Integer> gearzPlayerIntegerEntry : this.pointsAwarded.entrySet()) {
+            for (Map.Entry<TBNRPlayer, Integer> gearzPlayerIntegerEntry : this.pointsAwarded.entrySet()) {
                 tPlayer.setScoreBoardSide(gearzPlayerIntegerEntry.getKey().getUsername(), gearzPlayerIntegerEntry.getValue());
             }
         }
     }
 
-    private void updatePlayerSword(GearzPlayer player) {
+    private void updatePlayerSword(TBNRPlayer player) {
         if (!player.isValid()) return;
         int i = killsInInventory(player);
         ItemStack item = player.getPlayer().getInventory().getItem(0);
@@ -256,7 +257,7 @@ public final class HeadHunterGame extends GearzGame implements GameCountdownHand
     }
 
     @Override
-    protected boolean useEnderBar(GearzPlayer player) {
+    protected boolean useEnderBar(TBNRPlayer player) {
         return false;
     }
 
@@ -272,10 +273,10 @@ public final class HeadHunterGame extends GearzGame implements GameCountdownHand
 
     @Override
     public void onCountdownComplete(GameCountdown countdown) {
-        for (GearzPlayer player : allPlayers()) {
+        for (TBNRPlayer player : allPlayers()) {
             EnderBar.remove(player);
         }
-        GearzPlayer max = getMostPoints();
+        TBNRPlayer max = getMostPoints();
         broadcast(getPluginFormat("formats.winner", true, new String[]{"<player>", max.getUsername()}));
         addGPoints(max, 250);
         addWin(max);
@@ -292,14 +293,14 @@ public final class HeadHunterGame extends GearzGame implements GameCountdownHand
     /**
      * returns the player with most skulls in inventory
      *
-     * @return Returns the {@link net.tbnr.gearz.player.GearzPlayer} with the most skulls
+     * @return Returns the {@link net.tbnr.manager.TBNRPlayer} with the most skulls
      */
-    private GearzPlayer getMostSkulls() {
+    private TBNRPlayer getMostSkulls() {
         //cache players
-        GearzPlayer[] cPlayers = getPlayers().toArray(new GearzPlayer[getPlayers().size()]);
+        TBNRPlayer[] cPlayers = getPlayers().toArray(new TBNRPlayer[getPlayers().size()]);
 
         //person with most skulls
-        GearzPlayer most = cPlayers[0];
+        TBNRPlayer most = cPlayers[0];
 
         //start at 1 to miss out the first 1
         for (int i = 1, l = cPlayers.length; i < l; i++) {
@@ -312,14 +313,14 @@ public final class HeadHunterGame extends GearzGame implements GameCountdownHand
     /**
      * returns players with most points
      *
-     * @return Returns the {@link net.tbnr.gearz.player.GearzPlayer} with the most points
+     * @return Returns the {@link net.tbnr.manager.TBNRPlayer} with the most points
      */
-    private GearzPlayer getMostPoints() {
+    private TBNRPlayer getMostPoints() {
         //cache players
-        GearzPlayer[] cPlayers = getPlayers().toArray(new GearzPlayer[getPlayers().size()]);
+        TBNRPlayer[] cPlayers = getPlayers().toArray(new TBNRPlayer[getPlayers().size()]);
 
         //person with most points
-        GearzPlayer most = cPlayers[0];
+        TBNRPlayer most = cPlayers[0];
 
         //start at 1 to miss out the first 1
         for (int i = 1, l = cPlayers.length; i < l; i++) {
@@ -330,7 +331,7 @@ public final class HeadHunterGame extends GearzGame implements GameCountdownHand
     }
 
     private void updateEnderBar(Integer seconds, Integer max) {
-        for (GearzPlayer player : allPlayers()) {
+        for (TBNRPlayer player : allPlayers()) {
             if (!player.isValid()) return;
             EnderBar.setTextFor(player, getPluginFormat("formats.time-remaining", false, new String[]{"<timespec>", formatInt(seconds)}));
             EnderBar.setHealthPercent(player, (float) seconds / (float) max);
@@ -344,12 +345,12 @@ public final class HeadHunterGame extends GearzGame implements GameCountdownHand
     }
 
     @SuppressWarnings("unchecked")
-    private List<GearzPlayer> getSortedPoints() {
-        List<GearzPlayer> playersSorted = new ArrayList<>(this.pointsAwarded.keySet());
-        final HashMap<GearzPlayer, Integer> pointsCopy = new HashMap(this.pointsAwarded);
-        Collections.sort(playersSorted, new Comparator<GearzPlayer>() {
+    private List<TBNRPlayer> getSortedPoints() {
+        List<TBNRPlayer> playersSorted = new ArrayList<>(this.pointsAwarded.keySet());
+        final HashMap<TBNRPlayer, Integer> pointsCopy = new HashMap(this.pointsAwarded);
+        Collections.sort(playersSorted, new Comparator<TBNRPlayer>() {
             @Override
-            public int compare(GearzPlayer o1, GearzPlayer o2) {
+            public int compare(TBNRPlayer o1, TBNRPlayer o2) {
                 return pointsCopy.get(o2) - pointsCopy.get(o1);
             }
         });

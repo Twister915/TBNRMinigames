@@ -8,11 +8,12 @@ import net.tbnr.gearz.effects.EnderBar;
 import net.tbnr.gearz.game.GameCountdown;
 import net.tbnr.gearz.game.GameCountdownHandler;
 import net.tbnr.gearz.game.GameMeta;
-import net.tbnr.gearz.game.GearzGame;
 import net.tbnr.gearz.game.classes.GearzClass;
 import net.tbnr.gearz.game.classes.GearzClassSelector;
 import net.tbnr.gearz.game.classes.GearzItem;
-import net.tbnr.gearz.player.GearzPlayer;
+import net.tbnr.manager.TBNRMinigame;
+import net.tbnr.manager.TBNRPlayer;
+import net.tbnr.manager.TBNRPlayerProvider;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -49,7 +50,7 @@ import java.util.*;
         maxPlayers = 20,
         mainColor = ChatColor.YELLOW,
         secondaryColor = ChatColor.GRAY)
-public class PredatorGame extends GearzGame implements GameCountdownHandler {
+public class PredatorGame extends TBNRMinigame implements GameCountdownHandler {
 
     // predator gives 200 points
     // prey get 240 / prey length
@@ -66,12 +67,12 @@ public class PredatorGame extends GearzGame implements GameCountdownHandler {
 	@Getter private ArrayList<GearzItem> preyItems;
 	@Getter private ArrayList<GearzItem> predatorItems;
 
-    private ArrayList<GearzPlayer> prey;
+    private ArrayList<TBNRPlayer> prey;
 
-	@Getter private HashMap<GearzPlayer, Inventory> preyInventories;
-	@Getter private HashMap<GearzPlayer, Inventory> predatorInventories;
+	@Getter private HashMap<TBNRPlayer, Inventory> preyInventories;
+	@Getter private HashMap<TBNRPlayer, Inventory> predatorInventories;
 
-    @Getter private GearzPlayer predator;
+    @Getter private TBNRPlayer predator;
 
     @Getter private PRState currentState;
     private PredatorArena pArena;
@@ -94,8 +95,8 @@ public class PredatorGame extends GearzGame implements GameCountdownHandler {
         }
     }
 
-    public PredatorGame(List<GearzPlayer> players, Arena arena, GearzPlugin plugin, GameMeta meta, Integer id) {
-        super(players, arena, plugin, meta, id);
+    public PredatorGame(List<TBNRPlayer> players, Arena arena, GearzPlugin<TBNRPlayer> plugin, GameMeta meta, Integer id, TBNRPlayerProvider playerProvider) {
+        super(players, arena, plugin, meta, id, playerProvider);
         if (!(arena instanceof PredatorArena)) throw new RuntimeException("Invalid game class");
         this.pArena = (PredatorArena) arena;
     }
@@ -128,37 +129,37 @@ public class PredatorGame extends GearzGame implements GameCountdownHandler {
     }
 
     @Override
-    protected boolean canBuild(GearzPlayer player) {
+    protected boolean canBuild(TBNRPlayer player) {
         return false;
     }
 
     @Override
-    protected boolean canPvP(GearzPlayer attacker, GearzPlayer target) {
+    protected boolean canPvP(TBNRPlayer attacker, TBNRPlayer target) {
         return currentState != PRState.CHOOSING;
     }
 
     @Override
-    protected boolean canUse(GearzPlayer player) {
+    protected boolean canUse(TBNRPlayer player) {
         return true;
     }
 
     @Override
-    protected boolean canMove(GearzPlayer player) {
+    protected boolean canMove(TBNRPlayer player) {
         return currentState != PRState.CHOOSING;
     }
 
     @Override
-    protected boolean canDrawBow(GearzPlayer player) {
+    protected boolean canDrawBow(TBNRPlayer player) {
         return currentState != PRState.CHOOSING;
     }
 
     @Override
-    protected void playerKilled(GearzPlayer dead, GearzPlayer killer) {
+    protected void playerKilled(TBNRPlayer dead, TBNRPlayer killer) {
 
     }
 
     @Override
-    protected Location playerRespawn(GearzPlayer player) {
+    protected Location playerRespawn(TBNRPlayer player) {
         //IF player is predator
         return player.equals(this.predator) ?
                 //if TRUE
@@ -168,7 +169,7 @@ public class PredatorGame extends GearzGame implements GameCountdownHandler {
     }
 
     @Override
-    protected boolean canPlayerRespawn(GearzPlayer player) {
+    protected boolean canPlayerRespawn(TBNRPlayer player) {
         return player.equals(this.predator);
     }
 
@@ -178,12 +179,12 @@ public class PredatorGame extends GearzGame implements GameCountdownHandler {
     }
 
     @Override
-    protected void activatePlayer(GearzPlayer player) {
+    protected void activatePlayer(TBNRPlayer player) {
 
     }
 
     @Override
-    protected boolean allowHunger(GearzPlayer player) {
+    protected boolean allowHunger(TBNRPlayer player) {
         return false;
     }
 
@@ -193,27 +194,27 @@ public class PredatorGame extends GearzGame implements GameCountdownHandler {
     }
 
     @Override
-    protected boolean canDropItem(GearzPlayer player, ItemStack itemToDrop) {
+    protected boolean canDropItem(TBNRPlayer player, ItemStack itemToDrop) {
         return false;
     }
 
     @Override
-    protected void mobKilled(LivingEntity killed, GearzPlayer killer) {
+    protected void mobKilled(LivingEntity killed, TBNRPlayer killer) {
 
     }
 
     @Override
-    protected void playerKilled(GearzPlayer dead, LivingEntity killer) {
+    protected void playerKilled(TBNRPlayer dead, LivingEntity killer) {
 
     }
 
     @Override
-    protected boolean canPlace(GearzPlayer player, Block block) {
+    protected boolean canPlace(TBNRPlayer player, Block block) {
         return false;
     }
 
     @Override
-    protected boolean canBreak(GearzPlayer player, Block block) {
+    protected boolean canBreak(TBNRPlayer player, Block block) {
         return false;
     }
 
@@ -242,7 +243,7 @@ public class PredatorGame extends GearzGame implements GameCountdownHandler {
     }
 
     private void updateEnderBar() {
-        for (GearzPlayer player : getPlayers()) {
+        for (TBNRPlayer player : getPlayers()) {
             if(!player.isValid()) continue;
             EnderBar.setTextFor(player, getPluginFormat("formats.time", false, new String[]{"<time>", formatInt(countdown.getSeconds() - countdown.getPassed())}));
             EnderBar.setHealthPercent(player, ((float) countdown.getSeconds() - countdown.getPassed()) / (float) countdown.getSeconds());
@@ -255,11 +256,11 @@ public class PredatorGame extends GearzGame implements GameCountdownHandler {
     }
 
     private void updateScoreboard() {
-        for (GearzPlayer player : getPlayers()) {
+        for (TBNRPlayer player : getPlayers()) {
             if(!player.isValid()) continue;
             player.getTPlayer().resetScoreboard();
             player.getTPlayer().setScoreboardSideTitle(getPluginFormat("formats.scoreboard-title", false));
-            /*for (GearzPlayer player1 : points.keySet()) {
+            /*for (TBNRPlayer player1 : points.keySet()) {
                 if(!player1.isValid()) continue;
                 player.getTPlayer().setScoreBoardSide(player1.getUsername(), points.get(player1));
             }*/
@@ -270,7 +271,7 @@ public class PredatorGame extends GearzGame implements GameCountdownHandler {
         this.prey.clear();
         this.predator = null;
 
-        List<GearzPlayer> players = new LinkedList<>(getPlayers());
+        List<TBNRPlayer> players = new LinkedList<>(getPlayers());
         Collections.shuffle(players);
         predator = players.get(new Random().nextInt(getPlayers().size()));
         players.remove(predator);
@@ -288,7 +289,7 @@ public class PredatorGame extends GearzGame implements GameCountdownHandler {
 		}
 	}
 
-	protected Inventory getChooser(GearzPlayer player) {
+	protected Inventory getChooser(TBNRPlayer player) {
 		Gearz.getInstance().getLogger().info("getChooser: " + predator.toString() + " and " + predatorInventories.toString());
 		Gearz.getInstance().getLogger().info("getChooser: " + preyInventories.toString());
 		if(this.predator.equals(player)) {
@@ -300,7 +301,7 @@ public class PredatorGame extends GearzGame implements GameCountdownHandler {
 		}
 	}
 
-	private Inventory createInventory(GearzPlayer player, ArrayList<GearzItem> items, String name) {
+	private Inventory createInventory(TBNRPlayer player, ArrayList<GearzItem> items, String name) {
 		Gearz.getInstance().getLogger().info("created?!");
 		Inventory inventory = Bukkit.createInventory(player.getPlayer(), 36, name);
 		for(GearzItem item : items) {
@@ -344,7 +345,7 @@ public class PredatorGame extends GearzGame implements GameCountdownHandler {
                         ItemStack air = new ItemStack(Material.AIR);
                         items.set(items.indexOf(item), new InventoryGUI.InventoryGUIItem(air, ""));
                         gui.updateContents(items);
-                        preyGUIOpen.add(GearzPlayer.playerFromPlayer(player));
+                        preyGUIOpen.add(TBNRPlayer.playerFromPlayer(player));
                     }
 
                     @Override
@@ -388,7 +389,7 @@ public class PredatorGame extends GearzGame implements GameCountdownHandler {
                         ItemStack air = new ItemStack(Material.AIR);
                         items.set(items.indexOf(item), new InventoryGUI.InventoryGUIItem(air, ""));
                         gui.updateContents(items);
-                        predatorGUIOpen.add(GearzPlayer.playerFromPlayer(player));
+                        predatorGUIOpen.add(TBNRPlayer.playerFromPlayer(player));
                     }
 
                     @Override
@@ -406,13 +407,13 @@ public class PredatorGame extends GearzGame implements GameCountdownHandler {
     }*/
 
     public void openChoosingMenu() {
-        for(GearzPlayer player : getPlayers()) {
+        for(TBNRPlayer player : getPlayers()) {
 			player.getPlayer().openInventory(getChooser(player));
 		}
     }
 
 
-    public GearzPlayer getWinner() {
+    public TBNRPlayer getWinner() {
         return null;
     }
 }

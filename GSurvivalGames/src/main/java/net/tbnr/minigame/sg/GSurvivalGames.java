@@ -3,6 +3,7 @@ package net.tbnr.minigame.sg;
 import lombok.Getter;
 import net.tbnr.gearz.GearzException;
 import net.tbnr.gearz.GearzPlugin;
+import net.tbnr.manager.TBNRPlugin;
 import org.bukkit.Bukkit;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,7 +19,7 @@ import java.io.InputStreamReader;
  * Time: 10:38 AM
  * To change this template use File | Settings | File Templates.
  */
-public final class GSurvivalGames extends GearzPlugin {
+public final class GSurvivalGames extends TBNRPlugin {
     @Getter
     private static GSurvivalGames instance;
 

@@ -1,11 +1,11 @@
 package net.tbnr.manager;
 
 import net.tbnr.gearz.Gearz;
-import net.tbnr.gearz.event.player.PlayerChangeDonorPointsEvent;
-import net.tbnr.gearz.event.player.PlayerLevelChangeEvent;
-import net.tbnr.gearz.event.player.PlayerPointChangeEvent;
-import net.tbnr.gearz.event.player.PlayerXPChangeEvent;
 import net.tbnr.gearz.player.GearzPlayer;
+import net.tbnr.manager.event.PlayerChangeDonorPointsEvent;
+import net.tbnr.manager.event.PlayerLevelChangeEvent;
+import net.tbnr.manager.event.PlayerPointChangeEvent;
+import net.tbnr.manager.event.PlayerXPChangeEvent;
 import net.tbnr.util.player.TPlayer;
 import net.tbnr.util.player.TPlayerStorable;
 import org.bukkit.Bukkit;
