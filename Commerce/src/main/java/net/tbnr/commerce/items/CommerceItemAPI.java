@@ -2,6 +2,7 @@ package net.tbnr.commerce.items;
 
 import com.mongodb.BasicDBList;
 import net.tbnr.gearz.player.GearzPlayer;
+import net.tbnr.manager.TBNRPlayer;
 
 import java.util.List;
 
@@ -26,7 +27,7 @@ public interface CommerceItemAPI {
      * @param player The {@link net.tbnr.gearz.player.GearzPlayer} who has made this purchase.
      * @param clazz The {@link net.tbnr.commerce.items.CommerceItem} class that relates to this purchase.
      */
-    public void givePlayerItem(GearzPlayer player, Class<? extends CommerceItem> clazz);
+    public void givePlayerItem(TBNRPlayer player, Class<? extends CommerceItem> clazz);
 
     /**
      *
@@ -37,7 +38,7 @@ public interface CommerceItemAPI {
      *
      * @return If the player has purchased the item.
      */
-    public boolean playerHasItem(GearzPlayer player, Class<? extends CommerceItem> clazz);
+    public boolean playerHasItem(TBNRPlayer player, Class<? extends CommerceItem> clazz);
 
     /**
      *
@@ -75,13 +76,13 @@ public interface CommerceItemAPI {
      * @param player The {@link net.tbnr.gearz.player.GearzPlayer} to reload purchases for.
      */
     @SuppressWarnings("unchecked")
-    public void reloadPlayer(GearzPlayer player, Class<? extends CommerceItem>... recentlyPurchased);
+    public void reloadPlayer(TBNRPlayer player, Class<? extends CommerceItem>... recentlyPurchased);
 
     /**
      *
      * This will reload all of the players currently online.
      *
-     * Read the description for the {@link #reloadPlayer(net.tbnr.gearz.player.GearzPlayer, Class[])} for more details on what "reloading" is.
+     * Read the description for the {@link #reloadPlayer(TBNRPlayer, Class[])} for more details on what "reloading" is.
      *
      */
     public void reloadPlayers();
@@ -98,7 +99,7 @@ public interface CommerceItemAPI {
      *
      * @return The {@link BasicDBList} for this player.
      */
-    public BasicDBList getPurchaseList(GearzPlayer player);
+    public BasicDBList getPurchaseList(TBNRPlayer player);
 
     /**
      *
@@ -109,16 +110,16 @@ public interface CommerceItemAPI {
      * @param player The player to revoke the commerce item from.
      * @param item The item to revoke from the player.
      */
-    public void revokeItem(GearzPlayer player, CommerceItem item);
+    public void revokeItem(TBNRPlayer player, CommerceItem item);
 
     /**
      *
-     * Revoke an item similar to {@link #revokeItem(net.tbnr.gearz.player.GearzPlayer, CommerceItem)}
+     * Revoke an item similar to {@link #revokeItem(TBNRPlayer, CommerceItem)}
      *
      * @param player The player to revoke the item from.
      * @param item The class of the {@link CommerceItem} to remove from.
      */
-    public void revokeItem(GearzPlayer player, Class<? extends CommerceItem> item);
+    public void revokeItem(TBNRPlayer player, Class<? extends CommerceItem> item);
 
     /**
      *
@@ -127,7 +128,7 @@ public interface CommerceItemAPI {
      * @param player The player to get the instances for.
      * @return Instances of {@link CommerceItem} for this player.
      */
-    public List<CommerceItem> getItemsFor(GearzPlayer player);
+    public List<CommerceItem> getItemsFor(TBNRPlayer player);
 
     /**
      *
@@ -135,7 +136,7 @@ public interface CommerceItemAPI {
      * @param tier
      * @return
      */
-    public boolean canUseTier(GearzPlayer player, Tier tier);
+    public boolean canUseTier(TBNRPlayer player, Tier tier);
 
     /**
      *
@@ -155,7 +156,7 @@ public interface CommerceItemAPI {
      * @param item
      * @return
      */
-    public void testItemPurchase(GearzPlayer player, Class<? extends CommerceItem> item) throws PurchaseException;
+    public void testItemPurchase(TBNRPlayer player, Class<? extends CommerceItem> item) throws PurchaseException;
 
     /**
      *
@@ -164,7 +165,7 @@ public interface CommerceItemAPI {
      * @return
      * @throws PurchaseException
      */
-    public PurchaseResult purchaseItem(GearzPlayer player, Class<? extends CommerceItem> item) throws PurchaseException;
+    public PurchaseResult purchaseItem(TBNRPlayer player, Class<? extends CommerceItem> item) throws PurchaseException;
 
     /**
      *
@@ -172,7 +173,7 @@ public interface CommerceItemAPI {
      * @param item
      * @return
      */
-    public PurchaseResult purchaseItem(GearzPlayer player, Class<? extends CommerceItem> item, PurchaseMethod method) throws PurchaseException;
+    public PurchaseResult purchaseItem(TBNRPlayer player, Class<? extends CommerceItem> item, PurchaseMethod method) throws PurchaseException;
 
     /**
      * Check's whether a player can purchase a tier
@@ -180,7 +181,7 @@ public interface CommerceItemAPI {
      * @param tier ~ Tier to purchase
      * @return boolean ~ if player can purchase tier
      */
-    public boolean canPurchaseTier(GearzPlayer player, Tier tier);
+    public boolean canPurchaseTier(TBNRPlayer player, Tier tier);
 
     /**
      * Purchases a tier for the player
@@ -188,7 +189,7 @@ public interface CommerceItemAPI {
      * @param tier ~ The tier to buy
      * @return boolean ~ if it succeeded
      */
-    public PurchaseResult purchaseTier(GearzPlayer player, Tier tier) throws PurchaseException;
+    public PurchaseResult purchaseTier(TBNRPlayer player, Tier tier) throws PurchaseException;
 
     /**
      * Check If Player has a tier
@@ -196,7 +197,7 @@ public interface CommerceItemAPI {
      * @param tier ~ the tier to check
      * @return boolean ~ if player has tier
      */
-    public boolean hasTier(GearzPlayer player, Tier tier);
+    public boolean hasTier(TBNRPlayer player, Tier tier);
 
     /**
      *

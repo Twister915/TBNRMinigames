@@ -6,6 +6,7 @@ import net.tbnr.commerce.items.CommerceItemMeta;
 import net.tbnr.commerce.items.Tier;
 import net.tbnr.gearz.GearzException;
 import net.tbnr.gearz.player.GearzPlayer;
+import net.tbnr.manager.TBNRPlayer;
 
 @CommerceItemMeta(
         tier = Tier.Epic,
@@ -14,7 +15,7 @@ import net.tbnr.gearz.player.GearzPlayer;
 )
 @Deprecated
 public final class FireworkCreeper extends CommerceItem {
-    public FireworkCreeper(GearzPlayer player, CommerceItemAPI api) throws GearzException {
+    public FireworkCreeper(TBNRPlayer player, CommerceItemAPI api) throws GearzException {
         super(player, api);
     }
 }

@@ -9,6 +9,7 @@ import net.tbnr.gearz.GearzException;
 import net.tbnr.gearz.event.game.GameStartEvent;
 import net.tbnr.gearz.game.voting.PlayerMapVoteEvent;
 import net.tbnr.gearz.player.GearzPlayer;
+import net.tbnr.manager.TBNRPlayer;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -24,7 +25,7 @@ public final class FiftyVoteBoost extends CommerceItem {
     private boolean usedVote = false;
     private static final String storeKey = "votes_remain";
 
-    public FiftyVoteBoost(GearzPlayer player, CommerceItemAPI api) throws GearzException {
+    public FiftyVoteBoost(TBNRPlayer player, CommerceItemAPI api) throws GearzException {
         super(player, api);
     }
 

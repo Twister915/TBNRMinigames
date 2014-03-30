@@ -9,6 +9,7 @@ import net.tbnr.gearz.GearzException;
 import net.tbnr.gearz.event.player.PlayerGameKillEvent;
 import net.tbnr.gearz.packets.wrapper.WrapperPlayServerWorldParticles;
 import net.tbnr.gearz.player.GearzPlayer;
+import net.tbnr.manager.TBNRPlayer;
 import net.tbnr.util.player.TPlayer;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -23,7 +24,7 @@ import org.bukkit.inventory.meta.ItemMeta;
         item = Material.RED_ROSE
 )
 public final class RoseOfDeath extends CommerceItem {
-    public RoseOfDeath(GearzPlayer player, CommerceItemAPI api) throws GearzException {
+    public RoseOfDeath(TBNRPlayer player, CommerceItemAPI api) throws GearzException {
         super(player, api);
     }
     @EventHandler

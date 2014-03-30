@@ -11,6 +11,8 @@ import net.tbnr.commerce.GearzCommerce;
 import net.tbnr.commerce.items.definitions.*;
 import net.tbnr.gearz.Gearz;
 import net.tbnr.gearz.player.GearzPlayer;
+import net.tbnr.manager.TBNRNetworkManager;
+import net.tbnr.manager.TBNRPlayer;
 import net.tbnr.util.command.TCommand;
 import net.tbnr.util.command.TCommandHandler;
 import net.tbnr.util.command.TCommandSender;
@@ -82,7 +84,7 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
         reloadPlayers();
     }
     @Override
-    public void reloadPlayer(GearzPlayer player, Class<? extends CommerceItem>... recentlyPurchased) {
+    public void reloadPlayer(TBNRPlayer player, Class<? extends CommerceItem>... recentlyPurchased) {
         GearzCommerce.getInstance().getLogger().info("Loading player " + player.getUsername() + "...");
         BasicDBList commerce_purchases = getPurchaseList(player);
         if (this.playerCommerceData.containsKey(player)) {
@@ -122,7 +124,7 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
         return false;
     }
 
-    public BasicDBList getPurchaseList(GearzPlayer player) {
+    public BasicDBList getPurchaseList(TBNRPlayer player) {
         DBObject playerDocument = player.getTPlayer().getPlayerDocument();
         BasicDBList commerce_purchases;
         try {
@@ -137,17 +139,17 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
     public void reloadPlayers() {
         this.playerCommerceData = new HashMap<>();
         for (TPlayer tPlayer : TPlayerManager.getInstance().getPlayers()) {
-            reloadPlayer(GearzPlayer.playerFromTPlayer(tPlayer));
+            reloadPlayer(TBNRNetworkManager.getInstance().getPlayerProvider().getPlayerFromTPlayer(tPlayer));
         }
     }
 
     @Override
-    public void revokeItem(GearzPlayer player, CommerceItem item) {
+    public void revokeItem(TBNRPlayer player, CommerceItem item) {
         revokeItem(player, item.getClass());
     }
 
     @Override
-    public void revokeItem(GearzPlayer player, Class<? extends CommerceItem> item) {
+    public void revokeItem(TBNRPlayer player, Class<? extends CommerceItem> item) {
         if (!playerHasItem(player, item)) return;
         CommerceItemMeta metaFor = getMetaFor(item);
         BasicDBList purchaseList = getPurchaseList(player);
@@ -177,17 +179,17 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
     }
 
     @Override
-    public List<CommerceItem> getItemsFor(GearzPlayer player) {
+    public List<CommerceItem> getItemsFor(TBNRPlayer player) {
         return this.playerCommerceData.get(player).getItems();
     }
 
     @Override
-    public boolean canUseTier(GearzPlayer player, Tier tier) {
+    public boolean canUseTier(TBNRPlayer player, Tier tier) {
         return !tier.isMustBePurchased() || hasTier(player, tier);
     }
 
     @Override
-    public void testItemPurchase(GearzPlayer player, Class<? extends CommerceItem> item) throws PurchaseException{
+    public void testItemPurchase(TBNRPlayer player, Class<? extends CommerceItem> item) throws PurchaseException{
         if (playerHasItem(player, item)) throw new PurchaseException("You already have this item!");
         CommerceItemMeta metaFor = getMetaFor(item);
         boolean hasPoints = player.getPoints() >= metaFor.tier().getPoints();
@@ -200,14 +202,14 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
     }
 
     @Override
-    public PurchaseResult purchaseItem(GearzPlayer player, Class<? extends CommerceItem> item) throws PurchaseException {
+    public PurchaseResult purchaseItem(TBNRPlayer player, Class<? extends CommerceItem> item) throws PurchaseException {
         testItemPurchase(player, item);
         if (!(player.getDonorPoints() >= getMetaFor(item).tier().getDonorCredits())) return purchaseItem(player, item, PurchaseMethod.Points);
         else return purchaseItem(player, item, PurchaseMethod.Donor);
     }
 
     @Override
-    public PurchaseResult purchaseItem(GearzPlayer player, Class<? extends CommerceItem> item, PurchaseMethod method) throws PurchaseException {
+    public PurchaseResult purchaseItem(TBNRPlayer player, Class<? extends CommerceItem> item, PurchaseMethod method) throws PurchaseException {
         testItemPurchase(player, item);
         Tier tier = getMetaFor(item).tier();
         int spent;
@@ -228,7 +230,7 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
     }
 
     @Override
-    public boolean canPurchaseTier(GearzPlayer player, Tier tier) {
+    public boolean canPurchaseTier(TBNRPlayer player, Tier tier) {
         if (!tier.isMustBePurchased()) return false;
         boolean hasRquires = true;
         if (tier.getRequires() != null) {
@@ -240,7 +242,7 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
     }
 
     @Override
-    public PurchaseResult purchaseTier(GearzPlayer player, Tier tier) throws PurchaseException{
+    public PurchaseResult purchaseTier(TBNRPlayer player, Tier tier) throws PurchaseException{
         if (!canPurchaseTier(player, tier)) throw new PurchaseException("You cannot purchase this tier!");
         TPlayer tPlayer = player.getTPlayer();
         DBObject playerDocument = tPlayer.getPlayerDocument();
@@ -258,7 +260,7 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
     }
 
     @Override
-    public boolean hasTier(GearzPlayer player, Tier tier) {
+    public boolean hasTier(TBNRPlayer player, Tier tier) {
         if (!tier.isMustBePurchased()) return true;
         TPlayer tPlayer = player.getTPlayer();
         DBObject playerDocument = tPlayer.getPlayerDocument();
@@ -277,7 +279,7 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
         return Tier.values();
     }
 
-    private CommerceItem constructCommerceItem(String key, GearzPlayer player) {
+    private CommerceItem constructCommerceItem(String key, TBNRPlayer player) {
         CommerceItem item;
         Class<? extends CommerceItem> itemForID = getItemForID(key);
         try {
@@ -290,16 +292,16 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
     }
     @EventHandler
     public void onPlayerJoin(TPlayerJoinEvent event) {
-        reloadPlayer(GearzPlayer.playerFromTPlayer(event.getPlayer()));
+        reloadPlayer(TBNRNetworkManager.getInstance().getPlayerProvider().getPlayerFromTPlayer(event.getPlayer()));
     }
 
     @EventHandler
     public void onPlayerDisconnect(TPlayerDisconnectEvent event) {
-        this.playerCommerceData.remove(GearzPlayer.playerFromTPlayer(event.getPlayer()));
+        this.playerCommerceData.remove(TBNRNetworkManager.getInstance().getPlayerProvider().getPlayerFromTPlayer(event.getPlayer()));
     }
 
     @Override
-    public void givePlayerItem(GearzPlayer player, Class<? extends CommerceItem> clazz) {
+    public void givePlayerItem(TBNRPlayer player, Class<? extends CommerceItem> clazz) {
         BasicDBList purchaseList = getPurchaseList(player);
         purchaseList.add(BasicDBObjectBuilder.start().add("key", getMetaFor(clazz).key()).add("date_time", new Date()).get());
         DBObject playerDocument = player.getTPlayer().getPlayerDocument();
@@ -309,7 +311,7 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
     }
 
     @Override
-    public boolean playerHasItem(GearzPlayer player, Class<? extends CommerceItem> clazz) {
+    public boolean playerHasItem(TBNRPlayer player, Class<? extends CommerceItem> clazz) {
         PlayerCommerceItems playerCommerceItems = this.playerCommerceData.get(player);
         for (CommerceItem commerceItem : playerCommerceItems.getItems()) {
             if (commerceItem.getClass().equals(clazz)) return true;
@@ -354,9 +356,9 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
     public TCommandStatus manageCactus(CommandSender sender, TCommandSender type, TCommand meta, Command command, String[] args) {
         if (args.length < 2) return TCommandStatus.FEW_ARGS;
         if (args.length > 2 && type == TCommandSender.Player) return TCommandStatus.MANY_ARGS;
-        GearzPlayer target;
+        TBNRPlayer target;
         try {
-            target = GearzPlayer.playerFromPlayer(Bukkit.getPlayer(args[1]));
+            target = TBNRNetworkManager.getInstance().getPlayerProvider().getPlayerFromPlayer(Bukkit.getPlayer(args[1]));
         } catch (NullPointerException ex) {
             sender.sendMessage(ChatColor.RED + "Player not found!");
             return TCommandStatus.INVALID_ARGS;

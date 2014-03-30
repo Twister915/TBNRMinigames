@@ -2,6 +2,7 @@ package net.tbnr.minigame.eg;
 
 import net.tbnr.gearz.GearzException;
 import net.tbnr.gearz.GearzPlugin;
+import net.tbnr.manager.TBNRPlugin;
 import org.bukkit.Bukkit;
 
 /**
@@ -11,7 +12,7 @@ import org.bukkit.Bukkit;
  *
  * Latest Change:
  */
-public final class GEnderzGame extends GearzPlugin {
+public final class GEnderzGame extends TBNRPlugin {
     @Override
     public void enable() {
         try {

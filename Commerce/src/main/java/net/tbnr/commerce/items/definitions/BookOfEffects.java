@@ -6,7 +6,7 @@ import net.tbnr.commerce.items.CommerceItemMeta;
 import net.tbnr.commerce.items.Tier;
 import net.tbnr.gearz.Gearz;
 import net.tbnr.gearz.GearzException;
-import net.tbnr.gearz.player.GearzPlayer;
+import net.tbnr.manager.TBNRPlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -18,7 +18,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 )
 @Deprecated
 public final class BookOfEffects extends CommerceItem {
-    public BookOfEffects(GearzPlayer player, CommerceItemAPI api) throws GearzException {
+    public BookOfEffects(TBNRPlayer player, CommerceItemAPI api) throws GearzException {
         super(player, api);
     }
 
@@ -29,7 +29,7 @@ public final class BookOfEffects extends CommerceItem {
     @EventHandler(priority =  EventPriority.MONITOR)
     public void onPlayerJoin(PlayerJoinEvent event) {
         if (!Gearz.getInstance().isLobbyServer()) return;
-        GearzPlayer player = GearzPlayer.playerFromPlayer(event.getPlayer());
+        TBNRPlayer player = resolveTbnrPlayer(event.getPlayer());
         if (!this.getPlayer().equals(player)) return;
         //TPlayer tPlayer = player.getTPlayer();
         //TODO give the player a book, if they don't already have it.

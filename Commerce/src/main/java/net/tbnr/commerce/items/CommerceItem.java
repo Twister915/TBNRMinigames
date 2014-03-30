@@ -6,7 +6,9 @@ import lombok.Data;
 import lombok.ToString;
 import net.tbnr.commerce.GearzCommerce;
 import net.tbnr.gearz.GearzException;
-import net.tbnr.gearz.player.GearzPlayer;
+import net.tbnr.manager.TBNRNetworkManager;
+import net.tbnr.manager.TBNRPlayer;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 
 import java.lang.annotation.Annotation;
@@ -15,12 +17,12 @@ import java.lang.annotation.Annotation;
 @ToString
 public abstract class CommerceItem implements Listener {
 
-    private final GearzPlayer player;
+    private final TBNRPlayer player;
     private final CommerceItemMeta meta;
     private final DBObject playerDoc;
     private final CommerceItemAPI api;
 
-    public CommerceItem(GearzPlayer player, CommerceItemAPI api) throws GearzException {
+    public CommerceItem(TBNRPlayer player, CommerceItemAPI api) throws GearzException {
         Annotation[] declaredAnnotations = getClass().getDeclaredAnnotations();
         CommerceItemMeta meta = null;
         for (Annotation declaredAnnotation : declaredAnnotations) {
@@ -101,5 +103,9 @@ public abstract class CommerceItem implements Listener {
             return o1;
         }
         throw new RuntimeException("Could not find document for this commerce item!");
+    }
+
+    protected TBNRPlayer resolveTbnrPlayer(Player player) {
+        return TBNRNetworkManager.getInstance().getPlayerProvider().getPlayerFromPlayer(player);
     }
 }

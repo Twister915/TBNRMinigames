@@ -6,6 +6,7 @@ import net.tbnr.commerce.items.Tier;
 import net.tbnr.gearz.GearzException;
 import net.tbnr.gearz.packets.wrapper.WrapperPlayServerWorldParticles;
 import net.tbnr.gearz.player.GearzPlayer;
+import net.tbnr.manager.TBNRPlayer;
 import net.tbnr.util.player.TPlayer;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -21,7 +22,7 @@ import java.util.Set;
         item = Material.INK_SACK
 )
 public final class IntoTheShadows extends AbstractDeathItem {
-    public IntoTheShadows(GearzPlayer player, CommerceItemAPI api) throws GearzException {
+    public IntoTheShadows(TBNRPlayer player, CommerceItemAPI api) throws GearzException {
         super(player, api);
     }
 
@@ -30,7 +31,7 @@ public final class IntoTheShadows extends AbstractDeathItem {
         Location location = getPlayer().getPlayer().getLocation();
         Set<GearzPlayer> players = new HashSet<>();
         for (Player player : location.getWorld().getPlayers()) {
-            if (player.getLocation().distanceSquared(location) < 900) players.add(GearzPlayer.playerFromPlayer(player));
+            if (player.getLocation().distanceSquared(location) < 900) players.add(resolveTbnrPlayer(player));
         }
         for (GearzPlayer player : players) {
             try {

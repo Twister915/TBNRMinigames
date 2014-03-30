@@ -5,7 +5,7 @@ import net.tbnr.commerce.items.CommerceItemMeta;
 import net.tbnr.commerce.items.Tier;
 import net.tbnr.gearz.Gearz;
 import net.tbnr.gearz.GearzException;
-import net.tbnr.gearz.player.GearzPlayer;
+import net.tbnr.manager.TBNRPlayer;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -21,7 +21,7 @@ public class ColoredArmor extends AbstractArmorItem {
     private static final Material[] leatherArmor =
             new Material[]{Material.LEATHER_HELMET, Material.LEATHER_CHESTPLATE, Material.LEATHER_LEGGINGS, Material.LEATHER_BOOTS};
 
-    public ColoredArmor(GearzPlayer player, CommerceItemAPI api) throws GearzException {
+    public ColoredArmor(TBNRPlayer player, CommerceItemAPI api) throws GearzException {
         super(player, api);
     }
 

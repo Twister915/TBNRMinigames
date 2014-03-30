@@ -4,6 +4,7 @@ import lombok.*;
 import net.tbnr.commerce.GearzCommerce;
 import net.tbnr.commerce.items.*;
 import net.tbnr.gearz.player.GearzPlayer;
+import net.tbnr.manager.TBNRPlayer;
 import net.tbnr.util.inventory.InventoryGUI;
 import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
@@ -18,10 +19,10 @@ public final class Shop implements PlayerShop {
     private final ShopGUI shopGui;
     private final ShopGUI tierGui;
     private final ShopGUI mainGui;
-    private final GearzPlayer player;
+    private final TBNRPlayer player;
     private final CommerceItemAPI api;
 
-    public Shop(GearzPlayer player, CommerceItemAPI api) {
+    public Shop(TBNRPlayer player, CommerceItemAPI api) {
         this.player = player;
         this.api = api;
         shopGui = getInvetoryGui(GuiKey.Shop);

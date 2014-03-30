@@ -5,11 +5,12 @@ import net.tbnr.commerce.items.CommerceItemAPI;
 import net.tbnr.gearz.GearzException;
 import net.tbnr.gearz.event.player.PlayerGameDeathEvent;
 import net.tbnr.gearz.player.GearzPlayer;
+import net.tbnr.manager.TBNRPlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 
 public abstract class AbstractDeathItem extends CommerceItem {
-    public AbstractDeathItem(GearzPlayer player, CommerceItemAPI api) throws GearzException {
+    public AbstractDeathItem(TBNRPlayer player, CommerceItemAPI api) throws GearzException {
         super(player, api);
     }
 

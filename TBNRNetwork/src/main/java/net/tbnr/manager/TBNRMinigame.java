@@ -3,6 +3,7 @@ package net.tbnr.manager;
 import net.tbnr.gearz.GearzPlugin;
 import net.tbnr.gearz.arena.Arena;
 import net.tbnr.gearz.game.GameMeta;
+import net.tbnr.gearz.game.GameStopCause;
 import net.tbnr.gearz.game.GearzGame;
 import net.tbnr.gearz.game.GearzPlayerProvider;
 
@@ -33,4 +34,36 @@ public abstract class TBNRMinigame extends GearzGame<TBNRPlayer> {
     }
 
     protected abstract int xpForPlaying();
+
+    @Override
+    public void onPlayerGameEnd(TBNRPlayer player, GameStopCause cause) {
+        if (cause == GameStopCause.GAME_END) {
+            if (!getAddedPlayers().contains(player)) {
+                int points = 0;
+                if (this.pendingPoints.containsKey(player)) {
+                    points = this.pendingPoints.get(player);
+                }
+                player.addPoints(points);
+                player.addXp(xpForPlaying());
+                player.getTPlayer().sendMessage(getFormat("xp-earned", new String[]{"<xp>", String.valueOf(xpForPlaying())}));
+                player.getTPlayer().sendMessage(getFormat("points-earned", new String[]{"<points>", String.valueOf(points)}));
+            }
+        } else {
+            player.getTPlayer().sendMessage(getFormat("game-void"));
+        }
+        if (player.isValid()) {
+            player.setHideStats(false);
+        }
+    }
+
+    @Override
+    public void onPlayerBecomePlayer(TBNRPlayer player) {
+        this.pendingPoints.put(player, 0);
+        player.setHideStats(true);
+    }
+
+    @Override
+    public void onPlayerBecomeSpectator(TBNRPlayer player) {
+        player.setHideStats(false);
+    }
 }

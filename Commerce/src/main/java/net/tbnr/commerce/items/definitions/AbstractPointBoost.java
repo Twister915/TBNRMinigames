@@ -6,6 +6,7 @@ import net.tbnr.commerce.items.CommerceItemAPI;
 import net.tbnr.gearz.GearzException;
 import net.tbnr.gearz.event.player.PlayerPointChangeEvent;
 import net.tbnr.gearz.player.GearzPlayer;
+import net.tbnr.manager.TBNRPlayer;
 import net.tbnr.util.player.TPlayer;
 import org.bukkit.Sound;
 import org.bukkit.event.EventHandler;
@@ -15,7 +16,7 @@ import java.util.Date;
 public abstract class AbstractPointBoost extends CommerceItem {
     private final String message;
     private final double percentage;
-    public AbstractPointBoost(GearzPlayer player, CommerceItemAPI api) throws GearzException {
+    public AbstractPointBoost(TBNRPlayer player, CommerceItemAPI api) throws GearzException {
         super(player, api);
         this.percentage = ((double)percentageBoost()/100)+1;
         this.message = GearzCommerce.getInstance().getFormat("formats.point-boost-message", false, new String[]{"<perc>", String.valueOf(percentageBoost())});

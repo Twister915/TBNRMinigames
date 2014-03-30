@@ -6,6 +6,8 @@ import net.tbnr.commerce.items.shop.PlayerShop;
 import net.tbnr.commerce.items.shop.Shop;
 import net.tbnr.gearz.Gearz;
 import net.tbnr.gearz.player.GearzPlayer;
+import net.tbnr.manager.TBNRNetworkManager;
+import net.tbnr.manager.TBNRPlayer;
 import net.tbnr.util.command.TCommand;
 import net.tbnr.util.command.TCommandHandler;
 import net.tbnr.util.command.TCommandSender;
@@ -25,7 +27,7 @@ import java.util.HashMap;
  */
 public class ShopManager implements TCommandHandler {
 
-    @Getter private final HashMap<GearzPlayer, PlayerShop> players;
+    @Getter private final HashMap<TBNRPlayer, PlayerShop> players;
 
     {
         players = new HashMap<>();
@@ -42,10 +44,10 @@ public class ShopManager implements TCommandHandler {
             sender.sendMessage(GearzCommerce.getInstance().getFormat("formats.must-be-hub"));
             return TCommandStatus.SUCCESSFUL;
         }
-        GearzPlayer gearzPlayer = GearzPlayer.playerFromPlayer((Player) sender);
+        TBNRPlayer player = TBNRNetworkManager.getInstance().getPlayerProvider().getPlayerFromPlayer((Player) sender);
         synchronized (players) {
-            PlayerShop shop = new Shop(gearzPlayer, GearzCommerce.getInstance().getItemAPI());
-            players.put(gearzPlayer, shop);
+            PlayerShop shop = new Shop(player, GearzCommerce.getInstance().getItemAPI());
+            players.put(player, shop);
             shop.open();
         }
         return TCommandStatus.SUCCESSFUL;

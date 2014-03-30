@@ -4,7 +4,7 @@ import net.tbnr.commerce.items.CommerceItemAPI;
 import net.tbnr.commerce.items.CommerceItemMeta;
 import net.tbnr.commerce.items.Tier;
 import net.tbnr.gearz.GearzException;
-import net.tbnr.gearz.player.GearzPlayer;
+import net.tbnr.manager.TBNRPlayer;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 
@@ -16,7 +16,7 @@ import org.bukkit.Sound;
         item = Material.EGG
 )
 public final class ChickenShout extends AbstractSoundItem {
-    public ChickenShout(GearzPlayer player, CommerceItemAPI api) throws GearzException {
+    public ChickenShout(TBNRPlayer player, CommerceItemAPI api) throws GearzException {
         super(player, api);
     }
 

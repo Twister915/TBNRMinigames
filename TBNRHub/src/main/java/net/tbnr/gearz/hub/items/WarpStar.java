@@ -1,11 +1,14 @@
 package net.tbnr.gearz.hub.items;
 
+import net.tbnr.gearz.Gearz;
 import net.tbnr.gearz.hub.TBNRHub;
 import net.tbnr.gearz.hub.annotations.HubItem;
 import net.tbnr.gearz.hub.annotations.HubItemMeta;
 import net.tbnr.gearz.hub.items.warpstar.WarpStarConfig;
 import net.tbnr.gearz.player.GearzPlayer;
+import net.tbnr.manager.TBNRPlayer;
 import net.tbnr.util.inventory.InventoryGUI;
+import net.tbnr.util.player.TPlayer;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -45,8 +48,9 @@ public class WarpStar extends HubItem {
                     return;
                 }
                 player.sendMessage(TBNRHub.getInstance().getFormat("warped-to", true, new String[]{"<prefix>", TBNRHub.getInstance().getChatPrefix()}, new String[]{"<warp>", item.getName()}));
-                GearzPlayer.playerFromPlayer(player).getTPlayer().playSound(Sound.ENDERMAN_TELEPORT);
-                GearzPlayer.playerFromPlayer(player).getTPlayer().playSound(Sound.CHICKEN_EGG_POP);
+                TPlayer tPlayer = Gearz.getInstance().getPlayerManager().getPlayer(player);
+                tPlayer.playSound(Sound.ENDERMAN_TELEPORT);
+                tPlayer.playSound(Sound.CHICKEN_EGG_POP);
             }
 
             @Override

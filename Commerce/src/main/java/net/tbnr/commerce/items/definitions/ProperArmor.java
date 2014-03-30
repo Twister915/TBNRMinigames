@@ -6,6 +6,7 @@ import net.tbnr.commerce.items.Tier;
 import net.tbnr.gearz.Gearz;
 import net.tbnr.gearz.GearzException;
 import net.tbnr.gearz.player.GearzPlayer;
+import net.tbnr.manager.TBNRPlayer;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -17,7 +18,7 @@ import org.bukkit.inventory.ItemStack;
 )
 public final class ProperArmor extends AbstractArmorItem {
 
-    public ProperArmor(GearzPlayer player, CommerceItemAPI api) throws GearzException {
+    public ProperArmor(TBNRPlayer player, CommerceItemAPI api) throws GearzException {
         super(player, api);
     }
 

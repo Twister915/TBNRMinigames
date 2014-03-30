@@ -6,6 +6,7 @@ import net.tbnr.commerce.items.CommerceItemMeta;
 import net.tbnr.commerce.items.Tier;
 import net.tbnr.gearz.GearzException;
 import net.tbnr.gearz.player.GearzPlayer;
+import net.tbnr.manager.TBNRPlayer;
 import org.bukkit.Material;
 
 @CommerceItemMeta(
@@ -15,7 +16,7 @@ import org.bukkit.Material;
         item = Material.TNT
 )
 public final class SpontaneousCombustion extends CommerceItem {
-    public SpontaneousCombustion(GearzPlayer player, CommerceItemAPI api) throws GearzException {
+    public SpontaneousCombustion(TBNRPlayer player, CommerceItemAPI api) throws GearzException {
         super(player, api);
     }
 }

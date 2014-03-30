@@ -5,11 +5,12 @@ import net.tbnr.commerce.items.CommerceItemAPI;
 import net.tbnr.gearz.GearzException;
 import net.tbnr.gearz.event.player.PlayerGameDamageByPlayerEvent;
 import net.tbnr.gearz.player.GearzPlayer;
+import net.tbnr.manager.TBNRPlayer;
 import org.bukkit.Sound;
 import org.bukkit.event.EventHandler;
 
 public abstract class AbstractSoundItem extends CommerceItem {
-    public AbstractSoundItem(GearzPlayer player, CommerceItemAPI api) throws GearzException {
+    public AbstractSoundItem(TBNRPlayer player, CommerceItemAPI api) throws GearzException {
         super(player, api);
     }
 
