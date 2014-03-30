@@ -16,7 +16,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
-public class TBNRPlayerUtils implements TCommandHandler, Listener {
+public final class TBNRPlayerUtils implements TCommandHandler, Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     @SuppressWarnings("unused")
     public void onLevelChange(PlayerLevelChangeEvent event) {

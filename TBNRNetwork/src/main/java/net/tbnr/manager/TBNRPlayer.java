@@ -10,7 +10,7 @@ import net.tbnr.util.player.TPlayer;
 import net.tbnr.util.player.TPlayerStorable;
 import org.bukkit.Bukkit;
 
-public class TBNRPlayer extends GearzPlayer {
+public final class TBNRPlayer extends GearzPlayer {
     public TBNRPlayer(TPlayer player) {
         super(player);
     }

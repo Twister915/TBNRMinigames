@@ -8,7 +8,7 @@ import net.tbnr.gearz.player.GearzPlayer;
 import net.tbnr.util.TPlugin;
 import org.bukkit.Bukkit;
 
-public class TBNRNetworkManager extends GearzNetworkManagerPlugin<TBNRPlayer> {
+public final class TBNRNetworkManager extends GearzNetworkManagerPlugin<TBNRPlayer> {
     @Getter private TBNRPlayerProvider playerProvider;
     @Getter private static TBNRNetworkManager instance;
 
