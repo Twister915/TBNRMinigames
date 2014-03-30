@@ -49,7 +49,6 @@ public class SignEdit implements Listener, TCommandHandler {
         Sign sign = (Sign) event.getClickedBlock().getState();
         Sign gui = (Sign) event.getClickedBlock().getState();
         for (int i = 0; i <= sign.getLines().length - 1; i++) {
-            TBNRHub.getInstance().getLogger().info("SignEdit >>>> THE LINE is: " + sign.getLine(i));
             if (sign.getLine(i) == null) continue;
             gui.setLine(i, sign.getLine(i));
         }
@@ -62,7 +61,6 @@ public class SignEdit implements Listener, TCommandHandler {
         if (!this.players.containsKey(event.getPlayer().getName())) return;
         Sign sign = players.get(event.getPlayer().getName());
         for (int i = 0; i <= event.getLines().length - 1; i++) {
-            TBNRHub.getInstance().getLogger().info("SignEdit >>>> Line is: " + event.getLine(i));
             if (event.getLine(i) == null) continue;
             sign.setLine(i, event.getLine(i));
         }

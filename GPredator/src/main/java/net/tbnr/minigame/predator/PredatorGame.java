@@ -290,8 +290,6 @@ public class PredatorGame extends TBNRMinigame implements GameCountdownHandler {
 	}
 
 	protected Inventory getChooser(TBNRPlayer player) {
-		Gearz.getInstance().getLogger().info("getChooser: " + predator.toString() + " and " + predatorInventories.toString());
-		Gearz.getInstance().getLogger().info("getChooser: " + preyInventories.toString());
 		if(this.predator.equals(player)) {
 			if(!predatorInventories.containsKey(player)) { predatorInventories.put(player, createInventory(player, predatorItems, PREDATOR_MENU_TITLE)); }
 			return predatorInventories.get(player);
@@ -302,7 +300,6 @@ public class PredatorGame extends TBNRMinigame implements GameCountdownHandler {
 	}
 
 	private Inventory createInventory(TBNRPlayer player, ArrayList<GearzItem> items, String name) {
-		Gearz.getInstance().getLogger().info("created?!");
 		Inventory inventory = Bukkit.createInventory(player.getPlayer(), 36, name);
 		for(GearzItem item : items) {
 			inventory.addItem(item.getItemStack());

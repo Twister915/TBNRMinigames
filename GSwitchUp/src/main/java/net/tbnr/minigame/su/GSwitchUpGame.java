@@ -356,7 +356,9 @@ public final class GSwitchUpGame extends TBNRMinigame implements GameCountdownHa
         this.classesToCycle = new ArrayList<>();
         for (String classFilename : GSwitchUpGame.classFilenames) {
             JSONObject jsonResource = GearzClassSelector.getJSONResource(classFilename, getPlugin());
-            if (jsonResource == null) getPlugin().getLogger().severe("Error loading class " + classFilename + " : Does Not Exist.");
+            if (jsonResource == null) {
+                getPlugin().getLogger().severe("Error loading class " + classFilename + " : Does Not Exist.");
+            }
             GearzClass gearzClass;
             try {
                 gearzClass = GearzClass.classFromJsonObject(jsonResource);

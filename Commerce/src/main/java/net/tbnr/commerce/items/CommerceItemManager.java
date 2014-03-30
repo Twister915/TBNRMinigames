@@ -7,7 +7,6 @@ import com.mongodb.DBObject;
 import lombok.Data;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import net.tbnr.commerce.GearzCommerce;
 import net.tbnr.commerce.items.definitions.*;
 import net.tbnr.gearz.Gearz;
 import net.tbnr.gearz.player.GearzPlayer;
@@ -85,7 +84,7 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
     }
     @Override
     public void reloadPlayer(TBNRPlayer player, Class<? extends CommerceItem>... recentlyPurchased) {
-        GearzCommerce.getInstance().getLogger().info("Loading player " + player.getUsername() + "...");
+        Gearz.getInstance().debug("Loading player " + player.getUsername() + "...");
         BasicDBList commerce_purchases = getPurchaseList(player);
         if (this.playerCommerceData.containsKey(player)) {
             for (CommerceItem commerceItem : this.playerCommerceData.get(player).getItems()) {

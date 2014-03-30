@@ -69,7 +69,6 @@ public class TBNRHub extends TPlugin implements TCommandHandler {
 			    Arrays.asList(PacketType.Status.Server.OUT_SERVER_INFO, Status.Server.OUT_PING), ListenerOptions.ASYNC) {
 
 		    public void onPacketSending(PacketEvent event) {
-			    getLogger().info("ping came Through!!!!!!!!!!!");
 			    handlePing(event.getPacket().getServerPings().read(0));
 		    }
 	    });
@@ -158,18 +157,6 @@ public class TBNRHub extends TPlugin implements TCommandHandler {
         return getFormat("prefix");
     }
 
-    /*
-    @TCommand(
-            name = "test",
-            usage = "Test command!",
-            permission = "gearz.test",
-            senders = {TCommandSender.Player, TCommandSender.Console}
-    )
-    public TCommandStatus test(CommandSender sender, TCommandSender type, TCommand meta, Command command, String[] args) {
-        sender.sendMessage(ChatColor.GREEN + "Gearz Engine test!");
-        return TCommandStatus.SUCCESSFUL;
-    }
-     */
     @SuppressWarnings("unused")
     public static void handleCommandStatus(TCommandStatus status, CommandSender sender) {
         if (status == TCommandStatus.SUCCESSFUL) return;
@@ -187,7 +174,7 @@ public class TBNRHub extends TPlugin implements TCommandHandler {
             for (World world : Bukkit.getServer().getWorlds()) world.save();
 
             Bukkit.broadcast(ChatColor.GREEN + "World saved!", "gearz.notifysave");
-            TBNRHub.getInstance().getLogger().info("Saved the world.");
+            Gearz.getInstance().debug("Saved the world.");
         }
     }
 
