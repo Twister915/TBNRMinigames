@@ -22,7 +22,7 @@ import org.bukkit.entity.Player;
  * @author jake
  * @since 3/30/2014
  */
-public class UtilCommands implements TCommandHandler {
+public final class UtilCommands implements TCommandHandler {
     @TCommand(
             name = "clearchat",
             usage = "/clearchat",
