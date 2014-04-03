@@ -4,14 +4,14 @@ import lombok.Getter;
 import net.tbnr.gearz.Gearz;
 import net.tbnr.gearz.network.GearzNetworkManagerPlugin;
 import net.tbnr.gearz.network.GearzPlayerProvider;
-import net.tbnr.gearz.player.GearzPlayer;
+import net.tbnr.manager.classes.pass.ClassPassManager;
 import net.tbnr.manager.command.UtilCommands;
-import net.tbnr.util.TPlugin;
 import org.bukkit.Bukkit;
 
 public final class TBNRNetworkManager extends GearzNetworkManagerPlugin<TBNRPlayer> {
     @Getter private TBNRPlayerProvider playerProvider;
     @Getter private static TBNRNetworkManager instance;
+    @Getter private ClassPassManager classPassManager;
 
     @Override
     public void enable() {
@@ -21,6 +21,7 @@ public final class TBNRNetworkManager extends GearzNetworkManagerPlugin<TBNRPlay
         registerCommands(tbnrPlayerUtils);
         registerCommands(new UtilCommands());
         registerEvents(tbnrPlayerUtils);
+        classPassManager = new ClassPassManager();
     }
 
     @Override

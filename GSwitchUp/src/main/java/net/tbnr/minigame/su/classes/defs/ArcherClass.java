@@ -7,7 +7,7 @@ import net.tbnr.minigame.su.classes.SwitchUpClass;
 
 @GearzClassMeta(
         name = "Archer",
-        description = "Shoot your enemies!"
+        key = "su_archer"
 )
 public final class ArcherClass extends SwitchUpClass {
     public ArcherClass(TBNRPlayer player, GearzGame game) {
