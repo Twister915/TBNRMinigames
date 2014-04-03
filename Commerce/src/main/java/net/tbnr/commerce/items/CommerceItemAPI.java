@@ -42,7 +42,7 @@ public interface CommerceItemAPI {
 
     /**
      *
-     * Takes the "key" and searches all commerce items for any matching item classes
+     * Takes the "key" and searches all commerce items for any matching item kits
      *
      * @param key The key to search for (based on {@link net.tbnr.commerce.items.CommerceItemMeta}'s key variable).
      *

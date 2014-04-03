@@ -7,6 +7,7 @@ import net.tbnr.gearz.game.GameMeta;
 import net.tbnr.gearz.network.GearzPlayerProvider;
 import net.tbnr.manager.TBNRMinigame;
 import net.tbnr.manager.TBNRPlayer;
+import net.tbnr.manager.classes.TBNRAbstractClass;
 import net.tbnr.util.ColoringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -42,7 +43,7 @@ public final class ASGame extends TBNRMinigame {
 
     public final ArrayList<Material> weapons = Lists.newArrayList(Material.IRON_SWORD, Material.STONE_SWORD, Material.GOLD_SWORD, Material.GOLD_AXE, Material.GOLD_PICKAXE, Material.GOLD_SPADE);
 
-    public ASGame(List<TBNRPlayer> players, Arena arena, GearzPlugin<TBNRPlayer> plugin, GameMeta meta, Integer id, GearzPlayerProvider<TBNRPlayer> playerProvider) {
+    public ASGame(List<TBNRPlayer> players, Arena arena, GearzPlugin<TBNRPlayer, TBNRAbstractClass> plugin, GameMeta meta, Integer id, GearzPlayerProvider<TBNRPlayer> playerProvider) {
         super(players, arena, plugin, meta, id, playerProvider);
         if (!(arena instanceof ASArena)) {
             throw new RuntimeException("Invalid instance");

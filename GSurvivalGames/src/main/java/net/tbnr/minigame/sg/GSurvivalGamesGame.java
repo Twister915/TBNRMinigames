@@ -12,9 +12,10 @@ import net.tbnr.gearz.game.GameCountdown;
 import net.tbnr.gearz.game.GameCountdownHandler;
 import net.tbnr.gearz.game.GameMeta;
 import net.tbnr.gearz.game.GameStopCause;
+import net.tbnr.gearz.network.GearzPlayerProvider;
 import net.tbnr.manager.TBNRMinigame;
 import net.tbnr.manager.TBNRPlayer;
-import net.tbnr.manager.TBNRPlayerProvider;
+import net.tbnr.manager.classes.TBNRAbstractClass;
 import net.tbnr.util.ColoringUtils;
 import net.tbnr.util.player.TPlayer;
 import org.bukkit.*;
@@ -81,7 +82,7 @@ public final class GSurvivalGamesGame extends TBNRMinigame implements GameCountd
      * @param plugin  The plugin that handles this Game.
      * @param meta    The meta of the game.
      */
-    public GSurvivalGamesGame(List<TBNRPlayer> players, Arena arena, GearzPlugin<TBNRPlayer> plugin, GameMeta meta, Integer id, TBNRPlayerProvider playerProvider) {
+    public GSurvivalGamesGame(List<TBNRPlayer> players, Arena arena, GearzPlugin<TBNRPlayer, TBNRAbstractClass> plugin, GameMeta meta, Integer id, GearzPlayerProvider<TBNRPlayer> playerProvider) {
         super(players, arena, plugin, meta, id, playerProvider);
         if (!(arena instanceof GSurvivalGamesArena)) throw new RuntimeException("Invalid instance of arena");
         this.sgArena = (GSurvivalGamesArena) arena;

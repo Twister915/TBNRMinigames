@@ -1,19 +1,18 @@
 package net.tbnr.minigame.predator;
 
 import lombok.Getter;
-import net.tbnr.gearz.Gearz;
 import net.tbnr.gearz.GearzPlugin;
 import net.tbnr.gearz.arena.Arena;
 import net.tbnr.gearz.effects.EnderBar;
 import net.tbnr.gearz.game.GameCountdown;
 import net.tbnr.gearz.game.GameCountdownHandler;
 import net.tbnr.gearz.game.GameMeta;
-import net.tbnr.gearz.game.classes.GearzClass;
-import net.tbnr.gearz.game.classes.GearzClassSelector;
-import net.tbnr.gearz.game.classes.GearzItem;
+import net.tbnr.gearz.game.kits.GearzKit;
+import net.tbnr.gearz.game.kits.GearzKitItem;
+import net.tbnr.gearz.network.GearzPlayerProvider;
 import net.tbnr.manager.TBNRMinigame;
 import net.tbnr.manager.TBNRPlayer;
-import net.tbnr.manager.TBNRPlayerProvider;
+import net.tbnr.manager.classes.TBNRAbstractClass;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -64,8 +63,8 @@ public class PredatorGame extends TBNRMinigame implements GameCountdownHandler {
 	private static final String PREDATOR_MENU_TITLE = "Predator Menu!";
 	private static final String PREY_MENU_TITLE = "Prey Menu!";
 
-	@Getter private ArrayList<GearzItem> preyItems;
-	@Getter private ArrayList<GearzItem> predatorItems;
+	@Getter private ArrayList<GearzKitItem> preyItems;
+	@Getter private ArrayList<GearzKitItem> predatorItems;
 
     private ArrayList<TBNRPlayer> prey;
 
@@ -95,7 +94,7 @@ public class PredatorGame extends TBNRMinigame implements GameCountdownHandler {
         }
     }
 
-    public PredatorGame(List<TBNRPlayer> players, Arena arena, GearzPlugin<TBNRPlayer> plugin, GameMeta meta, Integer id, TBNRPlayerProvider playerProvider) {
+    public PredatorGame(List<TBNRPlayer> players, Arena arena, GearzPlugin<TBNRPlayer, TBNRAbstractClass> plugin, GameMeta meta, Integer id, GearzPlayerProvider<TBNRPlayer> playerProvider) {
         super(players, arena, plugin, meta, id, playerProvider);
         if (!(arena instanceof PredatorArena)) throw new RuntimeException("Invalid game class");
         this.pArena = (PredatorArena) arena;
@@ -279,11 +278,11 @@ public class PredatorGame extends TBNRMinigame implements GameCountdownHandler {
     }
 
 	private void setupItems() {
-		JSONObject prey = GearzClassSelector.getJSONResource(PREY_FILE, getPlugin());
-		JSONObject predator = GearzClassSelector.getJSONResource(PREDATOR_FILE, getPlugin());
+		JSONObject prey = GearzKit.getJSONResource(PREY_FILE, getPlugin());
+		JSONObject predator = GearzKit.getJSONResource(PREDATOR_FILE, getPlugin());
 		try {
-			this.preyItems.addAll(GearzClass.classFromJsonObject(prey).getItems());
-			this.predatorItems.addAll(GearzClass.classFromJsonObject(predator).getItems());
+			this.preyItems.addAll(GearzKit.classFromJsonObject(prey).getItems());
+			this.predatorItems.addAll(GearzKit.classFromJsonObject(predator).getItems());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -299,9 +298,9 @@ public class PredatorGame extends TBNRMinigame implements GameCountdownHandler {
 		}
 	}
 
-	private Inventory createInventory(TBNRPlayer player, ArrayList<GearzItem> items, String name) {
+	private Inventory createInventory(TBNRPlayer player, ArrayList<GearzKitItem> items, String name) {
 		Inventory inventory = Bukkit.createInventory(player.getPlayer(), 36, name);
-		for(GearzItem item : items) {
+		for(GearzKitItem item : items) {
 			inventory.addItem(item.getItemStack());
 		}
 		return inventory;
@@ -319,13 +318,13 @@ public class PredatorGame extends TBNRMinigame implements GameCountdownHandler {
 
         JSONObject prey = GearzClassSelector.getJSONResource(PREY_FILE, getPlugin());
         try {
-            this.preyItems.addAll(GearzClass.classFromJsonObject(prey).getItems());
+            this.preyItems.addAll(GearzKit.classFromJsonObject(prey).getItems());
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         ArrayList<InventoryGUI.InventoryGUIItem> inventoryPreyItems = new ArrayList<>();
-        for(GearzItem item : this.preyItems) {
+        for(GearzKitItem item : this.preyItems) {
             inventoryPreyItems.add(new InventoryGUI.InventoryGUIItem(item.getItemStack(), item.getItemMeta().getTitle()));
         }
 
@@ -365,13 +364,13 @@ public class PredatorGame extends TBNRMinigame implements GameCountdownHandler {
 
         JSONObject predator = GearzClassSelector.getJSONResource(PREDATOR_FILE, getPlugin());
         try {
-            this.predatorItems.addAll(GearzClass.classFromJsonObject(predator).getItems());
+            this.predatorItems.addAll(GearzKit.classFromJsonObject(predator).getItems());
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         ArrayList<InventoryGUI.InventoryGUIItem> inventoryPredatorItems = new ArrayList<>();
-        for(GearzItem item : this.predatorItems) {
+        for(GearzKitItem item : this.predatorItems) {
             inventoryPreyItems.add(new InventoryGUI.InventoryGUIItem(item.getItemStack(), item.getItemMeta().getTitle()));
         }
 

@@ -1,28 +1,25 @@
 package net.tbnr.minigame.su;
 
-import net.tbnr.gearz.Gearz;
 import net.tbnr.gearz.GearzPlugin;
 import net.tbnr.gearz.arena.Arena;
 import net.tbnr.gearz.effects.EnderBar;
 import net.tbnr.gearz.game.GameCountdown;
 import net.tbnr.gearz.game.GameCountdownHandler;
 import net.tbnr.gearz.game.GameMeta;
-import net.tbnr.gearz.game.GearzGame;
-import net.tbnr.gearz.game.classes.GearzClass;
-import net.tbnr.gearz.game.classes.GearzClassReadException;
-import net.tbnr.gearz.game.classes.GearzClassSelector;
-import net.tbnr.gearz.player.GearzPlayer;
+import net.tbnr.gearz.network.GearzPlayerProvider;
 import net.tbnr.manager.TBNRMinigame;
 import net.tbnr.manager.TBNRPlayer;
-import net.tbnr.manager.TBNRPlayerProvider;
+import net.tbnr.manager.classes.TBNRAbstractClass;
+import net.tbnr.minigame.su.classes.SwitchUpClassRegenable;
+import net.tbnr.minigame.su.classes.SwitchUpClassResolver;
 import net.tbnr.util.player.TPlayer;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
-import org.json.JSONObject;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 @GameMeta(
@@ -38,18 +35,14 @@ import java.util.*;
         maxPlayers = 24,
         minPlayers = 3)
 public final class GSwitchUpGame extends TBNRMinigame implements GameCountdownHandler {
-    private List<GearzClass> classesToCycle;
-    private final HashMap<TBNRPlayer, GearzClass> currentClasses = new HashMap<>();
     private int killsInRound = 0;
     private int roundsPlayed = 0;
     private final static int killsPerRound = 15;
     private final static int roundsPerGame = 5;
     private GSwitchUpArena gSwitchUpArena;
     private final HashMap<TBNRPlayer, Integer> killsThisGame = new HashMap<>();
-    private static final String[] classFilenames = new String[]{"boomer.json", "juggernaut.json", "archer.json", "bowman.json", "creativebuilder.json", "gentleman.json", "mage.json", "cheeseknight.json", "viking.json"};
     private boolean gracePeriod = false;
     private GameCountdown gracePeriodCountdown = null;
-    private final List<TBNRPlayer> skipOnActivate = new ArrayList<>();
 
     /**
      * New game in this arena
@@ -60,7 +53,7 @@ public final class GSwitchUpGame extends TBNRMinigame implements GameCountdownHa
      * @param meta    The meta of the game.
      * @param id      The id of the arena
      */
-    public GSwitchUpGame(List<TBNRPlayer> players, Arena arena, GearzPlugin<TBNRPlayer> plugin, GameMeta meta, Integer id, TBNRPlayerProvider playerProvider) {
+    public GSwitchUpGame(List<TBNRPlayer> players, Arena arena, GearzPlugin<TBNRPlayer, TBNRAbstractClass> plugin, GameMeta meta, Integer id, GearzPlayerProvider<TBNRPlayer> playerProvider) {
         super(players, arena, plugin, meta, id, playerProvider);
         if (!(arena instanceof GSwitchUpArena)) throw new RuntimeException("Invalid arena class");
         this.gSwitchUpArena = (GSwitchUpArena) arena;
@@ -68,10 +61,7 @@ public final class GSwitchUpGame extends TBNRMinigame implements GameCountdownHa
 
     @Override
     protected void gameStarting() {
-        if (GSwitchUpGame.classFilenames.length <= 2) stopGame();
-        loadClasses();
         for (TBNRPlayer player : getPlayers()) {
-            skipOnActivate.add(player);
             killsThisGame.put(player, 0);
         }
         shuffleClasses();
@@ -107,7 +97,7 @@ public final class GSwitchUpGame extends TBNRMinigame implements GameCountdownHa
 
     @Override
     protected boolean canUse(TBNRPlayer player) {
-        return true;
+        return !gracePeriod;
     }
 
     @Override
@@ -179,13 +169,6 @@ public final class GSwitchUpGame extends TBNRMinigame implements GameCountdownHa
 
     @Override
     protected void activatePlayer(TBNRPlayer player) {
-        if (this.skipOnActivate.contains(player)) {
-            this.skipOnActivate.remove(player);
-            return;
-        }
-        GearzClass gearzClass = this.currentClasses.get(player);
-        GearzClassSelector.giveClassToPlayer(player, gearzClass);
-        player.getTPlayer().sendMessage(getPluginFormat("formats.give-class", true, new String[]{"<class>", gearzClass.getName()}));
     }
 
     @Override
@@ -200,7 +183,6 @@ public final class GSwitchUpGame extends TBNRMinigame implements GameCountdownHa
 
     private void playerDied(TBNRPlayer player) {
         if (this.killsInRound >= GSwitchUpGame.killsPerRound) {
-            this.skipOnActivate.add(player);
             if (!this.nextRound()) {
                 TBNRPlayer leader = getLeader();
                 broadcast(getPluginFormat("formats.win", true, new String[]{"<winner>", leader.getUsername()}));
@@ -236,7 +218,7 @@ public final class GSwitchUpGame extends TBNRMinigame implements GameCountdownHa
             public void run() {
                 shuffleClasses();
             }
-        }, 1L);
+        }, 2L);
         this.roundsPlayed++;
         return true;
     }
@@ -253,16 +235,22 @@ public final class GSwitchUpGame extends TBNRMinigame implements GameCountdownHa
 
     private void shuffleClasses() {
         startGracePeriod();
+        SwitchUpClassResolver classResolver = (SwitchUpClassResolver) getClassResolver();
+        classResolver.shuffleClasses(this);
         for (TBNRPlayer player : getPlayers()) {
             player.getPlayer().playNote(player.getPlayer().getLocation(), Instrument.PIANO, Note.natural(1, Note.Tone.C));
             player.getTPlayer().resetPlayer();
-            GearzClass clazz = this.currentClasses.get(player);
-            while (clazz == null || clazz.equals(this.currentClasses.get(player))) {
-                clazz = this.classesToCycle.get(Gearz.getRandom().nextInt(this.classesToCycle.size()));
+            boolean hasClass = false;
+            while (!hasClass) {
+                try {
+                    this.updateClassFor(player);
+                } catch (InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
+                    e.printStackTrace();
+                    classResolver.shufflePlayer(player);
+                    continue;
+                }
+                hasClass = true;
             }
-            GearzClassSelector.giveClassToPlayer(player, clazz); //Strange way to do this. Sorry
-            this.currentClasses.put(player, clazz);
-            player.getTPlayer().sendMessage(getPluginFormat("formats.give-class", true, new String[]{"<class>", clazz.getName()}));
         }
         updateEnderBar();
     }
@@ -285,7 +273,19 @@ public final class GSwitchUpGame extends TBNRMinigame implements GameCountdownHa
         for (TBNRPlayer player : allPlayers()) {
             String currentText;
             if (enderText == null) {
-                currentText = getPluginFormat("formats.standard-bar", false, new String[]{"<kills>", String.valueOf(GSwitchUpGame.killsPerRound - this.killsInRound)}, new String[]{"<switches>", String.valueOf(GSwitchUpGame.roundsPerGame - this.roundsPlayed)}, new String[]{"<class>", this.currentClasses.get(player) == null ? "Spectator" : this.currentClasses.get(player).getName()});
+                currentText = getPluginFormat
+                        ("formats.standard-bar",
+                                false,
+                                new String[]{
+                                        "<kills>",
+                                        String.valueOf(GSwitchUpGame.killsPerRound - this.killsInRound)
+                                },
+                                new String[]{
+                                        "<switches>",
+                                        String.valueOf(GSwitchUpGame.roundsPerGame - this.roundsPlayed)},
+                                new String[]{
+                                        "<class>", isSpectating(player) ? "Spectator" : getClassFor(player).getMeta().name()}
+                        );
             } else {
                 currentText = enderText;
             }
@@ -321,55 +321,9 @@ public final class GSwitchUpGame extends TBNRMinigame implements GameCountdownHa
     }
 
     private void regenerateItems() {
-        GearzClass mageClass = getClassByName("Mage");
-        for (TBNRPlayer mage : getPlayersByClass("Mage")) {
-            GearzClassSelector.giveClassToPlayer(mage, mageClass);
+        for (TBNRAbstractClass tbnrAbstractClass : getClassInstances().values()) {
+            if (tbnrAbstractClass instanceof SwitchUpClassRegenable) ((SwitchUpClassRegenable) tbnrAbstractClass).regenerateItems();
         }
-        GearzClass archerClass = getClassByName("Archer");
-        for (TBNRPlayer archer : getPlayersByClass("Archer")) {
-            archer.getPlayer().getInventory().addItem(archerClass.getItems().get(1).getItemStack());
-        }
-    }
-
-    private List<TBNRPlayer> getPlayersByClass(String className) {
-        List<TBNRPlayer> players = new ArrayList<>();
-        for (Map.Entry<TBNRPlayer, GearzClass> classPlayer : this.currentClasses.entrySet()) {
-            TBNRPlayer player = classPlayer.getKey();
-            GearzClass clazz = classPlayer.getValue();
-            if (clazz.getName().equalsIgnoreCase(className)) {
-                players.add(player);
-            }
-        }
-        return players;
-    }
-
-    private GearzClass getClassByName(String name) {
-        for (GearzClass clazz : this.classesToCycle) {
-            if (clazz.getName().equalsIgnoreCase(name)) {
-                return clazz;
-            }
-        }
-        return null;
-    }
-
-    private void loadClasses() {
-        this.classesToCycle = new ArrayList<>();
-        for (String classFilename : GSwitchUpGame.classFilenames) {
-            JSONObject jsonResource = GearzClassSelector.getJSONResource(classFilename, getPlugin());
-            if (jsonResource == null) {
-                getPlugin().getLogger().severe("Error loading class " + classFilename + " : Does Not Exist.");
-            }
-            GearzClass gearzClass;
-            try {
-                gearzClass = GearzClass.classFromJsonObject(jsonResource);
-            } catch (GearzClassReadException e) {
-                getPlugin().getLogger().severe("Error loading class " + classFilename + " into SU. " + e.getMessage());
-                e.printStackTrace();
-                continue;
-            }
-            this.classesToCycle.add(gearzClass);
-        }
-
     }
 
     @Override

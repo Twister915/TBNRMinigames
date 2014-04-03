@@ -8,6 +8,7 @@ import net.tbnr.gearz.game.*;
 import net.tbnr.gearz.network.GearzPlayerProvider;
 import net.tbnr.manager.TBNRMinigame;
 import net.tbnr.manager.TBNRPlayer;
+import net.tbnr.manager.classes.TBNRAbstractClass;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -52,7 +53,7 @@ public final class DBGame extends TBNRMinigame implements GameCountdownHandler {
     private HashMap<TBNRPlayer, Integer> score;
     private GameCountdown countdown;
 
-    public DBGame(List<TBNRPlayer> players, Arena arena, GearzPlugin<TBNRPlayer> plugin, GameMeta meta, Integer id, GearzPlayerProvider<TBNRPlayer> playerProvider) {
+    public DBGame(List<TBNRPlayer> players, Arena arena, GearzPlugin<TBNRPlayer, TBNRAbstractClass> plugin, GameMeta meta, Integer id, GearzPlayerProvider<TBNRPlayer> playerProvider) {
         super(players, arena, plugin, meta, id, playerProvider);
         if (!(arena instanceof DBArena)) throw new RuntimeException("Invalid instance");
         this.dbarena = (DBArena) arena;

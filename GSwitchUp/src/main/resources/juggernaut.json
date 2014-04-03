@@ -1,8 +1,4 @@
-{   
-    "name" : "Juggernaut",
-    "repItem" : {
-        "item_type" : "AIR"
-    },
+{
     "items" : [
         {
             "item_type" : "STICK",

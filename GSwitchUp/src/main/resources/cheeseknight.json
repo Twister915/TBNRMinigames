@@ -1,8 +1,4 @@
-{   
-    "name" : "Cheese Knight",
-    "repItem" : {
-        "item_type" : "AIR"
-    },
+{
     "items" : [
         {
             "item_type" : "SPONGE",

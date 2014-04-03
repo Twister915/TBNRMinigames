@@ -8,10 +8,11 @@ import net.tbnr.gearz.effects.EnderBar;
 import net.tbnr.gearz.game.GameCountdown;
 import net.tbnr.gearz.game.GameCountdownHandler;
 import net.tbnr.gearz.game.GameMeta;
+import net.tbnr.gearz.network.GearzPlayerProvider;
 import net.tbnr.gearz.packets.wrapper.WrapperPlayServerWorldParticles.ParticleEffect;
 import net.tbnr.manager.TBNRMinigame;
 import net.tbnr.manager.TBNRPlayer;
-import net.tbnr.manager.TBNRPlayerProvider;
+import net.tbnr.manager.classes.TBNRAbstractClass;
 import net.tbnr.util.player.TPlayer;
 import net.tbnr.util.player.TPlayer.TParticleEffect;
 import net.tbnr.util.player.TPlayerManager;
@@ -89,8 +90,8 @@ public class PlagueGame extends TBNRMinigame implements GameCountdownHandler {
 	 * @param plugin  The plugin that handles this Game.
 	 * @param meta    The meta of the game.
 	 */
-	public PlagueGame(List<TBNRPlayer> players, Arena arena, GearzPlugin<TBNRPlayer> plugin, GameMeta meta, Integer id, TBNRPlayerProvider playerProvider) {
-		super(players, arena, plugin, meta, id, playerProvider);
+	public PlagueGame(List<TBNRPlayer> players, Arena arena, GearzPlugin<TBNRPlayer, TBNRAbstractClass> plugin, GameMeta meta, Integer id, GearzPlayerProvider<TBNRPlayer> playerProvider) {
+        super(players, arena, plugin, meta, id, playerProvider);
 		if (!(arena instanceof PlagueArena)) throw new RuntimeException("Invalid game class");
 		this.plagueArena = (PlagueArena) arena;
 	}

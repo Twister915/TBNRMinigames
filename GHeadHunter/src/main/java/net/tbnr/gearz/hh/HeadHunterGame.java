@@ -9,6 +9,7 @@ import net.tbnr.gearz.game.GameMeta;
 import net.tbnr.gearz.network.GearzPlayerProvider;
 import net.tbnr.manager.TBNRMinigame;
 import net.tbnr.manager.TBNRPlayer;
+import net.tbnr.manager.classes.TBNRAbstractClass;
 import net.tbnr.util.player.TPlayer;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -49,7 +50,7 @@ public final class HeadHunterGame extends TBNRMinigame implements GameCountdownH
      * @param plugin  The plugin that handles this Game.
      * @param meta    The meta of the game.
      */
-    public HeadHunterGame(List<TBNRPlayer> players, Arena arena, GearzPlugin<TBNRPlayer> plugin, GameMeta meta, Integer id, GearzPlayerProvider<TBNRPlayer> playerProvider) {
+    public HeadHunterGame(List<TBNRPlayer> players, Arena arena, GearzPlugin<TBNRPlayer, TBNRAbstractClass> plugin, GameMeta meta, Integer id, GearzPlayerProvider<TBNRPlayer> playerProvider) {
         super(players, arena, plugin, meta, id, playerProvider);
         if (!(arena instanceof HeadHunterArena)) throw new RuntimeException("Invalid game class");
         this.hhArena = (HeadHunterArena) arena;

@@ -7,6 +7,7 @@ import net.tbnr.gearz.game.GameMeta;
 import net.tbnr.gearz.network.GearzPlayerProvider;
 import net.tbnr.manager.TBNRMinigame;
 import net.tbnr.manager.TBNRPlayer;
+import net.tbnr.manager.classes.TBNRAbstractClass;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -53,7 +54,7 @@ public final class EnderzGameGame extends TBNRMinigame {
      * @param meta    The meta of the game.
      * @param id      The id of the arena
      */
-    public EnderzGameGame(List<TBNRPlayer> players, Arena arena, GearzPlugin<TBNRPlayer> plugin, GameMeta meta, Integer id, GearzPlayerProvider<TBNRPlayer> playerProvider) {
+    public EnderzGameGame(List<TBNRPlayer> players, Arena arena, GearzPlugin<TBNRPlayer, TBNRAbstractClass> plugin, GameMeta meta, Integer id, GearzPlayerProvider<TBNRPlayer> playerProvider) {
         super(players, arena, plugin, meta, id, playerProvider);
         if (!(arena instanceof EnderzGameArena)) throw new RuntimeException("Invalid Arena Supplied");
         this.arena = (EnderzGameArena) arena;

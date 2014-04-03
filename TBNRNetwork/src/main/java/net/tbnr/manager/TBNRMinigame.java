@@ -6,11 +6,13 @@ import net.tbnr.gearz.game.GameMeta;
 import net.tbnr.gearz.game.GameStopCause;
 import net.tbnr.gearz.game.GearzGame;
 import net.tbnr.gearz.network.GearzPlayerProvider;
+import net.tbnr.manager.classes.TBNRAbstractClass;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.List;
 
-public abstract class TBNRMinigame extends GearzGame<TBNRPlayer> {
+public abstract class TBNRMinigame extends GearzGame<TBNRPlayer, TBNRAbstractClass> {
 
     private HashMap<TBNRPlayer, Integer> pendingPoints;
 
@@ -24,9 +26,14 @@ public abstract class TBNRMinigame extends GearzGame<TBNRPlayer> {
      * @param id
      * @param playerProvider
      */
-    public TBNRMinigame(List<TBNRPlayer> players, Arena arena, GearzPlugin<TBNRPlayer> plugin, GameMeta meta, Integer id, GearzPlayerProvider<TBNRPlayer> playerProvider) {
+    public TBNRMinigame(List<TBNRPlayer> players, Arena arena, GearzPlugin<TBNRPlayer, TBNRAbstractClass> plugin, GameMeta meta, Integer id, GearzPlayerProvider<TBNRPlayer> playerProvider) {
         super(players, arena, plugin, meta, id, playerProvider);
         this.pendingPoints = new HashMap<>();
+    }
+
+    @Override
+    protected TBNRAbstractClass constructClassType(Class<? extends TBNRAbstractClass> classType, TBNRPlayer player) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        return classType.getConstructor(TBNRPlayer.class, GearzGame.class).newInstance(player, this);
     }
 
     protected void addGPoints(TBNRPlayer player, Integer points) {
