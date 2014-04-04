@@ -262,8 +262,8 @@ public class PlagueGame extends TBNRMinigame implements GameCountdownHandler {
 
 	@Override
 	public void removePlayerFromGame(TBNRPlayer player) {
-		if(zombies.size() <= 1) assignJobs(player);
 		this.points.remove(player);
+		checkFinish();
 		updateScoreboard();
 	}
 
@@ -308,10 +308,6 @@ public class PlagueGame extends TBNRMinigame implements GameCountdownHandler {
 			//ignore
 		}
 
-	}
-
-	private void assignJobs() {
-		assignJobs(null);
 	}
 
 	private String formatInt(Integer integer) {
@@ -396,9 +392,8 @@ public class PlagueGame extends TBNRMinigame implements GameCountdownHandler {
 	}
 
 	@SuppressWarnings("unchecked")
-	private void assignJobs(TBNRPlayer exclude) {
+	private void assignJobs() {
 		Set<TBNRPlayer> players = (Set<TBNRPlayer>) getPlayers().clone();
-		if(exclude != null) players.remove(exclude);
 		for(int i = 0, l = getPlayers().size()/8 <= 0 ? 1 : getPlayers().size()/8; i < l; i++) {
 			makeZombie((TBNRPlayer) getPlayers().toArray()[new Random().nextInt(getPlayers().size())]);
 		}
