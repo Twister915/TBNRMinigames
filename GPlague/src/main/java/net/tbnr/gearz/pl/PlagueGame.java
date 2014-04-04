@@ -1,6 +1,5 @@
 package net.tbnr.gearz.pl;
 
-import lombok.Getter;
 import net.tbnr.gearz.Gearz;
 import net.tbnr.gearz.GearzPlugin;
 import net.tbnr.gearz.arena.Arena;
@@ -64,12 +63,13 @@ public class PlagueGame extends TBNRMinigame implements GameCountdownHandler {
 	private static enum PlagueState {
 		IN_GAME(900);
 
-		@Getter
-		int length = 0;
+		Integer length = 0;
 
- 		PlagueState(int length) {
+ 		PlagueState(Integer length) {
 		    this.length = length;
 	    }
+
+		public Integer getLength() { return length; }
 	}
 
 	private PlagueArena plagueArena;
@@ -97,7 +97,7 @@ public class PlagueGame extends TBNRMinigame implements GameCountdownHandler {
 	}
 
 	@Override
-	protected void gamePreStart() {
+	protected void gameStarting() {
 		setItems();
 		this.state = PlagueState.IN_GAME;
 		assignJobs();
@@ -111,15 +111,6 @@ public class PlagueGame extends TBNRMinigame implements GameCountdownHandler {
 
 		}.runTaskTimer(GPlague.getInstance(), 0, 1);
 
-
-
-		for(TBNRPlayer player : getPlayers()) {
-			if(!player.isValid() || player == null) continue;
-			if(points.containsKey(player)) continue;
-			points.put(player, 0);
-			player.getPlayer().setFoodLevel(20);
-		}
-
 		GameCountdown countdown = new GameCountdown(this.state.getLength(), this, this);
 		countdown.start();
 
@@ -132,12 +123,14 @@ public class PlagueGame extends TBNRMinigame implements GameCountdownHandler {
 	}
 
 	@Override
-	protected void gameStarting() {
+	protected void gameEnding() {
+
 	}
 
 	@Override
-	protected void gameEnding() {
-
+	protected void activatePlayer(TBNRPlayer player) {
+		if(player == null || !player.isValid() || points.containsKey(player)) return;
+		points.put(player, 0);
 	}
 
 	@Override
@@ -236,11 +229,6 @@ public class PlagueGame extends TBNRMinigame implements GameCountdownHandler {
 	@Override
 	protected int xpForPlaying() {
 		return 100;
-	}
-
-	@Override
-	protected void activatePlayer(TBNRPlayer player) {
-
 	}
 
 	@Override
