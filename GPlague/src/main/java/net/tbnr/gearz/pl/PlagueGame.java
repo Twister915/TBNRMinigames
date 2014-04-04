@@ -161,8 +161,7 @@ public class PlagueGame extends TBNRMinigame implements GameCountdownHandler {
 			player.getPlayer().getInventory().removeItem(curePoison);
 			return false;
 		}
-		if(player.getPlayer().getItemInHand().equals(cureZombie)) return false;
-		return true;
+		return !player.getPlayer().getItemInHand().equals(cureZombie);
 	}
 
 	@Override
@@ -193,7 +192,7 @@ public class PlagueGame extends TBNRMinigame implements GameCountdownHandler {
 	@Override
 	protected void playerKilled(TBNRPlayer dead, TBNRPlayer killer) {
 		if(getHumans().contains(dead)) makeZombie(dead);
-		if(getHumans().size() <= 0 || zombies.size() <= 0) finish();
+		checkFinish();
 		points.put(killer, 100);
 		updateScoreboard();
 
@@ -243,7 +242,7 @@ public class PlagueGame extends TBNRMinigame implements GameCountdownHandler {
 
 	@Override
 	protected void onDeath(TBNRPlayer player) {
-		if(getHumans().size() <= 0 || zombies.size() <= 0) finish();
+		checkFinish();
 	}
 
 	@Override
@@ -354,7 +353,7 @@ public class PlagueGame extends TBNRMinigame implements GameCountdownHandler {
 		zombies.put(player, 0d);
 		player.getTPlayer().flashRed();
 		player.getPlayer().getInventory().setHelmet(new ItemStack(Material.SKULL, 0, (short) SkullType.ZOMBIE.ordinal(), (byte) SkullType.ZOMBIE.ordinal()));
-		if(getHumans().size() <= 0 || zombies.size() <= 0) finish();
+		checkFinish();
 	}
 
 	public void makeHuman(TBNRPlayer player) {
@@ -363,6 +362,10 @@ public class PlagueGame extends TBNRMinigame implements GameCountdownHandler {
 		if(player.getTPlayer().isFlashingRed()) player.getTPlayer().stopFlashRed();
 		player.getPlayer().getInventory().setHelmet(null);
 		player.getPlayer().setFoodLevel(20);
+		checkFinish();
+	}
+
+	public void checkFinish() {
 		if(getHumans().size() <= 0 || zombies.size() <= 0) finish();
 	}
 
@@ -417,7 +420,9 @@ public class PlagueGame extends TBNRMinigame implements GameCountdownHandler {
 	}
 
 	public void finish() {
-		for (TBNRPlayer player : allPlayers()) EnderBar.remove(player);
+		for (TBNRPlayer player : allPlayers()) {
+			EnderBar.remove(player);
+		}
 		TBNRPlayer max = getMostPoints();
 		broadcast(getPluginFormat("formats.winner", true, new String[]{"<player>", max.getUsername()}));
 		addGPoints(max, 250);

@@ -12,6 +12,7 @@
     <modules>
         <module>GAscension</module>
         <module>GEnderzGame</module>
+        <module>GCatAndMouse</module>
         <module>GHeadHunter</module>
         <module>GDeathball</module>
         <module>GSurvivalGames</module>
