@@ -8,7 +8,7 @@ import net.tbnr.manager.classes.pass.ClassPassManager;
 import net.tbnr.manager.command.UtilCommands;
 import org.bukkit.Bukkit;
 
-public final class TBNRNetworkManager extends GearzNetworkManagerPlugin<TBNRPlayer> {
+public final class TBNRNetworkManager extends GearzNetworkManagerPlugin<TBNRPlayer, TBNRPlayerProvider> {
     @Getter private TBNRPlayerProvider playerProvider;
     @Getter private static TBNRNetworkManager instance;
     @Getter private ClassPassManager classPassManager;
@@ -30,7 +30,7 @@ public final class TBNRNetworkManager extends GearzNetworkManagerPlugin<TBNRPlay
     }
 
     @Override
-    protected GearzPlayerProvider<TBNRPlayer> getNewPlayerProvider() {
+    protected TBNRPlayerProvider getNewPlayerProvider() {
         return new TBNRPlayerProvider();
     }
 
