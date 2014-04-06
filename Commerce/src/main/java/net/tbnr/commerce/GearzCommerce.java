@@ -13,7 +13,7 @@ import net.tbnr.util.TPlugin;
  *
  * Latest Change:
  */
-public final  class GearzCommerce extends TPlugin {
+public final class GearzCommerce extends TPlugin {
     @Getter
     private static GearzCommerce instance;
 

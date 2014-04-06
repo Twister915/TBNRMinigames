@@ -16,10 +16,9 @@ public class GPlague extends TBNRPlugin {
 
 	@Getter static GearzPlugin instance;
 
-	@SuppressWarnings("AccessStaticViaInstance")
 	@Override
 	public void enable() {
-		this.instance = this;
+		GPlague.instance = this;
 		try {
 			registerGame(PlagueArena.class, PlagueGame.class);
 		} catch (GearzException e) {
