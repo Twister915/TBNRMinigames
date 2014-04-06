@@ -1,7 +1,6 @@
 package net.tbnr.minigame.predator;
 
 import net.tbnr.gearz.Gearz;
-import net.tbnr.gearz.player.GearzPlayer;
 import net.tbnr.manager.TBNRNetworkManager;
 import net.tbnr.manager.TBNRPlayer;
 import net.tbnr.minigame.predator.PredatorGame.PRState;
@@ -30,8 +29,8 @@ public class PredatorListener implements Listener {
 
 	@EventHandler( ignoreCancelled = true )
 	public void onInventoryClickEvent(InventoryClickEvent event) {
-		if(!game.isRunning() 											||
-				game.getCurrentState() != PRState.CHOOSING 						||
+		if(!game.isRunning() 	||
+				game.getCurrentState() != PRState.CHOOSING 	||
 				!(event.getWhoClicked() instanceof Player)) 	return;
 
 		final TBNRPlayer player = TBNRNetworkManager.getInstance().getPlayerProvider().getPlayerFromPlayer((Player) event.getWhoClicked());
@@ -77,8 +76,8 @@ public class PredatorListener implements Listener {
 
 	@EventHandler
 	public void onInventoryClose(InventoryCloseEvent event) {
-		if(!game.isRunning() 											||
-			game.getCurrentState() != PRState.CHOOSING 					||
+		if(!game.isRunning() ||
+			game.getCurrentState() != PRState.CHOOSING ||
 			!(event.getPlayer() instanceof Player)) 				return;
 		final TBNRPlayer player = TBNRNetworkManager.getInstance().getPlayerProvider().getPlayerFromPlayer((Player) event.getPlayer());
 

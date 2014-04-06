@@ -161,8 +161,7 @@ public class PlagueGame extends TBNRMinigame implements GameCountdownHandler {
 			player.getPlayer().getInventory().removeItem(curePoison);
 			return false;
 		}
-		if(player.getPlayer().getItemInHand().equals(cureZombie)) return false;
-		return true;
+		return !player.getPlayer().getItemInHand().equals(cureZombie);
 	}
 
 	@Override
@@ -193,7 +192,7 @@ public class PlagueGame extends TBNRMinigame implements GameCountdownHandler {
 	@Override
 	protected void playerKilled(TBNRPlayer dead, TBNRPlayer killer) {
 		if(getHumans().contains(dead)) makeZombie(dead);
-		if(getHumans().size() <= 0 || zombies.size() <= 0) finish();
+		checkFinish();
 		points.put(killer, 100);
 		updateScoreboard();
 
@@ -243,7 +242,7 @@ public class PlagueGame extends TBNRMinigame implements GameCountdownHandler {
 
 	@Override
 	protected void onDeath(TBNRPlayer player) {
-		if(getHumans().size() <= 0 || zombies.size() <= 0) finish();
+		checkFinish();
 	}
 
 	@Override
@@ -263,8 +262,8 @@ public class PlagueGame extends TBNRMinigame implements GameCountdownHandler {
 
 	@Override
 	public void removePlayerFromGame(TBNRPlayer player) {
-		if(zombies.size() <= 1) assignJobs(player);
 		this.points.remove(player);
+		checkFinish();
 		updateScoreboard();
 	}
 
@@ -311,10 +310,6 @@ public class PlagueGame extends TBNRMinigame implements GameCountdownHandler {
 
 	}
 
-	private void assignJobs() {
-		assignJobs(null);
-	}
-
 	private String formatInt(Integer integer) {
 		if (integer < 60) return String.format("%02d", integer);
 		else return String.format("%02d:%02d", (integer / 60), (integer % 60));
@@ -354,7 +349,7 @@ public class PlagueGame extends TBNRMinigame implements GameCountdownHandler {
 		zombies.put(player, 0d);
 		player.getTPlayer().flashRed();
 		player.getPlayer().getInventory().setHelmet(new ItemStack(Material.SKULL, 0, (short) SkullType.ZOMBIE.ordinal(), (byte) SkullType.ZOMBIE.ordinal()));
-		if(getHumans().size() <= 0 || zombies.size() <= 0) finish();
+		checkFinish();
 	}
 
 	public void makeHuman(TBNRPlayer player) {
@@ -363,6 +358,10 @@ public class PlagueGame extends TBNRMinigame implements GameCountdownHandler {
 		if(player.getTPlayer().isFlashingRed()) player.getTPlayer().stopFlashRed();
 		player.getPlayer().getInventory().setHelmet(null);
 		player.getPlayer().setFoodLevel(20);
+		checkFinish();
+	}
+
+	public void checkFinish() {
 		if(getHumans().size() <= 0 || zombies.size() <= 0) finish();
 	}
 
@@ -393,9 +392,8 @@ public class PlagueGame extends TBNRMinigame implements GameCountdownHandler {
 	}
 
 	@SuppressWarnings("unchecked")
-	private void assignJobs(TBNRPlayer exclude) {
+	private void assignJobs() {
 		Set<TBNRPlayer> players = (Set<TBNRPlayer>) getPlayers().clone();
-		if(exclude != null) players.remove(exclude);
 		for(int i = 0, l = getPlayers().size()/8 <= 0 ? 1 : getPlayers().size()/8; i < l; i++) {
 			makeZombie((TBNRPlayer) getPlayers().toArray()[new Random().nextInt(getPlayers().size())]);
 		}
@@ -417,7 +415,9 @@ public class PlagueGame extends TBNRMinigame implements GameCountdownHandler {
 	}
 
 	public void finish() {
-		for (TBNRPlayer player : allPlayers()) EnderBar.remove(player);
+		for (TBNRPlayer player : allPlayers()) {
+			EnderBar.remove(player);
+		}
 		TBNRPlayer max = getMostPoints();
 		broadcast(getPluginFormat("formats.winner", true, new String[]{"<player>", max.getUsername()}));
 		addGPoints(max, 250);

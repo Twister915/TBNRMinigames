@@ -36,7 +36,7 @@ public class Spawn implements Listener, TCommandHandler {
     @EventHandler
     @SuppressWarnings("unused")
     public void onJoin(TPlayerJoinEvent event) {
-        event.getPlayer().teleport(TBNRHub.getInstance().getSpawn().getSpawn());
+        event.getPlayer().teleport(TBNRHub.getInstance().getSpawnHandler().getSpawn());
     }
 
     @TCommand(

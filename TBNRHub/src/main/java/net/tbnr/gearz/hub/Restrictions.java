@@ -18,8 +18,8 @@ public class Restrictions implements Listener {
         Player player = event.getPlayer();
         if (event.getPlayer().hasPermission("gearz.hub.fall")) return;
         if (player.getLocation().getY() > 0) return;
-        player.teleport(TBNRHub.getInstance().getSpawn().getSpawn());
-        player.playSound(TBNRHub.getInstance().getSpawn().getSpawn(), Sound.CHICKEN_EGG_POP, 20, 1);
+        player.teleport(TBNRHub.getInstance().getSpawnHandler().getSpawn());
+        player.playSound(TBNRHub.getInstance().getSpawnHandler().getSpawn(), Sound.CHICKEN_EGG_POP, 20, 1);
         player.sendMessage(TBNRHub.getInstance().getFormat("tpd-spawn", true, new String[]{"<prefix>", TBNRHub.getInstance().getChatPrefix()}));
     }
 

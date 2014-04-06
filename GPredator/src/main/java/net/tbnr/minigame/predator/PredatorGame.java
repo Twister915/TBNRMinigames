@@ -66,8 +66,6 @@ public class PredatorGame extends TBNRMinigame implements GameCountdownHandler {
 	@Getter private ArrayList<GearzKitItem> preyItems;
 	@Getter private ArrayList<GearzKitItem> predatorItems;
 
-    private ArrayList<TBNRPlayer> prey;
-
 	@Getter private HashMap<TBNRPlayer, Inventory> preyInventories;
 	@Getter private HashMap<TBNRPlayer, Inventory> predatorInventories;
 
@@ -86,12 +84,15 @@ public class PredatorGame extends TBNRMinigame implements GameCountdownHandler {
         CHOOSING(60),
         IN_GAME(8*60);
 
-        @Getter
-        int time = 0;
+        Integer time = 0;
 
-        PRState(int time) {
+        PRState(Integer time) {
             this.time = time;
         }
+
+	    public Integer getTime() {
+		    return time;
+	    }
     }
 
     public PredatorGame(List<TBNRPlayer> players, Arena arena, GearzPlugin<TBNRPlayer, TBNRAbstractClass> plugin, GameMeta meta, Integer id, GearzPlayerProvider<TBNRPlayer> playerProvider) {
@@ -104,7 +105,6 @@ public class PredatorGame extends TBNRMinigame implements GameCountdownHandler {
     protected void gamePreStart() {
 		this.predatorItems = new ArrayList<>();
 		this.preyItems = new ArrayList<>();
-		this.prey = new ArrayList<>();
 		this.predatorInventories = new HashMap<>();
 		this.preyInventories = new HashMap<>();
         this.registerExternalListeners(new PredatorListener(this));
@@ -267,15 +267,14 @@ public class PredatorGame extends TBNRMinigame implements GameCountdownHandler {
     }
 
     public void giveJobs() {
-        this.prey.clear();
-        this.predator = null;
-
-        List<TBNRPlayer> players = new LinkedList<>(getPlayers());
-        Collections.shuffle(players);
-        predator = players.get(new Random().nextInt(getPlayers().size()));
-        players.remove(predator);
-        prey.addAll(players);
+        predator = (TBNRPlayer) getPlayers().toArray()[new Random().nextInt(getPlayers().size())];
     }
+
+	public TBNRPlayer[] getPrey() {
+		HashSet<TBNRPlayer> prey = getPlayers();
+		prey.remove(predator);
+		return (TBNRPlayer[]) prey.toArray();
+	}
 
 	private void setupItems() {
 		JSONObject prey = GearzKit.getJSONResource(PREY_FILE, getPlugin());
