@@ -29,6 +29,7 @@ public final class TBNRPlayerUtils implements TCommandHandler, Listener {
     public void onPointChange(PlayerPointChangeEvent event) {
         event.getPlayer().getTPlayer().playSound(Sound.ORB_PICKUP);
     }
+
     @TCommand(
             name = "xp",
             senders = {TCommandSender.Console, TCommandSender.Player},

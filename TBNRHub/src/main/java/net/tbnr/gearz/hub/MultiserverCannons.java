@@ -264,7 +264,7 @@ public class MultiserverCannons implements Listener, TCommandHandler {
                     if (serverFor == null) serverFor = getServerFor(cannon.getServer(), true);
                     if (serverFor == null) serverFor = cannon.getServer();
                     BouncyUtils.sendPlayerToServer(this.player.getPlayer(), serverFor);
-                    this.player.getPlayer().teleport(TBNRHub.getInstance().getSpawn().getSpawn());
+                    this.player.getPlayer().teleport(TBNRHub.getInstance().getSpawnHandler().getSpawnHandler());
                     try {
                         this.player.playParticleEffect(new TPlayer.TParticleEffect(player.getPlayer().getLocation(), Gearz.getRandom().nextFloat(), 1, 10, 2, WrapperPlayServerWorldParticles.ParticleEffect.HEART));
                     } catch (Exception e) {

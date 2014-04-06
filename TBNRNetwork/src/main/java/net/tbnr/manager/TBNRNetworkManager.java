@@ -5,7 +5,7 @@ import net.tbnr.gearz.Gearz;
 import net.tbnr.gearz.network.GearzNetworkManagerPlugin;
 import net.tbnr.gearz.network.GearzPlayerProvider;
 import net.tbnr.manager.classes.pass.ClassPassManager;
-import net.tbnr.manager.command.UtilCommands;
+import net.tbnr.manager.command.ClearChat;
 import org.bukkit.Bukkit;
 
 public final class TBNRNetworkManager extends GearzNetworkManagerPlugin<TBNRPlayer> {
@@ -19,7 +19,7 @@ public final class TBNRNetworkManager extends GearzNetworkManagerPlugin<TBNRPlay
         super.enable();
         TBNRPlayerUtils tbnrPlayerUtils = new TBNRPlayerUtils();
         registerCommands(tbnrPlayerUtils);
-        registerCommands(new UtilCommands());
+        registerCommands(new ClearChat());
         registerEvents(tbnrPlayerUtils);
         classPassManager = new ClassPassManager();
     }
