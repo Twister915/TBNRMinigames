@@ -20,7 +20,6 @@ import net.tbnr.manager.command.ClearChat;
 import org.bukkit.Bukkit;
 
 public final class TBNRNetworkManager extends GearzNetworkManagerPlugin<TBNRPlayer, TBNRPlayerProvider> {
-    @Getter private TBNRPlayerProvider playerProvider;
     @Getter private static TBNRNetworkManager instance;
     @Getter private ClassPassManager classPassManager;
 
