@@ -13,4 +13,3 @@ commands:
     clearmychat:
       description: Clears senders chat
       aliases: [cmc, cmychat]
-      description: Gives info about the map
