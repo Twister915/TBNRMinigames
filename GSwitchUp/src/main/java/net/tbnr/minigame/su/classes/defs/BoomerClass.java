@@ -18,6 +18,7 @@ import net.tbnr.minigame.su.classes.SwitchUpClass;
 
 @GearzClassMeta(
         name = "Boomer",
+        key = "su_boomer",
         description = "Blow up the world!"
 )
 public final class BoomerClass extends SwitchUpClass {

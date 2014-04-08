@@ -16,7 +16,10 @@ import net.tbnr.gearz.game.classes.GearzClassMeta;
 import net.tbnr.manager.TBNRPlayer;
 import net.tbnr.minigame.su.classes.SwitchUpClass;
 
-@GearzClassMeta(name = "Cheese Knight")
+@GearzClassMeta(
+        name = "Cheese Knight",
+        key = "su_cheeseknight"
+)
 public final class CheeseKnightClass extends SwitchUpClass {
     public CheeseKnightClass(TBNRPlayer player, GearzGame game) {
         super(player, game);

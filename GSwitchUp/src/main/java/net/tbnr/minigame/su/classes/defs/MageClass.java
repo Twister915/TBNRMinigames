@@ -16,7 +16,10 @@ import net.tbnr.gearz.game.classes.GearzClassMeta;
 import net.tbnr.manager.TBNRPlayer;
 import net.tbnr.minigame.su.classes.SwitchUpClass;
 
-@GearzClassMeta(name = "Mage")
+@GearzClassMeta(
+        name = "Mage",
+        key = "su_mage"
+)
 public final class MageClass extends SwitchUpClass {
     public MageClass(TBNRPlayer player, GearzGame game) {
         super(player, game);
