@@ -41,4 +41,9 @@ public final class SwitchUpClassResolver extends TBNRClassResolver {
     public void gameStarting(Collection<TBNRPlayer> players, GearzGame<TBNRPlayer, TBNRAbstractClass> game) {
         shuffleClasses((GSwitchUpGame) game);
     }
+
+    @Override
+    public boolean canUseClass(TBNRPlayer player, Class<? extends TBNRAbstractClass> clazz) {
+        return false;
+    }
 }
