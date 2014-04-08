@@ -1,3 +1,14 @@
+/*
+ * Copyright (c) 2014.
+ * Cogz Development LLC USA
+ * All Right reserved
+ *
+ * This software is the confidential and proprietary information of Cogz Development, LLC.
+ * ("Confidential Information").
+ * You shall not disclose such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with Cogz LLC.
+ */
+
 package net.tbnr.manager.classes;
 
 import net.tbnr.gearz.game.GearzGame;
@@ -20,5 +31,10 @@ public class TBNRClassResolver extends GearzClassResolver<TBNRPlayer,TBNRAbstrac
     @Override
     public void gameStarting(Collection<TBNRPlayer> players, GearzGame<TBNRPlayer, TBNRAbstractClass> game) {
 
+    }
+
+    @Override
+    public boolean canUseClass(TBNRPlayer player, Class<? extends TBNRAbstractClass> clazz) {
+        return false;
     }
 }

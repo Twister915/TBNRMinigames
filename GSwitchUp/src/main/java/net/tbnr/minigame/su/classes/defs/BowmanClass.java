@@ -1,3 +1,14 @@
+/*
+ * Copyright (c) 2014.
+ * Cogz Development LLC USA
+ * All Right reserved
+ *
+ * This software is the confidential and proprietary information of Cogz Development, LLC.
+ * ("Confidential Information").
+ * You shall not disclose such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with Cogz LLC.
+ */
+
 package net.tbnr.minigame.su.classes.defs;
 
 import net.tbnr.gearz.game.GearzGame;
@@ -7,6 +18,7 @@ import net.tbnr.minigame.su.classes.SwitchUpClass;
 
 @GearzClassMeta(
         name = "BowMan",
+        key = "su_bowman",
         description = "BowMan"
 )
 public final class BowmanClass extends SwitchUpClass {
