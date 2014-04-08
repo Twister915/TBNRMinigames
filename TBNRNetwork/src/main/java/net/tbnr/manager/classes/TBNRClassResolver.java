@@ -32,4 +32,9 @@ public class TBNRClassResolver extends GearzClassResolver<TBNRPlayer,TBNRAbstrac
     public void gameStarting(Collection<TBNRPlayer> players, GearzGame<TBNRPlayer, TBNRAbstractClass> game) {
 
     }
+
+    @Override
+    public boolean canUseClass(TBNRPlayer player, Class<? extends TBNRAbstractClass> clazz) {
+        return false;
+    }
 }
