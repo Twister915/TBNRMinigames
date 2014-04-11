@@ -11,7 +11,10 @@
 
 package net.tbnr.minigame.sg;
 
-import net.tbnr.gearz.arena.*;
+import net.tbnr.gearz.arena.Arena;
+import net.tbnr.gearz.arena.ArenaField;
+import net.tbnr.gearz.arena.PointIterator;
+import net.tbnr.gearz.arena.RequiresRegion;
 import org.bukkit.World;
 
 @RequiresRegion

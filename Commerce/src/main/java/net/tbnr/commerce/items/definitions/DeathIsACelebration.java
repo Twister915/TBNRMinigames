@@ -15,7 +15,6 @@ import net.tbnr.commerce.items.CommerceItemAPI;
 import net.tbnr.commerce.items.CommerceItemMeta;
 import net.tbnr.commerce.items.Tier;
 import net.tbnr.gearz.GearzException;
-import net.tbnr.gearz.player.GearzPlayer;
 import net.tbnr.manager.TBNRPlayer;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;

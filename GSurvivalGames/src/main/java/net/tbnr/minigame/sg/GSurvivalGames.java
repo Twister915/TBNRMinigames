@@ -13,7 +13,6 @@ package net.tbnr.minigame.sg;
 
 import lombok.Getter;
 import net.tbnr.gearz.GearzException;
-import net.tbnr.gearz.GearzPlugin;
 import net.tbnr.manager.TBNRPlugin;
 import org.bukkit.Bukkit;
 import org.json.JSONException;

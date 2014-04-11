@@ -19,7 +19,6 @@ import net.tbnr.commerce.items.Tier;
 import net.tbnr.gearz.GearzException;
 import net.tbnr.gearz.event.game.GameStartEvent;
 import net.tbnr.gearz.game.voting.PlayerMapVoteEvent;
-import net.tbnr.gearz.player.GearzPlayer;
 import net.tbnr.manager.TBNRPlayer;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;

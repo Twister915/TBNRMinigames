@@ -19,7 +19,6 @@ import net.tbnr.commerce.items.Tier;
 import net.tbnr.gearz.GearzException;
 import net.tbnr.gearz.event.player.PlayerGameKillEvent;
 import net.tbnr.gearz.packets.wrapper.WrapperPlayServerWorldParticles;
-import net.tbnr.gearz.player.GearzPlayer;
 import net.tbnr.manager.TBNRPlayer;
 import net.tbnr.util.player.TPlayer;
 import org.bukkit.Location;

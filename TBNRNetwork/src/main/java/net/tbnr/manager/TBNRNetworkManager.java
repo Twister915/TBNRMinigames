@@ -14,7 +14,6 @@ package net.tbnr.manager;
 import lombok.Getter;
 import net.tbnr.gearz.Gearz;
 import net.tbnr.gearz.network.GearzNetworkManagerPlugin;
-import net.tbnr.gearz.network.GearzPlayerProvider;
 import net.tbnr.manager.classes.pass.ClassPassManager;
 import net.tbnr.manager.command.ClearChat;
 import org.bukkit.Bukkit;

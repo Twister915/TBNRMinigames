@@ -11,7 +11,6 @@
 
 package net.tbnr.manager.event;
 
-import net.tbnr.gearz.player.GearzPlayer;
 import net.tbnr.manager.TBNRPlayer;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;

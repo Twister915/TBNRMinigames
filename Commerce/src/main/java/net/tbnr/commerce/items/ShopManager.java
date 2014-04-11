@@ -16,7 +16,6 @@ import net.tbnr.commerce.GearzCommerce;
 import net.tbnr.commerce.items.shop.PlayerShop;
 import net.tbnr.commerce.items.shop.Shop;
 import net.tbnr.gearz.Gearz;
-import net.tbnr.gearz.player.GearzPlayer;
 import net.tbnr.manager.TBNRNetworkManager;
 import net.tbnr.manager.TBNRPlayer;
 import net.tbnr.util.command.TCommand;

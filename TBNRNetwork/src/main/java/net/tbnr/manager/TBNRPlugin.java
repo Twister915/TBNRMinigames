@@ -12,7 +12,6 @@
 package net.tbnr.manager;
 
 import net.tbnr.gearz.GearzPlugin;
-import net.tbnr.gearz.network.GearzNetworkManagerPlugin;
 import net.tbnr.gearz.network.GearzPlayerProvider;
 import net.tbnr.manager.classes.TBNRAbstractClass;
 

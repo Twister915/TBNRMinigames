@@ -18,7 +18,6 @@ import net.tbnr.commerce.items.CommerceItemMeta;
 import net.tbnr.commerce.items.Tier;
 import net.tbnr.gearz.Gearz;
 import net.tbnr.gearz.GearzException;
-import net.tbnr.gearz.player.GearzPlayer;
 import net.tbnr.manager.TBNRPlayer;
 import net.tbnr.util.player.TPlayer;
 import org.bukkit.Bukkit;

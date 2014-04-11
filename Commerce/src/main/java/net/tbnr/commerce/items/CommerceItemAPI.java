@@ -12,7 +12,6 @@
 package net.tbnr.commerce.items;
 
 import com.mongodb.BasicDBList;
-import net.tbnr.gearz.player.GearzPlayer;
 import net.tbnr.manager.TBNRPlayer;
 
 import java.util.List;

@@ -12,7 +12,6 @@
 package net.tbnr.minigame.eg;
 
 import net.tbnr.gearz.GearzException;
-import net.tbnr.gearz.GearzPlugin;
 import net.tbnr.manager.TBNRPlugin;
 import org.bukkit.Bukkit;
 

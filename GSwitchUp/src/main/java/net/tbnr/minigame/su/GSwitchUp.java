@@ -14,8 +14,8 @@ package net.tbnr.minigame.su;
 import net.tbnr.gearz.GearzException;
 import net.tbnr.manager.TBNRPlugin;
 import net.tbnr.manager.classes.TBNRClassSystem;
-import net.tbnr.minigame.su.classes.defs.*;
 import net.tbnr.minigame.su.classes.SwitchUpClassResolver;
+import net.tbnr.minigame.su.classes.defs.*;
 import org.bukkit.Bukkit;
 
 /**

@@ -11,7 +11,9 @@
 
 package net.tbnr.minigame.su;
 
-import net.tbnr.gearz.arena.*;
+import net.tbnr.gearz.arena.Arena;
+import net.tbnr.gearz.arena.ArenaField;
+import net.tbnr.gearz.arena.PointIterator;
 import org.bukkit.World;
 
 /**

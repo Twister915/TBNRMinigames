@@ -15,7 +15,6 @@ import net.tbnr.commerce.items.CommerceItem;
 import net.tbnr.commerce.items.CommerceItemAPI;
 import net.tbnr.gearz.GearzException;
 import net.tbnr.gearz.event.player.PlayerGameDeathEvent;
-import net.tbnr.gearz.player.GearzPlayer;
 import net.tbnr.manager.TBNRPlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
