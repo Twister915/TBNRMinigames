@@ -17,7 +17,7 @@ import lombok.EqualsAndHashCode;
 import net.tbnr.gearz.netcommand.BouncyUtils;
 import net.tbnr.gearz.server.Server;
 import net.tbnr.gearz.server.ServerManager;
-import net.tbnr.util.ServerSelector;
+import net.tbnr.util.inventory.ServerSelector;
 import net.tbnr.util.inventory.InventoryGUI;
 import net.tbnr.util.player.TPlayer;
 import net.tbnr.util.player.TPlayerManager;
@@ -56,7 +56,7 @@ public class BlastOffSigns implements Listener {
         final String[] lines = sign.getLines();
         if (ServerManager.getServersWithGame(lines[1]).size() == 0) return;
         if (!lines[0].equals(TBNRHub.getInstance().getFormat("formats.blastoff-topline", true))) return;
-        final ServerSelector serverSelector = new ServerSelector(lines[1], new ServerSelector.SelectorCallback() {
+        final ServerSelector serverSelector = new ServerSelector(lines[1], new ServerSelector.InventoryGUICallback() {
             @Override
             public void onItemSelect(ServerSelector selector, InventoryGUI.InventoryGUIItem item, Player player) {
 
