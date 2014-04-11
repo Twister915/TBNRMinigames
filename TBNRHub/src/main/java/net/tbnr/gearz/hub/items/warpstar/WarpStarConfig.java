@@ -12,7 +12,7 @@
 package net.tbnr.gearz.hub.items.warpstar;
 
 import net.tbnr.gearz.hub.TBNRHub;
-import net.tbnr.util.inventory.InventoryGUI;
+import net.tbnr.util.inventory.base.GUIItem;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -34,7 +34,7 @@ import java.util.Set;
  */
 public class WarpStarConfig {
 
-    private ArrayList<InventoryGUI.InventoryGUIItem> warps;
+    private ArrayList<GUIItem> warps;
     private HashMap<String, Location> locations;
 
     public WarpStarConfig() {
@@ -58,7 +58,7 @@ public class WarpStarConfig {
                 lore.set(lore.indexOf(s), ChatColor.translateAlternateColorCodes('&', s));
             }
 
-            warps.add(new InventoryGUI.InventoryGUIItem(getItem(forKey.getString("item")), name, lore));
+            warps.add(new GUIItem(getItem(forKey.getString("item")), name, lore));
             locations.put(key.toLowerCase(), getLocation(forKey.getConfigurationSection("location")));
         }
     }
@@ -83,7 +83,7 @@ public class WarpStarConfig {
         return null;
     }
 
-    public ArrayList<InventoryGUI.InventoryGUIItem> getWarps() {
+    public ArrayList<GUIItem> getWarps() {
         return warps;
     }
 

@@ -16,9 +16,10 @@ import net.tbnr.gearz.hub.TBNRHub;
 import net.tbnr.gearz.hub.annotations.HubItem;
 import net.tbnr.gearz.hub.annotations.HubItemMeta;
 import net.tbnr.gearz.hub.items.warpstar.WarpStarConfig;
-import net.tbnr.gearz.player.GearzPlayer;
-import net.tbnr.manager.TBNRPlayer;
 import net.tbnr.util.inventory.InventoryGUI;
+import net.tbnr.util.inventory.base.BaseGUI;
+import net.tbnr.util.inventory.base.GUICallback;
+import net.tbnr.util.inventory.base.GUIItem;
 import net.tbnr.util.player.TPlayer;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -49,9 +50,9 @@ public class WarpStar extends HubItem {
 
         final WarpStarConfig config = new WarpStarConfig();
 
-        this.inventoryGUI = new InventoryGUI(config.getWarps(), "Warp Menu", new InventoryGUI.InventoryGUICallback() {
+        this.inventoryGUI = new InventoryGUI(config.getWarps(), "Warp Menu", new GUICallback() {
             @Override
-            public void onItemSelect(InventoryGUI gui, InventoryGUI.InventoryGUIItem item, Player player) {
+            public void onItemSelect(BaseGUI gui, GUIItem item, Player player) {
                 inventoryGUI.close(player);
                 try {
                     player.teleport(config.getLocation(item.getName()));
@@ -65,9 +66,9 @@ public class WarpStar extends HubItem {
             }
 
             @Override
-            public void onGUIOpen(InventoryGUI gui, Player player) {}
+            public void onGUIOpen(BaseGUI gui, Player player) {}
             @Override
-            public void onGUIClose(InventoryGUI gui, Player player) {}
+            public void onGUIClose(BaseGUI gui, Player player) {}
         });
     }
 

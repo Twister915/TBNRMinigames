@@ -18,7 +18,9 @@ import net.tbnr.gearz.netcommand.BouncyUtils;
 import net.tbnr.gearz.server.Server;
 import net.tbnr.gearz.server.ServerManager;
 import net.tbnr.util.inventory.ServerSelector;
-import net.tbnr.util.inventory.InventoryGUI;
+import net.tbnr.util.inventory.base.BaseGUI;
+import net.tbnr.util.inventory.base.GUICallback;
+import net.tbnr.util.inventory.base.GUIItem;
 import net.tbnr.util.player.TPlayer;
 import net.tbnr.util.player.TPlayerManager;
 import org.bukkit.Material;
@@ -56,9 +58,9 @@ public class BlastOffSigns implements Listener {
         final String[] lines = sign.getLines();
         if (ServerManager.getServersWithGame(lines[1]).size() == 0) return;
         if (!lines[0].equals(TBNRHub.getInstance().getFormat("formats.blastoff-topline", true))) return;
-        final ServerSelector serverSelector = new ServerSelector(lines[1], new ServerSelector.InventoryGUICallback() {
+        final ServerSelector serverSelector = new ServerSelector(lines[1], new GUICallback() {
             @Override
-            public void onItemSelect(ServerSelector selector, InventoryGUI.InventoryGUIItem item, Player player) {
+            public void onItemSelect(BaseGUI gui, GUIItem item, Player player) {
 
                 /**
                  * The reason you need to test as the person could have the selector
@@ -68,6 +70,7 @@ public class BlastOffSigns implements Listener {
                  * Therefore it causes and IndexOutOfBoundsException
                  * @see java.lang.IndexOutOfBoundsException
                  */
+                ServerSelector selector = (ServerSelector) gui;
                 Server server;
                 try {
                     server = selector.getServers().get(
@@ -87,12 +90,10 @@ public class BlastOffSigns implements Listener {
             }
 
             @Override
-            public void onSelectorOpen(ServerSelector selector, Player player) {
-            }
+            public void onGUIOpen(BaseGUI gui, Player player) {}
 
             @Override
-            public void onSelectorClose(ServerSelector selector, Player player) {
-            }
+            public void onGUIClose(BaseGUI gui, Player player) {}
         });
         serverSelector.open(event.getPlayer());
     }
