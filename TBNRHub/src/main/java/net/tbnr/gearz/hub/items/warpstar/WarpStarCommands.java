@@ -57,6 +57,9 @@ public class WarpStarCommands implements TCommandHandler {
 
         ConfigurationSection section = TBNRHub.getInstance().getConfig().createSection("hub.warps." + ChatColor.stripColor(name).toLowerCase());
 
+        if (material == null) {
+            return TCommandStatus.INVALID_ARGS;
+        }
         section.set("item", material.name());
         section.set("name", args[1]);
         section.set("lore", lore);
