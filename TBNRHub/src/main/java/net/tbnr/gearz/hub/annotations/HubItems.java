@@ -64,10 +64,6 @@ public class HubItems implements Listener {
 
     }
 
-    public void refreshWarpStar() {
-        warpStarConfig.refresh();
-    }
-
     @EventHandler(priority= EventPriority.HIGHEST)
     @SuppressWarnings("unused")
     public void onPlayerJoin(TPlayerJoinEvent event) {

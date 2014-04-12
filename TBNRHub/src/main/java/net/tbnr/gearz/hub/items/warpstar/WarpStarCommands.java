@@ -77,7 +77,6 @@ public class WarpStarCommands implements TCommandHandler {
         TBNRHub.getInstance().getConfig().set("hub.warps." + ChatColor.stripColor(name).toLowerCase(), section);
         TBNRHub.getInstance().saveConfig();
         p.sendMessage(ChatColor.GREEN + "Warp set!");
-        TBNRHub.getInstance().getHubItems().refreshWarpStar();
         return TCommandStatus.SUCCESSFUL;
     }
 
@@ -95,7 +94,6 @@ public class WarpStarCommands implements TCommandHandler {
         TBNRHub.getInstance().getConfig().set("hub.warps." + args[0], null);
         TBNRHub.getInstance().saveConfig();
         sender.sendMessage(ChatColor.GREEN + "Warp deleted!");
-        TBNRHub.getInstance().getHubItems().refreshWarpStar();
         return TCommandStatus.SUCCESSFUL;
     }
 
