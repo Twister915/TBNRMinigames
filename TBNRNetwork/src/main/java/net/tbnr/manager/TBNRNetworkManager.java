@@ -16,6 +16,7 @@ import net.tbnr.gearz.Gearz;
 import net.tbnr.gearz.network.GearzNetworkManagerPlugin;
 import net.tbnr.manager.classes.pass.ClassPassManager;
 import net.tbnr.manager.command.ClearChat;
+import net.tbnr.manager.command.YoutuberCommand;
 import org.bukkit.Bukkit;
 
 public final class TBNRNetworkManager extends GearzNetworkManagerPlugin<TBNRPlayer, TBNRPlayerProvider> {
@@ -29,6 +30,7 @@ public final class TBNRNetworkManager extends GearzNetworkManagerPlugin<TBNRPlay
         TBNRPlayerUtils tbnrPlayerUtils = new TBNRPlayerUtils();
         registerCommands(tbnrPlayerUtils);
         registerCommands(new ClearChat());
+        registerCommands(new YoutuberCommand());
         registerEvents(tbnrPlayerUtils);
         classPassManager = new ClassPassManager();
     }

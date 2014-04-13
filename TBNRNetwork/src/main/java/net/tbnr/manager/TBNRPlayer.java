@@ -133,6 +133,15 @@ public final class TBNRPlayer extends GearzPlayer {
         }
         return donorPoints;
     }
+
+    public String getYoutubeChannel() {
+        return (String) this.tPlayer.getStorable(Gearz.getInstance(), "youtube");
+    }
+
+    public void setYoutubeChannel(String youtubeChannel) {
+        this.tPlayer.store(Gearz.getInstance(), new GPlayerYoutube(youtubeChannel));
+    }
+
     public void updateStats() {
         Integer xp = this.getXP();
         int new_level = this.getLevelFromXP(xp);
@@ -254,6 +263,24 @@ public final class TBNRPlayer extends GearzPlayer {
         @Override
         public Object getValue() {
             return points;
+        }
+    }
+
+    public static class GPlayerYoutube implements TPlayerStorable {
+        private final String youtube;
+
+        public GPlayerYoutube(String youtube) {
+            this.youtube = youtube;
+        }
+
+        @Override
+        public String getName() {
+            return "youtube";
+        }
+
+        @Override
+        public Object getValue() {
+            return youtube;
         }
     }
 }
