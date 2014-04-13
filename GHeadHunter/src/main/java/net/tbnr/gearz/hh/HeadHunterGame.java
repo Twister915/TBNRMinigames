@@ -17,6 +17,8 @@ import net.tbnr.gearz.effects.EnderBar;
 import net.tbnr.gearz.game.GameCountdown;
 import net.tbnr.gearz.game.GameCountdownHandler;
 import net.tbnr.gearz.game.GameMeta;
+import net.tbnr.gearz.hh.classes.HeadHunterClassResolver;
+import net.tbnr.gearz.hh.classes.def.Artillery;
 import net.tbnr.gearz.network.GearzPlayerProvider;
 import net.tbnr.manager.TBNRMinigame;
 import net.tbnr.manager.TBNRPlayer;
@@ -33,6 +35,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 @GameMeta(
@@ -52,6 +55,7 @@ import java.util.*;
 public final class HeadHunterGame extends TBNRMinigame implements GameCountdownHandler {
     private HeadHunterArena hhArena;
     private HashMap<TBNRPlayer, Integer> pointsAwarded;
+	private HeadHunterClassResolver hhClassResolver;
 
     /**
      * New game in this arena
@@ -64,7 +68,9 @@ public final class HeadHunterGame extends TBNRMinigame implements GameCountdownH
     public HeadHunterGame(List<TBNRPlayer> players, Arena arena, GearzPlugin<TBNRPlayer, TBNRAbstractClass> plugin, GameMeta meta, Integer id, GearzPlayerProvider<TBNRPlayer> playerProvider) {
         super(players, arena, plugin, meta, id, playerProvider);
         if (!(arena instanceof HeadHunterArena)) throw new RuntimeException("Invalid game class");
+	    if (!(getClassResolver() instanceof HeadHunterClassResolver)) throw new RuntimeException("Invalid Class Resolver");
         this.hhArena = (HeadHunterArena) arena;
+	    this.hhClassResolver = (HeadHunterClassResolver) getClassResolver();
         this.pointsAwarded = new HashMap<>();
     }
 
@@ -192,7 +198,12 @@ public final class HeadHunterGame extends TBNRMinigame implements GameCountdownH
     @Override
     protected void activatePlayer(TBNRPlayer player) {
 	    if(!player.isValid()) return;
-        player.getTPlayer().giveItem(Material.STONE_AXE);
+	    try {
+		    updateClassFor(player);
+	    } catch (InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
+		    e.printStackTrace();
+	    }
+	    player.getTPlayer().giveItem(Material.STONE_AXE);
         player.getTPlayer().giveItem(Material.DIAMOND, 1, (short) 0, getPluginFormat("formats.diamond-title", false), new String[0], 9);
     }
 
@@ -266,6 +277,10 @@ public final class HeadHunterGame extends TBNRMinigame implements GameCountdownH
             }
         }
         player.getPlayer().getInventory().setItem(0, item);
+
+	    if (!(getClassFor(player) instanceof Artillery)) {
+		    return;
+	    }
     }
 
     @Override

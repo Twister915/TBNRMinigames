@@ -1,0 +1,25 @@
+{
+    "items" : [
+        {
+            "item_type" : "BOW",
+            "title" : "&bArtillery Bow",
+            "lore" : [
+                "&bExplodey!"
+            ],
+            "enchants" : [
+                {
+                    "name" : "ARROW_INFINITE",
+                    "level" : 1
+                }
+            ]
+        },
+        {
+            "item_type" : "ARROW",
+            "title" : "&bExplosive Arrow",
+            "lore" : [
+                "&bVery Unstable!"
+            ],
+            "quantity" : 1
+        }
+    ]
+}

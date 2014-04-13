@@ -12,7 +12,11 @@
 package net.tbnr.gearz.hh;
 
 import net.tbnr.gearz.GearzException;
+import net.tbnr.gearz.hh.classes.HeadHunterClassResolver;
+import net.tbnr.gearz.hh.classes.def.Artillery;
+import net.tbnr.gearz.hh.classes.def.Normal;
 import net.tbnr.manager.TBNRPlugin;
+import net.tbnr.manager.classes.TBNRClassSystem;
 
 /**
  * HeadHunter class
@@ -21,7 +25,7 @@ public final class GHeadHunter extends TBNRPlugin {
     @Override
     public void enable() {
         try {
-            registerGame(HeadHunterArena.class, HeadHunterGame.class);
+            registerGame(HeadHunterArena.class, HeadHunterGame.class, new TBNRClassSystem(new HeadHunterClassResolver(), Artillery.class, Normal.class));
         } catch (GearzException e) {
             e.printStackTrace();
             getServer().getPluginManager().disablePlugin(this);

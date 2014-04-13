@@ -18,9 +18,7 @@ import net.tbnr.manager.classes.TBNRAbstractClass;
 import net.tbnr.manager.classes.TBNRClassResolver;
 import net.tbnr.minigame.su.GSwitchUpGame;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public final class SwitchUpClassResolver extends TBNRClassResolver {
 
@@ -35,7 +33,7 @@ public final class SwitchUpClassResolver extends TBNRClassResolver {
 
     public void shufflePlayer(TBNRPlayer player) {
         Class<? extends TBNRAbstractClass>[] classes = getClassSystem().getClasses();
-        this.classes.put(player, classes[Gearz.getRandom().nextInt(classes.length)]);
+        assignPlayerClass(player, classes[Gearz.getRandom().nextInt(classes.length)]);
     }
 
     @Override
@@ -57,4 +55,9 @@ public final class SwitchUpClassResolver extends TBNRClassResolver {
     public boolean canUseClass(TBNRPlayer player, Class<? extends TBNRAbstractClass> clazz) {
         return false;
     }
+
+	@Override
+	public void assignPlayerClass(TBNRPlayer player, Class<? extends TBNRAbstractClass> clazz) {
+		classes.put(player, clazz);
+	}
 }

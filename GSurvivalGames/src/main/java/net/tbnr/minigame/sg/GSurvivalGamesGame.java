@@ -140,7 +140,7 @@ public final class GSurvivalGamesGame extends TBNRMinigame implements GameCountd
         absolute.getBlock().getRelative(BlockFace.UP).setType(Material.AIR);
         Chest chest = (Chest) absolute.getBlock().getState();
         Loot loot = new Loot(tier, chest);
-        this.loots.put(p, loot);
+        loots.put(p, loot);
         return loot;
     }
 
@@ -421,7 +421,9 @@ public final class GSurvivalGamesGame extends TBNRMinigame implements GameCountd
 
     @Override
     protected void onDamage(Entity damager, Entity target, EntityDamageByEntityEvent event) {
+	    // If damager isn't an instance of a snowball then return
         if (!(damager instanceof Snowball)) return;
+	    //If target isn't instance of player the return
         if (!(target instanceof Player)) return;
         TBNRPlayer target1 = resolvePlayer((Player) target);
         if (!isPlaying(target1)) return;
@@ -440,6 +442,7 @@ public final class GSurvivalGamesGame extends TBNRMinigame implements GameCountd
         targPlayer.teleport(new Location(targPlayer.getWorld(), pX + 0.5, pY, pZ + 0.5));
         targPlayer.sendMessage(getPluginFormat("formats.snowball-hit-by", true, new String[]{"<player>", attacker.getUsername()}));
         attackerP.sendMessage(getPluginFormat("formats.snowball-hit", true, new String[]{"<player>", targPlayer.getName()}));
+	    // loop through all the blocks in a 3d area
         for (int x = pX - 1; x <= pX + 1; x++) {
             for (int y = pY - 1; y <= pY + 2; y++) {
                 for (int z = pZ - 1; z <= pZ + 1; z++) {
