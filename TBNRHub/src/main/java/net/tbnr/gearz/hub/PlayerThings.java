@@ -53,9 +53,4 @@ public class PlayerThings implements Listener {
     public void onQuit(TPlayerDisconnectEvent event) {
         ServerManager.removePlayer(event.getPlayer().getPlayerName());
     }
-
-    @EventHandler
-    public void inventoryMove(InventoryClickEvent event) {
-        if (event.getSlotType() == InventoryType.SlotType.ARMOR) event.setCancelled(true);
-    }
 }
