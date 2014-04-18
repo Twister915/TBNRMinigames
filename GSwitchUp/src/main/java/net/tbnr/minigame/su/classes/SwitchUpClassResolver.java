@@ -56,7 +56,6 @@ public final class SwitchUpClassResolver extends TBNRClassResolver {
         return false;
     }
 
-	@Override
 	public void assignPlayerClass(TBNRPlayer player, Class<? extends TBNRAbstractClass> clazz) {
 		classes.put(player, clazz);
 	}
