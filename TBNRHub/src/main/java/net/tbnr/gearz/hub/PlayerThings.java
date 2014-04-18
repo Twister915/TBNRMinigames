@@ -11,6 +11,7 @@
 
 package net.tbnr.gearz.hub;
 
+import com.google.common.collect.Lists;
 import net.gearz.settings.SettingBuilder;
 import net.gearz.settings.base.BaseSetting;
 import net.gearz.settings.type.BooleanType;
@@ -21,8 +22,6 @@ import net.tbnr.util.player.TPlayerJoinEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryType;
 
 /**
  * Created with IntelliJ IDEA.
@@ -57,15 +56,12 @@ public class PlayerThings implements Listener {
             .name("TexturePack")
             .type(new BooleanType())
             .defaultValue(true)
-            .description("Toggle the TBNR texture pack.").get();
+            .description("Toggle the TBNR texture pack.")
+            .aliases(Lists.newArrayList("ResourcePack"))
+            .get();
 
     @EventHandler
     public void onQuit(TPlayerDisconnectEvent event) {
         ServerManager.removePlayer(event.getPlayer().getPlayerName());
-    }
-
-    @EventHandler
-    public void inventoryMove(InventoryClickEvent event) {
-        if (event.getSlotType() == InventoryType.SlotType.ARMOR) event.setCancelled(true);
     }
 }
