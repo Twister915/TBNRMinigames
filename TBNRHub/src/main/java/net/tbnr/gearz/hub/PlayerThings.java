@@ -44,11 +44,10 @@ public class PlayerThings implements Listener {
     public void onJoin(TPlayerJoinEvent event) {
         Player player = event.getPlayer().getPlayer();
         ServerManager.addPlayer(event.getPlayer().getPlayerName());
+        event.getPlayer().removeAllPotionEffects();
         if (player.hasPermission("gearz.flight")) {
             player.setAllowFlight(true);
         }
-        System.out.println(PlayerSettings.getManager(player).getValue(PlayerThings.TEXTURE_PACK, Boolean.class));
-        System.out.println(this.rescPackLink);
         if (PlayerSettings.getManager(player).getValue(PlayerThings.TEXTURE_PACK, Boolean.class)) {
             player.setResourcePack(rescPackLink);
         }
