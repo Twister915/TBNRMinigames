@@ -48,6 +48,7 @@ public class PlayerThings implements Listener {
             player.setAllowFlight(true);
         }
         System.out.println(PlayerSettings.getManager(player).getValue(PlayerThings.TEXTURE_PACK, Boolean.class));
+        System.out.println(this.rescPackLink);
         if (PlayerSettings.getManager(player).getValue(PlayerThings.TEXTURE_PACK, Boolean.class)) {
             player.setResourcePack(rescPackLink);
         }
