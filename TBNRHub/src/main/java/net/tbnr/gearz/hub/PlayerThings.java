@@ -47,6 +47,7 @@ public class PlayerThings implements Listener {
         if (player.hasPermission("gearz.flight")) {
             player.setAllowFlight(true);
         }
+        System.out.println(PlayerSettings.getManager(player).getValue(PlayerThings.TEXTURE_PACK, Boolean.class));
         if (PlayerSettings.getManager(player).getValue(PlayerThings.TEXTURE_PACK, Boolean.class)) {
             player.setResourcePack(rescPackLink);
         }
