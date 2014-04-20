@@ -24,6 +24,10 @@ public final class SwitchUpClassResolver extends TBNRClassResolver {
 
     private Map<TBNRPlayer, Class<? extends TBNRAbstractClass>> classes;
 
+    public SwitchUpClassResolver() {
+        super(null, null);
+    }
+
     public void shuffleClasses(GSwitchUpGame game) {
         this.classes = new HashMap<>();
         for (TBNRPlayer tbnrPlayer : game.getPlayers()) {
@@ -49,11 +53,6 @@ public final class SwitchUpClassResolver extends TBNRClassResolver {
     @Override
     public void gameStarting(Collection<TBNRPlayer> players, GearzGame<TBNRPlayer, TBNRAbstractClass> game) {
         shuffleClasses((GSwitchUpGame) game);
-    }
-
-    @Override
-    public boolean canUseClass(TBNRPlayer player, Class<? extends TBNRAbstractClass> clazz) {
-        return false;
     }
 
 	public void assignPlayerClass(TBNRPlayer player, Class<? extends TBNRAbstractClass> clazz) {

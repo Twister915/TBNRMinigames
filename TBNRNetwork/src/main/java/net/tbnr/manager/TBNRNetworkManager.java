@@ -21,7 +21,6 @@ import org.bukkit.Bukkit;
 
 public final class TBNRNetworkManager extends GearzNetworkManagerPlugin<TBNRPlayer, TBNRPlayerProvider> {
     @Getter private static TBNRNetworkManager instance;
-    @Getter private ClassPassManager classPassManager;
 
     @Override
     public void enable() {
@@ -32,7 +31,6 @@ public final class TBNRNetworkManager extends GearzNetworkManagerPlugin<TBNRPlay
         registerCommands(new ClearChat());
         registerCommands(new YoutuberCommand());
         registerEvents(tbnrPlayerUtils);
-        classPassManager = new ClassPassManager();
     }
 
     @Override

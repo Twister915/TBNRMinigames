@@ -11,30 +11,37 @@
 
 package net.tbnr.manager.classes;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NonNull;
 import net.tbnr.gearz.game.GearzGame;
 import net.tbnr.gearz.game.classes.GearzClassResolver;
 import net.tbnr.manager.TBNRPlayer;
+import net.tbnr.manager.classes.pass.ClassPassManager;
 
 import java.util.Collection;
 
+@EqualsAndHashCode(callSuper = false)
+@Data
 public class TBNRClassResolver extends GearzClassResolver<TBNRPlayer,TBNRAbstractClass> {
+    private final ClassPassManager<TBNRAbstractClass> classPassManager;
+    private final Class<? extends TBNRAbstractClass> defaultClass;
+
     @Override
     public Class<? extends TBNRAbstractClass> getClassForPlayer(TBNRPlayer player, GearzGame<TBNRPlayer, TBNRAbstractClass> game) {
-        return null;
+        Class<? extends TBNRAbstractClass> classForGame = classPassManager.getClassForGame(player);
+        return classForGame == null ? defaultClass : classForGame;
     }
 
     @Override
     public void playerUsedClassFully(TBNRPlayer player, TBNRAbstractClass classUsed, GearzGame<TBNRPlayer, TBNRAbstractClass> game) {
-
+        classPassManager.playerHasUsedClass(classUsed.getClass(), player);
     }
 
     @Override
     public void gameStarting(Collection<TBNRPlayer> players, GearzGame<TBNRPlayer, TBNRAbstractClass> game) {
-
-    }
-
-    @Override
-    public boolean canUseClass(TBNRPlayer player, Class<? extends TBNRAbstractClass> clazz) {
-        return false;
+        for (TBNRPlayer player : players) {
+            classPassManager.setLastUsedClass(player, game.getClassFor(player).getClass());
+        }
     }
 }

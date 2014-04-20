@@ -12,6 +12,7 @@
 package net.tbnr.minigame.sg.classes;
 
 import net.tbnr.gearz.game.GearzGame;
+import net.tbnr.gearz.game.classes.GearzClassMeta;
 import net.tbnr.manager.TBNRPlayer;
 import net.tbnr.manager.classes.TBNRAbstractClass;
 
@@ -25,15 +26,9 @@ import java.util.logging.Logger;
  * @author George
  * @since 13/04/14
  */
+@GearzClassMeta(name = "Trickster", key = "sg_trickster", description = "Yo this is da trickster")
 public class Trickster extends TBNRAbstractClass {
-	private static final boolean debug = false; //TODO get debug mode
-	private static final Logger log = null; //TODO get logger
-
 	public Trickster(TBNRPlayer player, GearzGame game) {
 		super(player, game);
 	}
-
-
-
-
 }
