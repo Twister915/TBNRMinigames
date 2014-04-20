@@ -21,24 +21,12 @@ import java.util.Collections;
 import java.util.List;
 
 public final class TBNRClassSystem extends GearzClassSystem<TBNRPlayer, TBNRAbstractClass>{
-    public TBNRClassSystem(GameMeta gameMeta, Class<? extends TBNRAbstractClass> defaultClass, List<Class<? extends TBNRAbstractClass>> classes) {
+    public TBNRClassSystem(GameMeta gameMeta, Class<? extends TBNRAbstractClass> defaultClass, List<Class> classes) {
         this(new TBNRClassResolver(new ClassPassManager<>(gameMeta.key()), defaultClass), defaultClass, classes);
     }
 
-    public TBNRClassSystem(TBNRClassResolver classResolver, Class<? extends TBNRAbstractClass> defaultClass, List<Class<? extends TBNRAbstractClass>> classes) {
+    public TBNRClassSystem(TBNRClassResolver classResolver, Class<? extends TBNRAbstractClass> defaultClass, List<Class> classes) {
         super(classes, classResolver, defaultClass);
         this.getClassResolver().setClassSystem(this);
-    }
-
-    public static List<Class<? extends TBNRAbstractClass>> getListFromClasses(Class... classes) {
-        ArrayList<Class<? extends TBNRAbstractClass>> tbnrClasses = new ArrayList<>();
-        for (Class aClass : classes) {
-            try {
-                @SuppressWarnings("unchecked") Class<? extends TBNRAbstractClass> aClass1 = (Class<? extends TBNRAbstractClass>) aClass;
-                tbnrClasses.add(aClass1);
-            } catch (ClassCastException ignored) {} //Ignored so we can continue populating the array with the *valid* classes.
-        }
-        return tbnrClasses;
-
     }
 }

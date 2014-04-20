@@ -13,10 +13,14 @@ package net.tbnr.minigame.su;
 
 import net.tbnr.gearz.GearzException;
 import net.tbnr.manager.TBNRPlugin;
+import net.tbnr.manager.classes.TBNRAbstractClass;
 import net.tbnr.manager.classes.TBNRClassSystem;
 import net.tbnr.minigame.su.classes.SwitchUpClassResolver;
 import net.tbnr.minigame.su.classes.defs.*;
 import org.bukkit.Bukkit;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Joey on 1/3/14.
@@ -29,9 +33,18 @@ public final class GSwitchUp extends TBNRPlugin {
     @Override
     public void enable() {
         try {
-            registerGame(GSwitchUpArena.class, GSwitchUpGame.class, new TBNRClassSystem(new SwitchUpClassResolver(), null, TBNRClassSystem.getListFromClasses(
-                    ArcherClass.class, BoomerClass.class, BowmanClass.class, CheeseKnightClass.class, CreativeBuilderClass.class, GentlemanClass.class,
-                    JuggernautClass.class, MageClass.class, OlympianClass.class, VikingClass.class)));
+            List<Class<? extends TBNRAbstractClass>> classes = new ArrayList<>();
+            classes.add(ArcherClass.class);
+            classes.add(BoomerClass.class);
+            classes.add(BowmanClass.class);
+            classes.add(CheeseKnightClass.class);
+            classes.add(CreativeBuilderClass.class);
+            classes.add(GentlemanClass.class);
+            classes.add(JuggernautClass.class);
+            classes.add(MageClass.class);
+            classes.add(OlympianClass.class);
+            classes.add(VikingClass.class);
+            registerGame(GSwitchUpArena.class, GSwitchUpGame.class, new TBNRClassSystem(new SwitchUpClassResolver(), null, classes));
         } catch (GearzException e) {
             e.printStackTrace();
             Bukkit.getPluginManager().disablePlugin(this);
