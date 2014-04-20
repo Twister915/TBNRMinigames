@@ -32,7 +32,12 @@ public final class TBNRClassSystem extends GearzClassSystem<TBNRPlayer, TBNRAbst
 
     public static List<Class<? extends TBNRAbstractClass>> getListFromClasses(Class... classes) {
         ArrayList<Class<? extends TBNRAbstractClass>> tbnrClasses = new ArrayList<>();
-        Collections.addAll(tbnrClasses, classes);
+        for (Class aClass : classes) {
+            try {
+                @SuppressWarnings("unchecked") Class<? extends TBNRAbstractClass> aClass1 = (Class<? extends TBNRAbstractClass>) aClass;
+                tbnrClasses.add(aClass1);
+            } catch (ClassCastException ignored) {} //Ignored so we can continue populating the array with the *valid* classes.
+        }
         return tbnrClasses;
 
     }
