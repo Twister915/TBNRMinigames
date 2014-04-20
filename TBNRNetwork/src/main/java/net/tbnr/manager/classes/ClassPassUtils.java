@@ -17,7 +17,6 @@ public final class ClassPassUtils {
     public TCommandStatus creditChange(CommandSender sender, TCommandSender type, TCommand meta, Command command, String[] args) {
         if (args.length < 5) return TCommandStatus.HELP;
         ClassPassManager<TBNRAbstractClass> classPassManager = new ClassPassManager<>(args[1]);
-        classPassManager.addClassCreditsFor(args[4], );
         return TCommandStatus.SUCCESSFUL;
     }
 }

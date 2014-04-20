@@ -98,5 +98,7 @@ public final class ClassPassManager<AbstractClassType extends TBNRAbstractClass>
         setLastUsedClass(player, clazz);
     }
 
-    public static void modifyCreditsFor()
+    public static void modifyCreditsFor() {
+
+    }
 }
