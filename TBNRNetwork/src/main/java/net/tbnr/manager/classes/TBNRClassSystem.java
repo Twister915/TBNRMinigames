@@ -21,11 +21,11 @@ import java.util.Collections;
 import java.util.List;
 
 public final class TBNRClassSystem extends GearzClassSystem<TBNRPlayer, TBNRAbstractClass>{
-    public TBNRClassSystem(GameMeta gameMeta, Class<? extends TBNRAbstractClass> defaultClass, List<Class> classes) {
+    public TBNRClassSystem(GameMeta gameMeta, Class<? extends TBNRAbstractClass> defaultClass, List<Class<? extends TBNRAbstractClass>> classes) {
         this(new TBNRClassResolver(new ClassPassManager<>(gameMeta.key()), defaultClass), defaultClass, classes);
     }
 
-    public TBNRClassSystem(TBNRClassResolver classResolver, Class<? extends TBNRAbstractClass> defaultClass, List<Class> classes) {
+    public TBNRClassSystem(TBNRClassResolver classResolver, Class<? extends TBNRAbstractClass> defaultClass, List<Class<? extends TBNRAbstractClass>> classes) {
         super(classes, classResolver, defaultClass);
         this.getClassResolver().setClassSystem(this);
     }
