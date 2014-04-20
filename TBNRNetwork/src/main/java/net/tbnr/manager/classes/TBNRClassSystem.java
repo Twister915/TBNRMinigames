@@ -30,8 +30,7 @@ public final class TBNRClassSystem extends GearzClassSystem<TBNRPlayer, TBNRAbst
         this.getClassResolver().setClassSystem(this);
     }
 
-    @SafeVarargs
-    public static List<Class<? extends TBNRAbstractClass>> getListFromClasses(Class<? extends TBNRAbstractClass>... classes) {
+    public static List<Class<? extends TBNRAbstractClass>> getListFromClasses(Class... classes) {
         ArrayList<Class<? extends TBNRAbstractClass>> tbnrClasses = new ArrayList<>();
         Collections.addAll(tbnrClasses, classes);
         return tbnrClasses;
