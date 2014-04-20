@@ -97,4 +97,6 @@ public final class ClassPassManager<AbstractClassType extends TBNRAbstractClass>
         removeClassCreditsFor(1, clazz, player);
         setLastUsedClass(player, clazz);
     }
+
+    public static void modifyCreditsFor()
 }
