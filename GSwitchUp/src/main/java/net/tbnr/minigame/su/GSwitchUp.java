@@ -29,9 +29,9 @@ public final class GSwitchUp extends TBNRPlugin {
     @Override
     public void enable() {
         try {
-            registerGame(GSwitchUpArena.class, GSwitchUpGame.class, new TBNRClassSystem(new SwitchUpClassResolver(),
+            registerGame(GSwitchUpArena.class, GSwitchUpGame.class, new TBNRClassSystem(new SwitchUpClassResolver(), null, TBNRClassSystem.getListFromClasses(
                     ArcherClass.class, BoomerClass.class, BowmanClass.class, CheeseKnightClass.class, CreativeBuilderClass.class, GentlemanClass.class,
-                    JuggernautClass.class, MageClass.class, OlympianClass.class, VikingClass.class));
+                    JuggernautClass.class, MageClass.class, OlympianClass.class, VikingClass.class)));
         } catch (GearzException e) {
             e.printStackTrace();
             Bukkit.getPluginManager().disablePlugin(this);

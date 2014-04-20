@@ -14,6 +14,7 @@ package net.tbnr.minigame.sg;
 import lombok.Getter;
 import net.tbnr.gearz.GearzException;
 import net.tbnr.manager.TBNRPlugin;
+import net.tbnr.manager.classes.TBNRAbstractClass;
 import net.tbnr.manager.classes.TBNRClassSystem;
 import net.tbnr.manager.classes.UsesClasses;
 import net.tbnr.minigame.sg.classes.NormalClass;
@@ -35,7 +36,7 @@ public final class GSurvivalGames extends TBNRPlugin {
     public void enable() {
         GSurvivalGames.instance = this;
         try {
-            registerGame(GSurvivalGamesArena.class, GSurvivalGamesGame.class, new TBNRClassSystem(getMeta(), NormalClass.class, Trickster.class));
+            registerGame(GSurvivalGamesArena.class, GSurvivalGamesGame.class, new TBNRClassSystem(getMeta(), NormalClass.class, TBNRClassSystem.getListFromClasses(Trickster.class)));
         } catch (GearzException e) {
             e.printStackTrace();
             Bukkit.getPluginManager().disablePlugin(this);

@@ -36,8 +36,8 @@ public final class SwitchUpClassResolver extends TBNRClassResolver {
     }
 
     public void shufflePlayer(TBNRPlayer player) {
-        Class<? extends TBNRAbstractClass>[] classes = getClassSystem().getClasses();
-        assignPlayerClass(player, classes[Gearz.getRandom().nextInt(classes.length)]);
+        List<Class<? extends TBNRAbstractClass>> classes = getClassSystem().getClasses();
+        assignPlayerClass(player, classes.get(Gearz.getRandom().nextInt(this.classes.size())));
     }
 
     @Override

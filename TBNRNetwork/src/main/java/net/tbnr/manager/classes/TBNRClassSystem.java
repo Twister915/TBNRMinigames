@@ -16,15 +16,25 @@ import net.tbnr.gearz.game.classes.GearzClassSystem;
 import net.tbnr.manager.TBNRPlayer;
 import net.tbnr.manager.classes.pass.ClassPassManager;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public final class TBNRClassSystem extends GearzClassSystem<TBNRPlayer, TBNRAbstractClass>{
-    @SafeVarargs
-    public TBNRClassSystem(GameMeta gameMeta, Class<? extends TBNRAbstractClass> defaultClass, Class<? extends TBNRAbstractClass>... classes) {
+    public TBNRClassSystem(GameMeta gameMeta, Class<? extends TBNRAbstractClass> defaultClass, List<Class<? extends TBNRAbstractClass>> classes) {
         this(new TBNRClassResolver(new ClassPassManager<>(gameMeta.key()), defaultClass), defaultClass, classes);
     }
 
-    @SafeVarargs
-    public TBNRClassSystem(TBNRClassResolver classResolver, Class<? extends TBNRAbstractClass> defaultClass, Class<? extends TBNRAbstractClass>... classes) {
+    public TBNRClassSystem(TBNRClassResolver classResolver, Class<? extends TBNRAbstractClass> defaultClass, List<Class<? extends TBNRAbstractClass>> classes) {
         super(classes, classResolver, defaultClass);
         this.getClassResolver().setClassSystem(this);
+    }
+
+    @SafeVarargs
+    public static List<Class<? extends TBNRAbstractClass>> getListFromClasses(Class<? extends TBNRAbstractClass>... classes) {
+        ArrayList<Class<? extends TBNRAbstractClass>> tbnrClasses = new ArrayList<>();
+        Collections.addAll(tbnrClasses, classes);
+        return tbnrClasses;
+
     }
 }

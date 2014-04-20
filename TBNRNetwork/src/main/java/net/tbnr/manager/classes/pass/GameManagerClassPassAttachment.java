@@ -16,6 +16,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 @Data
@@ -26,10 +27,10 @@ public final class GameManagerClassPassAttachment implements Listener, GameManag
     @Override
     public void playerConnectedToLobby(TBNRPlayer player, GameManager<TBNRPlayer, TBNRAbstractClass> gameManager) {
         if (!gameManager.isIngame()) player.getTPlayer().giveItem(Material.NAME_TAG, 1, (short)0, TBNRNetworkManager.getInstance().getFormat("formats.class-pass-item-name"));
-        Class<? extends TBNRAbstractClass>[] classes = gameManager.getPlugin().getClassSystem().getClasses();
+        List<Class<? extends TBNRAbstractClass>> classes = gameManager.getPlugin().getClassSystem().getClasses();
         TBNRClassResolver classResolver = (TBNRClassResolver) gameManager.getPlugin().getClassResolver();
         ClassPassManager<TBNRAbstractClass> classPassManager = classResolver.getClassPassManager();
-        this.guis.put(player, ClassPickerGUI.preparePickerGuiFor(player, Arrays.asList(classes), classPassManager));
+        this.guis.put(player, ClassPickerGUI.preparePickerGuiFor(player, classes, classPassManager));
     }
 
     @EventHandler
