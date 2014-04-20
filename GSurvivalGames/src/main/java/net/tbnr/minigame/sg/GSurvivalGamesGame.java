@@ -27,6 +27,7 @@ import net.tbnr.gearz.network.GearzPlayerProvider;
 import net.tbnr.manager.TBNRMinigame;
 import net.tbnr.manager.TBNRPlayer;
 import net.tbnr.manager.classes.TBNRAbstractClass;
+import net.tbnr.minigame.sg.classes.Trickster;
 import net.tbnr.util.ColoringUtils;
 import net.tbnr.util.player.TPlayer;
 import org.bukkit.*;
@@ -124,6 +125,10 @@ public final class GSurvivalGamesGame extends TBNRMinigame implements GameCountd
         }, 0, 12000L);
         sgArena.getWorld().setDifficulty(Difficulty.NORMAL);
         this.maxCornicopiaDistance = calculateMaxCornicopiaDistance();
+        for (TBNRPlayer player : getPlayers()) {
+            if (getClassFor(player) instanceof Trickster) player.sendMessage("Trickster!");
+        }
+
     }
 
     private void setupTier(ArenaIterator<Point> points, Tier tier) {
