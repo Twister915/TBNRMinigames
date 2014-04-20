@@ -3,7 +3,6 @@ package net.tbnr.manager.classes.pass;
 import lombok.Data;
 import net.tbnr.gearz.event.game.GameStartEvent;
 import net.tbnr.gearz.game.GameManager;
-import net.tbnr.gearz.game.classes.GearzClassResolver;
 import net.tbnr.gearz.game.single.GameManagerConnector;
 import net.tbnr.manager.TBNRNetworkManager;
 import net.tbnr.manager.TBNRPlayer;
@@ -15,7 +14,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 

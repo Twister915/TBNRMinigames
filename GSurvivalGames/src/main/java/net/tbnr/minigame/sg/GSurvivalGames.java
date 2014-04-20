@@ -26,6 +26,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 @UsesClasses
 public final class GSurvivalGames extends TBNRPlugin {
@@ -36,7 +37,9 @@ public final class GSurvivalGames extends TBNRPlugin {
     public void enable() {
         GSurvivalGames.instance = this;
         try {
-            registerGame(GSurvivalGamesArena.class, GSurvivalGamesGame.class, new TBNRClassSystem(getMeta(), NormalClass.class, TBNRClassSystem.getListFromClasses(Trickster.class)));
+            ArrayList<Class<? extends TBNRAbstractClass>> classes = new ArrayList<>();
+            classes.add(Trickster.class);
+            registerGame(GSurvivalGamesArena.class, GSurvivalGamesGame.class, new TBNRClassSystem(getMeta(), NormalClass.class, classes));
         } catch (GearzException e) {
             e.printStackTrace();
             Bukkit.getPluginManager().disablePlugin(this);
