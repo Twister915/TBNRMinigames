@@ -14,6 +14,10 @@ package net.tbnr.minigame.sg;
 import lombok.Getter;
 import net.tbnr.gearz.GearzException;
 import net.tbnr.manager.TBNRPlugin;
+import net.tbnr.manager.classes.TBNRClassSystem;
+import net.tbnr.manager.classes.UsesClasses;
+import net.tbnr.minigame.sg.classes.NormalClass;
+import net.tbnr.minigame.sg.classes.Trickster;
 import org.bukkit.Bukkit;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,13 +26,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Joey
- * Date: 12/16/13
- * Time: 10:38 AM
- * To change this template use File | Settings | File Templates.
- */
+@UsesClasses
 public final class GSurvivalGames extends TBNRPlugin {
     @Getter
     private static GSurvivalGames instance;
@@ -37,7 +35,7 @@ public final class GSurvivalGames extends TBNRPlugin {
     public void enable() {
         GSurvivalGames.instance = this;
         try {
-            registerGame(GSurvivalGamesArena.class, GSurvivalGamesGame.class);
+            registerGame(GSurvivalGamesArena.class, GSurvivalGamesGame.class, new TBNRClassSystem(getMeta(), NormalClass.class, Trickster.class));
         } catch (GearzException e) {
             e.printStackTrace();
             Bukkit.getPluginManager().disablePlugin(this);

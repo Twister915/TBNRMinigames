@@ -1,0 +1,3 @@
+formats:
+  class-pass-item-name: "&aClasses"
+  class-chosen: "&aYou have chosen class: &c<class-name>"

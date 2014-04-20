@@ -13,7 +13,9 @@ package net.tbnr.manager;
 
 import net.tbnr.gearz.GearzPlugin;
 import net.tbnr.gearz.network.GearzPlayerProvider;
+import net.tbnr.manager.classes.pass.GameManagerClassPassAttachment;
 import net.tbnr.manager.classes.TBNRAbstractClass;
+import net.tbnr.manager.classes.UsesClasses;
 
 public abstract class TBNRPlugin extends GearzPlugin<TBNRPlayer, TBNRAbstractClass> {
     @Override
@@ -24,5 +26,11 @@ public abstract class TBNRPlugin extends GearzPlugin<TBNRPlayer, TBNRAbstractCla
     @Override
     protected TBNRNetworkManager getNetworkManager() {
         return TBNRNetworkManager.getInstance();
+    }
+
+    @Override
+    protected void onGameRegister() {
+        if (getClass().getAnnotation(UsesClasses.class) == null)return;
+        getGameManager().registerListener(new GameManagerClassPassAttachment(getGameManager()));
     }
 }

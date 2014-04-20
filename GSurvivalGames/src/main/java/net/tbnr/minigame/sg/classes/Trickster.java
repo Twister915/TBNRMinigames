@@ -27,7 +27,7 @@ import java.util.logging.Logger;
  * @since 13/04/14
  */
 @GearzClassMeta(name = "Trickster", key = "sg_trickster", description = "Yo this is da trickster")
-public class Trickster extends TBNRAbstractClass {
+public final class Trickster extends TBNRAbstractClass {
 	public Trickster(TBNRPlayer player, GearzGame game) {
 		super(player, game);
 	}
