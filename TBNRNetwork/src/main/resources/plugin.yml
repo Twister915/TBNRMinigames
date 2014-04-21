@@ -13,3 +13,5 @@ commands:
     clearmychat:
       description: Clears senders chat
       aliases: [cmc, cmychat]
+    classpasscreditchange:
+      description: Credit changer.

@@ -52,7 +52,7 @@ import java.util.List;
         longName = "Survival Games",
         mainColor = ChatColor.GOLD,
         secondaryColor = ChatColor.GRAY,
-        minPlayers = 12,
+        minPlayers = 2,
         maxPlayers = 24,
         key = "survivalgames",
         description = "An elimination based game mode where players must defend themselves, " +

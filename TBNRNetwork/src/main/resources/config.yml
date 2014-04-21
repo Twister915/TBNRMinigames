@@ -1,3 +1,4 @@
 formats:
   class-pass-item-name: "&aClasses"
   class-chosen: "&aYou have chosen class: &c<class-name>"
+  class-no-credits: "&cYou have no credits for this class"

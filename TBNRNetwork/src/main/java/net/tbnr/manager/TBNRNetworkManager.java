@@ -14,6 +14,7 @@ package net.tbnr.manager;
 import lombok.Getter;
 import net.tbnr.gearz.Gearz;
 import net.tbnr.gearz.network.GearzNetworkManagerPlugin;
+import net.tbnr.manager.classes.ClassPassUtils;
 import net.tbnr.manager.classes.pass.ClassPassManager;
 import net.tbnr.manager.command.ClearChat;
 import net.tbnr.manager.command.YoutuberCommand;
@@ -30,6 +31,7 @@ public final class TBNRNetworkManager extends GearzNetworkManagerPlugin<TBNRPlay
         registerCommands(tbnrPlayerUtils);
         registerCommands(new ClearChat());
         registerCommands(new YoutuberCommand());
+        registerCommands(new ClassPassUtils());
         registerEvents(tbnrPlayerUtils);
     }
 

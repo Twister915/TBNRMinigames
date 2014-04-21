@@ -14,17 +14,21 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Data
 public final class GameManagerClassPassAttachment implements Listener, GameManagerConnector<TBNRPlayer, TBNRAbstractClass> {
     private final GameManager gameManager;
-    private Map<TBNRPlayer, ClassPickerGUI> guis;
+    private Map<TBNRPlayer, ClassPickerGUI> guis = new HashMap<>();
+    {
+        TBNRNetworkManager.getInstance().registerEvents(this);
+    }
 
     @Override
     public void playerConnectedToLobby(TBNRPlayer player, GameManager<TBNRPlayer, TBNRAbstractClass> gameManager) {
-        if (!gameManager.isIngame()) player.getTPlayer().giveItem(Material.NAME_TAG, 1, (short)0, TBNRNetworkManager.getInstance().getFormat("formats.class-pass-item-name"));
+        if (!gameManager.isIngame()) player.getTPlayer().giveItem(Material.NAME_TAG, 1, (short)0, TBNRNetworkManager.getInstance().getFormat("formats.class-pass-item-name"), null, 7);
         List<Class<? extends TBNRAbstractClass>> classes = gameManager.getPlugin().getClassSystem().getClasses();
         TBNRClassResolver classResolver = (TBNRClassResolver) gameManager.getPlugin().getClassResolver();
         ClassPassManager<TBNRAbstractClass> classPassManager = classResolver.getClassPassManager();
@@ -34,6 +38,8 @@ public final class GameManagerClassPassAttachment implements Listener, GameManag
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
         if (gameManager.isIngame()) return;
+        if (event.getItem() == null) return;
+        if (!event.getItem().getType().equals(Material.NAME_TAG)) return;
         TBNRPlayer player = TBNRNetworkManager.getInstance().getPlayerProvider().getPlayerFromPlayer(event.getPlayer());
         guis.get(player).openGUI();
     }

@@ -11,6 +11,7 @@
 
 package net.tbnr.manager.classes.pass;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import lombok.Data;
 import lombok.NonNull;
@@ -19,6 +20,7 @@ import net.tbnr.gearz.game.classes.GearzClassMeta;
 import net.tbnr.manager.TBNRNetworkManager;
 import net.tbnr.manager.TBNRPlayer;
 import net.tbnr.manager.classes.TBNRAbstractClass;
+import sun.print.resources.serviceui_zh_TW;
 
 /**
  * One instance of this will be created per minigame plugin, and can be created using the key in the constructor.
@@ -37,19 +39,23 @@ public final class ClassPassManager<AbstractClassType extends TBNRAbstractClass>
     }
 
     public Integer getClassCreditsFor(Class<? extends AbstractClassType> classType, TBNRPlayer player) {
-        DBObject creditsObject = player.getTPlayer().getStorable(TBNRNetworkManager.getInstance(), database_key, DBObject.class);
+        DBObject creditsObject = getClassesDataObject(player);
         Integer credits = (Integer) creditsObject.get(computeKeyForCreditObject(getClassMeta(classType).key()));
         if (credits == null) credits = 0;
         return credits;
     }
 
-    public void addClassCreditsFor(Integer credits, Class<? extends AbstractClassType> classType, TBNRPlayer player) {
+    public void addClassCreditsFor(Integer credits, String classKey, TBNRPlayer player) {
         DBObject creditsObject = getClassesDataObject(player);
-        String key = computeKeyForCreditObject(getClassMeta(classType).key());
+        String key = computeKeyForCreditObject(classKey);
         Integer currentCredits = (Integer) creditsObject.get(key);
         Integer newCredits = Math.max(0,currentCredits == null ? 0 : currentCredits + credits);
         creditsObject.put(key, newCredits);
         saveCreditsObject(player, creditsObject);
+    }
+
+    public void addClassCreditsFor(Integer credits, Class<? extends AbstractClassType> classType, TBNRPlayer player) {
+        addClassCreditsFor(credits, getClassMeta(classType).key(), player);
     }
 
     public void setLastUsedClass(TBNRPlayer player, Class<? extends AbstractClassType> classType) {
@@ -74,7 +80,8 @@ public final class ClassPassManager<AbstractClassType extends TBNRAbstractClass>
     }
 
     private DBObject getClassesDataObject(TBNRPlayer player) {
-        return player.getTPlayer().getStorable(TBNRNetworkManager.getInstance(), database_key, DBObject.class);
+        DBObject storable = player.getTPlayer().getStorable(TBNRNetworkManager.getInstance(), database_key, DBObject.class);
+        return storable == null ? new BasicDBObject() : storable;
     }
 
     private void saveCreditsObject(TBNRPlayer player, DBObject object) {
@@ -89,6 +96,7 @@ public final class ClassPassManager<AbstractClassType extends TBNRAbstractClass>
 
     public Class<? extends AbstractClassType> getClassForGame(TBNRPlayer player) {
         Class<? extends AbstractClassType> lastUsedClassFor = getLastUsedClassFor(player);
+        if (lastUsedClassFor == null) return null;
         if (getClassCreditsFor(lastUsedClassFor, player) > 0) return lastUsedClassFor;
         else return null;
     }
@@ -96,9 +104,5 @@ public final class ClassPassManager<AbstractClassType extends TBNRAbstractClass>
     public void playerHasUsedClass(Class<? extends AbstractClassType> clazz, TBNRPlayer player) {
         removeClassCreditsFor(1, clazz, player);
         setLastUsedClass(player, clazz);
-    }
-
-    public static void modifyCreditsFor() {
-
     }
 }
