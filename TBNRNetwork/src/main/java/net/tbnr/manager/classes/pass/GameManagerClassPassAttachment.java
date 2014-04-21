@@ -11,6 +11,7 @@ import net.tbnr.manager.classes.TBNRClassResolver;
 import net.tbnr.util.player.TPlayerDisconnectEvent;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 
@@ -44,7 +45,7 @@ public final class GameManagerClassPassAttachment implements Listener, GameManag
         guis.get(player).openGUI();
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void playerDisconnect(TPlayerDisconnectEvent event) {
         guis.remove(TBNRNetworkManager.getInstance().getPlayerProvider().getPlayerFromTPlayer(event.getPlayer()));
     }

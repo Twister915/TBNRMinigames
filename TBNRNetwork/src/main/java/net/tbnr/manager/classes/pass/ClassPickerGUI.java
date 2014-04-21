@@ -71,7 +71,8 @@ public final class ClassPickerGUI implements GUICallback {
         TBNRPlayer player1 = resolveTBNRPlayer(player);
         if (classPassManager.getClassCreditsFor(aClass, player1) == 0) {
             this.player.sendMessage(TBNRNetworkManager.getInstance().getFormat("formats.class-no-credits"));
-            this.player.getTPlayer().playSound(Sound.ANVIL_BREAK);
+            this.player.getTPlayer().playSound(Sound.ANVIL_USE);
+            return;
         }
         Class<? extends TBNRAbstractClass> lastUsedClassFor = classPassManager.getLastUsedClassFor(player1);
         if (lastUsedClassFor != null) {
