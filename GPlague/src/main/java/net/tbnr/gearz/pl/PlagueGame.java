@@ -142,6 +142,7 @@ public class PlagueGame extends TBNRMinigame implements GameCountdownHandler {
 	protected void activatePlayer(TBNRPlayer player) {
 		if(player == null || !player.isValid() || points.containsKey(player)) return;
 		points.put(player, 0);
+		if(getHumans().contains(player)) makeZombie(player);
 	}
 
 	@Override
@@ -202,7 +203,6 @@ public class PlagueGame extends TBNRMinigame implements GameCountdownHandler {
 
 	@Override
 	protected void playerKilled(TBNRPlayer dead, TBNRPlayer killer) {
-		if(getHumans().contains(dead)) makeZombie(dead);
 		checkFinish();
 		points.put(killer, 100);
 		updateScoreboard();
@@ -359,7 +359,10 @@ public class PlagueGame extends TBNRMinigame implements GameCountdownHandler {
 		player.getPlayer().sendMessage(getPluginFormat("formats.turned-zombie", true));
 		zombies.put(player, 0d);
 		player.getTPlayer().flashRed();
-		player.getPlayer().getInventory().setHelmet(new ItemStack(Material.SKULL, 0, (short) SkullType.ZOMBIE.ordinal(), (byte) SkullType.ZOMBIE.ordinal()));
+
+		ItemStack zombieHead = new ItemStack(Material.SKULL);
+		zombieHead.setDurability((short)SkullType.ZOMBIE.ordinal());
+		player.getPlayer().getInventory().setHelmet(zombieHead);
 		checkFinish();
 	}
 

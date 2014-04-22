@@ -25,7 +25,7 @@ import net.tbnr.manager.TBNRPlugin;
  */
 public class GPlague extends TBNRPlugin {
 
-	@Getter static GearzPlugin instance;
+	@Getter static GPlague instance;
 
 	@Override
 	public void enable() {
