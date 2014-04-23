@@ -13,9 +13,9 @@ package net.tbnr.manager;
 
 import net.tbnr.gearz.GearzPlugin;
 import net.tbnr.gearz.network.GearzPlayerProvider;
-import net.tbnr.manager.classes.pass.GameManagerClassPassAttachment;
 import net.tbnr.manager.classes.TBNRAbstractClass;
 import net.tbnr.manager.classes.UsesClasses;
+import net.tbnr.manager.classes.pass.GameManagerClassPassAttachment;
 
 public abstract class TBNRPlugin extends GearzPlugin<TBNRPlayer, TBNRAbstractClass> {
     @Override

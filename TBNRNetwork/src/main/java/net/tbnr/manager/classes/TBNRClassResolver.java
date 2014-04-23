@@ -13,7 +13,6 @@ package net.tbnr.manager.classes;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NonNull;
 import net.tbnr.gearz.game.GearzGame;
 import net.tbnr.gearz.game.classes.GearzClassResolver;
 import net.tbnr.manager.TBNRPlayer;

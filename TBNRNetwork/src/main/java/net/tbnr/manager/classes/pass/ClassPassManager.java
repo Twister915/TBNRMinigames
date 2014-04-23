@@ -20,7 +20,6 @@ import net.tbnr.gearz.game.classes.GearzClassMeta;
 import net.tbnr.manager.TBNRNetworkManager;
 import net.tbnr.manager.TBNRPlayer;
 import net.tbnr.manager.classes.TBNRAbstractClass;
-import sun.print.resources.serviceui_zh_TW;
 
 /**
  * One instance of this will be created per minigame plugin, and can be created using the key in the constructor.

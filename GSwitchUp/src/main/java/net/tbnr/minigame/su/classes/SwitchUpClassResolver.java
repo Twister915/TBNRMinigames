@@ -18,7 +18,10 @@ import net.tbnr.manager.classes.TBNRAbstractClass;
 import net.tbnr.manager.classes.TBNRClassResolver;
 import net.tbnr.minigame.su.GSwitchUpGame;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public final class SwitchUpClassResolver extends TBNRClassResolver {
 

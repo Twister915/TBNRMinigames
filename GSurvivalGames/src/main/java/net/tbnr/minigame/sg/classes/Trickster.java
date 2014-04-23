@@ -16,8 +16,6 @@ import net.tbnr.gearz.game.classes.GearzClassMeta;
 import net.tbnr.manager.TBNRPlayer;
 import net.tbnr.manager.classes.TBNRAbstractClass;
 
-import java.util.logging.Logger;
-
 /**
  * <p/>
  * Latest Change:

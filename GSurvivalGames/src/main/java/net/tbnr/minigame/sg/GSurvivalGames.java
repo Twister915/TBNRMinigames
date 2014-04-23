@@ -17,7 +17,6 @@ import net.tbnr.gearz.game.GameMeta;
 import net.tbnr.manager.TBNRPlugin;
 import net.tbnr.manager.classes.TBNRAbstractClass;
 import net.tbnr.manager.classes.TBNRClassSystem;
-import net.tbnr.manager.classes.UsesClasses;
 import net.tbnr.minigame.sg.classes.NormalClass;
 import net.tbnr.minigame.sg.classes.Trickster;
 import org.bukkit.Bukkit;

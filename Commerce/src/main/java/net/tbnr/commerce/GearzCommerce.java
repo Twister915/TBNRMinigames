@@ -24,6 +24,7 @@ import net.tbnr.util.TPlugin;
  *
  * Latest Change:
  */
+@SuppressWarnings("FieldCanBeLocal")
 public final class GearzCommerce extends TPlugin {
     @Getter
     private static GearzCommerce instance;
@@ -44,15 +45,12 @@ public final class GearzCommerce extends TPlugin {
         registerEvents(this.itemManager);
         registerCommands(this.itemManager);
         this.itemAPI = this.itemManager;
-
         this.shopManager = new ShopManager();
         registerCommands(this.shopManager);
     }
 
     @Override
-    public void disable() {
-
-    }
+    public void disable() {}
 
     @Override
     public String getStorablePrefix() {

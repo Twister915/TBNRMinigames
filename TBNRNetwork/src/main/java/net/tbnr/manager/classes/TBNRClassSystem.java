@@ -16,8 +16,6 @@ import net.tbnr.gearz.game.classes.GearzClassSystem;
 import net.tbnr.manager.TBNRPlayer;
 import net.tbnr.manager.classes.pass.ClassPassManager;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public final class TBNRClassSystem extends GearzClassSystem<TBNRPlayer, TBNRAbstractClass>{
