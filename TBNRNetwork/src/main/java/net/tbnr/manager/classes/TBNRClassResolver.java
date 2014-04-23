@@ -29,6 +29,7 @@ public class TBNRClassResolver extends GearzClassResolver<TBNRPlayer,TBNRAbstrac
 
     @Override
     public Class<? extends TBNRAbstractClass> getClassForPlayer(TBNRPlayer player, GearzGame<TBNRPlayer, TBNRAbstractClass> game) {
+        if (!game.getClass().isAnnotationPresent(UsesClasses.class)) return defaultClass;
         Class<? extends TBNRAbstractClass> classForGame = classPassManager.getClassForGame(player);
         return classForGame == null ? defaultClass : classForGame;
     }

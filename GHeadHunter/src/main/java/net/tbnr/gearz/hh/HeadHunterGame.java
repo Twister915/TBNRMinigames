@@ -47,7 +47,7 @@ import java.util.*;
                 "your skulls is the way to get good at this game!",
         key = "headhunter",
         minPlayers = 6,
-        maxPlayers = 48,
+        maxPlayers = 16,
         mainColor = ChatColor.DARK_AQUA,
         secondaryColor = ChatColor.DARK_RED)
 public final class HeadHunterGame extends TBNRMinigame implements GameCountdownHandler {

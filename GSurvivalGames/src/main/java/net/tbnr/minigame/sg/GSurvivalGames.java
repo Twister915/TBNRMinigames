@@ -30,7 +30,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-@UsesClasses
 public final class GSurvivalGames extends TBNRPlugin {
     @Getter
     private static GSurvivalGames instance;
