@@ -13,6 +13,7 @@ package net.tbnr.gearz.hub.annotations;
 
 import lombok.NonNull;
 import net.tbnr.gearz.hub.TBNRHub;
+import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -46,11 +47,13 @@ public abstract class HubItem implements Listener {
     @EventHandler
     @SuppressWarnings("unused")
     public final void onInteract(PlayerInteractEvent event) {
+	    ItemStack itemStack = event.getPlayer().getItemInHand();
         if (event.getAction() == Action.PHYSICAL ||
-		        event.getPlayer().getItemInHand() == null ||
-		        !event.getPlayer().getItemInHand().hasItemMeta() ||
-		        !event.getPlayer().getItemInHand().getItemMeta().hasDisplayName() ||
-		        !(event.getPlayer().getItemInHand().getItemMeta().getDisplayName().equals(getItems().get(0).getItemMeta().getDisplayName()))) return;
+		        itemStack == null ||
+		        itemStack.getType() == Material.AIR ||
+		        !itemStack.hasItemMeta() ||
+		        !itemStack.getItemMeta().hasDisplayName() ||
+		        !itemStack.getItemMeta().getDisplayName().equals(getItems().get(0).getItemMeta().getDisplayName())) return;
         switch (event.getAction()) {
             case RIGHT_CLICK_AIR:
             case RIGHT_CLICK_BLOCK:
