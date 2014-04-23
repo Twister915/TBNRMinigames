@@ -23,20 +23,12 @@ import net.tbnr.gearz.server.Server;
 import net.tbnr.gearz.server.ServerManager;
 import net.tbnr.gearz.settings.PlayerSettings;
 import net.tbnr.util.TPlugin;
-import net.tbnr.util.UUIDUtil;
-import net.tbnr.util.command.TCommand;
 import net.tbnr.util.command.TCommandHandler;
-import net.tbnr.util.command.TCommandSender;
-import net.tbnr.util.command.TCommandStatus;
-import org.bukkit.*;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.World;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.IOException;
@@ -50,7 +42,7 @@ import java.net.SocketException;
  * To change this template use File | Settings | File Templates.
  */
 @SuppressWarnings("FieldCanBelocal")
-public class TBNRHub extends TPlugin implements TCommandHandler {
+public class TBNRHub extends TPlugin {
     private MultiserverCannons cannon;
     @Getter private Spawn spawnHandler;
     private static TBNRHub instance;
@@ -87,12 +79,12 @@ public class TBNRHub extends TPlugin implements TCommandHandler {
 	    SignEdit signedit = new SignEdit();
 
 	    TCommandHandler[] commandHandlers2Register = {
-			    this,
 			    cannon,
 			    spawnHandler,
 			    signedit,
 			    new WarpStarCommands(),
-			    new ParticleTest()
+			    new ParticleTest(),
+                new HeadCommand()
 	    };
 
 	    Listener[] listeners2Register = {
@@ -144,17 +136,6 @@ public class TBNRHub extends TPlugin implements TCommandHandler {
         return getFormat("prefix");
     }
 
-    @SuppressWarnings("unused")
-    public static void handleCommandStatus(TCommandStatus status, CommandSender sender) {
-        if (status == TCommandStatus.SUCCESSFUL) return;
-        sender.sendMessage(getInstance().getFormat("formats.command-status", true, new String[]{"<status>", status.toString()}));
-    }
-
-    @Override
-    public void handleCommandStatus(TCommandStatus status, CommandSender sender, TCommandSender senderType) {
-        handleCommandStatus(status, sender);
-    }
-
     public static class SaveAllTask extends BukkitRunnable {
         @Override
         public void run() {
@@ -164,29 +145,6 @@ public class TBNRHub extends TPlugin implements TCommandHandler {
             Bukkit.broadcast(ChatColor.GREEN + "World saved!", "gearz.notifysave");
             Gearz.getInstance().debug("Saved the world.");
         }
-    }
-
-    @SuppressWarnings("unused")
-    @TCommand(name = "head", permission = "gearz.head", senders = {TCommandSender.Player}, usage = "/head <name>")
-    public TCommandStatus head(final CommandSender sender, TCommandSender type, TCommand meta, Command command, String[] args) {
-        for (final String s : args) {
-            final ItemStack  stack = new ItemStack(Material.SKULL_ITEM, 1, (short) SkullType.PLAYER.ordinal());
-            final ItemMeta itemMeta = stack.getItemMeta();
-            assert itemMeta instanceof SkullMeta;
-            final SkullMeta m = (SkullMeta) itemMeta;
-            new UUIDUtil(s, new UUIDUtil.UUIDCallback() {
-                @Override
-                public void complete(String username, String uuid) {
-                    if (uuid == null) {
-                       sender.sendMessage(ChatColor.RED + "Player not found: " + username);
-                    }
-                    m.setOwner(s);
-                    stack.setItemMeta(m);
-                    ((Player) sender).getInventory().addItem(stack);
-                }
-            });
-        }
-        return TCommandStatus.SUCCESSFUL;
     }
 
     public String compile(String[] args, int min, int max) {

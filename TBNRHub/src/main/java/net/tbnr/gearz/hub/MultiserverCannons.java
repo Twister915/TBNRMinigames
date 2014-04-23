@@ -200,7 +200,7 @@ public class MultiserverCannons implements Listener, TCommandHandler {
 
     @Override
     public void handleCommandStatus(TCommandStatus status, org.bukkit.command.CommandSender sender, TCommandSender senderType) {
-        TBNRHub.handleCommandStatus(status, sender);
+        Gearz.getInstance().handleCommandStatus(status, sender, senderType);
     }
 
     public static enum ProcessState {

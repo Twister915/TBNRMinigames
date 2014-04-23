@@ -11,6 +11,7 @@
 
 package net.tbnr.gearz.hub;
 
+import net.tbnr.gearz.Gearz;
 import net.tbnr.gearz.packets.wrapper.WrapperPlayServerWorldParticles.ParticleEffect;
 import net.tbnr.util.command.TCommand;
 import net.tbnr.util.command.TCommandHandler;
@@ -59,6 +60,6 @@ public class ParticleTest implements TCommandHandler {
 
 	@Override
 	public void handleCommandStatus(TCommandStatus status, CommandSender sender, TCommandSender senderType) {
-		TBNRHub.handleCommandStatus(status, sender);
+        Gearz.getInstance().handleCommandStatus(status, sender, senderType);
 	}
 }

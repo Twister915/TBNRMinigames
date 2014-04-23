@@ -11,6 +11,7 @@
 
 package net.tbnr.gearz.hub.items.warpstar;
 
+import net.tbnr.gearz.Gearz;
 import net.tbnr.gearz.hub.TBNRHub;
 import net.tbnr.util.command.TCommand;
 import net.tbnr.util.command.TCommandHandler;
@@ -113,7 +114,7 @@ public class WarpStarCommands implements TCommandHandler {
 
     @Override
     public void handleCommandStatus(TCommandStatus status, CommandSender sender, TCommandSender senderType) {
-        TBNRHub.handleCommandStatus(status, sender);
+        Gearz.getInstance().handleCommandStatus(status, sender, senderType);
     }
 }
 

@@ -11,6 +11,7 @@
 
 package net.tbnr.gearz.hub;
 
+import net.tbnr.gearz.Gearz;
 import net.tbnr.util.command.TCommand;
 import net.tbnr.util.command.TCommandHandler;
 import net.tbnr.util.command.TCommandSender;
@@ -123,6 +124,6 @@ public class SignEdit implements Listener, TCommandHandler {
 
     @Override
     public void handleCommandStatus(TCommandStatus status, CommandSender sender, TCommandSender senderType) {
-        TBNRHub.handleCommandStatus(status, sender);
+        Gearz.getInstance().handleCommandStatus(status, sender, senderType);
     }
 }
