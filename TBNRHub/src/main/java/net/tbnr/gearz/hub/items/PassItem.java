@@ -29,7 +29,8 @@ import java.util.List;
  */
 @HubItemMeta(
 		key = "pass",
-		slot = 6
+		slot = 6,
+        hidden = true
 )
 public class PassItem extends HubItem {
 
