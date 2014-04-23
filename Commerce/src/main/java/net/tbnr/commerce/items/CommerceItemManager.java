@@ -294,7 +294,12 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
         CommerceItem item;
         Class<? extends CommerceItem> itemForID = getItemForID(key);
         try {
-            item = itemForID.getConstructor(GearzPlayer.class, CommerceItemAPI.class).newInstance(player, this);
+            item = itemForID
+		            .getConstructor(
+				            TBNRPlayer.class,
+				            CommerceItemAPI.class
+		            )
+		            .newInstance(player, this);
         } catch (InstantiationException | NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             e.printStackTrace();
             return null;
