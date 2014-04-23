@@ -23,6 +23,7 @@ import net.tbnr.gearz.server.Server;
 import net.tbnr.gearz.server.ServerManager;
 import net.tbnr.gearz.settings.PlayerSettings;
 import net.tbnr.util.TPlugin;
+import net.tbnr.util.UUIDUtil;
 import net.tbnr.util.command.TCommand;
 import net.tbnr.util.command.TCommandHandler;
 import net.tbnr.util.command.TCommandSender;
@@ -48,6 +49,7 @@ import java.net.SocketException;
  * Time: 2:34 PM
  * To change this template use File | Settings | File Templates.
  */
+@SuppressWarnings("FieldCanBelocal")
 public class TBNRHub extends TPlugin implements TCommandHandler {
     private MultiserverCannons cannon;
     @Getter private Spawn spawnHandler;
@@ -166,18 +168,23 @@ public class TBNRHub extends TPlugin implements TCommandHandler {
 
     @SuppressWarnings("unused")
     @TCommand(name = "head", permission = "gearz.head", senders = {TCommandSender.Player}, usage = "/head <name>")
-    public TCommandStatus head(CommandSender sender, TCommandSender type, TCommand meta, Command command, String[] args) {
-	    ItemStack stack;
-	    ItemMeta itemMeta;
-        for (String s : args) {
-            stack = new ItemStack(Material.SKULL_ITEM, 1, (short) SkullType.PLAYER.ordinal());
-            itemMeta = stack.getItemMeta();
+    public TCommandStatus head(final CommandSender sender, TCommandSender type, TCommand meta, Command command, String[] args) {
+        for (final String s : args) {
+            final ItemStack  stack = new ItemStack(Material.SKULL_ITEM, 1, (short) SkullType.PLAYER.ordinal());
+            final ItemMeta itemMeta = stack.getItemMeta();
             assert itemMeta instanceof SkullMeta;
-            SkullMeta m = (SkullMeta) itemMeta;
-
-            m.setOwner(s);
-            stack.setItemMeta(m);
-            ((Player) sender).getInventory().addItem(stack);
+            final SkullMeta m = (SkullMeta) itemMeta;
+            new UUIDUtil(s, new UUIDUtil.UUIDCallback() {
+                @Override
+                public void complete(String username, String uuid) {
+                    if (uuid == null) {
+                       sender.sendMessage(ChatColor.RED + "Player not found: " + username);
+                    }
+                    m.setOwner(s);
+                    stack.setItemMeta(m);
+                    ((Player) sender).getInventory().addItem(stack);
+                }
+            });
         }
         return TCommandStatus.SUCCESSFUL;
     }
