@@ -412,7 +412,7 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
     }
     @Override
     public void handleCommandStatus(TCommandStatus status, CommandSender sender, TCommandSender senderType) {
-        Gearz.getInstance().handleCommandStatus(status, sender, senderType);
+        Gearz.handleCommandStatus(status, sender);
     }
 
     @Data
