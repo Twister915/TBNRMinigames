@@ -64,7 +64,7 @@ import java.util.*;
  */
 @SuppressWarnings("unchecked")
 public final class CommerceItemManager implements Listener, CommerceItemAPI, TCommandHandler {
-    private HashMap<GearzPlayer, PlayerCommerceItems> playerCommerceData;
+    private HashMap<TBNRPlayer, PlayerCommerceItems> playerCommerceData;
     static final String dbListKey = "commerce_purchases";
     private static List<Class<? extends CommerceItem>> items;
     public CommerceItemManager() {
