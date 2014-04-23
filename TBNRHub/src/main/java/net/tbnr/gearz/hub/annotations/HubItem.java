@@ -46,13 +46,11 @@ public abstract class HubItem implements Listener {
     @EventHandler
     @SuppressWarnings("unused")
     public final void onInteract(PlayerInteractEvent event) {
-        if (!(event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR))
-            return;
-        if (event.getPlayer().getItemInHand() == null) return;
-        if (!event.getPlayer().getItemInHand().hasItemMeta()) return;
-	    if (!event.getPlayer().getItemInHand().getItemMeta().hasDisplayName()) return;
-        if (!(event.getPlayer().getItemInHand().getItemMeta().getDisplayName().equals(getItems().get(0).getItemMeta().getDisplayName())))
-            return;
+        if (event.getAction() == Action.PHYSICAL ||
+		        event.getPlayer().getItemInHand() == null ||
+		        !event.getPlayer().getItemInHand().hasItemMeta() ||
+		        !event.getPlayer().getItemInHand().getItemMeta().hasDisplayName() ||
+		        !(event.getPlayer().getItemInHand().getItemMeta().getDisplayName().equals(getItems().get(0).getItemMeta().getDisplayName()))) return;
         switch (event.getAction()) {
             case RIGHT_CLICK_AIR:
             case RIGHT_CLICK_BLOCK:
@@ -62,6 +60,8 @@ public abstract class HubItem implements Listener {
             case LEFT_CLICK_BLOCK:
                 leftClicked(event.getPlayer());
                 break;
+	        default:
+		        return;
         }
         event.setCancelled(true);
     }
