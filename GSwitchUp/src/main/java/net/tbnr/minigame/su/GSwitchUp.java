@@ -42,8 +42,6 @@ public final class GSwitchUp extends TBNRPlugin {
             classes.add(GentlemanClass.class);
             classes.add(JuggernautClass.class);
             classes.add(MageClass.class);
-            classes.add(OlympianClass.class);
-            classes.add(VikingClass.class);
             registerGame(GSwitchUpArena.class, GSwitchUpGame.class, new TBNRClassSystem(new SwitchUpClassResolver(), null, classes));
         } catch (GearzException e) {
             e.printStackTrace();
