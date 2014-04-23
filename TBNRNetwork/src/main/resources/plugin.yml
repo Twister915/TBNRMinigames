@@ -15,3 +15,7 @@ commands:
       aliases: [cmc, cmychat]
     classpasscreditchange:
       description: Credit changer.
+    youtuber:
+      description: Youtuber lookup
+    setyoutube:
+      description: Youtuber set command
