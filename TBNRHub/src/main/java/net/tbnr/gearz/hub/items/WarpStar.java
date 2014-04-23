@@ -1,11 +1,26 @@
+/*
+ * Copyright (c) 2014.
+ * CogzMC LLC USA
+ * All Right reserved
+ *
+ * This software is the confidential and proprietary information of Cogz Development, LLC.
+ * ("Confidential Information").
+ * You shall not disclose such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with Cogz LLC.
+ */
+
 package net.tbnr.gearz.hub.items;
 
+import net.tbnr.gearz.Gearz;
 import net.tbnr.gearz.hub.TBNRHub;
 import net.tbnr.gearz.hub.annotations.HubItem;
 import net.tbnr.gearz.hub.annotations.HubItemMeta;
 import net.tbnr.gearz.hub.items.warpstar.WarpStarConfig;
-import net.tbnr.gearz.player.GearzPlayer;
 import net.tbnr.util.inventory.InventoryGUI;
+import net.tbnr.util.inventory.base.BaseGUI;
+import net.tbnr.util.inventory.base.GUICallback;
+import net.tbnr.util.inventory.base.GUIItem;
+import net.tbnr.util.player.TPlayer;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -35,9 +50,9 @@ public class WarpStar extends HubItem {
 
         final WarpStarConfig config = new WarpStarConfig();
 
-        this.inventoryGUI = new InventoryGUI(config.getWarps(), "Warp Menu", new InventoryGUI.InventoryGUICallback() {
+        this.inventoryGUI = new InventoryGUI(config.getWarps(), "Warp Menu", new GUICallback() {
             @Override
-            public void onItemSelect(InventoryGUI gui, InventoryGUI.InventoryGUIItem item, Player player) {
+            public void onItemSelect(BaseGUI gui, GUIItem item, Player player) {
                 inventoryGUI.close(player);
                 try {
                     player.teleport(config.getLocation(item.getName()));
@@ -45,14 +60,15 @@ public class WarpStar extends HubItem {
                     return;
                 }
                 player.sendMessage(TBNRHub.getInstance().getFormat("warped-to", true, new String[]{"<prefix>", TBNRHub.getInstance().getChatPrefix()}, new String[]{"<warp>", item.getName()}));
-                GearzPlayer.playerFromPlayer(player).getTPlayer().playSound(Sound.ENDERMAN_TELEPORT);
-                GearzPlayer.playerFromPlayer(player).getTPlayer().playSound(Sound.CHICKEN_EGG_POP);
+                TPlayer tPlayer = Gearz.getInstance().getPlayerManager().getPlayer(player);
+                tPlayer.playSound(Sound.ENDERMAN_TELEPORT);
+                tPlayer.playSound(Sound.CHICKEN_EGG_POP);
             }
 
             @Override
-            public void onGUIOpen(InventoryGUI gui, Player player) {}
+            public void onGUIOpen(BaseGUI gui, Player player) {}
             @Override
-            public void onGUIClose(InventoryGUI gui, Player player) {}
+            public void onGUIClose(BaseGUI gui, Player player) {}
         });
     }
 

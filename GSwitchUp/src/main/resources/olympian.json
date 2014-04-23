@@ -1,8 +1,4 @@
-{   
-    "name" : "Olympian",
-    "repItem" : {
-        "item_type" : "AIR"
-    },
+{
     "items" : [
         {
             "item_type" : "TORCH",

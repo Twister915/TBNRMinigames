@@ -1,3 +1,14 @@
+/*
+ * Copyright (c) 2014.
+ * CogzMC LLC USA
+ * All Right reserved
+ *
+ * This software is the confidential and proprietary information of Cogz Development, LLC.
+ * ("Confidential Information").
+ * You shall not disclose such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with Cogz LLC.
+ */
+
 package net.tbnr.commerce.items.definitions;
 
 import net.tbnr.commerce.GearzCommerce;
@@ -7,7 +18,7 @@ import net.tbnr.commerce.items.CommerceItemMeta;
 import net.tbnr.commerce.items.Tier;
 import net.tbnr.gearz.Gearz;
 import net.tbnr.gearz.GearzException;
-import net.tbnr.gearz.player.GearzPlayer;
+import net.tbnr.manager.TBNRPlayer;
 import net.tbnr.util.player.TPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -19,7 +30,7 @@ import org.bukkit.Material;
         item = Material.SNOW_BALL
 )
 public final class SnowballRefill extends CommerceItem {
-    public SnowballRefill(GearzPlayer player, CommerceItemAPI api) throws GearzException {
+    public SnowballRefill(TBNRPlayer player, CommerceItemAPI api) throws GearzException {
         super(player, api);
     }
 

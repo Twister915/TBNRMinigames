@@ -1,11 +1,24 @@
+/*
+ * Copyright (c) 2014.
+ * CogzMC LLC USA
+ * All Right reserved
+ *
+ * This software is the confidential and proprietary information of Cogz Development, LLC.
+ * ("Confidential Information").
+ * You shall not disclose such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with Cogz LLC.
+ */
+
 package net.tbnr.minigame.eg;
 
 import net.tbnr.gearz.GearzPlugin;
 import net.tbnr.gearz.arena.Arena;
 import net.tbnr.gearz.effects.EnderBar;
 import net.tbnr.gearz.game.GameMeta;
-import net.tbnr.gearz.game.GearzGame;
-import net.tbnr.gearz.player.GearzPlayer;
+import net.tbnr.gearz.network.GearzPlayerProvider;
+import net.tbnr.manager.TBNRMinigame;
+import net.tbnr.manager.TBNRPlayer;
+import net.tbnr.manager.classes.TBNRAbstractClass;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -38,10 +51,10 @@ import java.util.List;
         maxPlayers = 24,
         minPlayers = 6
 )
-public final class EnderzGameGame extends GearzGame {
+public final class EnderzGameGame extends TBNRMinigame {
     private EnderzGameArena arena;
     private Item cortex = null;
-    private GearzPlayer cortexHolder = null;
+    private TBNRPlayer cortexHolder = null;
 
     /**
      * New game in this arena
@@ -52,8 +65,8 @@ public final class EnderzGameGame extends GearzGame {
      * @param meta    The meta of the game.
      * @param id      The id of the arena
      */
-    public EnderzGameGame(List<GearzPlayer> players, Arena arena, GearzPlugin plugin, GameMeta meta, Integer id) {
-        super(players, arena, plugin, meta, id);
+    public EnderzGameGame(List<TBNRPlayer> players, Arena arena, GearzPlugin<TBNRPlayer, TBNRAbstractClass> plugin, GameMeta meta, Integer id, GearzPlayerProvider<TBNRPlayer> playerProvider) {
+        super(players, arena, plugin, meta, id, playerProvider);
         if (!(arena instanceof EnderzGameArena)) throw new RuntimeException("Invalid Arena Supplied");
         this.arena = (EnderzGameArena) arena;
     }
@@ -69,17 +82,17 @@ public final class EnderzGameGame extends GearzGame {
     }
 
     @Override
-    protected boolean canBuild(GearzPlayer player) {
+    protected boolean canBuild(TBNRPlayer player) {
         return false;
     }
 
     @Override
-    protected boolean canPvP(GearzPlayer attacker, GearzPlayer target) {
+    protected boolean canPvP(TBNRPlayer attacker, TBNRPlayer target) {
         return true;
     }
 
     @Override
-    protected boolean canUse(GearzPlayer player) {
+    protected boolean canUse(TBNRPlayer player) {
         return true;
     }
 
@@ -87,7 +100,7 @@ public final class EnderzGameGame extends GearzGame {
     protected void onEntityInteract(Entity entity, EntityInteractEvent event) {
         if (isCoretexOnGround()) return;
         if (!(entity instanceof Player)) return;
-        GearzPlayer player = GearzPlayer.playerFromPlayer((Player) entity);
+        TBNRPlayer player = resolvePlayer((Player) entity);
         if (!this.cortexHolder.equals(player)) return;
         Block block = event.getBlock();
         if (block.getType() == Material.ENDER_PORTAL_FRAME) {
@@ -98,33 +111,33 @@ public final class EnderzGameGame extends GearzGame {
     }
 
     @Override
-    protected boolean canBreak(GearzPlayer player, Block block) {
+    protected boolean canBreak(TBNRPlayer player, Block block) {
         return false;
     }
 
     @Override
-    protected boolean canPlace(GearzPlayer player, Block block) {
+    protected boolean canPlace(TBNRPlayer player, Block block) {
         return false;
     }
 
     @Override
-    protected boolean canMove(GearzPlayer player) {
+    protected boolean canMove(TBNRPlayer player) {
         updateEnderBarForPlayer(player);
         return true;
     }
 
     @Override
-    protected boolean canDrawBow(GearzPlayer player) {
+    protected boolean canDrawBow(TBNRPlayer player) {
         return true;
     }
 
     @Override
-    protected void playerKilled(GearzPlayer dead, LivingEntity killer) {
+    protected void playerKilled(TBNRPlayer dead, LivingEntity killer) {
 
     }
 
     @Override
-    protected void playerKilled(GearzPlayer dead, GearzPlayer killer) {
+    protected void playerKilled(TBNRPlayer dead, TBNRPlayer killer) {
         if (!isCoretexOnGround() && dead.equals(this.cortexHolder)) {
             cortexDropped();
             addGPoints(killer, 10);
@@ -134,7 +147,7 @@ public final class EnderzGameGame extends GearzGame {
     }
 
     @Override
-    protected void onDeath(GearzPlayer player) {
+    protected void onDeath(TBNRPlayer player) {
         if (isCoretexOnGround() && this.cortexHolder.equals(player)) cortexDropped();
     }
 
@@ -145,22 +158,22 @@ public final class EnderzGameGame extends GearzGame {
     }
 
     @Override
-    protected void mobKilled(LivingEntity killed, GearzPlayer killer) {
+    protected void mobKilled(LivingEntity killed, TBNRPlayer killer) {
 
     }
 
     @Override
-    protected boolean canDropItem(GearzPlayer player, ItemStack itemToDrop) {
+    protected boolean canDropItem(TBNRPlayer player, ItemStack itemToDrop) {
         return false;
     }
 
     @Override
-    protected Location playerRespawn(GearzPlayer player) {
+    protected Location playerRespawn(TBNRPlayer player) {
         return this.getArena().pointToLocation(this.arena.spawnPoints.random());
     }
 
     @Override
-    protected boolean canPlayerRespawn(GearzPlayer player) {
+    protected boolean canPlayerRespawn(TBNRPlayer player) {
         return true;
     }
 
@@ -170,23 +183,23 @@ public final class EnderzGameGame extends GearzGame {
     }
 
     @Override
-    protected void activatePlayer(GearzPlayer player) {
+    protected void activatePlayer(TBNRPlayer player) {
         player.getPlayer().getInventory().setItem(8, new ItemStack(Material.COMPASS));
         player.getTPlayer().giveItem(Material.STONE_SWORD);
     }
 
     @Override
-    protected boolean allowHunger(GearzPlayer player) {
+    protected boolean allowHunger(TBNRPlayer player) {
         return false;
     }
 
     @Override
-    protected boolean useEnderBar(GearzPlayer player) {
+    protected boolean useEnderBar(TBNRPlayer player) {
         return false;
     }
 
     @Override
-    protected boolean canPickup(GearzPlayer player, Item item) {
+    protected boolean canPickup(TBNRPlayer player, Item item) {
         if (item.equals(cortex)) {
             this.cortexHolder = player;
             broadcast(getPluginFormat("formats.cortex-pickup", false, new String[]{"<player>", player.getUsername()}));
@@ -210,7 +223,7 @@ public final class EnderzGameGame extends GearzGame {
     }
 
     private void updateCompassPoint(Location location) {
-        for (GearzPlayer player : allPlayers()) {
+        for (TBNRPlayer player : allPlayers()) {
             player.getPlayer().setCompassTarget(location);
         }
     }
@@ -228,12 +241,12 @@ public final class EnderzGameGame extends GearzGame {
     }
 
     private void updateEnderBar() {
-        for (GearzPlayer player : getPlayers()) {
+        for (TBNRPlayer player : getPlayers()) {
             updateEnderBarForPlayer(player);
         }
     }
 
-    private void updateEnderBarForPlayer(GearzPlayer player) {
+    private void updateEnderBarForPlayer(TBNRPlayer player) {
         if (isCoretexOnGround()) {
             EnderBar.setTextFor(player, getPluginFormat("formats.ender-bar-ground", false, new String[]{"<distance>", String.valueOf(Math.ceil(this.cortex.getLocation().distance(player.getPlayer().getLocation())))}));
         } else {

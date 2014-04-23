@@ -1,14 +1,16 @@
+/*
+ * Copyright (c) 2014.
+ * CogzMC LLC USA
+ * All Right reserved
+ *
+ * This software is the confidential and proprietary information of Cogz Development, LLC.
+ * ("Confidential Information").
+ * You shall not disclose such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with Cogz LLC.
+ */
+
 package net.tbnr.gearz.hub;
 
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.PacketType.Status;
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.events.ListenerOptions;
-import com.comphenix.protocol.events.ListenerPriority;
-import com.comphenix.protocol.events.PacketAdapter;
-import com.comphenix.protocol.events.PacketEvent;
-import com.comphenix.protocol.wrappers.WrappedGameProfile;
-import com.comphenix.protocol.wrappers.WrappedServerPing;
 import com.mongodb.DBObject;
 import lombok.Getter;
 import net.lingala.zip4j.exception.ZipException;
@@ -38,7 +40,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.IOException;
 import java.net.SocketException;
-import java.util.Arrays;
 
 /**
  * Created with IntelliJ IDEA.
@@ -49,7 +50,7 @@ import java.util.Arrays;
  */
 public class TBNRHub extends TPlugin implements TCommandHandler {
     private MultiserverCannons cannon;
-    private Spawn spawnHandler;
+    @Getter private Spawn spawnHandler;
     private static TBNRHub instance;
     @Getter
     private HubItems hubItems;
@@ -65,14 +66,6 @@ public class TBNRHub extends TPlugin implements TCommandHandler {
 
     @Override
     public void enable() {
-	   ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(this, ListenerPriority.NORMAL,
-			    Arrays.asList(PacketType.Status.Server.OUT_SERVER_INFO, Status.Server.OUT_PING), ListenerOptions.ASYNC) {
-
-		    public void onPacketSending(PacketEvent event) {
-			    getLogger().info("ping came Through!!!!!!!!!!!");
-			    handlePing(event.getPacket().getServerPings().read(0));
-		    }
-	    });
 	    TBNRHub.instance = this;
 	    Gearz.getInstance().setLobbyServer(true);
         DBObject hub_arena = getMongoDB().getCollection("hub_arena").findOne();
@@ -137,17 +130,8 @@ public class TBNRHub extends TPlugin implements TCommandHandler {
         thisServer.save();
     }
 
-    public MultiserverCannons getCannon() {
-        return cannon;
-    }
-
-    public Spawn getSpawn() {
-        return this.spawnHandler;
-    }
-
     @Override
-    public void disable() {
-    }
+    public void disable() {}
 
     @Override
     public String getStorablePrefix() {
@@ -158,18 +142,6 @@ public class TBNRHub extends TPlugin implements TCommandHandler {
         return getFormat("prefix");
     }
 
-    /*
-    @TCommand(
-            name = "test",
-            usage = "Test command!",
-            permission = "gearz.test",
-            senders = {TCommandSender.Player, TCommandSender.Console}
-    )
-    public TCommandStatus test(CommandSender sender, TCommandSender type, TCommand meta, Command command, String[] args) {
-        sender.sendMessage(ChatColor.GREEN + "Gearz Engine test!");
-        return TCommandStatus.SUCCESSFUL;
-    }
-     */
     @SuppressWarnings("unused")
     public static void handleCommandStatus(TCommandStatus status, CommandSender sender) {
         if (status == TCommandStatus.SUCCESSFUL) return;
@@ -184,10 +156,11 @@ public class TBNRHub extends TPlugin implements TCommandHandler {
     public static class SaveAllTask extends BukkitRunnable {
         @Override
         public void run() {
-            for (World world : Bukkit.getServer().getWorlds()) world.save();
-
+            for (World world : Bukkit.getServer().getWorlds()) {
+                world.save();
+            }
             Bukkit.broadcast(ChatColor.GREEN + "World saved!", "gearz.notifysave");
-            TBNRHub.getInstance().getLogger().info("Saved the world.");
+            Gearz.getInstance().debug("Saved the world.");
         }
     }
 
@@ -210,22 +183,6 @@ public class TBNRHub extends TPlugin implements TCommandHandler {
     }
 
     public String compile(String[] args, int min, int max) {
-        StringBuilder builder = new StringBuilder();
-
-        for (int i = min; i < args.length; i++) {
-            builder.append(args[i]);
-            if (i == max) return builder.toString();
-            builder.append(" ");
-        }
-        return builder.toString();
+        return Gearz.getInstance().compile(args, min, max);
     }
-
-	public void handlePing(WrappedServerPing ping) {
-		ping.setPlayers(Arrays.asList(
-				new WrappedGameProfile("id1", ChatColor.GOLD + "HI. " + ChatColor.GREEN +
-						"Test1!"),
-				new WrappedGameProfile("id2", "Hello. This is line number two."),
-				new WrappedGameProfile("id3", "Hello. This is line number three.")
-		));
-	}
 }

@@ -1,3 +1,14 @@
+/*
+ * Copyright (c) 2014.
+ * CogzMC LLC USA
+ * All Right reserved
+ *
+ * This software is the confidential and proprietary information of Cogz Development, LLC.
+ * ("Confidential Information").
+ * You shall not disclose such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with Cogz LLC.
+ */
+
 package net.tbnr.commerce.items.definitions;
 
 import net.tbnr.commerce.items.CommerceItemAPI;
@@ -5,7 +16,7 @@ import net.tbnr.commerce.items.CommerceItemMeta;
 import net.tbnr.commerce.items.Tier;
 import net.tbnr.gearz.Gearz;
 import net.tbnr.gearz.GearzException;
-import net.tbnr.gearz.player.GearzPlayer;
+import net.tbnr.manager.TBNRPlayer;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -21,7 +32,7 @@ public class ColoredArmor extends AbstractArmorItem {
     private static final Material[] leatherArmor =
             new Material[]{Material.LEATHER_HELMET, Material.LEATHER_CHESTPLATE, Material.LEATHER_LEGGINGS, Material.LEATHER_BOOTS};
 
-    public ColoredArmor(GearzPlayer player, CommerceItemAPI api) throws GearzException {
+    public ColoredArmor(TBNRPlayer player, CommerceItemAPI api) throws GearzException {
         super(player, api);
     }
 

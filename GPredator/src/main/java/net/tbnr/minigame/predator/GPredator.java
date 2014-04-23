@@ -1,7 +1,18 @@
+/*
+ * Copyright (c) 2014.
+ * CogzMC LLC USA
+ * All Right reserved
+ *
+ * This software is the confidential and proprietary information of Cogz Development, LLC.
+ * ("Confidential Information").
+ * You shall not disclose such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with Cogz LLC.
+ */
+
 package net.tbnr.minigame.predator;
 
 import net.tbnr.gearz.GearzException;
-import net.tbnr.gearz.GearzPlugin;
+import net.tbnr.manager.TBNRPlugin;
 
 /**
  * Created by George on 11/01/14.
@@ -10,7 +21,7 @@ import net.tbnr.gearz.GearzPlugin;
  * <p/>
  * Latest Change: Added it
  */
-public class GPredator extends GearzPlugin {
+public class GPredator extends TBNRPlugin {
     @Override
     public void enable() {
         try {

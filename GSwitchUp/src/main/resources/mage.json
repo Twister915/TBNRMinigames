@@ -1,8 +1,4 @@
-{   
-    "name" : "Mage",
-    "repItem" : {
-        "item_type" : "AIR"
-    },
+{
     "items" : [
         {
             "item_type" : "POTION",

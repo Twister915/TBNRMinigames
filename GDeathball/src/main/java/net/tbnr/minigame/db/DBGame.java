@@ -1,3 +1,14 @@
+/*
+ * Copyright (c) 2014.
+ * CogzMC LLC USA
+ * All Right reserved
+ *
+ * This software is the confidential and proprietary information of Cogz Development, LLC.
+ * ("Confidential Information").
+ * You shall not disclose such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with Cogz LLC.
+ */
+
 package net.tbnr.minigame.db;
 
 import com.comphenix.protocol.utility.MinecraftReflection;
@@ -7,8 +18,10 @@ import net.tbnr.gearz.effects.EnderBar;
 import net.tbnr.gearz.game.GameCountdown;
 import net.tbnr.gearz.game.GameCountdownHandler;
 import net.tbnr.gearz.game.GameMeta;
-import net.tbnr.gearz.game.GearzGame;
-import net.tbnr.gearz.player.GearzPlayer;
+import net.tbnr.gearz.network.GearzPlayerProvider;
+import net.tbnr.manager.TBNRMinigame;
+import net.tbnr.manager.TBNRPlayer;
+import net.tbnr.manager.classes.TBNRAbstractClass;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -46,15 +59,15 @@ import java.util.Map;
         maxPlayers = 24,
         minPlayers = 4,
         playerCountMode = GameMeta.PlayerCountMode.Any)
-public final class DBGame extends GearzGame implements GameCountdownHandler {
+public final class DBGame extends TBNRMinigame implements GameCountdownHandler {
 
     private DBArena dbarena;
-    private HashMap<GearzPlayer, Integer> lives;
-    private HashMap<GearzPlayer, Integer> score;
+    private HashMap<TBNRPlayer, Integer> lives;
+    private HashMap<TBNRPlayer, Integer> score;
     private GameCountdown countdown;
 
-    public DBGame(List<GearzPlayer> players, Arena arena, GearzPlugin plugin, GameMeta meta, Integer id) {
-        super(players, arena, plugin, meta, id);
+    public DBGame(List<TBNRPlayer> players, Arena arena, GearzPlugin<TBNRPlayer, TBNRAbstractClass> plugin, GameMeta meta, Integer id, GearzPlayerProvider<TBNRPlayer> playerProvider) {
+        super(players, arena, plugin, meta, id, playerProvider);
         if (!(arena instanceof DBArena)) throw new RuntimeException("Invalid instance");
         this.dbarena = (DBArena) arena;
         this.lives = new HashMap<>();
@@ -63,7 +76,7 @@ public final class DBGame extends GearzGame implements GameCountdownHandler {
 
     @Override
     protected void gamePreStart() {
-        for (GearzPlayer player : getPlayers()) {
+        for (TBNRPlayer player : getPlayers()) {
             lives.put(player, 75);
             score.put(player, 0);
         }
@@ -82,32 +95,32 @@ public final class DBGame extends GearzGame implements GameCountdownHandler {
     }
 
     @Override
-    protected boolean canBuild(GearzPlayer player) {
+    protected boolean canBuild(TBNRPlayer player) {
         return false;
     }
 
     @Override
-    protected boolean canPvP(GearzPlayer attacker, GearzPlayer target) {
+    protected boolean canPvP(TBNRPlayer attacker, TBNRPlayer target) {
         return false;
     }
 
     @Override
-    protected boolean canUse(GearzPlayer player) {
+    protected boolean canUse(TBNRPlayer player) {
         return true;
     }
 
     @Override
-    protected boolean canBreak(GearzPlayer player, Block block) {
+    protected boolean canBreak(TBNRPlayer player, Block block) {
         return false;
     }
 
     @Override
-    protected boolean canPlace(GearzPlayer player, Block block) {
+    protected boolean canPlace(TBNRPlayer player, Block block) {
         return false;
     }
 
     @Override
-    protected boolean canMove(GearzPlayer player) {
+    protected boolean canMove(TBNRPlayer player) {
         if (player.getPlayer().getLocation().getY() < 0) {
             player.getPlayer().teleport(playerRespawn(player));
             removeScore(player, 1);
@@ -116,42 +129,42 @@ public final class DBGame extends GearzGame implements GameCountdownHandler {
     }
 
     @Override
-    protected boolean canDrawBow(GearzPlayer player) {
+    protected boolean canDrawBow(TBNRPlayer player) {
         return false;
     }
 
     @Override
-    protected void playerKilled(GearzPlayer dead, LivingEntity killer) {
+    protected void playerKilled(TBNRPlayer dead, LivingEntity killer) {
 
     }
 
     @Override
-    protected void playerKilled(GearzPlayer dead, GearzPlayer killer) {
+    protected void playerKilled(TBNRPlayer dead, TBNRPlayer killer) {
 
     }
 
     @Override
-    protected void mobKilled(LivingEntity killed, GearzPlayer killer) {
+    protected void mobKilled(LivingEntity killed, TBNRPlayer killer) {
 
     }
 
     @Override
-    protected boolean canDropItem(GearzPlayer player, ItemStack itemToDrop) {
+    protected boolean canDropItem(TBNRPlayer player, ItemStack itemToDrop) {
         return false;
     }
 
     @Override
-    protected Location playerRespawn(GearzPlayer player) {
+    protected Location playerRespawn(TBNRPlayer player) {
         return getArena().pointToLocation(dbarena.spawnPoints.random());
     }
 
     @Override
-    protected boolean canPlayerRespawn(GearzPlayer player) {
+    protected boolean canPlayerRespawn(TBNRPlayer player) {
         return lives.containsKey(player);
     }
 
     @Override
-    protected void removePlayerFromGame(GearzPlayer player) {
+    protected void removePlayerFromGame(TBNRPlayer player) {
         if (lives.containsKey(player)) lives.remove(player);
     }
 
@@ -159,14 +172,14 @@ public final class DBGame extends GearzGame implements GameCountdownHandler {
     protected void onDamage(Entity damager, Entity target, EntityDamageByEntityEvent event) {
         if (!((damager instanceof Snowball) || (damager instanceof Player))) return;
         if (!(target instanceof Player)) return;
-        GearzPlayer target1 = GearzPlayer.playerFromPlayer((Player) target);
+        TBNRPlayer target1 = resolvePlayer((Player) target);
         if (!isIngame(target1) || isSpectating(target1)) return;
         int value;
-        GearzPlayer attacker;
+        TBNRPlayer attacker;
         if (damager instanceof Snowball) {
             Snowball snowball = (Snowball) damager;
             if (!(snowball.getShooter() instanceof Player)) return;
-            attacker = GearzPlayer.playerFromPlayer((Player) snowball.getShooter());
+            attacker = resolvePlayer((Player) snowball.getShooter());
             if(attacker.equals(target1)) return;
             if (isSpectating(attacker)) return;
             value = 1;
@@ -174,7 +187,7 @@ public final class DBGame extends GearzGame implements GameCountdownHandler {
             attacker.getPlayer().playSound(attacker.getPlayer().getLocation(), Sound.FIREWORK_BLAST2, 5f, 1f);
             attacker.getPlayer().sendMessage(getPluginFormat("formats.hit-player", true, new String[]{"<player>", target1.getUsername()}, new String[]{"<points>", value + ""}));
         } else {
-            attacker = GearzPlayer.playerFromPlayer((Player) damager);
+            attacker = resolvePlayer((Player) damager);
             if (isSpectating(attacker)) return;
             if (attacker.getPlayer().getItemInHand().getType() != Material.STICK) return;
             value = 5;
@@ -194,7 +207,7 @@ public final class DBGame extends GearzGame implements GameCountdownHandler {
     }
 
     @Override
-    protected void activatePlayer(GearzPlayer player) {
+    protected void activatePlayer(TBNRPlayer player) {
         player.getTPlayer().addInfinitePotionEffect(PotionEffectType.SPEED, 4);
         player.getTPlayer().addInfinitePotionEffect(PotionEffectType.JUMP, 5);
         player.getTPlayer().giveItem(Material.SNOW_BALL, 10);
@@ -205,26 +218,26 @@ public final class DBGame extends GearzGame implements GameCountdownHandler {
     }
 
     @Override
-    protected boolean allowHunger(GearzPlayer player) {
+    protected boolean allowHunger(TBNRPlayer player) {
         return false;
     }
 
     @Override
-    protected boolean onFallDamage(GearzPlayer player, EntityDamageEvent event) {
+    protected boolean onFallDamage(TBNRPlayer player, EntityDamageEvent event) {
         return event.getCause() == EntityDamageEvent.DamageCause.FALL;
     }
 
     @Override
-    protected void onSnowballThrow(GearzPlayer player) {
+    protected void onSnowballThrow(TBNRPlayer player) {
         player.getTPlayer().giveItem(Material.SNOW_BALL, 1);
     }
 
-    private void addScore(GearzPlayer player, int scr) {
+    private void addScore(TBNRPlayer player, int scr) {
         int sc = score.get(player) + scr;
         score.put(player, sc);
     }
 
-    private void removeScore(GearzPlayer player, int scr) {
+    private void removeScore(TBNRPlayer player, int scr) {
         int sc = lives.get(player);
         sc = sc - scr;
         if (sc <= 0) {
@@ -243,11 +256,11 @@ public final class DBGame extends GearzGame implements GameCountdownHandler {
     }
 
     private void updateScoreboard() {
-        for (GearzPlayer player : getPlayers()) {
+        for (TBNRPlayer player : getPlayers()) {
             if(!player.isValid()) continue;
             player.getTPlayer().resetScoreboard();
             player.getTPlayer().setScoreboardSideTitle(getPluginFormat("formats.scoreboard-title", false));
-            for (GearzPlayer player1 : lives.keySet()) {
+            for (TBNRPlayer player1 : lives.keySet()) {
                 if(!player1.isValid()) continue;
                 player.getTPlayer().setScoreBoardSide(player1.getUsername(), lives.get(player1));
             }
@@ -255,7 +268,7 @@ public final class DBGame extends GearzGame implements GameCountdownHandler {
     }
 
     private void updateEnderBar() {
-        for (GearzPlayer player : getPlayers()) {
+        for (TBNRPlayer player : getPlayers()) {
             if(!player.isValid()) continue;
             EnderBar.setTextFor(player, getPluginFormat("formats.time", false, new String[]{"<time>", formatInt(countdown.getSeconds() - countdown.getPassed())}));
             EnderBar.setHealthPercent(player, ((float) countdown.getSeconds() - countdown.getPassed()) / (float) countdown.getSeconds());
@@ -275,8 +288,8 @@ public final class DBGame extends GearzGame implements GameCountdownHandler {
     @Override
     public void onCountdownComplete(GameCountdown countdown) {
         int maxScore = 0;
-        GearzPlayer winner = null;
-        for (Map.Entry<GearzPlayer, Integer> entry : lives.entrySet()) {
+        TBNRPlayer winner = null;
+        for (Map.Entry<TBNRPlayer, Integer> entry : lives.entrySet()) {
             if (entry.getValue() > maxScore) {
                 maxScore = entry.getValue() * score.get(entry.getKey());
                 winner = entry.getKey();

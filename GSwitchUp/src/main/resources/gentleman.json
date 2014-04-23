@@ -1,8 +1,4 @@
-{   
-    "name" : "Gentleman",
-    "repItem" : {
-        "item_type" : "AIR"
-    },
+{
     "items" : [
         {
             "item_type" : "RED_ROSE",

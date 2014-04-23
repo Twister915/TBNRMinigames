@@ -1,3 +1,14 @@
+/*
+ * Copyright (c) 2014.
+ * CogzMC LLC USA
+ * All Right reserved
+ *
+ * This software is the confidential and proprietary information of Cogz Development, LLC.
+ * ("Confidential Information").
+ * You shall not disclose such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with Cogz LLC.
+ */
+
 package net.tbnr.gearz.hub;
 
 import net.tbnr.gearz.Gearz;
@@ -264,7 +275,7 @@ public class MultiserverCannons implements Listener, TCommandHandler {
                     if (serverFor == null) serverFor = getServerFor(cannon.getServer(), true);
                     if (serverFor == null) serverFor = cannon.getServer();
                     BouncyUtils.sendPlayerToServer(this.player.getPlayer(), serverFor);
-                    this.player.getPlayer().teleport(TBNRHub.getInstance().getSpawn().getSpawn());
+                    this.player.getPlayer().teleport(TBNRHub.getInstance().getSpawnHandler().getSpawnHandler());
                     try {
                         this.player.playParticleEffect(new TPlayer.TParticleEffect(player.getPlayer().getLocation(), Gearz.getRandom().nextFloat(), 1, 10, 2, WrapperPlayServerWorldParticles.ParticleEffect.HEART));
                     } catch (Exception e) {

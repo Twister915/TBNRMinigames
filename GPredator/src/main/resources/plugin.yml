@@ -4,4 +4,4 @@ main: net.tbnr.minigame.predator.GPredator
 description: dat' Predator
 website: http://tbnr.net
 authors: [pokuit]
-depend: [Gearz]
+depend: [Gearz, TBNRNetwork]
