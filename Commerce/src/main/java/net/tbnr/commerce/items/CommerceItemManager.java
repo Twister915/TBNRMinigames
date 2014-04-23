@@ -115,6 +115,7 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
                 continue;
             }
             CommerceItem commerceItem = constructCommerceItem(key, player);
+	        if(commerceItem == null) return;
             if (contains(recentlyPurchased, commerceItem.getClass())) commerceItem.onPurchase();
             try {
                 commerceItem.register();
