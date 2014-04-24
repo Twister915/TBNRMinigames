@@ -83,6 +83,50 @@ public final class TBNRPlayerUtils implements TCommandHandler, Listener {
         if (!sender.equals(gplayer.getTPlayer().getPlayer())) gplayer.getTPlayer().sendMessage(Gearz.getInstance().getFormat("formats.xp-changed", true, new String[]{"<action>", (xp >= 0 ? "added" : "removed")}, new String[]{"<xp>", String.valueOf(xp)}));
         return TCommandStatus.SUCCESSFUL;
     }
+
+    @TCommand(
+            name = "points",
+            senders = {TCommandSender.Console, TCommandSender.Player},
+            permission = "gearz.points",
+            usage = "Set points.")
+    @SuppressWarnings("unused")
+    public TCommandStatus points(CommandSender sender, TCommandSender type, TCommand meta, Command command, String[] args) {
+        if (args.length < 2 || (type == TCommandSender.Console && args.length < 3)) return TCommandStatus.FEW_ARGS;
+        Player player = (type == TCommandSender.Console || args.length == 3) ? Bukkit.getPlayer(args[0]) : (Player) sender;
+        if (player == null) return TCommandStatus.INVALID_ARGS;
+        TBNRPlayer gplayer = TBNRNetworkManager.getInstance().getPlayerProvider().getPlayerFromPlayer(player);
+        int points;
+        try {
+            points = Integer.valueOf((type == TCommandSender.Console || args.length == 3) ? args[2] : args[1]);
+        } catch (NumberFormatException ex) {
+            if (args.length == 2) {
+                return TCommandStatus.FEW_ARGS;
+            } else {
+                return TCommandStatus.INVALID_ARGS;
+            }
+        }
+        switch (((type == TCommandSender.Console || args.length == 3) ? args[1] : args[0])) {
+            case "add":
+            case "+":
+                gplayer.addPoints(points);
+                break;
+            case "subtract":
+            case "remove":
+            case "-":
+                gplayer.addPoints(-1 * points);
+                break;
+            case "clear":
+                gplayer.addPoints(-1 * Integer.MAX_VALUE);
+                points = -1;
+                break;
+            default:
+                return TCommandStatus.INVALID_ARGS;
+        }
+        sender.sendMessage(Gearz.getInstance().getFormat("formats.xp-change", true, new String[]{"<action>", (points >= 0 ? "added" : "removed")}, new String[]{"<target>", (sender.equals(gplayer.getTPlayer().getPlayer()) ? "yourself" : gplayer.getTPlayer().getPlayer().getName())}, new String[]{"<xp>", String.valueOf(Math.abs(points))}));
+        if (!sender.equals(gplayer.getTPlayer().getPlayer())) gplayer.getTPlayer().sendMessage(Gearz.getInstance().getFormat("formats.xp-changed", true, new String[]{"<action>", (points >= 0 ? "added" : "removed")}, new String[]{"<xp>", String.valueOf(points)}));
+        return TCommandStatus.SUCCESSFUL;
+    }
+
     @Override
     public void handleCommandStatus(TCommandStatus status, CommandSender sender, TCommandSender senderType) {
         Gearz.handleCommandStatus(status, sender);
