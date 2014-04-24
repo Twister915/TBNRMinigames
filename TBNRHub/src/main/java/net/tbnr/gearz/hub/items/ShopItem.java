@@ -33,9 +33,9 @@ import java.util.List;
 		key = "shop",
 		slot = 8
 )
-public class Shop extends HubItem {
+public class ShopItem extends HubItem {
 
-	public Shop() {
+	public ShopItem() {
 		super(true);
 	}
 
