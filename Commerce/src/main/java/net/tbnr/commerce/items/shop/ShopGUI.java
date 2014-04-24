@@ -33,17 +33,6 @@ public class ShopGUI extends BaseGUI {
     @Getter private GearzPlayer player;
 
     /**
-     * An InventoryGUI with callbacks and effects on
-     *
-     * @param items    And array list of the items to be put in the GUI
-     * @param title    The title of the GUI
-     * @param callback The callback that handles the clicks.
-     */
-    public ShopGUI(ArrayList<GUIItem> items, String title, GUICallback callback, GearzPlayer player) {
-        this(items, title, callback, true, player);
-    }
-
-    /**
      * An InventoryGUI with callbacks
      *
      * @param items    And array list of the items to be put in the GUI
@@ -54,5 +43,17 @@ public class ShopGUI extends BaseGUI {
     public ShopGUI(ArrayList<GUIItem> items, String title, GUICallback callback, boolean effects, GearzPlayer player) {
         super(items, title, callback, effects);
         this.player = player;
+        System.out.println("CREATED A SHOPGUI FOR " + player.getUsername());
+    }
+
+    /**
+     * An InventoryGUI with callbacks and effects on
+     *
+     * @param items    And array list of the items to be put in the GUI
+     * @param title    The title of the GUI
+     * @param callback The callback that handles the clicks.
+     */
+    public ShopGUI(ArrayList<GUIItem> items, String title, GUICallback callback, GearzPlayer player) {
+        this(items, title, callback, true, player);
     }
 }
