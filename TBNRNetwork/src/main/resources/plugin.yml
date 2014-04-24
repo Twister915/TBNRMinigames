@@ -6,9 +6,9 @@ main: net.tbnr.manager.TBNRNetworkManager
 depend: [Gearz]
 commands:
     xp:
-      description: Xp
+      description: XP Management Command
     clearchat:
-      description: Clears chat
+      description: Clears chat globally
       aliases: [cc, cchat, clearc]
     clearmychat:
       description: Clears senders chat
@@ -16,6 +16,9 @@ commands:
     classpasscreditchange:
       description: Credit changer.
     youtuber:
-      description: Youtuber lookup
+      description: Youtuber lookup command.
     setyoutube:
-      description: Youtuber set command
+      description: Command used to set a player's Youtube channel.
+    stats:
+      description: Displays a link the TBNR stats page.
+      aliases: [stat, leaderboards, leaderboard]

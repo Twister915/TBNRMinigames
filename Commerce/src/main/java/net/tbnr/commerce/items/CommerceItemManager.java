@@ -379,9 +379,9 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
             sender.sendMessage(ChatColor.RED + "Player not found!");
             return TCommandStatus.INVALID_ARGS;
         }
-        String subcommand = args[0];
-        switch (subcommand) {
+        switch (args[0]) {
             case "add":
+            case "+":
                 if (args.length < 3) return TCommandStatus.FEW_ARGS;
                 Integer points;
                 try {
@@ -393,6 +393,7 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
                 sender.sendMessage(ChatColor.RED + "Added " + points + " to " + target.getUsername());
                 break;
             case "remove":
+            case "-":
                 if (args.length < 3) return TCommandStatus.FEW_ARGS;
                 Integer points2;
                 try {

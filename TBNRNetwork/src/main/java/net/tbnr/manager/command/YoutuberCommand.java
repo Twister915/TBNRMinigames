@@ -47,7 +47,7 @@ public class YoutuberCommand implements TCommandHandler {
         TBNRPlayer tbnrYoutuber = TBNRNetworkManager.getInstance().getPlayerProvider().getPlayerFromPlayer(player);
         String youtubeChannel = tbnrYoutuber.getYoutubeChannel();
         if (youtubeChannel == null) {
-            sender.sendMessage(Gearz.getInstance().getFormat("formats.no-youtube", true));
+            sender.sendMessage(TBNRNetworkManager.getInstance().getFormat("formats.no-youtube", true));
             return TCommandStatus.SUCCESSFUL;
         }
         sendYoutubeData(sender, youtuberSearch);
@@ -66,7 +66,7 @@ public class YoutuberCommand implements TCommandHandler {
         new YoutubeChannel(toSet, new YoutubeChannel.YoutuberCallback() {
             @Override
             public void onComplete(YoutubeChannel youtubeChannel) {
-                sender.sendMessage(Gearz.getInstance().getFormat("formats.set-youtube-this", true));
+                sender.sendMessage(TBNRNetworkManager.getInstance().getFormat("formats.set-youtube-this", true));
                 sender.sendMessage(formatData("Username:", youtubeChannel.getUsername()));
                 sender.sendMessage(formatData("Subscribers:", youtubeChannel.getSubscriberCount() + ""));
                 sender.sendMessage(formatData("Views:", youtubeChannel.getViewCount() + ""));
@@ -78,7 +78,7 @@ public class YoutuberCommand implements TCommandHandler {
 
             @Override
             public void onFail(YoutubeChannel youtubeChannel, String errorMessage) {
-                sender.sendMessage(Gearz.getInstance().getFormat("formats.fail-set", true));
+                sender.sendMessage(TBNRNetworkManager.getInstance().getFormat("formats.fail-set", true));
             }
         });
         return TCommandStatus.SUCCESSFUL;
@@ -97,13 +97,13 @@ public class YoutuberCommand implements TCommandHandler {
 
             @Override
             public void onFail(YoutubeChannel youtubeChannel, String errorMessage) {
-                receiever.sendMessage(Gearz.getInstance().getFormat("formats.fail-youtube", true));
+                receiever.sendMessage(TBNRNetworkManager.getInstance().getFormat("formats.fail-youtube", true));
             }
         });
     }
 
     private String formatData(String key, String value) {
-        return "  " + Gearz.getInstance().getFormat("formats.youtube-display", false, new String[]{"<key>", key}, new String[]{"<value>", value});
+        return "  " + TBNRNetworkManager.getInstance().getFormat("formats.youtube-display", false, new String[]{"<key>", key}, new String[]{"<value>", value});
     }
 
     @Override
