@@ -11,6 +11,7 @@
 
 package net.tbnr.commerce.items.shop;
 
+import lombok.Getter;
 import net.tbnr.gearz.player.GearzPlayer;
 import net.tbnr.util.inventory.base.BaseGUI;
 import net.tbnr.util.inventory.base.GUICallback;
@@ -29,7 +30,7 @@ public class ShopGUI extends BaseGUI {
     /**
      *Player
      */
-    private GearzPlayer player;
+    @Getter private GearzPlayer player;
 
     /**
      * An InventoryGUI with callbacks and effects on

@@ -374,7 +374,7 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
         if (args.length > 2 && type == TCommandSender.Player) return TCommandStatus.MANY_ARGS;
         TBNRPlayer target;
         try {
-            target = TBNRNetworkManager.getInstance().getPlayerProvider().getPlayerFromPlayer(Bukkit.getPlayer(args[1]));
+            target = TBNRNetworkManager.getInstance().getPlayerProvider().getPlayerFromPlayer(Bukkit.getPlayerExact(args[1]));
         } catch (NullPointerException ex) {
             sender.sendMessage(ChatColor.RED + "Player not found!");
             return TCommandStatus.INVALID_ARGS;

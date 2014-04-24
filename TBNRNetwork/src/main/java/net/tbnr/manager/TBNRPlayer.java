@@ -30,7 +30,6 @@ public final class TBNRPlayer extends GearzPlayer {
     @SuppressWarnings("unused")
     public void toggleStats() {
         setHideStats(!hideStats);
-
     }
 
     public void setHideStats(boolean h) {
@@ -38,9 +37,6 @@ public final class TBNRPlayer extends GearzPlayer {
             return;
         }
         this.hideStats = h;
-        if (tPlayer == null) {
-            return;
-        }
         if (tPlayer.getPlayer() == null) {
             return;
         }
@@ -68,6 +64,7 @@ public final class TBNRPlayer extends GearzPlayer {
     public boolean areStatsHidden() {
         return this.hideStats;
     }
+
     public void addXp(int xp) {
         Integer current_xp = getXP();
         Integer newXp = Math.max(0, current_xp + xp);
@@ -154,9 +151,6 @@ public final class TBNRPlayer extends GearzPlayer {
         if (this.hideStats) {
             return;
         }
-        if (this.tPlayer == null) {
-            return;
-        }
         if (this.tPlayer.getPlayer() == null) {
             return;
         }
@@ -178,6 +172,7 @@ public final class TBNRPlayer extends GearzPlayer {
         this.tPlayer.setScoreBoardSide(instance.getFormat("formats.points-sidebar"), -3);
         this.tPlayer.setScoreBoardSide(instance.getFormat("formats.level-sidebar"), -4);
     }
+
     private Integer getLevelFromXP(int xp) {
         if (xp < 0) {
             return 0;
@@ -246,7 +241,6 @@ public final class TBNRPlayer extends GearzPlayer {
     public TPlayer getTPlayer() {
         return this.tPlayer;
     }
-
 
     public static class GPlayerDonorPoints implements TPlayerStorable {
         private final Integer points;
