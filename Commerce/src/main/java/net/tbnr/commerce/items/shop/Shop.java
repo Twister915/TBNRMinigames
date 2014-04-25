@@ -38,9 +38,9 @@ public final class Shop implements PlayerShop {
         this.player = player;
         System.out.println("LOADED SHOP FOR " + player.getUsername());
         this.api = api;
-        shopGui = getInvetoryGui(GuiKey.Shop);
-        tierGui = getInvetoryGui(GuiKey.Tier);
-        mainGui = getInvetoryGui(GuiKey.Main);
+        shopGui = getInventoryGUI(GuiKey.Shop);
+        tierGui = getInventoryGUI(GuiKey.Tier);
+        mainGui = getInventoryGUI(GuiKey.Main);
     }
 
     @Setter(AccessLevel.PACKAGE) private GuiKey currentGuiPhase;
@@ -158,7 +158,7 @@ public final class Shop implements PlayerShop {
         close();
     }
 
-    private ShopGUI getInvetoryGui(GuiKey key) {
+    private ShopGUI getInventoryGUI(GuiKey key) {
         ArrayList<GUIItem> items = null;
         switch (key) {
             case Shop:
