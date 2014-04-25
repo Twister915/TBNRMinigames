@@ -1,3 +1,14 @@
+/*
+ * Copyright (c) 2014.
+ * CogzMC LLC USA
+ * All Right reserved
+ *
+ * This software is the confidential and proprietary information of Cogz Development, LLC.
+ * ("Confidential Information").
+ * You shall not disclose such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with Cogz LLC.
+ */
+
 package net.tbnr.commerce;
 
 import lombok.Getter;
@@ -13,7 +24,8 @@ import net.tbnr.util.TPlugin;
  *
  * Latest Change:
  */
-public final  class GearzCommerce extends TPlugin {
+@SuppressWarnings("FieldCanBeLocal")
+public final class GearzCommerce extends TPlugin {
     @Getter
     private static GearzCommerce instance;
 
@@ -33,15 +45,12 @@ public final  class GearzCommerce extends TPlugin {
         registerEvents(this.itemManager);
         registerCommands(this.itemManager);
         this.itemAPI = this.itemManager;
-
         this.shopManager = new ShopManager();
         registerCommands(this.shopManager);
     }
 
     @Override
-    public void disable() {
-
-    }
+    public void disable() {}
 
     @Override
     public String getStorablePrefix() {

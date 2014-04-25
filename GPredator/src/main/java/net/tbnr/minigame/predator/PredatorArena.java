@@ -1,9 +1,19 @@
+/*
+ * Copyright (c) 2014.
+ * CogzMC LLC USA
+ * All Right reserved
+ *
+ * This software is the confidential and proprietary information of Cogz Development, LLC.
+ * ("Confidential Information").
+ * You shall not disclose such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with Cogz LLC.
+ */
+
 package net.tbnr.minigame.predator;
 
 import net.tbnr.gearz.arena.Arena;
 import net.tbnr.gearz.arena.ArenaField;
-import net.tbnr.gearz.arena.ArenaIterator;
-import net.tbnr.gearz.arena.Point;
+import net.tbnr.gearz.arena.PointIterator;
 import org.bukkit.World;
 
 /**
@@ -15,10 +25,10 @@ import org.bukkit.World;
  */
 public class PredatorArena extends Arena {
     @ArenaField(key = "predator-spawn", loop = true, type = ArenaField.PointType.Player, longName = "Predator Spawn")
-    public ArenaIterator<Point> predatorSpawn;
+    public PointIterator predatorSpawn;
 
     @ArenaField(key = "spawn-points", loop = true, type = ArenaField.PointType.Player, longName = "Spawn Points")
-    public ArenaIterator<Point> spawnPoints;
+    public PointIterator spawnPoints;
 
     public PredatorArena(String name, String author, String description, String worldId, String id) {
         super(name, author, description, worldId, id);

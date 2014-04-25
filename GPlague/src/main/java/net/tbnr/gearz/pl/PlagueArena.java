@@ -1,9 +1,19 @@
+/*
+ * Copyright (c) 2014.
+ * CogzMC LLC USA
+ * All Right reserved
+ *
+ * This software is the confidential and proprietary information of Cogz Development, LLC.
+ * ("Confidential Information").
+ * You shall not disclose such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with Cogz LLC.
+ */
+
 package net.tbnr.gearz.pl;
 
 import net.tbnr.gearz.arena.Arena;
 import net.tbnr.gearz.arena.ArenaField;
-import net.tbnr.gearz.arena.ArenaIterator;
-import net.tbnr.gearz.arena.Point;
+import net.tbnr.gearz.arena.PointIterator;
 import org.bukkit.World;
 
 /**
@@ -16,10 +26,10 @@ import org.bukkit.World;
 public class PlagueArena extends Arena {
 
 	@ArenaField(key = "human-spawn", loop = true, type = ArenaField.PointType.Player, longName = "Human Spawn Points")
-	public ArenaIterator<Point> humanSpawnPoints;
+	public PointIterator humanSpawnPoints;
 
 	@ArenaField(key = "zombie-spawn", loop = true, type = ArenaField.PointType.Player, longName = "Zombie Spawn Points")
-	public ArenaIterator<Point> zombieSpawnPoints;
+	public PointIterator zombieSpawnPoints;
 
 
 	public PlagueArena(String name, String author, String description, String worldId, String id) {

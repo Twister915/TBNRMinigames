@@ -1,8 +1,4 @@
-{   
-    "name" : "Creative Builder",
-    "repItem" : {
-        "item_type" : "AIR"
-    },
+{
     "items" : [
         {
             "item_type" : "STONE",

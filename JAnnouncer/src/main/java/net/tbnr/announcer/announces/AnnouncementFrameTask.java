@@ -1,3 +1,14 @@
+/*
+ * Copyright (c) 2014.
+ * CogzMC LLC USA
+ * All Right reserved
+ *
+ * This software is the confidential and proprietary information of Cogz Development, LLC.
+ * ("Confidential Information").
+ * You shall not disclose such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with Cogz LLC.
+ */
+
 package net.tbnr.announcer.announces;
 
 import lombok.Data;
@@ -6,6 +17,7 @@ import net.tbnr.announcer.JAnnouncer;
 import net.tbnr.announcer.effects.AnnouncementEffect;
 import net.tbnr.gearz.effects.EnderBar;
 import net.tbnr.gearz.player.GearzPlayer;
+import net.tbnr.manager.TBNRNetworkManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -19,7 +31,7 @@ public class AnnouncementFrameTask extends BukkitRunnable {
     @Override
     public void run() {
         for (Player player : Bukkit.getOnlinePlayers()) {
-            GearzPlayer gPlayer = GearzPlayer.playerFromPlayer(player);
+            GearzPlayer gPlayer = TBNRNetworkManager.getInstance().getPlayerProvider().getPlayerFromPlayer(player);
             EnderBar.setHealthPercent(gPlayer, JAnnouncer.getInstance().getAnnouncerManager().getHealthPercent(this, gPlayer));
             EnderBar.setTextFor(gPlayer, effect.getText(announcement, gPlayer));
         }

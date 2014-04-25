@@ -36,12 +36,6 @@ hub-items:
       isEnabled: true
       properties:
          name: "&e&oSomething's &6&oComin'"
-hover-ping-text:
-- "&c-TBNRHub-"
-- "&a|The Best|"
-- "&b|  Never |"
-- "&1-  Rest  |"
-- "&d----------"
 formats:
    world-teleport: "&aYou've been teleported to &e<world>&a!"
    snowball-hit: "&aYou have hit &3<player>&a with a snowball to earn XP! &3(You have &b<hits>&3 hits)."
@@ -58,6 +52,7 @@ formats:
    welcome-message: "&3Welcome &a<player>&3 to &6TBNR&3!"
    blastoff-loading: "&e&lLoading server info for &c<server>&e&l!"
    blastoff-topline: "&0[&cServers&0]"
+   blastoff-itemname: "&e&l<game>&7 -&e <number>"
    command-status: "&7[&6TBNR&7] &cThe command returned an error: &4<status>"
    servers-full: "&cAll &3<server>&c servers are full at the moment. Please try again later!"
 blastoff:

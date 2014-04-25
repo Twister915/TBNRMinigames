@@ -1,5 +1,17 @@
+/*
+ * Copyright (c) 2014.
+ * CogzMC LLC USA
+ * All Right reserved
+ *
+ * This software is the confidential and proprietary information of Cogz Development, LLC.
+ * ("Confidential Information").
+ * You shall not disclose such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with Cogz LLC.
+ */
+
 package net.tbnr.gearz.hub.items.warpstar;
 
+import net.tbnr.gearz.Gearz;
 import net.tbnr.gearz.hub.TBNRHub;
 import net.tbnr.util.command.TCommand;
 import net.tbnr.util.command.TCommandHandler;
@@ -46,6 +58,9 @@ public class WarpStarCommands implements TCommandHandler {
 
         ConfigurationSection section = TBNRHub.getInstance().getConfig().createSection("hub.warps." + ChatColor.stripColor(name).toLowerCase());
 
+        if (material == null) {
+            return TCommandStatus.INVALID_ARGS;
+        }
         section.set("item", material.name());
         section.set("name", args[1]);
         section.set("lore", lore);
@@ -63,7 +78,6 @@ public class WarpStarCommands implements TCommandHandler {
         TBNRHub.getInstance().getConfig().set("hub.warps." + ChatColor.stripColor(name).toLowerCase(), section);
         TBNRHub.getInstance().saveConfig();
         p.sendMessage(ChatColor.GREEN + "Warp set!");
-        TBNRHub.getInstance().getHubItems().refreshWarpStar();
         return TCommandStatus.SUCCESSFUL;
     }
 
@@ -81,7 +95,6 @@ public class WarpStarCommands implements TCommandHandler {
         TBNRHub.getInstance().getConfig().set("hub.warps." + args[0], null);
         TBNRHub.getInstance().saveConfig();
         sender.sendMessage(ChatColor.GREEN + "Warp deleted!");
-        TBNRHub.getInstance().getHubItems().refreshWarpStar();
         return TCommandStatus.SUCCESSFUL;
     }
 
@@ -101,7 +114,7 @@ public class WarpStarCommands implements TCommandHandler {
 
     @Override
     public void handleCommandStatus(TCommandStatus status, CommandSender sender, TCommandSender senderType) {
-        TBNRHub.handleCommandStatus(status, sender);
+        Gearz.handleCommandStatus(status, sender);
     }
 }
 

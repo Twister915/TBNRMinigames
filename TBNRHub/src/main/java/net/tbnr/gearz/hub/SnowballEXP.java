@@ -1,8 +1,19 @@
+/*
+ * Copyright (c) 2014.
+ * CogzMC LLC USA
+ * All Right reserved
+ *
+ * This software is the confidential and proprietary information of Cogz Development, LLC.
+ * ("Confidential Information").
+ * You shall not disclose such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with Cogz LLC.
+ */
+
 package net.tbnr.gearz.hub;
 
 import net.tbnr.gearz.Gearz;
 import net.tbnr.gearz.packets.wrapper.WrapperPlayServerWorldParticles;
-import net.tbnr.gearz.player.GearzPlayer;
+import net.tbnr.manager.TBNRNetworkManager;
 import net.tbnr.util.player.TPlayer;
 import net.tbnr.util.player.TPlayerJoinEvent;
 import net.tbnr.util.player.TPlayerManager;
@@ -53,7 +64,6 @@ public class SnowballEXP implements Listener {
 			public void run() {
 				Integer snowballs = (Integer) event.getPlayer().getStorable(TBNRHub.getInstance(), "snowballinventorycount");
 				if(snowballs == null) snowballs = 0;
-				TBNRHub.getInstance().getLogger().info(snowballs.toString());
 				event.getPlayer().giveItem(Material.SNOW_BALL, snowballs);
 			}
 		}.runTaskLater(TBNRHub.getInstance(), 5);
@@ -83,7 +93,7 @@ public class SnowballEXP implements Listener {
         thrower.playSound(Sound.CHICKEN_EGG_POP);
         thrower.playSound(Sound.ORB_PICKUP);
         thrower.getPlayer().hidePlayer(hit.getPlayer());
-        GearzPlayer.playerFromTPlayer(thrower).addXp(2); //Add XP
+        TBNRNetworkManager.getInstance().getPlayerProvider().getPlayerFromTPlayer(thrower).addXp(2); //Add XP
         Bukkit.getScheduler().runTaskLater(TBNRHub.getInstance(), new BukkitRunnable() {
             @Override
             public void run() {
@@ -138,7 +148,7 @@ public class SnowballEXP implements Listener {
         }
         hit.removeItem(Material.SNOW_BALL);
         attacker.giveItem(Material.SNOW_BALL);
-        GearzPlayer.playerFromTPlayer(attacker).addXp(5); //Add XP
+        TBNRNetworkManager.getInstance().getPlayerProvider().getPlayerFromTPlayer(attacker).addXp(5); //Add XP
         hit.playSound(Sound.ARROW_HIT);
         attacker.playSound(Sound.CHICKEN_EGG_POP);
         attacker.sendMessage(TBNRHub.getInstance().getFormat("formats.snowball-shake", true, new String[]{"<player>", hit.getPlayer().getName()}));
@@ -223,7 +233,6 @@ public class SnowballEXP implements Listener {
 				quantity += item.getAmount();
 			}
 		}
-		TBNRHub.getInstance().getLogger().info(quantity.toString());
 		return quantity;
 	}
 }

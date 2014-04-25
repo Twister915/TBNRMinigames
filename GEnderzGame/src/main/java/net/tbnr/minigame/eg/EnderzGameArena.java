@@ -1,9 +1,19 @@
+/*
+ * Copyright (c) 2014.
+ * CogzMC LLC USA
+ * All Right reserved
+ *
+ * This software is the confidential and proprietary information of Cogz Development, LLC.
+ * ("Confidential Information").
+ * You shall not disclose such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with Cogz LLC.
+ */
+
 package net.tbnr.minigame.eg;
 
 import net.tbnr.gearz.arena.Arena;
 import net.tbnr.gearz.arena.ArenaField;
-import net.tbnr.gearz.arena.ArenaIterator;
-import net.tbnr.gearz.arena.Point;
+import net.tbnr.gearz.arena.PointIterator;
 import org.bukkit.World;
 
 /**
@@ -23,7 +33,7 @@ public final class EnderzGameArena extends Arena {
     }
 
     @ArenaField(type = ArenaField.PointType.Player, loop = true, key = "spawn-points", longName = "Spawn Points")
-    public ArenaIterator<Point> spawnPoints;
+    public PointIterator spawnPoints;
     @ArenaField(type = ArenaField.PointType.Player, loop = true, key = "drop-points", longName = "Drop Points")
-    public ArenaIterator<Point> dropPoints;
+    public PointIterator dropPoints;
 }

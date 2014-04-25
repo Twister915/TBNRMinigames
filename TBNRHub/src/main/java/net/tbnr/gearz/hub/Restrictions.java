@@ -1,3 +1,14 @@
+/*
+ * Copyright (c) 2014.
+ * CogzMC LLC USA
+ * All Right reserved
+ *
+ * This software is the confidential and proprietary information of Cogz Development, LLC.
+ * ("Confidential Information").
+ * You shall not disclose such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with Cogz LLC.
+ */
+
 package net.tbnr.gearz.hub;
 
 import org.bukkit.Material;
@@ -18,8 +29,8 @@ public class Restrictions implements Listener {
         Player player = event.getPlayer();
         if (event.getPlayer().hasPermission("gearz.hub.fall")) return;
         if (player.getLocation().getY() > 0) return;
-        player.teleport(TBNRHub.getInstance().getSpawn().getSpawn());
-        player.playSound(TBNRHub.getInstance().getSpawn().getSpawn(), Sound.CHICKEN_EGG_POP, 20, 1);
+        player.teleport(TBNRHub.getInstance().getSpawnHandler().getSpawn());
+        player.playSound(TBNRHub.getInstance().getSpawnHandler().getSpawn(), Sound.CHICKEN_EGG_POP, 20, 1);
         player.sendMessage(TBNRHub.getInstance().getFormat("tpd-spawn", true, new String[]{"<prefix>", TBNRHub.getInstance().getChatPrefix()}));
     }
 

@@ -15,7 +15,7 @@ formats:
     cannot-purchase: "&cYou cannot purchase this item yet!"
     cannot-purchase-reason: "&cYou cannot purchase this item: <reason>"
     click-to-purchase-lore: "&aClick to purchase!"
-    already-have-tier-lore: "&aYou have unlocked this teir!"
+    already-have-tier-lore: "&aYou have unlocked this tier!"
     tier-price-lore: "&aPoints: &6<points>"
     tier-can-purchase-lore: "&aYou can unlock this tier with points!"
     tier-required-level-lore: "&cThis requires level &a<level>&c and &a<points>&c points."

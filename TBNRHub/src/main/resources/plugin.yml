@@ -4,7 +4,7 @@ main: net.tbnr.gearz.hub.TBNRHub
 description: TBNR Hub
 website: http://tbnr.net
 authors: [Twister915, Thecraftgod, NoyHillel1]
-depend: [Gearz]
+depend: [Gearz, TBNRNetwork]
 commands:
   setcannon:
     description: Create a cannon.
@@ -28,3 +28,5 @@ commands:
   magicsign:
     description: Gives you a magic edit sign
     aliases: [ editsign, signedit ]
+  particles:
+    description: Plays particles

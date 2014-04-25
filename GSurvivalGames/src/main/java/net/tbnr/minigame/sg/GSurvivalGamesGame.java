@@ -1,3 +1,14 @@
+/*
+ * Copyright (c) 2014.
+ * CogzMC LLC USA
+ * All Right reserved
+ *
+ * This software is the confidential and proprietary information of Cogz Development, LLC.
+ * ("Confidential Information").
+ * You shall not disclose such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with Cogz LLC.
+ */
+
 package net.tbnr.minigame.sg;
 
 import lombok.AllArgsConstructor;
@@ -8,14 +19,26 @@ import net.tbnr.gearz.arena.ArenaIterator;
 import net.tbnr.gearz.arena.Point;
 import net.tbnr.gearz.effects.EnderBar;
 import net.tbnr.gearz.effects.GearzFireworkEffect;
-import net.tbnr.gearz.game.*;
-import net.tbnr.gearz.player.GearzPlayer;
+import net.tbnr.gearz.game.GameCountdown;
+import net.tbnr.gearz.game.GameCountdownHandler;
+import net.tbnr.gearz.game.GameMeta;
+import net.tbnr.gearz.game.GameStopCause;
+import net.tbnr.gearz.network.GearzPlayerProvider;
+import net.tbnr.manager.TBNRMinigame;
+import net.tbnr.manager.TBNRPlayer;
+import net.tbnr.manager.classes.TBNRAbstractClass;
+import net.tbnr.minigame.sg.classes.Trickster;
 import net.tbnr.util.ColoringUtils;
 import net.tbnr.util.player.TPlayer;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.Chest;
 import org.bukkit.entity.*;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.block.BlockBurnEvent;
+import org.bukkit.event.block.BlockFadeEvent;
+import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
@@ -32,12 +55,15 @@ import java.util.List;
         minPlayers = 12,
         maxPlayers = 24,
         key = "survivalgames",
-        description = "An elimination death match with loot chests in the map",
+        description = "An elimination based game mode where players must defend themselves, " +
+                "but also attack others, to become the winner of the Survival Games. There are " +
+                "loot chests throughout the map. These chests contain items essential to being the " +
+                "champion! ",
         pvpMode = GameMeta.PvPMode.FreeForAll,
         shortName = "SG",
         version = "1.2"
 )
-public final class GSurvivalGamesGame extends GearzGame implements GameCountdownHandler {
+public final class GSurvivalGamesGame extends TBNRMinigame implements GameCountdownHandler {
     private GSurvivalGamesArena sgArena;
     private HashMap<Point, Loot> loots;
 
@@ -54,8 +80,9 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
     private final static Integer countdownLength = 30;
     private Integer startingPlayers;
     private double maxCornicopiaDistance;
+    private List<Location> frozenBlocks = new ArrayList<>();
 
-    private GearzPlayer victor = null;
+    private TBNRPlayer victor = null;
 
     private static Integer[] chatSecondsMarkers = new Integer[]{30, 15, 10, 5, 4, 3, 2, 1};
 
@@ -67,8 +94,8 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
      * @param plugin  The plugin that handles this Game.
      * @param meta    The meta of the game.
      */
-    public GSurvivalGamesGame(List<GearzPlayer> players, Arena arena, GearzPlugin plugin, GameMeta meta, Integer id) {
-        super(players, arena, plugin, meta, id);
+    public GSurvivalGamesGame(List<TBNRPlayer> players, Arena arena, GearzPlugin<TBNRPlayer, TBNRAbstractClass> plugin, GameMeta meta, Integer id, GearzPlayerProvider<TBNRPlayer> playerProvider) {
+        super(players, arena, plugin, meta, id, playerProvider);
         if (!(arena instanceof GSurvivalGamesArena)) throw new RuntimeException("Invalid instance of arena");
         this.sgArena = (GSurvivalGamesArena) arena;
     }
@@ -98,6 +125,10 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
         }, 0, 12000L);
         sgArena.getWorld().setDifficulty(Difficulty.NORMAL);
         this.maxCornicopiaDistance = calculateMaxCornicopiaDistance();
+        for (TBNRPlayer player : getPlayers()) {
+            if (getClassFor(player) instanceof Trickster) player.sendMessage("Trickster!");
+        }
+
     }
 
     private void setupTier(ArenaIterator<Point> points, Tier tier) {
@@ -111,9 +142,10 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
         Location absolute = this.sgArena.pointToLocation(p);
         absolute.getBlock().breakNaturally();
         absolute.getBlock().setType(Material.CHEST);
+        absolute.getBlock().getRelative(BlockFace.UP).setType(Material.AIR);
         Chest chest = (Chest) absolute.getBlock().getState();
         Loot loot = new Loot(tier, chest);
-        this.loots.put(p, loot);
+        loots.put(p, loot);
         return loot;
     }
 
@@ -121,7 +153,7 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
     public void onCountdownStart(Integer max, GameCountdown countdown) {
         this.countdownSecondsRemain = max;
         if (this.state == SGState.DeathmatchCountdown) return;
-        for (GearzPlayer p : getPlayers()) {
+        for (TBNRPlayer p : getPlayers()) {
             p.getTPlayer().addInfinitePotionEffect(PotionEffectType.SLOW, 128);
             p.getTPlayer().addInfinitePotionEffect(PotionEffectType.JUMP, 128);
         }
@@ -140,7 +172,7 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
         if (this.state == SGState.Countdown) {
             if (contains(chatSecondsMarkers, this.countdownSecondsRemain)) {
                 broadcast(getPluginFormat("formats.countdown-chat", true, new String[]{"<seconds>", String.valueOf(this.countdownSecondsRemain)}));
-                for (GearzPlayer player : getPlayers()) {
+                for (TBNRPlayer player : getPlayers()) {
                     player.getTPlayer().playSound(Sound.CLICK);
                 }
             }
@@ -172,73 +204,73 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
     }
 
     @Override
-    protected boolean canBuild(GearzPlayer player) {
+    protected boolean canBuild(TBNRPlayer player) {
         return false;
     }
 
     @Override
-    protected boolean canPvP(GearzPlayer attacker, GearzPlayer target) {
+    protected boolean canPvP(TBNRPlayer attacker, TBNRPlayer target) {
         return (state != SGState.Countdown);
     }
 
     @Override
-    protected boolean canUse(GearzPlayer player) {
+    protected boolean canUse(TBNRPlayer player) {
         return (state != SGState.Countdown);
     }
 
     @Override
-    protected boolean canBreak(GearzPlayer player, Block block) {
-        return (state != SGState.Countdown) && (block.getType() == Material.CROPS || block.getType() == Material.LEAVES || block.getType() == Material.LEAVES_2 || block.getType() == Material.WEB);
+    protected boolean canBreak(TBNRPlayer player, Block block) {
+        return (state != SGState.Countdown) && (block.getType() == Material.CROPS || block.getType() == Material.LEAVES || block.getType() == Material.LEAVES_2 || block.getType() == Material.WEB || block.getType() == Material.FIRE);
     }
 
     @Override
-    protected boolean canPlace(GearzPlayer player, Block block) {
-        return block.getType() == Material.WEB || block.getType() == Material.TNT || block.getType() == Material.CAKE_BLOCK;
+    protected boolean canPlace(TBNRPlayer player, Block block) {
+        return block.getType() == Material.WEB || block.getType() == Material.TNT || block.getType() == Material.CAKE_BLOCK || block.getType() == Material.FIRE;
     }
 
     @Override
-    protected boolean canMove(GearzPlayer player) {
+    protected boolean canMove(TBNRPlayer player) {
         return this.state != SGState.Countdown;
     }
 
     @Override
-    protected boolean canDrawBow(GearzPlayer player) {
+    protected boolean canDrawBow(TBNRPlayer player) {
         return true;
     }
 
     @Override
-    protected void playerKilled(GearzPlayer dead, LivingEntity killer) {
+    protected void playerKilled(TBNRPlayer dead, LivingEntity killer) {
         playerDied(dead);
     }
 
     @Override
-    protected void playerKilled(GearzPlayer dead, GearzPlayer killer) {
+    protected void playerKilled(TBNRPlayer dead, TBNRPlayer killer) {
         addGPoints(killer, 25);
         playerDied(dead);
     }
 
     @Override
-    protected void onDeath(GearzPlayer player) {
+    protected void onDeath(TBNRPlayer player) {
         playerDied(player);
     }
 
     @Override
-    protected void mobKilled(LivingEntity killed, GearzPlayer killer) {
+    protected void mobKilled(LivingEntity killed, TBNRPlayer killer) {
 
     }
 
     @Override
-    protected boolean canDropItem(GearzPlayer player, ItemStack itemToDrop) {
+    protected boolean canDropItem(TBNRPlayer player, ItemStack itemToDrop) {
         return true;
     }
 
     @Override
-    protected Location playerRespawn(GearzPlayer player) {
+    protected Location playerRespawn(TBNRPlayer player) {
         return this.sgArena.pointToLocation(this.sgArena.cornicopiaPoints.next());
     }
 
     @Override
-    protected boolean canPlayerRespawn(GearzPlayer player) {
+    protected boolean canPlayerRespawn(TBNRPlayer player) {
         return false;
     }
 
@@ -248,17 +280,17 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
     }
 
     @Override
-    protected void activatePlayer(GearzPlayer player) {
+    protected void activatePlayer(TBNRPlayer player) {
 
     }
 
     @Override
-    protected boolean allowHunger(GearzPlayer player) {
+    protected boolean allowHunger(TBNRPlayer player) {
         return this.state != SGState.Countdown;
     }
 
     @Override
-    protected boolean canPickupEXP(GearzPlayer player) {
+    protected boolean canPickupEXP(TBNRPlayer player) {
         return true;
     }
 
@@ -269,7 +301,7 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
 
     private void updateEnderBar() {
         if (this.state == SGState.Countdown || this.state == SGState.DeathmatchCountdown) {
-            for (GearzPlayer player : this.allPlayers()) {
+            for (TBNRPlayer player : this.allPlayers()) {
                 if (player == null || !player.isValid()) continue;
                 EnderBar.setTextFor(player, getPluginFormat((state == SGState.Countdown ? "formats.countdown-bar" : "formats.deathmatch-countdown"), false, new String[]{"<seconds>", String.valueOf(countdownSecondsRemain)}));
                 EnderBar.setHealthPercent(player, (float) countdownSecondsRemain / (float) countdownLength);
@@ -277,14 +309,14 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
             if (this.state == SGState.Countdown) updateArmour();
         }
         else if (this.state == SGState.Over && this.victor != null) {
-            for (GearzPlayer player : this.allPlayers()) {
+            for (TBNRPlayer player : this.allPlayers()) {
                 EnderBar.setHealthPercent(player, 1);
                 EnderBar.setTextFor(player, getPluginFormat("formats.game-over-bar", false, new String[]{"<player>", this.victor.getUsername()}));
             }
         }
         else {
             int size = getPlayers().size();
-            for (GearzPlayer player : this.allPlayers()) {
+            for (TBNRPlayer player : this.allPlayers()) {
                 if (player == null || !player.isValid()) continue;
                 EnderBar.setTextFor(player, getPluginFormat("formats.gameplay-bar", false, new String[]{"<current>", String.valueOf(size)}, new String[]{"<max>", String.valueOf(this.startingPlayers)}));
                 EnderBar.setHealthPercent(player, (float) size / (float) startingPlayers);
@@ -295,7 +327,7 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
     private void updateGamestate() {
         if (this.state == SGState.Gameplay) {
             broadcast(getPluginFormat("formats.gameplay-start"));
-            for (GearzPlayer player : getPlayers()) {
+            for (TBNRPlayer player : getPlayers()) {
                 TPlayer tPlayer = player.getTPlayer();
                 tPlayer.resetPlayer();
                 player.getPlayer().playNote(player.getPlayer().getLocation(), Instrument.BASS_DRUM, Note.natural(1, Note.Tone.F));
@@ -304,7 +336,7 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
         }
         if (this.state == SGState.Deathmatch) {
             ArrayList<Point> points = new ArrayList<>();
-            for (GearzPlayer player : allPlayers()) {
+            for (TBNRPlayer player : allPlayers()) {
                 if (player.getPlayer() == null) continue;
                 Point p = null;
                 while (points.contains(p) || p == null) {
@@ -323,10 +355,10 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
         if (this.state == SGState.DeathmatchCountdown) {
             GameCountdown countdown = new GameCountdown(30, this, this);
             countdown.start();
-            for (GearzPlayer player : allPlayers()) {
+            for (TBNRPlayer player : allPlayers()) {
                 player.getTPlayer().playSound(Sound.BLAZE_DEATH);
             }
-            for (GearzPlayer player : getPlayers()) {
+            for (TBNRPlayer player : getPlayers()) {
                 GearzFireworkEffect effect = new GearzFireworkEffect(player.getPlayer().getLocation(),
                         FireworkEffect.builder().with(FireworkEffect.Type.CREEPER).
                                 trail(true).
@@ -347,7 +379,7 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
         }
     }
 
-    private void playerDied(GearzPlayer player) {
+    private void playerDied(TBNRPlayer player) {
         player.getTPlayer().addPotionEffect(PotionEffectType.BLINDNESS, 3, 1);
         Firework entity = (Firework) sgArena.getWorld().spawnEntity(player.getPlayer().getLocation(), EntityType.FIREWORK);
         entity.getFireworkMeta().addEffects(FireworkEffect.builder().withColor(Color.WHITE).with(FireworkEffect.Type.STAR).flicker(true).trail(true).build());
@@ -357,10 +389,16 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
         Bukkit.getScheduler().runTaskLater(getPlugin(), new Runnable() {
             @Override
             public void run() {
-                if (getPlayers().size() == 1) {
-                    HashSet<GearzPlayer> players1 = getPlayers();
-                    GearzPlayer[] players = players1.toArray(new GearzPlayer[players1.size()]);
-                    GearzPlayer winner = players[0];
+                if (getPlayers().size() == 1 || getPlayers().size() == 0) {
+                    HashSet<TBNRPlayer> players1 = getPlayers();
+                    TBNRPlayer[] players = players1.toArray(new TBNRPlayer[players1.size()]);
+                    TBNRPlayer winner = players[0];
+                    if (winner == null) {
+                        Bukkit.broadcastMessage(ChatColor.GOLD + "Well...this is odd! It seems we have a tie. This is not intended, and the devs are working on a fix for it! Stay tuned!");
+                        finishGame();
+                        state = SGState.Over;
+                        return;
+                    }
                     broadcast(getPluginFormat("formats.winner", true, new String[]{"<winner>", winner.getUsername()}));
                     addGPoints(winner, 100);
                     addWin(winner);
@@ -381,45 +419,50 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
     }
 
     @Override
-    public void removePlayerFromGame(GearzPlayer player) {
+    public void removePlayerFromGame(TBNRPlayer player) {
         if (!isPlaying(player)) return;
         playerDied(player);
     }
 
     @Override
-    protected void onDamage(Entity damager, Entity target, EntityDamageByEntityEvent event){
-        if(!(damager instanceof Snowball)) return;
-        if(!(target instanceof Player)) return;
-        GearzPlayer target1 = GearzPlayer.playerFromPlayer((Player) target);
-        if(!isPlaying(target1)) return;
-        GearzPlayer attacker;
+    protected void onDamage(Entity damager, Entity target, EntityDamageByEntityEvent event) {
+	    // If damager isn't an instance of a snowball then return
+        if (!(damager instanceof Snowball)) return;
+	    //If target isn't instance of player the return
+        if (!(target instanceof Player)) return;
+        TBNRPlayer target1 = resolvePlayer((Player) target);
+        if (!isPlaying(target1)) return;
+        TBNRPlayer attacker;
         Snowball snowball = (Snowball) damager;
-        if(!(snowball.getShooter() instanceof Player)) return;
-        attacker = GearzPlayer.playerFromPlayer((Player) snowball.getShooter());
+        if (!(snowball.getShooter() instanceof Player)) return;
+        attacker = resolvePlayer((Player) snowball.getShooter());
         Player attackerP = attacker.getPlayer();
-        if(attacker.equals(target1)) return;
-        if(isSpectating(attacker)) return;
+        if (attacker.equals(target1)) return;
+        if (isSpectating(attacker)) return;
         final Player targPlayer = target1.getPlayer();
         Location targLoc = targPlayer.getLocation();
         final int pX = targLoc.getBlockX();
         final int pY = targLoc.getBlockY();
         final int pZ = targLoc.getBlockZ();
-        targPlayer.teleport(new Location(targPlayer.getWorld(), pX+0.5, pY, pZ+0.5));
+        targPlayer.teleport(new Location(targPlayer.getWorld(), pX + 0.5, pY, pZ + 0.5));
         targPlayer.sendMessage(getPluginFormat("formats.snowball-hit-by", true, new String[]{"<player>", attacker.getUsername()}));
         attackerP.sendMessage(getPluginFormat("formats.snowball-hit", true, new String[]{"<player>", targPlayer.getName()}));
+	    // loop through all the blocks in a 3d area
         for (int x = pX - 1; x <= pX + 1; x++) {
             for (int y = pY - 1; y <= pY + 2; y++) {
                 for (int z = pZ - 1; z <= pZ + 1; z++) {
-                    final Block block = targPlayer.getWorld().getBlockAt(x,y,z);
-                    if(block.getType().equals(Material.AIR)){
+                    final Block block = targPlayer.getWorld().getBlockAt(x, y, z);
+                    if (block.getType().equals(Material.AIR)) {
                         block.setType(Material.ICE);
-                    } else{
+                        this.frozenBlocks.add(block.getLocation());
+                    } else {
                         continue;
                     }
-                    Bukkit.getScheduler().scheduleSyncDelayedTask(getPlugin(), new Runnable(){
-                        public void run(){
-                            if(block.getType().equals(Material.ICE)){
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(getPlugin(), new Runnable() {
+                        public void run() {
+                            if (block.getType().equals(Material.ICE)) {
                                 block.setType(Material.AIR);
+                                frozenBlocks.remove(block.getLocation());
                             }
                         }
                     }, getPlugin().getConfig().getLong("freezelength"));
@@ -428,11 +471,28 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
         }
     }
 
+    @EventHandler
+    public void onBlockMelt(BlockFadeEvent event) {
+        if (this.frozenBlocks.contains(event.getBlock().getLocation())) event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onBlockSpread(BlockIgniteEvent event) {
+        if (event.getCause() == BlockIgniteEvent.IgniteCause.SPREAD) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onBlockBurn(BlockBurnEvent event) {
+        event.setCancelled(true);
+    }
+
     private void updateArmour() {
-        HashSet<GearzPlayer> players = getPlayers();
+        HashSet<TBNRPlayer> players = getPlayers();
         float percentTime = Math.min(((float) countdownSecondsRemain+1) / (float) countdownLength, countdownLength);
         int redPlayers = (int) Math.ceil(percentTime * players.size());
-        for (GearzPlayer player : players) {
+        for (TBNRPlayer player : players) {
             if (player == null || !player.isValid()) continue;
             Color color;
             if (redPlayers > 0) {
@@ -455,7 +515,7 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
         }
     }
 
-    private double getPlayerDistanceCornicopia(GearzPlayer player) {
+    private double getPlayerDistanceCornicopia(TBNRPlayer player) {
         double playerMaxDistance = 0;
         for (Point point : this.sgArena.cornicopiaPoints.getArrayList()) {
             Location l = this.sgArena.pointToLocation(point);
@@ -483,7 +543,7 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
     }
 
     @Override
-    public boolean useEnderBar(GearzPlayer player) {
+    public boolean useEnderBar(TBNRPlayer player) {
         return false;
     }
 
@@ -493,7 +553,7 @@ public final class GSurvivalGamesGame extends GearzGame implements GameCountdown
         @Override
         public void run() {
             if (game.state != SGState.Deathmatch) return;
-            for (GearzPlayer gearzPlayer : game.getPlayers()) {
+            for (TBNRPlayer gearzPlayer : game.getPlayers()) {
                 Player player = gearzPlayer.getPlayer();
                 if (game.getPlayerDistanceCornicopia(gearzPlayer) > 10) {
                     gearzPlayer.getTPlayer().sendMessage(game.getPluginFormat("formats.return-to-center"));

@@ -1,3 +1,14 @@
+/*
+ * Copyright (c) 2014.
+ * CogzMC LLC USA
+ * All Right reserved
+ *
+ * This software is the confidential and proprietary information of Cogz Development, LLC.
+ * ("Confidential Information").
+ * You shall not disclose such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with Cogz LLC.
+ */
+
 package net.tbnr.gearz.hub;
 
 import net.tbnr.gearz.Gearz;
@@ -93,17 +104,28 @@ public class MultiserverCannons implements Listener, TCommandHandler {
         List<net.tbnr.gearz.server.Server> server = ServerManager.getServersWithGame(game);
         if (server == null) return game;
         Server server2 = null;
+        Server backupServer = null;
+        int x = 0;
         for (Server s : server) {
             if (!s.getStatusString().equals("lobby")) continue;
             if (!s.isCanJoin()) continue;
             if (s.getMaximumPlayers() == s.getPlayerCount() && !allowFulls) continue;
+            if (x == 0) {
+                backupServer = s;
+                x++;
+            }
             if (server2 == null) {
                 server2 = s;
                 continue;
             }
             if (s.getPlayerCount() > server2.getPlayerCount()) server2 = s;
         }
-        if (server2 == null) return null;
+        if (server2 == null) {
+            if (backupServer != null) {
+                return backupServer.getBungee_name();
+            }
+            return null;
+        }
         return server2.getBungee_name();
     }
 
@@ -178,7 +200,7 @@ public class MultiserverCannons implements Listener, TCommandHandler {
 
     @Override
     public void handleCommandStatus(TCommandStatus status, org.bukkit.command.CommandSender sender, TCommandSender senderType) {
-        TBNRHub.handleCommandStatus(status, sender);
+        Gearz.handleCommandStatus(status, sender);
     }
 
     public static enum ProcessState {
@@ -253,7 +275,7 @@ public class MultiserverCannons implements Listener, TCommandHandler {
                     if (serverFor == null) serverFor = getServerFor(cannon.getServer(), true);
                     if (serverFor == null) serverFor = cannon.getServer();
                     BouncyUtils.sendPlayerToServer(this.player.getPlayer(), serverFor);
-                    this.player.getPlayer().teleport(TBNRHub.getInstance().getSpawn().getSpawn());
+                    this.player.getPlayer().teleport(TBNRHub.getInstance().getSpawnHandler().getSpawnHandler());
                     try {
                         this.player.playParticleEffect(new TPlayer.TParticleEffect(player.getPlayer().getLocation(), Gearz.getRandom().nextFloat(), 1, 10, 2, WrapperPlayServerWorldParticles.ParticleEffect.HEART));
                     } catch (Exception e) {

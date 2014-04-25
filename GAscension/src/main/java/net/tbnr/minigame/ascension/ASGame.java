@@ -1,11 +1,24 @@
+/*
+ * Copyright (c) 2014.
+ * CogzMC LLC USA
+ * All Right reserved
+ *
+ * This software is the confidential and proprietary information of Cogz Development, LLC.
+ * ("Confidential Information").
+ * You shall not disclose such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with Cogz LLC.
+ */
+
 package net.tbnr.minigame.ascension;
 
 import com.google.common.collect.Lists;
 import net.tbnr.gearz.GearzPlugin;
 import net.tbnr.gearz.arena.Arena;
 import net.tbnr.gearz.game.GameMeta;
-import net.tbnr.gearz.game.GearzGame;
-import net.tbnr.gearz.player.GearzPlayer;
+import net.tbnr.gearz.network.GearzPlayerProvider;
+import net.tbnr.manager.TBNRMinigame;
+import net.tbnr.manager.TBNRPlayer;
+import net.tbnr.manager.classes.TBNRAbstractClass;
 import net.tbnr.util.ColoringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -34,15 +47,15 @@ import java.util.Map;
         maxPlayers = 16,
         minPlayers = 4,
         author = "xIGBClutchIx")
-public final class ASGame extends GearzGame {
+public final class ASGame extends TBNRMinigame {
 
-    private HashMap<GearzPlayer, Integer> positions;
+    private HashMap<TBNRPlayer, Integer> positions;
     private ASArena cmarena;
 
     public final ArrayList<Material> weapons = Lists.newArrayList(Material.IRON_SWORD, Material.STONE_SWORD, Material.GOLD_SWORD, Material.GOLD_AXE, Material.GOLD_PICKAXE, Material.GOLD_SPADE);
 
-    public ASGame(List<GearzPlayer> players, Arena arena, GearzPlugin plugin, GameMeta meta, Integer id) {
-        super(players, arena, plugin, meta, id);
+    public ASGame(List<TBNRPlayer> players, Arena arena, GearzPlugin<TBNRPlayer, TBNRAbstractClass> plugin, GameMeta meta, Integer id, GearzPlayerProvider<TBNRPlayer> playerProvider) {
+        super(players, arena, plugin, meta, id, playerProvider);
         if (!(arena instanceof ASArena)) {
             throw new RuntimeException("Invalid instance");
         }
@@ -52,7 +65,7 @@ public final class ASGame extends GearzGame {
     @Override
     protected void gameStarting() {
         this.positions = new HashMap<>();
-        for (GearzPlayer player : this.getPlayers()) {
+        for (TBNRPlayer player : this.getPlayers()) {
             player.getTPlayer().resetPlayer();
             //player.getTPlayer().setScoreboardSideTitle(getPluginFormat("formats.sidebar-title", false));
             this.positions.put(player, 0);
@@ -60,18 +73,18 @@ public final class ASGame extends GearzGame {
     }
 
     @Override
-    public void activatePlayer(GearzPlayer player) { //Called on respawn and game start.
+    public void activatePlayer(TBNRPlayer player) { //Called on respawn and game start.
         updateWeapon(player);
         player.getPlayer().getInventory().setArmorContents(new ItemStack[]{ColoringUtils.colorizeLeather(Material.LEATHER_BOOTS, Color.fromRGB(0, 176, 0)), new ItemStack(Material.LEATHER_LEGGINGS), ColoringUtils.colorizeLeather(Material.LEATHER_CHESTPLATE, Color.fromRGB(0, 176, 0)), new ItemStack(Material.LEATHER_HELMET)});
     }
 
     @Override
-    protected boolean allowHunger(GearzPlayer player) {
+    protected boolean allowHunger(TBNRPlayer player) {
         return false;
     }
 
     @Override
-    protected void playerKilled(GearzPlayer dead, GearzPlayer killer) {
+    protected void playerKilled(TBNRPlayer dead, TBNRPlayer killer) {
         if (positions.get(dead) != 0) {
             positions.put(dead, (positions.get(dead) - 1));
         }
@@ -87,7 +100,7 @@ public final class ASGame extends GearzGame {
         }
     }
 
-    private void updateWeapon(GearzPlayer player) {
+    private void updateWeapon(TBNRPlayer player) {
         player.getPlayer().getInventory().clear();
         ItemStack weapon = new ItemStack(weapons.get(positions.get(player)), 1);
         player.getTPlayer().sendMessage(getPluginFormat("formats.weapon", true, new String[]{"<weapon>", weapon.getType().name()}));
@@ -100,12 +113,12 @@ public final class ASGame extends GearzGame {
     }
 
     @Override
-    protected Location playerRespawn(GearzPlayer player) {
+    protected Location playerRespawn(TBNRPlayer player) {
         return getArena().pointToLocation(cmarena.spawnPoints.next());
     }
 
     @Override
-    protected boolean canPlayerRespawn(GearzPlayer player) {
+    protected boolean canPlayerRespawn(TBNRPlayer player) {
         return true;
     }
 
@@ -116,8 +129,8 @@ public final class ASGame extends GearzGame {
 
     @Override
     protected void gameEnding() {
-        GearzPlayer winner = this.positions.keySet().iterator().next();
-        for (Map.Entry<GearzPlayer, Integer> gearzPlayerIntegerEntry : this.positions.entrySet()) {
+        TBNRPlayer winner = this.positions.keySet().iterator().next();
+        for (Map.Entry<TBNRPlayer, Integer> gearzPlayerIntegerEntry : this.positions.entrySet()) {
             if (this.positions.get(winner) < gearzPlayerIntegerEntry.getValue()) {
                 winner = gearzPlayerIntegerEntry.getKey();
             }
@@ -129,52 +142,52 @@ public final class ASGame extends GearzGame {
     /** */
 
     @Override
-    protected boolean canBuild(GearzPlayer player) {
+    protected boolean canBuild(TBNRPlayer player) {
         return false;
     }
 
     @Override
-    protected boolean canPvP(GearzPlayer attacker, GearzPlayer target) {
+    protected boolean canPvP(TBNRPlayer attacker, TBNRPlayer target) {
         return true;
     }
 
     @Override
-    protected boolean canUse(GearzPlayer player) {
+    protected boolean canUse(TBNRPlayer player) {
         return true;
     }
 
     @Override
-    protected boolean canBreak(GearzPlayer player, Block block) {
+    protected boolean canBreak(TBNRPlayer player, Block block) {
         return false;
     }
 
     @Override
-    protected boolean canPlace(GearzPlayer player, Block block) {
+    protected boolean canPlace(TBNRPlayer player, Block block) {
         return false;
     }
 
     @Override
-    protected boolean canMove(GearzPlayer player) {
+    protected boolean canMove(TBNRPlayer player) {
         return true;
     }
 
     @Override
-    protected boolean canDrawBow(GearzPlayer player) {
+    protected boolean canDrawBow(TBNRPlayer player) {
         return false;
     }
 
     @Override
-    protected void playerKilled(GearzPlayer dead, LivingEntity killer) {
+    protected void playerKilled(TBNRPlayer dead, LivingEntity killer) {
 
     }
 
     @Override
-    protected void mobKilled(LivingEntity killed, GearzPlayer killer) {
+    protected void mobKilled(LivingEntity killed, TBNRPlayer killer) {
 
     }
 
 	@Override
-	protected boolean canDropItem(GearzPlayer player, ItemStack itemToDrop) {
+	protected boolean canDropItem(TBNRPlayer player, ItemStack itemToDrop) {
 		return false;
 	}
 }

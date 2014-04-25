@@ -1,8 +1,4 @@
-{   
-    "name" : "Archer",
-    "repItem" : {
-        "item_type" : "AIR"
-    },
+{
     "items" : [
         {
             "item_type" : "BOW",
@@ -19,7 +15,7 @@
         },
         {
             "item_type" : "ARROW",
-            "title" : "&bSharpshooter Bow",
+            "title" : "&bSharpshooter Arrow",
             "lore" : [
                 "&bSharp!"
             ],

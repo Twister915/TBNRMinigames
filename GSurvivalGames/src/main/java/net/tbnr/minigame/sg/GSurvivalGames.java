@@ -1,8 +1,24 @@
+/*
+ * Copyright (c) 2014.
+ * CogzMC LLC USA
+ * All Right reserved
+ *
+ * This software is the confidential and proprietary information of Cogz Development, LLC.
+ * ("Confidential Information").
+ * You shall not disclose such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with Cogz LLC.
+ */
+
 package net.tbnr.minigame.sg;
 
 import lombok.Getter;
 import net.tbnr.gearz.GearzException;
-import net.tbnr.gearz.GearzPlugin;
+import net.tbnr.gearz.game.GameMeta;
+import net.tbnr.manager.TBNRPlugin;
+import net.tbnr.manager.classes.TBNRAbstractClass;
+import net.tbnr.manager.classes.TBNRClassSystem;
+import net.tbnr.minigame.sg.classes.NormalClass;
+import net.tbnr.minigame.sg.classes.Trickster;
 import org.bukkit.Bukkit;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,15 +26,10 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Joey
- * Date: 12/16/13
- * Time: 10:38 AM
- * To change this template use File | Settings | File Templates.
- */
-public final class GSurvivalGames extends GearzPlugin {
+public final class GSurvivalGames extends TBNRPlugin {
     @Getter
     private static GSurvivalGames instance;
 
@@ -26,7 +37,9 @@ public final class GSurvivalGames extends GearzPlugin {
     public void enable() {
         GSurvivalGames.instance = this;
         try {
-            registerGame(GSurvivalGamesArena.class, GSurvivalGamesGame.class);
+            List<Class<? extends TBNRAbstractClass>> classes = new ArrayList<>();
+            classes.add(Trickster.class);
+            registerGame(GSurvivalGamesArena.class, GSurvivalGamesGame.class, new TBNRClassSystem(GSurvivalGamesGame.class.getAnnotation(GameMeta.class), NormalClass.class, classes));
         } catch (GearzException e) {
             e.printStackTrace();
             Bukkit.getPluginManager().disablePlugin(this);

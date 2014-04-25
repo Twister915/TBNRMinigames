@@ -3,4 +3,4 @@ version: 1.0
 main: net.tbnr.minigame.su.GSwitchUp
 description: Switch Up Game
 authors: [Twister915]
-depend: [Gearz]
+depend: [Gearz, TBNRNetwork]

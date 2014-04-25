@@ -1,7 +1,19 @@
+/*
+ * Copyright (c) 2014.
+ * CogzMC LLC USA
+ * All Right reserved
+ *
+ * This software is the confidential and proprietary information of Cogz Development, LLC.
+ * ("Confidential Information").
+ * You shall not disclose such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with Cogz LLC.
+ */
+
 package net.tbnr.minigame.predator;
 
 import net.tbnr.gearz.Gearz;
-import net.tbnr.gearz.player.GearzPlayer;
+import net.tbnr.manager.TBNRNetworkManager;
+import net.tbnr.manager.TBNRPlayer;
 import net.tbnr.minigame.predator.PredatorGame.PRState;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -28,11 +40,11 @@ public class PredatorListener implements Listener {
 
 	@EventHandler( ignoreCancelled = true )
 	public void onInventoryClickEvent(InventoryClickEvent event) {
-		if(!game.isRunning() 											||
-				game.getCurrentState() != PRState.CHOOSING 						||
+		if(!game.isRunning() 	||
+				game.getCurrentState() != PRState.CHOOSING 	||
 				!(event.getWhoClicked() instanceof Player)) 	return;
 
-		final GearzPlayer player = GearzPlayer.playerFromPlayer((Player) event.getWhoClicked());
+		final TBNRPlayer player = TBNRNetworkManager.getInstance().getPlayerProvider().getPlayerFromPlayer((Player) event.getWhoClicked());
 
 		if(!game.getPlayers().contains(player)) return;
 
@@ -75,10 +87,10 @@ public class PredatorListener implements Listener {
 
 	@EventHandler
 	public void onInventoryClose(InventoryCloseEvent event) {
-		if(!game.isRunning() 											||
-			game.getCurrentState() != PRState.CHOOSING 					||
+		if(!game.isRunning() ||
+			game.getCurrentState() != PRState.CHOOSING ||
 			!(event.getPlayer() instanceof Player)) 				return;
-		final GearzPlayer player = GearzPlayer.playerFromPlayer((Player) event.getPlayer());
+		final TBNRPlayer player = TBNRNetworkManager.getInstance().getPlayerProvider().getPlayerFromPlayer((Player) event.getPlayer());
 
 		if(!game.getPlayers().contains(player)) return;
 

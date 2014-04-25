@@ -1,5 +1,17 @@
+/*
+ * Copyright (c) 2014.
+ * CogzMC LLC USA
+ * All Right reserved
+ *
+ * This software is the confidential and proprietary information of Cogz Development, LLC.
+ * ("Confidential Information").
+ * You shall not disclose such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with Cogz LLC.
+ */
+
 package net.tbnr.gearz.hub;
 
+import net.tbnr.gearz.Gearz;
 import net.tbnr.util.TPlugin;
 import net.tbnr.util.command.TCommand;
 import net.tbnr.util.command.TCommandHandler;
@@ -36,7 +48,7 @@ public class Spawn implements Listener, TCommandHandler {
     @EventHandler
     @SuppressWarnings("unused")
     public void onJoin(TPlayerJoinEvent event) {
-        event.getPlayer().teleport(TBNRHub.getInstance().getSpawn().getSpawn());
+        event.getPlayer().teleport(TBNRHub.getInstance().getSpawnHandler().getSpawn());
     }
 
     @TCommand(
@@ -137,6 +149,6 @@ public class Spawn implements Listener, TCommandHandler {
 
     @Override
     public void handleCommandStatus(TCommandStatus status, CommandSender sender, TCommandSender senderType) {
-        TBNRHub.handleCommandStatus(status, sender);
+        Gearz.handleCommandStatus(status, sender);
     }
 }

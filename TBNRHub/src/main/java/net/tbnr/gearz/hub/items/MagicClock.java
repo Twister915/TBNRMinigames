@@ -1,12 +1,22 @@
+/*
+ * Copyright (c) 2014.
+ * CogzMC LLC USA
+ * All Right reserved
+ *
+ * This software is the confidential and proprietary information of Cogz Development, LLC.
+ * ("Confidential Information").
+ * You shall not disclose such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with Cogz LLC.
+ */
+
 package net.tbnr.gearz.hub.items;
 
+import net.tbnr.gearz.hub.TBNRHub;
 import net.tbnr.gearz.hub.annotations.HubItem;
 import net.tbnr.gearz.hub.annotations.HubItemMeta;
-import net.tbnr.gearz.hub.TBNRHub;
 import net.tbnr.util.player.cooldowns.TCooldown;
 import net.tbnr.util.player.cooldowns.TCooldownManager;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;

@@ -1,19 +1,21 @@
+/*
+ * Copyright (c) 2014.
+ * CogzMC LLC USA
+ * All Right reserved
+ *
+ * This software is the confidential and proprietary information of Cogz Development, LLC.
+ * ("Confidential Information").
+ * You shall not disclose such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with Cogz LLC.
+ */
+
 package net.tbnr.commerce.items.shop;
 
 import lombok.Getter;
-import net.tbnr.gearz.Gearz;
 import net.tbnr.gearz.player.GearzPlayer;
-import net.tbnr.util.inventory.InventoryGUI;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.HandlerList;
-import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
+import net.tbnr.util.inventory.base.BaseGUI;
+import net.tbnr.util.inventory.base.GUICallback;
+import net.tbnr.util.inventory.base.GUIItem;
 
 import java.util.ArrayList;
 
@@ -24,48 +26,11 @@ import java.util.ArrayList;
  *
  * Latest Change:
  */
-public class ShopGUI implements Listener {
-    @Getter
-    /**
-     * And ArrayList of all the items displayed on the GUI
-     */
-    private final ArrayList<InventoryGUI.InventoryGUIItem> items;
-    @Getter
-    /**
-     * The title of the GUI
-     */
-    private final String title;
-    @Getter
-    /**
-     * The callback of the GUI
-     */
-    private final ShopGUICallback callback;
-    @Getter
-    /**
-     * The inventory which is used to display the GUI
-     */
-    private Inventory inventory;
-
-    /**
-     * Whether the GUI should apply effects to the player when opened.
-     */
-    private final boolean effects;
-
+public class ShopGUI extends BaseGUI {
     /**
      *Player
      */
-    private GearzPlayer player;
-
-    /**
-     * An InventoryGUI with callbacks and effects on
-     *
-     * @param items    And array list of the items to be put in the GUI
-     * @param title    The title of the GUI
-     * @param callback The callback that handles the clicks.
-     */
-    public ShopGUI(ArrayList<InventoryGUI.InventoryGUIItem> items, String title, ShopGUICallback callback, GearzPlayer player) {
-        this(items, title, callback, true, player);
-    }
+    @Getter private GearzPlayer player;
 
     /**
      * An InventoryGUI with callbacks
@@ -75,150 +40,20 @@ public class ShopGUI implements Listener {
      * @param callback The callback that handles the clicks.
      * @param effects  Whether to show or not the effects
      */
-    public ShopGUI(ArrayList<InventoryGUI.InventoryGUIItem> items, String title, ShopGUICallback callback, boolean effects , GearzPlayer player) {
-        this.items = items;
-        this.title = title;
-        this.callback = callback;
-        this.inventory = Bukkit.createInventory(null, determineSize(), title);
-        updateContents(items);
-        this.effects = effects;
+    public ShopGUI(ArrayList<GUIItem> items, String title, GUICallback callback, boolean effects, GearzPlayer player) {
+        super(items, title, callback, effects);
         this.player = player;
+        System.out.println("CREATED A SHOPGUI FOR " + player.getUsername());
     }
 
     /**
-     * Updates the items in the inventory
+     * An InventoryGUI with callbacks and effects on
      *
-     * @param items the items to update
+     * @param items    And array list of the items to be put in the GUI
+     * @param title    The title of the GUI
+     * @param callback The callback that handles the clicks.
      */
-    public void updateContents(ArrayList<InventoryGUI.InventoryGUIItem> items) {
-        inventory.clear();
-        if (items == null) {
-            return;
-        }
-        for (int i = 0; i < items.size(); i++) {
-            InventoryGUI.InventoryGUIItem item = items.get(i);
-            if (item == null) continue;
-            item.setSlot(i);
-            inventory.setItem(i, item.getItem());
-        }
-    }
-
-    private int determineSize() {
-        int rowSize = 9;
-        if (items == null || items.size() == 0) {
-            return rowSize;
-        }
-        float i = items.size() % rowSize; //Remainder of items over 9
-        float v = i / rowSize; //Convert to a decimal
-        return (int) (Math.floor(items.size() / rowSize) /* Gives how many rows we need */ + Math.ceil(v) /* If we need an extra row */) * rowSize /*Times number of items per row */;
-    }
-
-    /**
-     * Updates the size of the GUI
-     */
-    public void updateSize(){
-        if(this.inventory.getSize() == determineSize()) return;
-        this.inventory = Bukkit.createInventory(null, determineSize(), title);
-        updateContents(items);
-    }
-
-    /**
-     * Opens the GUI for @player
-     */
-    public void open() {
-        Player player = this.player.getPlayer();
-        Bukkit.getServer().getPluginManager().registerEvents(this, Gearz.getInstance());
-        player.openInventory(inventory);
-        if (effects) {
-            player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, Integer.MAX_VALUE, 128, false));
-        }
-        callback.onGUIOpen(this, this.player);
-    }
-
-    /**
-     * Closes the GUI for @player
-     */
-    public void close() {
-        if (effects) {
-            player.getPlayer().removePotionEffect(PotionEffectType.BLINDNESS);
-        }
-        player.getPlayer().closeInventory();
-    }
-
-    @EventHandler
-    public void onInventoryClose(InventoryCloseEvent event) {
-        if (!(event.getPlayer() instanceof Player)) {
-            return;
-        }
-        if (!event.getPlayer().equals(player.getPlayer())) return;
-        if (!event.getInventory().getTitle().equalsIgnoreCase(this.inventory.getTitle())) {
-            return;
-        }
-        if (effects) {
-            player.getPlayer().removePotionEffect(PotionEffectType.BLINDNESS);
-        }
-        callback.onGUIClose(this, player);
-        HandlerList.unregisterAll(this);
-    }
-
-    @EventHandler
-    public void onInventoryInteract(InventoryClickEvent event) {
-        if (!(event.getWhoClicked() instanceof Player)) {
-            return;
-        }
-        if (!(event.getWhoClicked().equals(player.getPlayer()))) return;
-        if (!event.getInventory().getTitle().equalsIgnoreCase(this.inventory.getTitle())) {
-            return;
-        }
-        event.setCancelled(true);
-        boolean cont = false;
-        switch (event.getClick()) {
-            case RIGHT:
-            case LEFT:
-            case SHIFT_LEFT:
-            case SHIFT_RIGHT:
-            case MIDDLE:
-            case NUMBER_KEY:
-            case DROP:
-                cont = true;
-                break;
-        }
-        if (!cont) {
-            return;
-        }
-        for (InventoryGUI.InventoryGUIItem item : this.items) {
-            if (item == null ||
-                    event.getCurrentItem() == null ||
-                    !(event.getCurrentItem().equals(item.getItem()))) {
-                continue;
-            }
-            this.callback.onItemSelect(this, item, player);
-        }
-    }
-
-    public interface ShopGUICallback {
-        /**
-         * Called when something has been pressed in the inventory GUI
-         *
-         * @param item   is the item that was pressed
-         * @param player is the player who pressed it
-         */
-        public void onItemSelect(ShopGUI gui, InventoryGUI.InventoryGUIItem item, GearzPlayer player);
-
-        /**
-         * Called when the inventory is opened
-         *
-         * @param gui    is the gui that was opened
-         * @param player is the player for whi the GUI was opened
-         */
-        public void onGUIOpen(ShopGUI gui, GearzPlayer player);
-
-        /**
-         * Called when the inventory is closed
-         *
-         * @param gui    is the gui that was closed
-         * @param player is the player for who the GUI was closed
-         */
-        public void onGUIClose(ShopGUI gui, GearzPlayer player);
+    public ShopGUI(ArrayList<GUIItem> items, String title, GUICallback callback, GearzPlayer player) {
+        this(items, title, callback, true, player);
     }
 }

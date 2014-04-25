@@ -1,5 +1,17 @@
+/*
+ * Copyright (c) 2014.
+ * CogzMC LLC USA
+ * All Right reserved
+ *
+ * This software is the confidential and proprietary information of Cogz Development, LLC.
+ * ("Confidential Information").
+ * You shall not disclose such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with Cogz LLC.
+ */
+
 package net.tbnr.gearz.hub;
 
+import net.tbnr.gearz.Gearz;
 import net.tbnr.util.command.TCommand;
 import net.tbnr.util.command.TCommandHandler;
 import net.tbnr.util.command.TCommandSender;
@@ -49,7 +61,6 @@ public class SignEdit implements Listener, TCommandHandler {
         Sign sign = (Sign) event.getClickedBlock().getState();
         Sign gui = (Sign) event.getClickedBlock().getState();
         for (int i = 0; i <= sign.getLines().length - 1; i++) {
-            TBNRHub.getInstance().getLogger().info("SignEdit >>>> THE LINE is: " + sign.getLine(i));
             if (sign.getLine(i) == null) continue;
             gui.setLine(i, sign.getLine(i));
         }
@@ -62,7 +73,6 @@ public class SignEdit implements Listener, TCommandHandler {
         if (!this.players.containsKey(event.getPlayer().getName())) return;
         Sign sign = players.get(event.getPlayer().getName());
         for (int i = 0; i <= event.getLines().length - 1; i++) {
-            TBNRHub.getInstance().getLogger().info("SignEdit >>>> Line is: " + event.getLine(i));
             if (event.getLine(i) == null) continue;
             sign.setLine(i, event.getLine(i));
         }
@@ -114,6 +124,6 @@ public class SignEdit implements Listener, TCommandHandler {
 
     @Override
     public void handleCommandStatus(TCommandStatus status, CommandSender sender, TCommandSender senderType) {
-        TBNRHub.handleCommandStatus(status, sender);
+        Gearz.handleCommandStatus(status, sender);
     }
 }

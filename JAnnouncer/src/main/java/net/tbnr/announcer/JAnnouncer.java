@@ -1,3 +1,14 @@
+/*
+ * Copyright (c) 2014.
+ * CogzMC LLC USA
+ * All Right reserved
+ *
+ * This software is the confidential and proprietary information of Cogz Development, LLC.
+ * ("Confidential Information").
+ * You shall not disclose such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with Cogz LLC.
+ */
+
 package net.tbnr.announcer;
 
 import lombok.Getter;
@@ -6,7 +17,12 @@ import net.tbnr.announcer.announces.AnnouncerManager;
 import net.tbnr.util.TPlugin;
 
 /**
- * Created by Joey on 2/16/14.
+ *
+ * <p>
+ * Latest Change:
+ * <p>
+ * @author Joey
+ * @since 2/16/14
  */
 public class JAnnouncer extends TPlugin {
     @Getter private static JAnnouncer instance;

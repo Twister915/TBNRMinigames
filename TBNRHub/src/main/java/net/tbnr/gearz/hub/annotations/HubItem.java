@@ -1,7 +1,19 @@
+/*
+ * Copyright (c) 2014.
+ * CogzMC LLC USA
+ * All Right reserved
+ *
+ * This software is the confidential and proprietary information of Cogz Development, LLC.
+ * ("Confidential Information").
+ * You shall not disclose such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with Cogz LLC.
+ */
+
 package net.tbnr.gearz.hub.annotations;
 
 import lombok.NonNull;
 import net.tbnr.gearz.hub.TBNRHub;
+import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -35,12 +47,13 @@ public abstract class HubItem implements Listener {
     @EventHandler
     @SuppressWarnings("unused")
     public final void onInteract(PlayerInteractEvent event) {
-        if (!(event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR))
-            return;
-        if (event.getPlayer().getItemInHand() == null) return;
-        if (!event.getPlayer().getItemInHand().hasItemMeta()) return;
-        if (!(event.getPlayer().getItemInHand().getItemMeta().getDisplayName().equals(getItems().get(0).getItemMeta().getDisplayName())))
-            return;
+	    ItemStack itemStack = event.getPlayer().getItemInHand();
+        if (event.getAction() == Action.PHYSICAL ||
+		        itemStack == null ||
+		        itemStack.getType() == Material.AIR ||
+		        !itemStack.hasItemMeta() ||
+		        !itemStack.getItemMeta().hasDisplayName() ||
+		        !itemStack.getItemMeta().getDisplayName().equals(getItems().get(0).getItemMeta().getDisplayName())) return;
         switch (event.getAction()) {
             case RIGHT_CLICK_AIR:
             case RIGHT_CLICK_BLOCK:
@@ -50,6 +63,8 @@ public abstract class HubItem implements Listener {
             case LEFT_CLICK_BLOCK:
                 leftClicked(event.getPlayer());
                 break;
+	        default:
+		        return;
         }
         event.setCancelled(true);
     }

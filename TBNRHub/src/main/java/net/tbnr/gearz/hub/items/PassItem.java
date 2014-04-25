@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2014.
- * Cogz Development LLC USA
+ * CogzMC LLC USA
  * All Right reserved
  *
  * This software is the confidential and proprietary information of Cogz Development, LLC.
@@ -29,7 +29,8 @@ import java.util.List;
  */
 @HubItemMeta(
 		key = "pass",
-		slot = 6
+		slot = 6,
+        hidden = true
 )
 public class PassItem extends HubItem {
 

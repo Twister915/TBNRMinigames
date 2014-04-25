@@ -1,10 +1,23 @@
+/*
+ * Copyright (c) 2014.
+ * CogzMC LLC USA
+ * All Right reserved
+ *
+ * This software is the confidential and proprietary information of Cogz Development, LLC.
+ * ("Confidential Information").
+ * You shall not disclose such Confidential Information and shall use it only in accordance
+ * with the terms of the license agreement you entered into with Cogz LLC.
+ */
+
 package net.tbnr.commerce.items.shop;
 
 import lombok.*;
 import net.tbnr.commerce.GearzCommerce;
 import net.tbnr.commerce.items.*;
-import net.tbnr.gearz.player.GearzPlayer;
-import net.tbnr.util.inventory.InventoryGUI;
+import net.tbnr.manager.TBNRPlayer;
+import net.tbnr.util.inventory.base.BaseGUI;
+import net.tbnr.util.inventory.base.GUICallback;
+import net.tbnr.util.inventory.base.GUIItem;
 import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -18,22 +31,23 @@ public final class Shop implements PlayerShop {
     private final ShopGUI shopGui;
     private final ShopGUI tierGui;
     private final ShopGUI mainGui;
-    private final GearzPlayer player;
+    private final TBNRPlayer player;
     private final CommerceItemAPI api;
 
-    public Shop(GearzPlayer player, CommerceItemAPI api) {
+    public Shop(TBNRPlayer player, CommerceItemAPI api) {
         this.player = player;
+        System.out.println("LOADED SHOP FOR " + player.getUsername());
         this.api = api;
-        shopGui = getInvetoryGui(GuiKey.Shop);
-        tierGui = getInvetoryGui(GuiKey.Tier);
-        mainGui = getInvetoryGui(GuiKey.Main);
+        shopGui = getInventoryGUI(GuiKey.Shop);
+        tierGui = getInventoryGUI(GuiKey.Tier);
+        mainGui = getInventoryGUI(GuiKey.Main);
     }
 
     @Setter(AccessLevel.PACKAGE) private GuiKey currentGuiPhase;
     @Setter(AccessLevel.PACKAGE) private boolean open;
 
-    private ArrayList<InventoryGUI.InventoryGUIItem> getShopItems() {
-        ArrayList<InventoryGUI.InventoryGUIItem> items = new ArrayList<>();
+    private ArrayList<GUIItem> getShopItems() {
+        ArrayList<GUIItem> items = new ArrayList<>();
         String[] pointsStrings = {"<currency>", resolveName(CommerceItemAPI.PurchaseMethod.Points)};
         String[] donorStrings = {"<currency>", resolveName(CommerceItemAPI.PurchaseMethod.Donor)};
         for (Class<? extends CommerceItem> aClass : api.getCommerceItems()) {
@@ -58,8 +72,7 @@ public final class Shop implements PlayerShop {
                 }
                 if ((tier.isMustBePurchased() && !api.hasTier(player, tier)) || cannotPurchase != null) {
                     lore.add(0, cannotPurchase == null ? GearzCommerce.getInstance().getFormat("formats.gui.cannot-purchase") : GearzCommerce.getInstance().getFormat("formats.gui.cannot-purchase-reason", true, new String[]{"<reason>", cannotPurchase}));
-                }
-                else
+                } else
                     lore.add(0, GearzCommerce.getInstance().getFormat("formats.gui.click-to-purchase-lore"));
             }
             ItemInventoryItem itemInventoryItem = new ItemInventoryItem(stack, title, lore);
@@ -68,8 +81,9 @@ public final class Shop implements PlayerShop {
         }
         return items;
     }
-    private ArrayList<InventoryGUI.InventoryGUIItem> getTierItems() {
-        ArrayList<InventoryGUI.InventoryGUIItem> items = new ArrayList<>();
+
+    private ArrayList<GUIItem> getTierItems() {
+        ArrayList<GUIItem> items = new ArrayList<>();
         for (Tier tier : api.getTiers()) {
             ItemStack stack = new ItemStack(tier.getRepItem());
             String title = ChatColor.translateAlternateColorCodes('&', tier.getHumanName());
@@ -81,8 +95,7 @@ public final class Shop implements PlayerShop {
                     if (api.canPurchaseTier(player, tier)) {
                         lore.add(GearzCommerce.getInstance().getFormat("formats.gui.tier-can-purchase-lore"));
                         lore.add(GearzCommerce.getInstance().getFormat("formats.gui.tier-price-lore", true, new String[]{"<points>", String.valueOf(tier.getPoints())}));
-                    }
-                    else {
+                    } else {
                         stack.addUnsafeEnchantment(Enchantment.SILK_TOUCH, 32);
                         lore.add(GearzCommerce.getInstance().getFormat("formats.gui.tier-required-level-lore", true, new String[]{"<level>", String.valueOf(tier.getRequiredLevel())}, new String[]{"<points>", String.valueOf(tier.getPoints())}));
                     }
@@ -96,8 +109,9 @@ public final class Shop implements PlayerShop {
         }
         return items;
     }
-    private ArrayList<InventoryGUI.InventoryGUIItem> getMainItems() {
-        ArrayList<InventoryGUI.InventoryGUIItem> items = new ArrayList<>();
+
+    private ArrayList<GUIItem> getMainItems() {
+        ArrayList<GUIItem> items = new ArrayList<>();
         items.add(getItemFor("tier-shop-title", Material.BEACON, GuiKey.Tier));
         items.add(getItemFor("item-shop-title", Material.GOLD_BLOCK, GuiKey.Shop));
         items.add(new MenuInventoryItem(new ItemStack(Material.WRITTEN_BOOK), GearzCommerce.getInstance().getFormat("formats.gui.info-title"), getHelpText()));
@@ -133,7 +147,8 @@ public final class Shop implements PlayerShop {
     }
 
     public static String resolveName(CommerceItemAPI.PurchaseMethod method) {
-        if (method == CommerceItemAPI.PurchaseMethod.Donor) return GearzCommerce.getInstance().getFormat("formats.currency.donor");
+        if (method == CommerceItemAPI.PurchaseMethod.Donor)
+            return GearzCommerce.getInstance().getFormat("formats.currency.donor");
         else return GearzCommerce.getInstance().getFormat("formats.currency.points");
     }
 
@@ -142,8 +157,9 @@ public final class Shop implements PlayerShop {
         player.getTPlayer().playSound(Sound.ORB_PICKUP);
         close();
     }
-    private ShopGUI getInvetoryGui(GuiKey key) {
-        ArrayList<InventoryGUI.InventoryGUIItem> items = null;
+
+    private ShopGUI getInventoryGUI(GuiKey key) {
+        ArrayList<GUIItem> items = null;
         switch (key) {
             case Shop:
                 items = getShopItems();
@@ -155,20 +171,20 @@ public final class Shop implements PlayerShop {
                 items = getMainItems();
                 break;
         }
-        return new ShopGUI(items, GearzCommerce.getInstance().getFormat("formats.gui." + key.getKey() + "-title"), new InventoryDelegate(this, key), false,  this.player);
+        return new ShopGUI(items, GearzCommerce.getInstance().getFormat("formats.gui." + key.getKey() + "-title"), new InventoryDelegate(this, key), false, this.player);
     }
 
     @Override
     public void open() {
-        mainGui.open();
+        mainGui.open(player.getPlayer());
         this.currentGuiPhase = GuiKey.Main;
     }
 
     @Override
     public void close() {
-        this.shopGui.close();
-        this.tierGui.close();
-        this.mainGui.close();
+        this.shopGui.close(player.getPlayer());
+        this.tierGui.close(player.getPlayer());
+        this.mainGui.close(player.getPlayer());
         this.currentGuiPhase = null;
         this.player.getPlayer().closeInventory();
     }
@@ -181,23 +197,23 @@ public final class Shop implements PlayerShop {
             this.currentGuiPhase = GuiKey.Main;
             switch (this.currentGuiPhase) {
                 case Shop:
-                    this.shopGui.close();
+                    this.shopGui.close(player.getPlayer());
                     break;
                 case Tier:
-                    this.tierGui.close();
+                    this.tierGui.close(player.getPlayer());
                     break;
             }
-            this.mainGui.open();
+            this.mainGui.open(player.getPlayer());
             return;
         }
         if (this.currentGuiPhase != GuiKey.Main) return;
-        this.mainGui.close();
+        this.mainGui.close(player.getPlayer());
         switch (key) {
             case Shop:
-                this.shopGui.open();
+                this.shopGui.open(player.getPlayer());
                 break;
             case Tier:
-                this.tierGui.open();
+                this.tierGui.open(player.getPlayer());
                 break;
         }
         this.currentGuiPhase = key;
@@ -205,18 +221,20 @@ public final class Shop implements PlayerShop {
 
     @RequiredArgsConstructor
     @Data
-    private static class InventoryDelegate implements ShopGUI.ShopGUICallback {
+    private static class InventoryDelegate implements GUICallback {
 
-        private final Shop shopInstnace;
+        private final Shop shopInstance;
         private final GuiKey key;
 
-        public void onItemSelect(ShopGUI gui, InventoryGUI.InventoryGUIItem item, GearzPlayer player1) {
-            Player player = player1.getPlayer();
+        @Override
+        public void onItemSelect(BaseGUI baseGUI, GUIItem item, Player p) {
+            ShopGUI gui = (ShopGUI) baseGUI;
+            Player player = gui.getPlayer().getPlayer();
             switch (key) {
                 case Shop:
                     if (!(item instanceof ItemInventoryItem)) return;
                     try {
-                        this.shopInstnace.selectedItem(((ItemInventoryItem) item).getClazz());
+                        this.shopInstance.selectedItem(((ItemInventoryItem) item).getClazz());
                     } catch (PurchaseException e) {
                         player.sendMessage(GearzCommerce.getInstance().getFormat("formats.gui.failed-purchase", true, new String[]{"<reason>", e.getMessage()}));
                         player.playNote(player.getLocation(), Instrument.BASS_DRUM, Note.natural(1, Note.Tone.D));
@@ -226,12 +244,12 @@ public final class Shop implements PlayerShop {
                     if (!(item instanceof MenuInventoryItem)) return;
                     GuiKey key1 = ((MenuInventoryItem) item).getKey();
                     if (key1 == null) return;
-                    this.shopInstnace.openGui(key1);
+                    this.shopInstance.openGui(key1);
                     break;
                 case Tier:
                     if (!(item instanceof TierInventoryItem)) return;
                     try {
-                        this.shopInstnace.selectedTier(((TierInventoryItem) item).getTier());
+                        this.shopInstance.selectedTier(((TierInventoryItem) item).getTier());
                     } catch (PurchaseException e) {
                         player.sendMessage(GearzCommerce.getInstance().getFormat("formats.gui.failed-purchase", true, new String[]{"<reason>", e.getMessage()}));
                         player.playNote(player.getLocation(), Instrument.BASS_DRUM, Note.natural(1, Note.Tone.D));
@@ -241,17 +259,15 @@ public final class Shop implements PlayerShop {
         }
 
         @Override
-        public void onGUIOpen(ShopGUI gui, GearzPlayer player) {
-
+        public void onGUIOpen(BaseGUI gui, Player player) {
         }
 
         @Override
-        public void onGUIClose(ShopGUI gui, GearzPlayer player) {
-
+        public void onGUIClose(BaseGUI gui, Player player) {
         }
     }
 
-    private static class ItemInventoryItem extends InventoryGUI.InventoryGUIItem {
+    private static class ItemInventoryItem extends GUIItem {
 
         public ItemInventoryItem(ItemStack item, String name, List<String> lore) {
             super(item, name, lore);
@@ -259,7 +275,8 @@ public final class Shop implements PlayerShop {
 
         @Getter @Setter @NonNull private Class<? extends CommerceItem> clazz;
     }
-   private static class MenuInventoryItem extends InventoryGUI.InventoryGUIItem {
+
+    private static class MenuInventoryItem extends GUIItem {
 
         public MenuInventoryItem(ItemStack item, String name, List<String> lore) {
             super(item, name, lore);
@@ -272,7 +289,7 @@ public final class Shop implements PlayerShop {
         @Getter @Setter @NonNull private GuiKey key;
     }
 
-    private static class TierInventoryItem extends InventoryGUI.InventoryGUIItem {
+    private static class TierInventoryItem extends GUIItem {
 
         public TierInventoryItem(ItemStack item, String name, List<String> lore) {
             super(item, name, lore);
@@ -280,6 +297,4 @@ public final class Shop implements PlayerShop {
 
         @Getter @Setter @NonNull private Tier tier;
     }
-
-
 }
