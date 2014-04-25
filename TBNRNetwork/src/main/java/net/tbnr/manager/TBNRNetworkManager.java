@@ -12,13 +12,14 @@
 package net.tbnr.manager;
 
 import lombok.Getter;
-import net.tbnr.gearz.Gearz;
 import net.tbnr.gearz.network.GearzNetworkManagerPlugin;
 import net.tbnr.manager.classes.ClassPassUtils;
 import net.tbnr.manager.command.ClearChat;
+import net.tbnr.manager.command.StatsCommand;
 import net.tbnr.manager.command.YoutuberCommand;
 import org.bukkit.Bukkit;
 
+@SuppressWarnings("FieldCanBeLocal")
 public final class TBNRNetworkManager extends GearzNetworkManagerPlugin<TBNRPlayer, TBNRPlayerProvider> {
     @Getter private static TBNRNetworkManager instance;
 
@@ -31,6 +32,7 @@ public final class TBNRNetworkManager extends GearzNetworkManagerPlugin<TBNRPlay
         registerCommands(new ClearChat());
         registerCommands(new YoutuberCommand());
         registerCommands(new ClassPassUtils());
+        registerCommands(new StatsCommand());
         registerEvents(tbnrPlayerUtils);
     }
 
@@ -45,10 +47,15 @@ public final class TBNRNetworkManager extends GearzNetworkManagerPlugin<TBNRPlay
     }
 
     @Override
+    public String getServerPrefix() {
+        return getFormat("formats.prefix", true);
+    }
+
+    @Override
     protected void onPlayerJoin(final TBNRPlayer player) {
-        player.getTPlayer().setScoreboardSideTitle(Gearz.getInstance().getFormat("formats.sidebar-title-loading"));
+        player.getTPlayer().setScoreboardSideTitle(TBNRNetworkManager.getInstance().getFormat("formats.sidebar-title-loading"));
         player.setupScoreboard();
-        Bukkit.getScheduler().runTaskLater(Gearz.getInstance(), new Runnable() {
+        Bukkit.getScheduler().runTaskLater(this, new Runnable() {
             @Override
             public void run() {
                 player.updateStats();

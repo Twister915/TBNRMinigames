@@ -51,7 +51,7 @@ public final class TBNRPlayer extends GearzPlayer {
         } else {
             this.tPlayer.resetScoreboard();
             this.setupScoreboard();
-            Bukkit.getScheduler().runTaskLater(Gearz.getInstance(), new Runnable() {
+            Bukkit.getScheduler().runTaskLater(TBNRNetworkManager.getInstance(), new Runnable() {
                 @Override
                 public void run() {
                     updateStats();
@@ -132,11 +132,11 @@ public final class TBNRPlayer extends GearzPlayer {
     }
 
     public String getYoutubeChannel() {
-        return (String) this.tPlayer.getStorable(Gearz.getInstance(), "youtube");
+        return (String) this.tPlayer.getStorable(TBNRNetworkManager.getInstance(), "youtube");
     }
 
     public void setYoutubeChannel(String youtubeChannel) {
-        this.tPlayer.store(Gearz.getInstance(), new GPlayerYoutube(youtubeChannel));
+        this.tPlayer.store(TBNRNetworkManager.getInstance(), new GPlayerYoutube(youtubeChannel));
     }
 
     public void updateStats() {
@@ -156,7 +156,7 @@ public final class TBNRPlayer extends GearzPlayer {
         }
         this.tPlayer.getPlayer().setLevel(level);
         this.tPlayer.getPlayer().setExp(this.getProgressTowardsLevel(xp));
-        Gearz instance = Gearz.getInstance();
+        TBNRNetworkManager instance = TBNRNetworkManager.getInstance();
         this.tPlayer.setScoreboardSideTitle(instance.getFormat("formats.sidebar-title"));
         this.tPlayer.setScoreBoardSide(instance.getFormat("formats.xp-sidebar"), getXP());
         this.tPlayer.setScoreBoardSide(instance.getFormat("formats.donor-points-sidebar"), getDonorPoints());
@@ -165,7 +165,7 @@ public final class TBNRPlayer extends GearzPlayer {
     }
 
     public void setupScoreboard() {
-        Gearz instance = Gearz.getInstance();
+        TBNRNetworkManager instance = TBNRNetworkManager.getInstance();
         this.tPlayer.setScoreboardSideTitle(instance.getFormat("formats.sidebar-title-loading"));
         this.tPlayer.setScoreBoardSide(instance.getFormat("formats.xp-sidebar"), -1);
         this.tPlayer.setScoreBoardSide(instance.getFormat("formats.donor-points-sidebar"), -2);

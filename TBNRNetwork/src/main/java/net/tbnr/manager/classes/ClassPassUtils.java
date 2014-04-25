@@ -21,10 +21,11 @@ public final class ClassPassUtils implements TCommandHandler{
             senders = {TCommandSender.Console, TCommandSender.Player},
             usage = "/classpass:creditchange [username] [game-key] [class-key] [action] [number]"
     )
+    @SuppressWarnings("unused")
     public TCommandStatus creditChange(CommandSender sender, TCommandSender type, TCommand meta, Command command, String[] args) {
         if (args.length < 5) return TCommandStatus.HELP;
         ClassPassManager<TBNRAbstractClass> classPassManager = new ClassPassManager<>(args[1]);
-        Player player = Bukkit.getPlayer(args[0]);
+        Player player = Bukkit.getPlayerExact(args[0]);
         TBNRPlayer tbnrPlayer = TBNRNetworkManager.getInstance().getPlayerProvider().getPlayerFromPlayer(player);
         try {
             switch (args[3]) {

@@ -32,7 +32,7 @@ public final class TBNRPlayerUtils implements TCommandHandler, Listener {
     @SuppressWarnings("unused")
     public void onLevelChange(PlayerLevelChangeEvent event) {
         event.getPlayer().getTPlayer().playSound(Sound.LEVEL_UP);
-        event.getPlayer().getTPlayer().sendMessage(Gearz.getInstance().getFormat("formats.level-up", true, new String[]{"<level>", String.valueOf(event.getNewLevel())}, new String[]{"<old-level>", String.valueOf(event.getOldLevel())}));
+        event.getPlayer().getTPlayer().sendMessage(TBNRNetworkManager.getInstance().getFormat("formats.level-up", true, new String[]{"<level>", String.valueOf(event.getNewLevel())}, new String[]{"<old-level>", String.valueOf(event.getOldLevel())}));
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -79,8 +79,8 @@ public final class TBNRPlayerUtils implements TCommandHandler, Listener {
             default:
                 return TCommandStatus.INVALID_ARGS;
         }
-        sender.sendMessage(Gearz.getInstance().getFormat("formats.xp-change", true, new String[]{"<action>", (xp >= 0 ? "added" : "removed")}, new String[]{"<target>", (sender.equals(gplayer.getTPlayer().getPlayer()) ? "yourself" : gplayer.getTPlayer().getPlayer().getName())}, new String[]{"<xp>", String.valueOf(Math.abs(xp))}));
-        if (!sender.equals(gplayer.getTPlayer().getPlayer())) gplayer.getTPlayer().sendMessage(Gearz.getInstance().getFormat("formats.xp-changed", true, new String[]{"<action>", (xp >= 0 ? "added" : "removed")}, new String[]{"<xp>", String.valueOf(xp)}));
+        sender.sendMessage(TBNRNetworkManager.getInstance().getFormat("formats.xp-change", true, new String[]{"<action>", (xp >= 0 ? "added" : "removed")}, new String[]{"<target>", (sender.equals(gplayer.getTPlayer().getPlayer()) ? "yourself" : gplayer.getTPlayer().getPlayer().getName())}, new String[]{"<xp>", String.valueOf(Math.abs(xp))}));
+        if (!sender.equals(gplayer.getTPlayer().getPlayer())) gplayer.getTPlayer().sendMessage(TBNRNetworkManager.getInstance().getFormat("formats.xp-changed", true, new String[]{"<action>", (xp >= 0 ? "added" : "removed")}, new String[]{"<xp>", String.valueOf(xp)}));
         return TCommandStatus.SUCCESSFUL;
     }
 
@@ -122,8 +122,8 @@ public final class TBNRPlayerUtils implements TCommandHandler, Listener {
             default:
                 return TCommandStatus.INVALID_ARGS;
         }
-        sender.sendMessage(Gearz.getInstance().getFormat("formats.xp-change", true, new String[]{"<action>", (points >= 0 ? "added" : "removed")}, new String[]{"<target>", (sender.equals(gplayer.getTPlayer().getPlayer()) ? "yourself" : gplayer.getTPlayer().getPlayer().getName())}, new String[]{"<xp>", String.valueOf(Math.abs(points))}));
-        if (!sender.equals(gplayer.getTPlayer().getPlayer())) gplayer.getTPlayer().sendMessage(Gearz.getInstance().getFormat("formats.xp-changed", true, new String[]{"<action>", (points >= 0 ? "added" : "removed")}, new String[]{"<xp>", String.valueOf(points)}));
+        sender.sendMessage(TBNRNetworkManager.getInstance().getFormat("formats.xp-change", true, new String[]{"<action>", (points >= 0 ? "added" : "removed")}, new String[]{"<target>", (sender.equals(gplayer.getTPlayer().getPlayer()) ? "yourself" : gplayer.getTPlayer().getPlayer().getName())}, new String[]{"<xp>", String.valueOf(Math.abs(points))}));
+        if (!sender.equals(gplayer.getTPlayer().getPlayer())) gplayer.getTPlayer().sendMessage(TBNRNetworkManager.getInstance().getFormat("formats.xp-changed", true, new String[]{"<action>", (points >= 0 ? "added" : "removed")}, new String[]{"<xp>", String.valueOf(points)}));
         return TCommandStatus.SUCCESSFUL;
     }
 
