@@ -21,7 +21,6 @@ import net.tbnr.gearz.hub.annotations.HubItems;
 import net.tbnr.gearz.hub.items.warpstar.WarpStarCommands;
 import net.tbnr.gearz.server.Server;
 import net.tbnr.gearz.server.ServerManager;
-import net.tbnr.gearz.settings.PlayerSettings;
 import net.tbnr.util.TPlugin;
 import net.tbnr.util.command.TCommandHandler;
 import org.bukkit.Bukkit;
@@ -107,7 +106,6 @@ public class TBNRHub extends TPlugin {
 	    //Register all events
 	    for(Listener listener : listeners2Register) registerEvents(listener);
 
-        PlayerSettings.getRegistry().register(PlayerThings.TEXTURE_PACK);
 
 	    new SaveAllTask().runTaskTimer(this, 0, 12000);
 
