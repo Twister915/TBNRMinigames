@@ -28,6 +28,7 @@ import net.tbnr.util.player.TPlayer.TParticleEffect;
 import net.tbnr.util.player.TPlayerManager;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -334,11 +335,6 @@ public class PlagueGame extends TBNRMinigame implements GameCountdownHandler {
 		}
 	}
 
-	private void addPoints(Player player, int points) {
-		TBNRPlayer gPlayer = getPlayerProvider().getPlayerFromPlayer(player);
-		addPoints(gPlayer, points);
-	}
-
 	private void addPoints(TBNRPlayer gPlayer, int points) {
 		if(gPlayer == null) return;
 		if(!this.points.containsKey(gPlayer)) this.points.put(gPlayer, 0);
@@ -362,6 +358,8 @@ public class PlagueGame extends TBNRMinigame implements GameCountdownHandler {
 		ItemStack zombieHead = new ItemStack(Material.SKULL);
 		zombieHead.setDurability((short)SkullType.ZOMBIE.ordinal());
 		player.getPlayer().getInventory().setHelmet(zombieHead);
+		player.getPlayer().getInventory().addItem(new ItemStack(Material.SIGN, 1));
+		player.disguise(EntityType.ZOMBIE);
 		checkFinish();
 	}
 
@@ -371,6 +369,8 @@ public class PlagueGame extends TBNRMinigame implements GameCountdownHandler {
 		if(player.getTPlayer().isFlashingRed()) player.getTPlayer().stopFlashRed();
 		player.getPlayer().getInventory().setHelmet(null);
 		player.getPlayer().setFoodLevel(20);
+		player.getPlayer().getInventory().addItem(new ItemStack(Material.WOOD_SPADE, 1));
+		player.disguise(EntityType.PLAYER);
 		checkFinish();
 	}
 
@@ -406,7 +406,6 @@ public class PlagueGame extends TBNRMinigame implements GameCountdownHandler {
 
 	@SuppressWarnings("unchecked")
 	private void assignJobs() {
-		Set<TBNRPlayer> players = (Set<TBNRPlayer>) getPlayers().clone();
 		for(int i = 0, l = getPlayers().size()/8 <= 0 ? 1 : getPlayers().size()/8; i < l; i++) {
 			makeZombie((TBNRPlayer) getPlayers().toArray()[new Random().nextInt(getPlayers().size())]);
 		}
@@ -430,6 +429,7 @@ public class PlagueGame extends TBNRMinigame implements GameCountdownHandler {
 	public void finish() {
 		for (TBNRPlayer player : allPlayers()) {
 			EnderBar.remove(player);
+			player.undisguise();
 		}
 		TBNRPlayer max = getMostPoints();
 		broadcast(getPluginFormat("formats.winner", true, new String[]{"<player>", max.getUsername()}));
