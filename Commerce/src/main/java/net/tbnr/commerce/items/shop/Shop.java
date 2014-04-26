@@ -36,7 +36,6 @@ public final class Shop implements PlayerShop {
 
     public Shop(TBNRPlayer player, CommerceItemAPI api) {
         this.player = player;
-        System.out.println("LOADED SHOP FOR " + player.getUsername());
         this.api = api;
         shopGui = getInventoryGUI(GuiKey.Shop);
         tierGui = getInventoryGUI(GuiKey.Tier);

@@ -16,6 +16,8 @@ import net.tbnr.gearz.player.GearzPlayer;
 import net.tbnr.util.inventory.base.BaseGUI;
 import net.tbnr.util.inventory.base.GUICallback;
 import net.tbnr.util.inventory.base.GUIItem;
+import org.bukkit.entity.Player;
+import org.bukkit.event.HandlerList;
 
 import java.util.ArrayList;
 
@@ -43,7 +45,6 @@ public class ShopGUI extends BaseGUI {
     public ShopGUI(ArrayList<GUIItem> items, String title, GUICallback callback, boolean effects, GearzPlayer player) {
         super(items, title, callback, effects);
         this.player = player;
-        System.out.println("CREATED A SHOPGUI FOR " + player.getUsername());
     }
 
     /**
@@ -55,5 +56,10 @@ public class ShopGUI extends BaseGUI {
      */
     public ShopGUI(ArrayList<GUIItem> items, String title, GUICallback callback, GearzPlayer player) {
         this(items, title, callback, true, player);
+    }
+
+    @Override
+    public void closeGUI(Player player) {
+        HandlerList.unregisterAll(this);
     }
 }
