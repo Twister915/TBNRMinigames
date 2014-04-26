@@ -13,6 +13,7 @@ package net.tbnr.gearz.pl;
 
 import net.tbnr.gearz.arena.Arena;
 import net.tbnr.gearz.arena.ArenaField;
+import net.tbnr.gearz.arena.ArenaField.PointType;
 import net.tbnr.gearz.arena.PointIterator;
 import org.bukkit.World;
 
@@ -31,6 +32,8 @@ public class PlagueArena extends Arena {
 	@ArenaField(key = "zombie-spawn", loop = true, type = ArenaField.PointType.Player, longName = "Zombie Spawn Points")
 	public PointIterator zombieSpawnPoints;
 
+	@ArenaField(key = "chest-spawn", loop = true, type = PointType.Block, longName = "Chest Spawn Points")
+	public PointIterator chestSpawnPoints;
 
 	public PlagueArena(String name, String author, String description, String worldId, String id) {
 		super(name, author, description, worldId, id);

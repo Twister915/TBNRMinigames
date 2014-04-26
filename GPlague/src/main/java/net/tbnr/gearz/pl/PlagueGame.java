@@ -14,6 +14,7 @@ package net.tbnr.gearz.pl;
 import net.tbnr.gearz.Gearz;
 import net.tbnr.gearz.GearzPlugin;
 import net.tbnr.gearz.arena.Arena;
+import net.tbnr.gearz.arena.Point;
 import net.tbnr.gearz.effects.EnderBar;
 import net.tbnr.gearz.game.GameCountdown;
 import net.tbnr.gearz.game.GameCountdownHandler;
@@ -28,6 +29,8 @@ import net.tbnr.util.player.TPlayer.TParticleEffect;
 import net.tbnr.util.player.TPlayerManager;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.Chest;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -110,6 +113,7 @@ public class PlagueGame extends TBNRMinigame implements GameCountdownHandler {
 
 	@Override
 	protected void gameStarting() {
+		fillChests();
 		setItems();
 		this.state = PlagueState.IN_GAME;
 		assignJobs();
@@ -133,6 +137,17 @@ public class PlagueGame extends TBNRMinigame implements GameCountdownHandler {
 			}
 		}.runTaskTimer(GPlague.getInstance(), 0, 12);
 	}
+
+	public void fillChests() {
+		while(plagueArena.chestSpawnPoints.hasNext()) {
+			fillChest(
+					placeChest(
+							plagueArena.chestSpawnPoints.next()
+					)
+			);
+		}
+	}
+
 
 	@Override
 	protected void gameEnding() {
@@ -207,13 +222,6 @@ public class PlagueGame extends TBNRMinigame implements GameCountdownHandler {
 		checkFinish();
 		points.put(killer, 100);
 		updateScoreboard();
-
-		//gives random num between 0 - 9 inclusive
-		int random = Gearz.getRandom().nextInt(10);
-
-		// 1 in 10 chance of getting each one. So there is a 1 in 5 chance of getting any number
-		if(random == 0) dead.getPlayer().getWorld().dropItemNaturally(dead.getPlayer().getLocation(), curePoison);
-		if(random == 1) dead.getPlayer().getWorld().dropItemNaturally(dead.getPlayer().getLocation(), cureZombie);
 	}
 
 	@Override
@@ -360,6 +368,7 @@ public class PlagueGame extends TBNRMinigame implements GameCountdownHandler {
 		player.getPlayer().getInventory().setHelmet(zombieHead);
 		player.getPlayer().getInventory().addItem(new ItemStack(Material.SIGN, 1));
 		player.disguise(EntityType.ZOMBIE);
+		player.getPlayer().getInventory().setHelmet(null);
 		checkFinish();
 	}
 
@@ -370,7 +379,8 @@ public class PlagueGame extends TBNRMinigame implements GameCountdownHandler {
 		player.getPlayer().getInventory().setHelmet(null);
 		player.getPlayer().setFoodLevel(20);
 		player.getPlayer().getInventory().addItem(new ItemStack(Material.WOOD_SPADE, 1));
-		player.disguise(EntityType.PLAYER);
+		player.undisguise();
+		player.getPlayer().getInventory().setHelmet(new ItemStack(Material.SKULL_ITEM));
 		checkFinish();
 	}
 
@@ -483,5 +493,25 @@ public class PlagueGame extends TBNRMinigame implements GameCountdownHandler {
 	@EventHandler(priority = EventPriority.LOWEST)
 	void onPlayerDamageEvent(EntityDamageEvent event) {
 		if(event.getCause() == DamageCause.STARVATION) event.setCancelled(true);
+	}
+
+	public void fillChest(Chest chest) {
+		List<ItemStack> items = new ArrayList<>();
+
+		//gives random num between 0 - 9 inclusive
+		int random = Gearz.getRandom().nextInt(10);
+
+		if(random > 7) items.add(curePoison);
+		if(random == 0) items.add(cureZombie);
+
+		chest.getInventory().addItem(items.toArray(new ItemStack[items.size()]));
+	}
+
+	public Chest placeChest(Point point) {
+		Block rootBlock = plagueArena.pointToLocation(point).getBlock();
+		rootBlock.breakNaturally();
+		rootBlock.getRelative(BlockFace.UP).setType(Material.AIR);
+		rootBlock.setType(Material.CHEST);
+		return (Chest) rootBlock.getState();
 	}
 }
