@@ -40,112 +40,106 @@ import java.net.SocketException;
  * Time: 2:34 PM
  * To change this template use File | Settings | File Templates.
  */
-@SuppressWarnings("FieldCanBelocal")
+@SuppressWarnings({"FieldCanBeLocal"})
 public class TBNRHub extends TPlugin {
-    private MultiserverCannons cannon;
-    @Getter private Spawn spawnHandler;
-    private static TBNRHub instance;
-    @Getter
-    private HubItems hubItems;
-    @Getter private HubArena arena;
+	private MultiserverCannons cannon;
+	@Getter private Spawn spawnHandler;
+	@Getter public static TBNRHub instance;
+	@Getter private HubItems hubItems;
+	@Getter private HubArena arena;
 
-    public TBNRHub() {
-        ConfigurationSerialization.registerClass(MultiserverCannon.class);
-    }
+	@Override
+	public void enable() {
+		TBNRHub.instance = this;
+		ConfigurationSerialization.registerClass(MultiserverCannon.class);
+		Gearz.getInstance().setLobbyServer(true);
+		DBObject hub_arena = getMongoDB().getCollection("hub_arena").findOne();
+		if (hub_arena != null) {
+			try {
+				arena = (HubArena) ArenaManager.arenaFromDBObject(HubArena.class, hub_arena);
+				arena.loadWorld();
+			} catch (GearzException | ClassCastException | ZipException | IOException e) {
+				e.printStackTrace();
+			}
+		}
 
-    public static TBNRHub getInstance() {
-        return instance;
-    }
+		cannon = new MultiserverCannons();
+		spawnHandler = new Spawn();
+		hubItems = new HubItems("net.tbnr.gearz.hub.items");
 
-    @Override
-    public void enable() {
-	    TBNRHub.instance = this;
-	    Gearz.getInstance().setLobbyServer(true);
-        DBObject hub_arena = getMongoDB().getCollection("hub_arena").findOne();
-        if (hub_arena != null) {
-            try {
-                arena = (HubArena)ArenaManager.arenaFromDBObject(HubArena.class, hub_arena);
-                arena.loadWorld();
-            } catch (GearzException | ClassCastException | ZipException | IOException e) {
-                e.printStackTrace();
-            }
-        }
+		SignEdit signedit = new SignEdit();
 
-	    cannon = new MultiserverCannons();
-	    spawnHandler = new Spawn();
-	    hubItems = new HubItems("net.tbnr.gearz.hub.items");
+		TCommandHandler[] commandHandlers2Register = {
+				cannon,
+				spawnHandler,
+				signedit,
+				new WarpStarCommands(),
+				new ParticleTest(),
+				new HeadCommand()
+		};
 
-	    SignEdit signedit = new SignEdit();
+		Listener[] listeners2Register = {
+				spawnHandler,
+				cannon,
+				new ColoredSigns(),
+				new BouncyPads(),
+				new LoginMessages(),
+				new SnowballEXP(),
+				new Restrictions(),
+				new PlayerThings(),
+				new BlastOffSigns(),
+				hubItems,
+				signedit
+		};
 
-	    TCommandHandler[] commandHandlers2Register = {
-			    cannon,
-			    spawnHandler,
-			    signedit,
-			    new WarpStarCommands(),
-			    new ParticleTest(),
-                new HeadCommand()
-	    };
+		//Register all commands
+		for (TCommandHandler commandHandler : commandHandlers2Register) registerCommands(commandHandler);
 
-	    Listener[] listeners2Register = {
-			    spawnHandler,
-			    cannon,
-			    new ColoredSigns(),
-			    new BouncyPads(),
-			    new LoginMessages(),
-			    new SnowballEXP(),
-			    new Restrictions(),
-			    new PlayerThings(),
-			    new BlastOffSigns(),
-			    hubItems,
-			    signedit
-	    };
+		//Register all events
+		for (Listener listener : listeners2Register) registerEvents(listener);
 
-	    //Register all commands
-	    for(TCommandHandler commandHandler : commandHandlers2Register) registerCommands(commandHandler);
+		if (getConfig().getBoolean("save-task", false)) {
+			new SaveAllTask().runTaskTimer(this, 0, 12000);
+		}
 
-	    //Register all events
-	    for(Listener listener : listeners2Register) registerEvents(listener);
+		ServerManager.setGame("lobby");
+		ServerManager.setStatusString("HUB_DEFAULT");
+		ServerManager.setOpenForJoining(true);
+		Server thisServer = ServerManager.getThisServer();
+		try {
+			thisServer.setAddress(Gearz.getExternalIP());
+		} catch (SocketException e) {
+			e.printStackTrace();
+		}
+		thisServer.setPort(Bukkit.getPort());
+		thisServer.save();
+	}
 
+	@Override
+	public void disable() {
+	}
 
-	    new SaveAllTask().runTaskTimer(this, 0, 12000);
+	@Override
+	public String getStorablePrefix() {
+		return "ghub";
+	}
 
-        ServerManager.setGame("lobby");
-        ServerManager.setStatusString("HUB_DEFAULT");
-        ServerManager.setOpenForJoining(true);
-        Server thisServer = ServerManager.getThisServer();
-        try {
-            thisServer.setAddress(Gearz.getExternalIP());
-        } catch (SocketException e) {
-            e.printStackTrace();
-        }
-        thisServer.setPort(Bukkit.getPort());
-        thisServer.save();
-    }
+	public String getChatPrefix() {
+		return getFormat("prefix");
+	}
 
-    @Override
-    public void disable() {}
+	public static class SaveAllTask extends BukkitRunnable {
+		@Override
+		public void run() {
+			for (World world : Bukkit.getServer().getWorlds()) {
+				world.save();
+			}
+			Bukkit.broadcast(ChatColor.GREEN + "World saved!", "gearz.notifysave");
+			Gearz.getInstance().debug("Saved the world.");
+		}
+	}
 
-    @Override
-    public String getStorablePrefix() {
-        return "ghub";
-    }
-
-    public String getChatPrefix() {
-        return getFormat("prefix");
-    }
-
-    public static class SaveAllTask extends BukkitRunnable {
-        @Override
-        public void run() {
-            for (World world : Bukkit.getServer().getWorlds()) {
-                world.save();
-            }
-            Bukkit.broadcast(ChatColor.GREEN + "World saved!", "gearz.notifysave");
-            Gearz.getInstance().debug("Saved the world.");
-        }
-    }
-
-    public String compile(String[] args, int min, int max) {
-        return Gearz.getInstance().compile(args, min, max);
-    }
+	public String compile(String[] args, int min, int max) {
+		return Gearz.getInstance().compile(args, min, max);
+	}
 }
