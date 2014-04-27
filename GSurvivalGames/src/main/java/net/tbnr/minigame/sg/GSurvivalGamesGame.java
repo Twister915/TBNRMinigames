@@ -19,7 +19,6 @@ import net.tbnr.gearz.arena.ArenaIterator;
 import net.tbnr.gearz.arena.Point;
 import net.tbnr.gearz.effects.EnderBar;
 import net.tbnr.gearz.effects.GearzFireworkEffect;
-import net.tbnr.gearz.event.player.PlayerBeginSpectateEvent;
 import net.tbnr.gearz.game.GameCountdown;
 import net.tbnr.gearz.game.GameCountdownHandler;
 import net.tbnr.gearz.game.GameMeta;
@@ -41,7 +40,6 @@ import org.bukkit.event.block.BlockBurnEvent;
 import org.bukkit.event.block.BlockFadeEvent;
 import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
@@ -283,6 +281,7 @@ public final class GSurvivalGamesGame extends TBNRMinigame implements GameCountd
 
     @Override
     protected void activatePlayer(TBNRPlayer player) {
+
     }
 
     @Override
@@ -385,6 +384,8 @@ public final class GSurvivalGamesGame extends TBNRMinigame implements GameCountd
         Firework entity = (Firework) sgArena.getWorld().spawnEntity(player.getPlayer().getLocation(), EntityType.FIREWORK);
         entity.getFireworkMeta().addEffects(FireworkEffect.builder().withColor(Color.WHITE).with(FireworkEffect.Type.STAR).flicker(true).trail(true).build());
         getArena().getWorld().strikeLightningEffect(player.getPlayer().getLocation());
+        //long time = sgArena.getSchematic().getWorld().getTime();
+        //TODO broadcast them heads of the fallen tributes with cool sounds.
         Bukkit.getScheduler().runTaskLater(getPlugin(), new Runnable() {
             @Override
             public void run() {
@@ -468,12 +469,6 @@ public final class GSurvivalGamesGame extends TBNRMinigame implements GameCountd
                 }
             }
         }
-    }
-
-    @EventHandler
-    public void onPlayerSpectate(PlayerBeginSpectateEvent event) {
-        if (event.getPlayer().getPlayer().getLastDamageCause().getCause() != EntityDamageEvent.DamageCause.VOID) return;
-        event.getPlayer().getPlayer().teleport(this.sgArena.pointToLocation(this.sgArena.cornicopiaPoints.random()));
     }
 
     @EventHandler
