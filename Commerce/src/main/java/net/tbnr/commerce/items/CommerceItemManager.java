@@ -100,7 +100,7 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
         if (this.playerCommerceData.containsKey(player)) {
             for (CommerceItem commerceItem : this.playerCommerceData.get(player).getItems()) {
                 HandlerList.unregisterAll(commerceItem);
-                commerceItem.onDeregister();
+                commerceItem.onUnregister();
             }
         }
         List<CommerceItem> items = new ArrayList<>();

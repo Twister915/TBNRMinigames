@@ -45,7 +45,7 @@ public class ShopManager implements TCommandHandler {
 
     @TCommand(
             senders = {TCommandSender.Player},
-            usage = "/shop <>",
+            usage = "/shop",
             permission = "gearz.commerce.shop",
             name = "shop"
     )

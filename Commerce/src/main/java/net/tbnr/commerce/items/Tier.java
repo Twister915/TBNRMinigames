@@ -17,7 +17,7 @@ import org.bukkit.Material;
 /**
  * Tier
  */
-public enum  Tier {
+public enum Tier {
     Standard("&8Standard", Material.GRASS, 2500, 90),
     Heroic("&7Heroic", Material.SKULL_ITEM, 5000, 180),
     Awesome("&6Awesome", Material.IRON_SWORD, 10000,360),

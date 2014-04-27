@@ -58,7 +58,7 @@ public abstract class CommerceItem implements Listener {
 
     public void onRegister() {}
 
-    public void onDeregister() {}
+    public void onUnregister() {}
 
     public void onRevoke() {}
 
