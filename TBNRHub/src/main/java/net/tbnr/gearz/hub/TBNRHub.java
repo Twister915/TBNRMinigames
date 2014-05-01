@@ -47,9 +47,9 @@ public class TBNRHub extends TPlugin {
 	@Getter public static TBNRHub instance;
 	@Getter private HubItems hubItems;
 	@Getter private HubArena arena;
-	
+
 	public TBNRHub() {
-	       ConfigurationSerialization.registerClass(MultiserverCannon.class);
+	    ConfigurationSerialization.registerClass(MultiserverCannon.class);
 	}
 
 	@Override

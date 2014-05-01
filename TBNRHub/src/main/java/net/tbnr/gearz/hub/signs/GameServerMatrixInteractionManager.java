@@ -7,7 +7,6 @@ import com.mongodb.DBObject;
 import lombok.Data;
 import net.tbnr.gearz.Gearz;
 import net.tbnr.gearz.activerecord.GModel;
-import net.tbnr.gearz.arena.ArenaFieldSerializer;
 import net.tbnr.gearz.arena.Point;
 import net.tbnr.gearz.game.MinigameMeta;
 import net.tbnr.gearz.hub.TBNRHub;
@@ -30,7 +29,8 @@ public final class GameServerMatrixInteractionManager implements TCommandHandler
             name = "addserversigns",
             permission = "gearz.set-server-sign",
             senders = {TCommandSender.Player},
-            usage = "<minigame key>"
+            usage = "<minigame key>",
+            description = "Command to set server signs"
     )
     public TCommandStatus setServerSign(org.bukkit.command.CommandSender sender, TCommandSender type, TCommand meta, Command command, String[] args) {
         if (args.length < 1) return TCommandStatus.FEW_ARGS;
@@ -46,8 +46,8 @@ public final class GameServerMatrixInteractionManager implements TCommandHandler
         if (metaForKey == null) return TCommandStatus.INVALID_ARGS;
 
         DBCollection hub_sign_matrices = getCollection();
-        DBObject pointOneObject = ArenaFieldSerializer.POINT.getDelegate().getObjectFor(new Point(p1.getX(), p1.getY(), p1.getZ()));
-        DBObject pointTwoObject = ArenaFieldSerializer.POINT.getDelegate().getObjectFor(new Point(p2.getX(), p2.getY(), p2.getZ()));
+        DBObject pointOneObject = null; //= ArenaFieldSerializer.POINT.getDelegate().getObjectFor(new Point(p1.getX(), p1.getY(), p1.getZ()));
+        DBObject pointTwoObject = null; //ArenaFieldSerializer.POINT.getDelegate().getObjectFor(new Point(p2.getX(), p2.getY(), p2.getZ()));
         DBObject object = BasicDBObjectBuilder.start("minigame_key", key).add("bound1", pointOneObject).add("bound2", pointTwoObject).add("world", ((Player)sender).getWorld()).get();
         hub_sign_matrices.save(object);
         loadAndAddMatrixFromDB(object);
@@ -59,8 +59,8 @@ public final class GameServerMatrixInteractionManager implements TCommandHandler
         DBObject bound2 = (DBObject) object.get("bound2");
         String key = (String) object.get("minigame_key");
         MinigameMeta metaForKey = getMetaForKey(key);
-        Point bound1Point = (Point) ArenaFieldSerializer.POINT.getDelegate().getObjectFor(bound1);
-        Point bound2Point = (Point) ArenaFieldSerializer.POINT.getDelegate().getObjectFor(bound2);
+        Point bound1Point = null;//= (Point) ArenaFieldSerializer.POINT.getDelegate().getObjectFor(bound1);
+        Point bound2Point = null;//= (Point) ArenaFieldSerializer.POINT.getDelegate().getObjectFor(bound2);
         World world = Bukkit.getWorld((String) object.get("world"));
         GameServerMatrix gameServerMatrix = new GameServerMatrix(
                 new Vector(bound1Point.getX(), bound1Point.getY(), bound1Point.getZ()),
@@ -87,7 +87,7 @@ public final class GameServerMatrixInteractionManager implements TCommandHandler
     }
 
     private static MinigameMeta getMetaForKey(String key) {
-        MinigameMeta minigameMeta = new MinigameMeta(TBNRHub.getInstance().getMongoDB(), key);
+        MinigameMeta minigameMeta = null;//new MinigameMeta(TBNRHub.getInstance().getMongoDB(), key);
         GModel one = minigameMeta.findOne();
         if (one == null) return null;
         return (MinigameMeta) one;
