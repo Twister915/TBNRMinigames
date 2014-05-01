@@ -365,6 +365,7 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
 
     @TCommand(
             name = "cactuspointmanage",
+            description = "Manage them cactus points yo.",
             permission = "gearz.commerce.manage",
             usage = "<CONSOLE>",
             senders = {TCommandSender.Console, TCommandSender.Player}

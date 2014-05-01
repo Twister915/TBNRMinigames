@@ -38,7 +38,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 public class HeadCommand implements TCommandHandler {
 
     @SuppressWarnings("unused")
-    @TCommand(name = "head", permission = "gearz.head", senders = {TCommandSender.Player}, usage = "/head <name>")
+    @TCommand(name = "head", permission = "gearz.head", senders = {TCommandSender.Player}, usage = "/head <name>", description = "Gives the sender the target players head")
     public TCommandStatus head(final CommandSender sender, TCommandSender type, TCommand meta, Command command, String[] args) {
         for (final String s : args) {
             final ItemStack stack = new ItemStack(Material.SKULL_ITEM, 1, (short) SkullType.PLAYER.ordinal());

@@ -40,6 +40,7 @@ public class ParticleTest implements TCommandHandler {
 
 	@TCommand(
 			name = "particles",
+            description = "Plays particles",
 			usage = "/particles <particle> <amount>",
 			permission = "gearz.particles",
 			senders = {TCommandSender.Player})

@@ -36,9 +36,11 @@ import org.bukkit.entity.Player;
 public final class ClearChat implements TCommandHandler {
     @TCommand(
             name = "clearchat",
+            description = "Clears chat globally",
             usage = "/clearchat",
             permission = "gearz.clearchat.all",
-            senders = {TCommandSender.Player, TCommandSender.Console})
+            senders = {TCommandSender.Player, TCommandSender.Console},
+            aliases = {"cc", "cchat", "clearc"})
     @SuppressWarnings("unused")
     public TCommandStatus clearchat(CommandSender sender, TCommandSender type, TCommand meta, Command command, String[] args) {
         for (int i = 0; i <= 200; i++) {
@@ -53,9 +55,11 @@ public final class ClearChat implements TCommandHandler {
 
     @TCommand(
             name = "clearmychat",
+            description = "Clears senders chat",
             usage = "/clearmychat",
             permission = "gearz.clearchat.own",
-            senders = {TCommandSender.Player, TCommandSender.Console})
+            senders = {TCommandSender.Player, TCommandSender.Console},
+            aliases = {"cmc", "cmychat"})
     @SuppressWarnings("unused")
     public TCommandStatus clearmychat(CommandSender sender, TCommandSender type, TCommand meta, Command command, String[] args) {
         for (int i = 0; i <= 200; i++) {

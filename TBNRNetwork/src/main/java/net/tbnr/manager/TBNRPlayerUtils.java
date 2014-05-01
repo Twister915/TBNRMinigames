@@ -43,6 +43,7 @@ public final class TBNRPlayerUtils implements TCommandHandler, Listener {
 
     @TCommand(
             name = "xp",
+            description = "XP Management Command",
             senders = {TCommandSender.Console, TCommandSender.Player},
             permission = "gearz.xp",
             usage = "Set XP.")
@@ -86,6 +87,7 @@ public final class TBNRPlayerUtils implements TCommandHandler, Listener {
 
     @TCommand(
             name = "points",
+            description = "Points management command.",
             senders = {TCommandSender.Console, TCommandSender.Player},
             permission = "gearz.points",
             usage = "Set points.")

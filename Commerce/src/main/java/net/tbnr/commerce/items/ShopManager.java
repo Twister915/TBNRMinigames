@@ -47,7 +47,8 @@ public class ShopManager implements TCommandHandler {
             senders = {TCommandSender.Player},
             usage = "/shop",
             permission = "gearz.commerce.shop",
-            name = "shop"
+            name = "shop",
+            description = "View the shop!"
     )
     public TCommandStatus shopCommand(CommandSender sender, TCommandSender type, TCommand meta, Command command, String[] args) {
         if (!Gearz.getInstance().isLobbyServer()) {

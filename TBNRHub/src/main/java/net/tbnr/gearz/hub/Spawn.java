@@ -53,6 +53,7 @@ public class Spawn implements Listener, TCommandHandler {
 
     @TCommand(
             name = "setspawn",
+            description = "Sets the spawn",
             usage = "/setspawn",
             permission = "gearz.setspawn",
             senders = {TCommandSender.Player})
@@ -67,9 +68,11 @@ public class Spawn implements Listener, TCommandHandler {
 
     @TCommand(
             name = "spawn",
+            description = "Sends player to spawn",
             usage = "/spawn [player]",
             permission = "gearz.spawn",
-            senders = {TCommandSender.Player, TCommandSender.Console})
+            senders = {TCommandSender.Player, TCommandSender.Console},
+            aliases = {"s"})
     @SuppressWarnings("unused")
     public TCommandStatus spawn(CommandSender sender, TCommandSender type, TCommand meta, Command command, String[] args) {
         if (args.length < 1 && type == TCommandSender.Console) {
@@ -93,6 +96,7 @@ public class Spawn implements Listener, TCommandHandler {
 
     @TCommand(
             name = "world",
+            description = "Teleports sender to target world",
             usage = "/world <name>",
             permission = "gearz.world",
             senders = {TCommandSender.Player})

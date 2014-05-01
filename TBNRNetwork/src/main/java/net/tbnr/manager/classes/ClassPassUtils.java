@@ -17,6 +17,7 @@ import org.bukkit.entity.Player;
 public final class ClassPassUtils implements TCommandHandler{
     @TCommand(
             name = "classpasscreditchange",
+            description = "Credit changer.",
             permission = "tbnr.classpassmanage",
             senders = {TCommandSender.Console, TCommandSender.Player},
             usage = "/classpass:creditchange [username] [game-key] [class-key] [action] [number]"

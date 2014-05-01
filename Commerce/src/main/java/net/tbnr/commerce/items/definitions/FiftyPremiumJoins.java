@@ -29,10 +29,13 @@ import org.bukkit.event.EventHandler;
         item = Material.PAPER
 )
 public final class FiftyPremiumJoins extends CommerceItem {
+    
     private Integer joinsLeft;
+
     public FiftyPremiumJoins(TBNRPlayer player, CommerceItemAPI api) throws GearzException {
         super(player, api);
     }
+
     @EventHandler
     public void onPlayerJoin(PlayerPriorityDetermineEvent event) {
         if (!event.getPlayer().equals(getPlayer())) return;

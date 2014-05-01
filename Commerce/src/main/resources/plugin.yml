@@ -3,9 +3,4 @@ version: 1.0
 authors: [Twister915]
 depend: [Gearz, TBNRNetwork]
 main: net.tbnr.commerce.GearzCommerce
-commands:
-  cactuspointmanage:
-    description: Manage them cactus points yo.
-  shop:
-    description: View the shop!
 description: dem cactus pointz
