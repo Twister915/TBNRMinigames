@@ -44,13 +44,17 @@ import java.net.SocketException;
 public class TBNRHub extends TPlugin {
 	private MultiserverCannons cannon;
 	@Getter private Spawn spawnHandler;
-	@Getter public static TBNRHub instance;
+    public static TBNRHub instance;
 	@Getter private HubItems hubItems;
 	@Getter private HubArena arena;
 
 	public TBNRHub() {
 	    ConfigurationSerialization.registerClass(MultiserverCannon.class);
 	}
+
+    public static TBNRHub getInstance() {
+        return instance;
+    }
 
 	@Override
 	public void enable() {
