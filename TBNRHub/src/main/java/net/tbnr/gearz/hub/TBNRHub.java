@@ -47,11 +47,14 @@ public class TBNRHub extends TPlugin {
 	@Getter public static TBNRHub instance;
 	@Getter private HubItems hubItems;
 	@Getter private HubArena arena;
+	
+	public TBNRHub() {
+	       ConfigurationSerialization.registerClass(MultiserverCannon.class);
+	}
 
 	@Override
 	public void enable() {
 		TBNRHub.instance = this;
-		ConfigurationSerialization.registerClass(MultiserverCannon.class);
 		Gearz.getInstance().setLobbyServer(true);
 		DBObject hub_arena = getMongoDB().getCollection("hub_arena").findOne();
 		if (hub_arena != null) {
