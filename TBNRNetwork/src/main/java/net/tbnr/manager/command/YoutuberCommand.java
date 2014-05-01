@@ -35,6 +35,7 @@ import org.bukkit.entity.Player;
 public class YoutuberCommand implements TCommandHandler {
     @TCommand(
             name = "youtuber",
+            description = "Youtuber lookup command.",
             usage = "/youtuber <player>",
             permission = "gearz.youtuber.lookup",
             senders = {TCommandSender.Player, TCommandSender.Console})
@@ -56,6 +57,7 @@ public class YoutuberCommand implements TCommandHandler {
 
     @TCommand(
             name = "setyoutube",
+            description = "Command used to set a player's Youtube channel.",
             usage = "/setyoutube <username>",
             permission = "gearz.youtuber.set",
             senders = {TCommandSender.Player})

@@ -7,6 +7,7 @@ flight-toggled: "<prefix>&3Flight mode has been &a<result>&3!"
 prefix: "&8[&6&lTBNR&8] "
 warped-to: "<prefix>&3You have been teleported to &a<warp>&3!"
 cant-drop: "<prefix>&cYou can't drop that!"
+save-task: false
 hub-items:
    warpstar:
       isEnabled: true

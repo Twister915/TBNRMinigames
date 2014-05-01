@@ -30,7 +30,7 @@ public abstract class TBNRPlugin extends GearzPlugin<TBNRPlayer, TBNRAbstractCla
 
     @Override
     protected void onGameRegister() {
-        if (getClass().getAnnotation(UsesClasses.class) == null)return;
+        if (getClass().getAnnotation(UsesClasses.class) == null) return;
         getGameManager().registerListener(new GameManagerClassPassAttachment(getGameManager()));
     }
 }

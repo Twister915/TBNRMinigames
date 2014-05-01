@@ -100,7 +100,7 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
         if (this.playerCommerceData.containsKey(player)) {
             for (CommerceItem commerceItem : this.playerCommerceData.get(player).getItems()) {
                 HandlerList.unregisterAll(commerceItem);
-                commerceItem.onDeregister();
+                commerceItem.onUnregister();
             }
         }
         List<CommerceItem> items = new ArrayList<>();
@@ -365,6 +365,7 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
 
     @TCommand(
             name = "cactuspointmanage",
+            description = "Manage them cactus points yo.",
             permission = "gearz.commerce.manage",
             usage = "<CONSOLE>",
             senders = {TCommandSender.Console, TCommandSender.Player}
@@ -374,7 +375,7 @@ public final class CommerceItemManager implements Listener, CommerceItemAPI, TCo
         if (args.length > 2 && type == TCommandSender.Player) return TCommandStatus.MANY_ARGS;
         TBNRPlayer target;
         try {
-            target = TBNRNetworkManager.getInstance().getPlayerProvider().getPlayerFromPlayer(Bukkit.getPlayer(args[1]));
+            target = TBNRNetworkManager.getInstance().getPlayerProvider().getPlayerFromPlayer(Bukkit.getPlayerExact(args[1]));
         } catch (NullPointerException ex) {
             sender.sendMessage(ChatColor.RED + "Player not found!");
             return TCommandStatus.INVALID_ARGS;

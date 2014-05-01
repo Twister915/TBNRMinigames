@@ -131,6 +131,7 @@ public class MultiserverCannons implements Listener, TCommandHandler {
 
     @TCommand(
             name = "setcannon",
+            description = "Create a cannon.",
             usage = "/setcannon <name>",
             permission = "gearz.setcannon",
             senders = {TCommandSender.Player})
@@ -163,6 +164,7 @@ public class MultiserverCannons implements Listener, TCommandHandler {
 
     @TCommand(
             name = "delcannon",
+            description = "Delete a cannon.",
             usage = "/delcannon",
             permission = "gearz.delcannon",
             senders = {TCommandSender.Player})

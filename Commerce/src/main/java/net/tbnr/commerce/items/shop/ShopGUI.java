@@ -11,10 +11,13 @@
 
 package net.tbnr.commerce.items.shop;
 
+import lombok.Getter;
 import net.tbnr.gearz.player.GearzPlayer;
 import net.tbnr.util.inventory.base.BaseGUI;
 import net.tbnr.util.inventory.base.GUICallback;
 import net.tbnr.util.inventory.base.GUIItem;
+import org.bukkit.entity.Player;
+import org.bukkit.event.HandlerList;
 
 import java.util.ArrayList;
 
@@ -29,18 +32,7 @@ public class ShopGUI extends BaseGUI {
     /**
      *Player
      */
-    private GearzPlayer player;
-
-    /**
-     * An InventoryGUI with callbacks and effects on
-     *
-     * @param items    And array list of the items to be put in the GUI
-     * @param title    The title of the GUI
-     * @param callback The callback that handles the clicks.
-     */
-    public ShopGUI(ArrayList<GUIItem> items, String title, GUICallback callback, GearzPlayer player) {
-        this(items, title, callback, true, player);
-    }
+    @Getter private GearzPlayer player;
 
     /**
      * An InventoryGUI with callbacks
@@ -53,5 +45,21 @@ public class ShopGUI extends BaseGUI {
     public ShopGUI(ArrayList<GUIItem> items, String title, GUICallback callback, boolean effects, GearzPlayer player) {
         super(items, title, callback, effects);
         this.player = player;
+    }
+
+    /**
+     * An InventoryGUI with callbacks and effects on
+     *
+     * @param items    And array list of the items to be put in the GUI
+     * @param title    The title of the GUI
+     * @param callback The callback that handles the clicks.
+     */
+    public ShopGUI(ArrayList<GUIItem> items, String title, GUICallback callback, GearzPlayer player) {
+        this(items, title, callback, true, player);
+    }
+
+    @Override
+    public void closeGUI(Player player) {
+        HandlerList.unregisterAll(this);
     }
 }

@@ -24,7 +24,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public abstract class TBNRMinigame extends GearzGame<TBNRPlayer, TBNRAbstractClass> {
-
     private HashMap<TBNRPlayer, Integer> pendingPoints;
 
     /**
@@ -34,8 +33,8 @@ public abstract class TBNRMinigame extends GearzGame<TBNRPlayer, TBNRAbstractCla
      * @param arena          The Arena that the game is in.
      * @param plugin         The plugin that handles this Game.
      * @param meta           The meta of the game.
-     * @param id
-     * @param playerProvider
+     * @param id             Game ID
+     * @param playerProvider {@link net.tbnr.manager.TBNRNetworkManager} {@link net.tbnr.gearz.network.GearzPlayerProvider} to retrieve player instances from.
      */
     public TBNRMinigame(List<TBNRPlayer> players, Arena arena, GearzPlugin<TBNRPlayer, TBNRAbstractClass> plugin, GameMeta meta, Integer id, GearzPlayerProvider<TBNRPlayer> playerProvider) {
         super(players, arena, plugin, meta, id, playerProvider);
@@ -49,7 +48,7 @@ public abstract class TBNRMinigame extends GearzGame<TBNRPlayer, TBNRAbstractCla
 
     protected void addGPoints(TBNRPlayer player, Integer points) {
         this.pendingPoints.put(player, (this.pendingPoints.containsKey(player) ? this.pendingPoints.get(player) : 0) + points);
-        player.getTPlayer().sendMessage(getFormat("points-added", new String[]{"<points>", String.valueOf(points)}));
+        player.getTPlayer().sendMessage(formatUsingMeta(getGameMeta(), TBNRNetworkManager.getInstance().getFormat("points-added", true, new String[]{"<points>", String.valueOf(points)})));
     }
 
     protected abstract int xpForPlaying();
@@ -64,11 +63,11 @@ public abstract class TBNRMinigame extends GearzGame<TBNRPlayer, TBNRAbstractCla
                 }
                 player.addPoints(points);
                 player.addXp(xpForPlaying());
-                player.getTPlayer().sendMessage(getFormat("xp-earned", new String[]{"<xp>", String.valueOf(xpForPlaying())}));
-                player.getTPlayer().sendMessage(getFormat("points-earned", new String[]{"<points>", String.valueOf(points)}));
+                player.getTPlayer().sendMessage(formatUsingMeta(getGameMeta(), TBNRNetworkManager.getInstance().getFormat("xp-earned", true, new String[]{"<xp>", String.valueOf(xpForPlaying())})));
+                player.getTPlayer().sendMessage(formatUsingMeta(getGameMeta(), TBNRNetworkManager.getInstance().getFormat("points-earned", true, new String[]{"<points>", String.valueOf(points)})));
             }
         } else {
-            player.getTPlayer().sendMessage(getFormat("game-void"));
+            player.getTPlayer().sendMessage(TBNRNetworkManager.getInstance().getFormat("game-void"));
         }
         if (player.isValid()) {
             player.setHideStats(false);

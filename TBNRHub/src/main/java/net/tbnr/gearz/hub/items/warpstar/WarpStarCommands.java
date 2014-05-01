@@ -36,9 +36,11 @@ import java.util.ArrayList;
 public class WarpStarCommands implements TCommandHandler {
     @TCommand(
             name = "setWarp",
+            description = "Sets a warp",
             usage = "/setWarp <Material> <name> <lore>..",
             permission = "gearz.setWarp",
-            senders = {TCommandSender.Player})
+            senders = {TCommandSender.Player},
+            aliases = {"setWarpStar", "warpStar"})
     @SuppressWarnings("unused")
     public TCommandStatus setWarp(CommandSender sender, TCommandSender type, TCommand meta, Command command, String[] args) {
         Player p = (Player) sender;
@@ -83,9 +85,11 @@ public class WarpStarCommands implements TCommandHandler {
 
     @TCommand(
             name = "delWarp",
+            description = "Deletes a warp",
             usage = "/delWarp <name>",
             permission = "gearz.delWarp",
-            senders = {TCommandSender.Player})
+            senders = {TCommandSender.Player},
+            aliases = {"delWarpStart"})
     @SuppressWarnings("unused")
     public TCommandStatus delWarp(CommandSender sender, TCommandSender type, TCommand meta, Command command, String[] args) {
         ConfigurationSection warp = TBNRHub.getInstance().getConfig().getConfigurationSection("hub.warps." + args[0]);
@@ -100,6 +104,7 @@ public class WarpStarCommands implements TCommandHandler {
 
     @TCommand(
             name = "listWarp",
+            description = "Lists warps",
             usage = "/listWarp",
             permission = "gearz.listwarp",
             senders = {TCommandSender.Player})

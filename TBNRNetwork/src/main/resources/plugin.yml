@@ -4,21 +4,3 @@ version: 1.2
 description: Manages TBNR specifics for Gearz
 main: net.tbnr.manager.TBNRNetworkManager
 depend: [Gearz]
-commands:
-    xp:
-      description: XP Management Command
-    clearchat:
-      description: Clears chat globally
-      aliases: [cc, cchat, clearc]
-    clearmychat:
-      description: Clears senders chat
-      aliases: [cmc, cmychat]
-    classpasscreditchange:
-      description: Credit changer.
-    youtuber:
-      description: Youtuber lookup command.
-    setyoutube:
-      description: Command used to set a player's Youtube channel.
-    stats:
-      description: Displays a link the TBNR stats page.
-      aliases: [stat, leaderboards, leaderboard]

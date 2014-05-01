@@ -107,9 +107,11 @@ public class SignEdit implements Listener, TCommandHandler {
 
     @TCommand(
             name = "magicsign",
+            description = "Gives you a magic edit sign",
             usage = "/magicsign",
             permission = "gearz.magicsign",
-            senders = {TCommandSender.Player}
+            senders = {TCommandSender.Player},
+            aliases = {"editsign", "signedit"}
     )
     public TCommandStatus magicsign(CommandSender sender, TCommandSender type, TCommand meta, Command command, String[] args) {
         Player player = (Player) sender;

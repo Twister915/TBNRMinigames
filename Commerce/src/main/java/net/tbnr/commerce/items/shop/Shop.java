@@ -37,9 +37,9 @@ public final class Shop implements PlayerShop {
     public Shop(TBNRPlayer player, CommerceItemAPI api) {
         this.player = player;
         this.api = api;
-        shopGui = getInvetoryGui(GuiKey.Shop);
-        tierGui = getInvetoryGui(GuiKey.Tier);
-        mainGui = getInvetoryGui(GuiKey.Main);
+        shopGui = getInventoryGUI(GuiKey.Shop);
+        tierGui = getInventoryGUI(GuiKey.Tier);
+        mainGui = getInventoryGUI(GuiKey.Main);
     }
 
     @Setter(AccessLevel.PACKAGE) private GuiKey currentGuiPhase;
@@ -71,8 +71,7 @@ public final class Shop implements PlayerShop {
                 }
                 if ((tier.isMustBePurchased() && !api.hasTier(player, tier)) || cannotPurchase != null) {
                     lore.add(0, cannotPurchase == null ? GearzCommerce.getInstance().getFormat("formats.gui.cannot-purchase") : GearzCommerce.getInstance().getFormat("formats.gui.cannot-purchase-reason", true, new String[]{"<reason>", cannotPurchase}));
-                }
-                else
+                } else
                     lore.add(0, GearzCommerce.getInstance().getFormat("formats.gui.click-to-purchase-lore"));
             }
             ItemInventoryItem itemInventoryItem = new ItemInventoryItem(stack, title, lore);
@@ -81,6 +80,7 @@ public final class Shop implements PlayerShop {
         }
         return items;
     }
+
     private ArrayList<GUIItem> getTierItems() {
         ArrayList<GUIItem> items = new ArrayList<>();
         for (Tier tier : api.getTiers()) {
@@ -94,8 +94,7 @@ public final class Shop implements PlayerShop {
                     if (api.canPurchaseTier(player, tier)) {
                         lore.add(GearzCommerce.getInstance().getFormat("formats.gui.tier-can-purchase-lore"));
                         lore.add(GearzCommerce.getInstance().getFormat("formats.gui.tier-price-lore", true, new String[]{"<points>", String.valueOf(tier.getPoints())}));
-                    }
-                    else {
+                    } else {
                         stack.addUnsafeEnchantment(Enchantment.SILK_TOUCH, 32);
                         lore.add(GearzCommerce.getInstance().getFormat("formats.gui.tier-required-level-lore", true, new String[]{"<level>", String.valueOf(tier.getRequiredLevel())}, new String[]{"<points>", String.valueOf(tier.getPoints())}));
                     }
@@ -109,6 +108,7 @@ public final class Shop implements PlayerShop {
         }
         return items;
     }
+
     private ArrayList<GUIItem> getMainItems() {
         ArrayList<GUIItem> items = new ArrayList<>();
         items.add(getItemFor("tier-shop-title", Material.BEACON, GuiKey.Tier));
@@ -146,7 +146,8 @@ public final class Shop implements PlayerShop {
     }
 
     public static String resolveName(CommerceItemAPI.PurchaseMethod method) {
-        if (method == CommerceItemAPI.PurchaseMethod.Donor) return GearzCommerce.getInstance().getFormat("formats.currency.donor");
+        if (method == CommerceItemAPI.PurchaseMethod.Donor)
+            return GearzCommerce.getInstance().getFormat("formats.currency.donor");
         else return GearzCommerce.getInstance().getFormat("formats.currency.points");
     }
 
@@ -155,7 +156,8 @@ public final class Shop implements PlayerShop {
         player.getTPlayer().playSound(Sound.ORB_PICKUP);
         close();
     }
-    private ShopGUI getInvetoryGui(GuiKey key) {
+
+    private ShopGUI getInventoryGUI(GuiKey key) {
         ArrayList<GUIItem> items = null;
         switch (key) {
             case Shop:
@@ -168,7 +170,7 @@ public final class Shop implements PlayerShop {
                 items = getMainItems();
                 break;
         }
-        return new ShopGUI(items, GearzCommerce.getInstance().getFormat("formats.gui." + key.getKey() + "-title"), new InventoryDelegate(this, key), false,  this.player);
+        return new ShopGUI(items, GearzCommerce.getInstance().getFormat("formats.gui." + key.getKey() + "-title"), new InventoryDelegate(this, key), false, this.player);
     }
 
     @Override
@@ -220,16 +222,18 @@ public final class Shop implements PlayerShop {
     @Data
     private static class InventoryDelegate implements GUICallback {
 
-        private final Shop shopInstnace;
+        private final Shop shopInstance;
         private final GuiKey key;
 
         @Override
-        public void onItemSelect(BaseGUI gui, GUIItem item, Player player) {
+        public void onItemSelect(BaseGUI baseGUI, GUIItem item, Player p) {
+            ShopGUI gui = (ShopGUI) baseGUI;
+            Player player = gui.getPlayer().getPlayer();
             switch (key) {
                 case Shop:
                     if (!(item instanceof ItemInventoryItem)) return;
                     try {
-                        this.shopInstnace.selectedItem(((ItemInventoryItem) item).getClazz());
+                        this.shopInstance.selectedItem(((ItemInventoryItem) item).getClazz());
                     } catch (PurchaseException e) {
                         player.sendMessage(GearzCommerce.getInstance().getFormat("formats.gui.failed-purchase", true, new String[]{"<reason>", e.getMessage()}));
                         player.playNote(player.getLocation(), Instrument.BASS_DRUM, Note.natural(1, Note.Tone.D));
@@ -239,12 +243,12 @@ public final class Shop implements PlayerShop {
                     if (!(item instanceof MenuInventoryItem)) return;
                     GuiKey key1 = ((MenuInventoryItem) item).getKey();
                     if (key1 == null) return;
-                    this.shopInstnace.openGui(key1);
+                    this.shopInstance.openGui(key1);
                     break;
                 case Tier:
                     if (!(item instanceof TierInventoryItem)) return;
                     try {
-                        this.shopInstnace.selectedTier(((TierInventoryItem) item).getTier());
+                        this.shopInstance.selectedTier(((TierInventoryItem) item).getTier());
                     } catch (PurchaseException e) {
                         player.sendMessage(GearzCommerce.getInstance().getFormat("formats.gui.failed-purchase", true, new String[]{"<reason>", e.getMessage()}));
                         player.playNote(player.getLocation(), Instrument.BASS_DRUM, Note.natural(1, Note.Tone.D));
@@ -255,12 +259,10 @@ public final class Shop implements PlayerShop {
 
         @Override
         public void onGUIOpen(BaseGUI gui, Player player) {
-
         }
 
         @Override
         public void onGUIClose(BaseGUI gui, Player player) {
-
         }
     }
 
@@ -272,7 +274,8 @@ public final class Shop implements PlayerShop {
 
         @Getter @Setter @NonNull private Class<? extends CommerceItem> clazz;
     }
-   private static class MenuInventoryItem extends GUIItem {
+
+    private static class MenuInventoryItem extends GUIItem {
 
         public MenuInventoryItem(ItemStack item, String name, List<String> lore) {
             super(item, name, lore);
@@ -293,6 +296,4 @@ public final class Shop implements PlayerShop {
 
         @Getter @Setter @NonNull private Tier tier;
     }
-
-
 }

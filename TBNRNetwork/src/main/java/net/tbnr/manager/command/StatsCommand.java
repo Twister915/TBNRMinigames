@@ -33,9 +33,11 @@ import org.bukkit.command.CommandSender;
  */
 public class StatsCommand implements TCommandHandler {
     @TCommand(name = "stats",
-            senders = {TCommandSender.Player},
-            permission = "gearz.stats",
-            usage = "/stats")
+              description = "Displays a link the TBNR stats page.",
+              senders = {TCommandSender.Player},
+              permission = "gearz.stats",
+              usage = "/stats",
+              aliases = {"stat", "leaderboards", "leaderboard"})
     @SuppressWarnings("unused")
     public TCommandStatus stats(CommandSender sender, TCommandSender type, TCommand meta, Command command, String[] args) {
         sender.sendMessage(TBNRNetworkManager.getInstance().getFormat("stats", true, new String[]{"<url>", TBNRNetworkManager.getInstance().getFormat("stats-url", true, new String[]{"<player>", sender.getName()})}));
