@@ -71,6 +71,12 @@ public final class GSwitchUpGame extends TBNRMinigame implements GameCountdownHa
     }
 
     @Override
+    protected void gamePreStart() {
+        SwitchUpClassResolver classResolver = (SwitchUpClassResolver) getClassResolver();
+        classResolver.shuffleClasses(this);
+    }
+
+    @Override
     protected void gameStarting() {
         for (TBNRPlayer player : getPlayers()) {
             killsThisGame.put(player, 0);
