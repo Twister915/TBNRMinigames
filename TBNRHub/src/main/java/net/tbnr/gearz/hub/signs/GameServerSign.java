@@ -84,7 +84,7 @@ public final class GameServerSign {
         s.setLine(0, meta.getSecondaryColor() + "[" + meta.getMainColor() + ChatColor.BOLD + stateFor.getText() + meta.getSecondaryColor() + "]");
         s.setLine(1, meta.getMainColor() +  meta.getShortName().toUpperCase() + meta.getSecondaryColor() + " - " + meta.getMainColor() + server.getNumber());
         s.setLine(2, meta.getMainColor() + String.valueOf(server.getPlayerCount()) + meta.getSecondaryColor() + "/" + meta.getMainColor() + String.valueOf(server.getMaximumPlayers()));
-        s.setLine(4, ChatColor.DARK_GREEN.toString() + ChatColor.BOLD + ">>" + ChatColor.GOLD + ChatColor.BOLD + "TBNR" + ChatColor.DARK_GREEN + ChatColor.BOLD + "<<");
+        s.setLine(3, ChatColor.DARK_GREEN.toString() + ChatColor.BOLD + ">>" + ChatColor.GOLD + ChatColor.BOLD + "TBNR" + ChatColor.DARK_GREEN + ChatColor.BOLD + "<<");
         updateAttachedBlock(s, stateFor);
     }
 
