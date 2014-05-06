@@ -50,6 +50,7 @@ public class HeadCommand implements TCommandHandler {
                 public void complete(String username, String uuid) {
                     if (uuid == null) {
                         sender.sendMessage(ChatColor.RED + "Player not found: " + username);
+                        return;
                     }
                     m.setOwner(uuid);
                     stack.setItemMeta(m);
