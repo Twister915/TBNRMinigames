@@ -20,19 +20,21 @@ import org.bukkit.material.Wool;
 @EqualsAndHashCode(of = {"signLocation", "meta"})
 public final class GameServerSign {
     private static enum ServerStateDisplayable {
-        SPECTATE("SPECTATE", DyeColor.YELLOW, true),
-        JOIN("JOIN", DyeColor.GREEN, true),
-        NOJOIN("NOJOIN", DyeColor.PURPLE, false),
-        FULL("FULL", DyeColor.RED, false),
-        DISABLED_SIGN("", DyeColor.GRAY, false);
+        SPECTATE("SPECTATE", DyeColor.YELLOW, ChatColor.GOLD, true),
+        JOIN("JOIN", DyeColor.GREEN, ChatColor.GREEN, true),
+        NOJOIN("NOJOIN", DyeColor.PURPLE, ChatColor.GRAY, false),
+        FULL("FULL", DyeColor.RED, ChatColor.RED, false),
+        DISABLED_SIGN("", DyeColor.LIME, null, false);
 
         private final String text;
         private final DyeColor color;
+        private final ChatColor chatColor;
         private final boolean joinable;
 
-        ServerStateDisplayable(String text, DyeColor color, boolean isJoinable) {
+        ServerStateDisplayable(String text, DyeColor color, ChatColor chatColor, boolean isJoinable) {
             this.text = text;
             this.color = color;
+            this.chatColor = chatColor;
             this.joinable = isJoinable;
         }
 
@@ -47,6 +49,8 @@ public final class GameServerSign {
         public boolean isJoinable() {
             return this.joinable;
         }
+
+        public ChatColor getChatColor() {return this.chatColor;}
 
         static ServerStateDisplayable getStateFor(Server s) {
             if (!s.isCanJoin()) return NOJOIN;
@@ -81,10 +85,10 @@ public final class GameServerSign {
         Sign s = getSignAtLocation();
         if (s == null) return;
         ServerStateDisplayable stateFor = ServerStateDisplayable.getStateFor(server);
-        s.setLine(0, meta.getSecondaryColor() + "[" + meta.getMainColor() + ChatColor.BOLD + stateFor.getText() + meta.getSecondaryColor() + "]");
+        s.setLine(0, meta.getSecondaryColor() + "[" + stateFor.getChatColor() + ChatColor.BOLD + stateFor.getText() + meta.getSecondaryColor() + "]");
         s.setLine(1, meta.getMainColor() +  meta.getShortName().toUpperCase() + meta.getSecondaryColor() + " - " + meta.getMainColor() + server.getNumber());
         s.setLine(2, meta.getMainColor() + String.valueOf(server.getPlayerCount()) + meta.getSecondaryColor() + "/" + meta.getMainColor() + String.valueOf(server.getMaximumPlayers()));
-        s.setLine(3, ChatColor.DARK_GREEN.toString() + ChatColor.BOLD + ">>" + ChatColor.GOLD + ChatColor.BOLD + "TBNR" + ChatColor.DARK_GREEN + ChatColor.BOLD + "<<");
+        s.setLine(3, ChatColor.DARK_GREEN + ">>" + ChatColor.GOLD + "TBNR" + ChatColor.DARK_GREEN + "<<");
         s.update(true, false);
         for (String s1 : s.getLines()) {
             System.out.println(s1 + " line of sign being updated!");
@@ -97,9 +101,9 @@ public final class GameServerSign {
         Sign signAtLocation = getSignAtLocation();
         if (signAtLocation == null) return;
         signAtLocation.setLine(0, "");
-        signAtLocation.setLine(1, "");
-        signAtLocation.setLine(2, "");
-        signAtLocation.setLine(3, "");
+        signAtLocation.setLine(1, "This sign is idle.");
+        signAtLocation.setLine(2, "Waiting for a server");
+        signAtLocation.setLine(3, this.meta.getMainColor() + this.meta.getLongName());
         System.out.println("Disabled a sign!");
         updateAttachedBlock(signAtLocation, ServerStateDisplayable.DISABLED_SIGN);
     }
