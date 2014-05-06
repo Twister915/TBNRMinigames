@@ -32,7 +32,7 @@ public final class GameServerSignManager {
 
     public void activateConstantUpdating(Integer intervalInSeconds) {
         if (this.scheduledUpdateTask != null) return;
-        this.scheduledUpdateTask = Bukkit.getScheduler().runTaskLater(TBNRHub.getInstance(), new GameServerSignUpdateTask(this), intervalInSeconds*20);
+        this.scheduledUpdateTask = Bukkit.getScheduler().runTaskTimer(TBNRHub.getInstance(), new GameServerSignUpdateTask(this), 0, intervalInSeconds*20);
     }
 
     public void disableConstantUpdating() {

@@ -62,7 +62,7 @@ public final class GameServerMatrix {
         //Then we disable all invalid signs (make them greyed out) and update all valid ones with the new info
         for (GameServerSign gameServerSign : gameServerSigns1) {
             if (gameServerSign.getServer() == null) gameServerSign.disableSign();
-            gameServerSign.updateSign();
+            else gameServerSign.updateSign();
         }
     }
 }
