@@ -19,6 +19,7 @@ import net.tbnr.gearz.GearzException;
 import net.tbnr.gearz.arena.ArenaManager;
 import net.tbnr.gearz.hub.annotations.HubItems;
 import net.tbnr.gearz.hub.items.warpstar.WarpStarCommands;
+import net.tbnr.gearz.hub.signs.GameServerSignManager;
 import net.tbnr.gearz.server.Server;
 import net.tbnr.gearz.server.ServerManager;
 import net.tbnr.util.TPlugin;
@@ -99,7 +100,11 @@ public class TBNRHub extends TPlugin {
 				signedit
 		};
 
-		//Register all commands
+        //Register game server signs
+        GameServerSignManager gameServerSignManager = new GameServerSignManager();
+        gameServerSignManager.enable();
+
+        //Register all commands
 		for (TCommandHandler commandHandler : commandHandlers2Register) registerCommands(commandHandler);
 
 		//Register all events

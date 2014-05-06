@@ -13,10 +13,11 @@ public final class GameServerSignManager {
 
     private BukkitTask scheduledUpdateTask;
 
-    public GameServerSignManager() {
+    public void enable() {
         TBNRHub.getInstance().registerEvents(new GameServerSignListener(this));
         GameServerMatrixInteractionManager interactionManager = new GameServerMatrixInteractionManager(this);
         TBNRHub.getInstance().registerCommands(interactionManager);
+        TBNRHub.getInstance().registerEvents(interactionManager);
         interactionManager.loadAllFromDatabase();
         activateConstantUpdating(2);
     }

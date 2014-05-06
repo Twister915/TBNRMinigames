@@ -7,23 +7,39 @@ import com.mongodb.DBObject;
 import lombok.Data;
 import net.tbnr.gearz.Gearz;
 import net.tbnr.gearz.activerecord.GModel;
+import net.tbnr.gearz.arena.ArenaFieldSerializer;
 import net.tbnr.gearz.arena.Point;
 import net.tbnr.gearz.game.MinigameMeta;
 import net.tbnr.gearz.hub.TBNRHub;
+import net.tbnr.manager.TBNRNetworkManager;
+import net.tbnr.manager.TBNRPlayer;
 import net.tbnr.util.command.TCommand;
 import net.tbnr.util.command.TCommandHandler;
 import net.tbnr.util.command.TCommandSender;
 import net.tbnr.util.command.TCommandStatus;
+import net.tbnr.util.player.TPlayerDisconnectEvent;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.util.Vector;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Data
-public final class GameServerMatrixInteractionManager implements TCommandHandler {
+public final class GameServerMatrixInteractionManager implements TCommandHandler, Listener {
     private final GameServerSignManager manager;
+
+    private final Map<TBNRPlayer, Vector> selectionPointOne = new HashMap<>();
+    private final Map<TBNRPlayer, Vector> selectionPointTwo = new HashMap<>();
 
     @TCommand(
             name = "addserversigns",
@@ -34,11 +50,9 @@ public final class GameServerMatrixInteractionManager implements TCommandHandler
     )
     public TCommandStatus setServerSign(org.bukkit.command.CommandSender sender, TCommandSender type, TCommand meta, Command command, String[] args) {
         if (args.length < 1) return TCommandStatus.FEW_ARGS;
-        //TODO get a selection
-        Vector p1 = null;
-        Vector p2 = null;
-
-        //TODO check for intersections
+        TBNRPlayer player = TBNRNetworkManager.getInstance().getPlayerProvider().getPlayerFromPlayer((Player) sender);
+        Vector p1 = this.selectionPointOne.get(player);
+        Vector p2 = this.selectionPointTwo.get(player);
 
         String key = args[0];
 
@@ -46,8 +60,8 @@ public final class GameServerMatrixInteractionManager implements TCommandHandler
         if (metaForKey == null) return TCommandStatus.INVALID_ARGS;
 
         DBCollection hub_sign_matrices = getCollection();
-        DBObject pointOneObject = null; //= ArenaFieldSerializer.POINT.getDelegate().getObjectFor(new Point(p1.getX(), p1.getY(), p1.getZ()));
-        DBObject pointTwoObject = null; //ArenaFieldSerializer.POINT.getDelegate().getObjectFor(new Point(p2.getX(), p2.getY(), p2.getZ()));
+        DBObject pointOneObject = ArenaFieldSerializer.POINT.getDelegate().getObjectFor(new Point(p1.getX(), p1.getY(), p1.getZ()));
+        DBObject pointTwoObject  = ArenaFieldSerializer.POINT.getDelegate().getObjectFor(new Point(p2.getX(), p2.getY(), p2.getZ()));
         DBObject object = BasicDBObjectBuilder.start("minigame_key", key).add("bound1", pointOneObject).add("bound2", pointTwoObject).add("world", ((Player)sender).getWorld()).get();
         hub_sign_matrices.save(object);
         loadAndAddMatrixFromDB(object);
@@ -59,8 +73,8 @@ public final class GameServerMatrixInteractionManager implements TCommandHandler
         DBObject bound2 = (DBObject) object.get("bound2");
         String key = (String) object.get("minigame_key");
         MinigameMeta metaForKey = getMetaForKey(key);
-        Point bound1Point = null;//= (Point) ArenaFieldSerializer.POINT.getDelegate().getObjectFor(bound1);
-        Point bound2Point = null;//= (Point) ArenaFieldSerializer.POINT.getDelegate().getObjectFor(bound2);
+        Point bound1Point = (Point) ArenaFieldSerializer.POINT.getDelegate().getObjectFor(bound1);
+        Point bound2Point = (Point) ArenaFieldSerializer.POINT.getDelegate().getObjectFor(bound2);
         World world = Bukkit.getWorld((String) object.get("world"));
         GameServerMatrix gameServerMatrix = new GameServerMatrix(
                 new Vector(bound1Point.getX(), bound1Point.getY(), bound1Point.getZ()),
@@ -87,7 +101,7 @@ public final class GameServerMatrixInteractionManager implements TCommandHandler
     }
 
     private static MinigameMeta getMetaForKey(String key) {
-        MinigameMeta minigameMeta = null;//new MinigameMeta(TBNRHub.getInstance().getMongoDB(), key);
+        MinigameMeta minigameMeta = new MinigameMeta(TBNRHub.getInstance().getMongoDB(), key);
         GModel one = minigameMeta.findOne();
         if (one == null) return null;
         return (MinigameMeta) one;
@@ -96,5 +110,27 @@ public final class GameServerMatrixInteractionManager implements TCommandHandler
     @Override
     public void handleCommandStatus(TCommandStatus status, CommandSender sender, TCommandSender senderType) {
         Gearz.handleCommandStatus(status, sender);
+    }
+
+    @EventHandler
+    public void onPlayerInteract(PlayerInteractEvent event) {
+        if (event.getItem() == null) return;
+        if (event.getItem().getType() != Material.BLAZE_ROD) return;
+        if (event.getAction() != Action.RIGHT_CLICK_BLOCK || event.getAction() != Action.LEFT_CLICK_BLOCK) return;
+        event.getPlayer().sendMessage(ChatColor.GREEN + "Set point in selection!");
+        TBNRPlayer playerFromPlayer = TBNRNetworkManager.getInstance().getPlayerProvider().getPlayerFromPlayer(event.getPlayer());
+        Vector vector = event.getClickedBlock().getLocation().toVector();
+        if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            this.selectionPointTwo.put(playerFromPlayer, vector);
+        } else {
+            this.selectionPointOne.put(playerFromPlayer, vector);
+        }
+     }
+
+    @EventHandler
+    public void onPlayerDisconnect(TPlayerDisconnectEvent event) {
+        TBNRPlayer playerFromPlayer = TBNRNetworkManager.getInstance().getPlayerProvider().getPlayerFromTPlayer(event.getPlayer());
+        if (this.selectionPointOne.containsKey(playerFromPlayer)) this.selectionPointOne.remove(playerFromPlayer);
+        if (this.selectionPointTwo.containsKey(playerFromPlayer)) this.selectionPointTwo.remove(playerFromPlayer);
     }
 }

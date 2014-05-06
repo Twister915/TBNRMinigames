@@ -22,8 +22,8 @@ public final class GameServerSign {
     private static enum ServerStateDisplayable {
         SPECTATE("SPECTATE", DyeColor.YELLOW, true),
         JOIN("JOIN", DyeColor.GREEN, true),
-        NOJOIN("NOJOIN", DyeColor.RED, false),
-        FULL("FULL", DyeColor.PURPLE, false),
+        NOJOIN("NOJOIN", DyeColor.PURPLE, false),
+        FULL("FULL", DyeColor.RED, false),
         DISABLED_SIGN("", DyeColor.GRAY, false);
 
         private final String text;
