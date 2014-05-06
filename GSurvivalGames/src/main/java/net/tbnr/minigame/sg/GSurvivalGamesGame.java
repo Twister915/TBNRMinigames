@@ -28,7 +28,7 @@ import net.tbnr.manager.TBNRMinigame;
 import net.tbnr.manager.TBNRPlayer;
 import net.tbnr.manager.classes.TBNRAbstractClass;
 import net.tbnr.minigame.sg.classes.Trickster;
-import net.tbnr.util.ColoringUtils;
+import net.tbnr.util.coloring.ColoringUtils;
 import net.tbnr.util.player.TPlayer;
 import org.bukkit.*;
 import org.bukkit.block.Block;
