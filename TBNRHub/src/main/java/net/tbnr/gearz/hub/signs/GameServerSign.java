@@ -90,10 +90,6 @@ public final class GameServerSign {
         s.setLine(2, meta.getMainColor() + String.valueOf(server.getPlayerCount()) + meta.getSecondaryColor() + "/" + meta.getMainColor() + String.valueOf(server.getMaximumPlayers()));
         s.setLine(3, ChatColor.DARK_GREEN + ">>" + ChatColor.GOLD + "TBNR" + ChatColor.DARK_GREEN + "<<");
         s.update(true, false);
-        for (String s1 : s.getLines()) {
-            System.out.println(s1 + " line of sign being updated!");
-        }
-        System.out.println("Updated sign for " + server.toString() + " with " + stateFor.text);
         updateAttachedBlock(s, stateFor);
     }
 
@@ -105,7 +101,6 @@ public final class GameServerSign {
         signAtLocation.setLine(2, "Waiting for a server");
         signAtLocation.setLine(3, this.meta.getMainColor() + this.meta.getLongName());
         signAtLocation.update(true, false);
-        System.out.println("Disabled a sign!");
         updateAttachedBlock(signAtLocation, ServerStateDisplayable.DISABLED_SIGN);
     }
 
