@@ -104,6 +104,7 @@ public final class GameServerSign {
         signAtLocation.setLine(1, "This sign is idle.");
         signAtLocation.setLine(2, "Waiting for a server");
         signAtLocation.setLine(3, this.meta.getMainColor() + this.meta.getLongName());
+        signAtLocation.update(true, false);
         System.out.println("Disabled a sign!");
         updateAttachedBlock(signAtLocation, ServerStateDisplayable.DISABLED_SIGN);
     }
