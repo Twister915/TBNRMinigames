@@ -63,7 +63,7 @@ public final class GameServerSign {
         }
     }
 
-    @NonNull private Server server;
+    private Server server;
     @NonNull private final MinigameMeta meta;
     @NonNull private final Location signLocation;
 
