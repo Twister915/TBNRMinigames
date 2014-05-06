@@ -59,7 +59,7 @@ public final class GameServerMatrixInteractionManager implements TCommandHandler
         DBCollection hub_sign_matrices = getCollection();
         DBObject pointOneObject = ArenaFieldSerializer.POINT.getDelegate().getObjectFor(new Point(p1.getX(), p1.getY(), p1.getZ()));
         DBObject pointTwoObject  = ArenaFieldSerializer.POINT.getDelegate().getObjectFor(new Point(p2.getX(), p2.getY(), p2.getZ()));
-        DBObject object = BasicDBObjectBuilder.start("minigame_key", key).add("bound1", pointOneObject).add("bound2", pointTwoObject).add("world", ((Player)sender).getWorld()).get();
+        DBObject object = BasicDBObjectBuilder.start("minigame_key", key).add("bound1", pointOneObject).add("bound2", pointTwoObject).add("world", ((Player)sender).getWorld().getName()).get();
         hub_sign_matrices.save(object);
         loadAndAddMatrixFromDB(object);
         return TCommandStatus.SUCCESSFUL;
