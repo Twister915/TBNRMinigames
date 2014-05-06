@@ -12,6 +12,8 @@ import org.bukkit.block.Sign;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Data
@@ -49,6 +51,12 @@ public final class GameServerMatrix {
 
     public void setServers(List<Server> servers) {
         this.servers = servers;
+        Collections.sort(this.servers, new Comparator<Server>() {
+            @Override
+            public int compare(Server o1, Server o2) {
+                return o1.getNumber()-o2.getNumber();
+            }
+        });
         updateMatrixSigns();
     }
 
