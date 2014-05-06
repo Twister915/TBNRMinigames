@@ -21,10 +21,10 @@ import org.bukkit.material.Wool;
 public final class GameServerSign {
     private static enum ServerStateDisplayable {
         SPECTATE("SPECTATE", DyeColor.YELLOW, ChatColor.GOLD, true),
-        JOIN("JOIN", DyeColor.GREEN, ChatColor.GREEN, true),
+        JOIN("JOIN", DyeColor.LIME, ChatColor.GREEN, true),
         NOJOIN("NOJOIN", DyeColor.PURPLE, ChatColor.GRAY, false),
         FULL("FULL", DyeColor.RED, ChatColor.RED, false),
-        DISABLED_SIGN("", DyeColor.LIME, null, false);
+        DISABLED_SIGN("", DyeColor.GRAY, null, false);
 
         private final String text;
         private final DyeColor color;
@@ -96,10 +96,10 @@ public final class GameServerSign {
     public void disableSign() {
         Sign signAtLocation = getSignAtLocation();
         if (signAtLocation == null) return;
-        signAtLocation.setLine(0, "");
-        signAtLocation.setLine(1, "This sign is idle.");
-        signAtLocation.setLine(2, "Waiting for a server");
-        signAtLocation.setLine(3, this.meta.getMainColor() + this.meta.getLongName());
+        signAtLocation.setLine(0, "This sign is");
+        signAtLocation.setLine(1, "idle and will");
+        signAtLocation.setLine(2, "wait for a " + this.meta.getShortName());
+        signAtLocation.setLine(3, "server.");
         signAtLocation.update(true, false);
         updateAttachedBlock(signAtLocation, ServerStateDisplayable.DISABLED_SIGN);
     }
