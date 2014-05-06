@@ -40,6 +40,7 @@ public final class GameServerSignListener implements Listener {
         Player bukkitPlayer = event.getPlayer();
         TBNRPlayer player = TBNRNetworkManager.getInstance().getPlayerProvider().getPlayerFromPlayer(bukkitPlayer);
         if (bukkitPlayer.hasPermission("gearz.break-server-sign") && event.getAction() == Action.LEFT_CLICK_BLOCK && bukkitPlayer.getGameMode() == GameMode.CREATIVE) return;
+        if (event.getPlayer().getGameMode() == GameMode.CREATIVE) return;
         event.setCancelled(true);
         try {
             sign.handlePlayerTeleport(player);
