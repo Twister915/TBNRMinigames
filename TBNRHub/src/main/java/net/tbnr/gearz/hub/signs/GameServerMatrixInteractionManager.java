@@ -116,7 +116,7 @@ public final class GameServerMatrixInteractionManager implements TCommandHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         if (event.getItem() == null) return;
         if (event.getItem().getType() != Material.BLAZE_ROD) return;
-        if (event.getAction() != Action.RIGHT_CLICK_BLOCK || event.getAction() != Action.LEFT_CLICK_BLOCK) return;
+        if (event.getAction() != Action.RIGHT_CLICK_BLOCK && event.getAction() != Action.LEFT_CLICK_BLOCK) return;
         event.getPlayer().sendMessage(ChatColor.GREEN + "Set point in selection!");
         TBNRPlayer playerFromPlayer = TBNRNetworkManager.getInstance().getPlayerProvider().getPlayerFromPlayer(event.getPlayer());
         Vector vector = event.getClickedBlock().getLocation().toVector();
