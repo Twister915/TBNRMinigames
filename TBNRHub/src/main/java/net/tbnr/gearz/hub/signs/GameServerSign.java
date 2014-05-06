@@ -1,8 +1,6 @@
 package net.tbnr.gearz.hub.signs;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NonNull;
+import lombok.*;
 import net.tbnr.gearz.game.MinigameMeta;
 import net.tbnr.gearz.netcommand.BouncyUtils;
 import net.tbnr.gearz.server.Server;
@@ -16,7 +14,9 @@ import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
 import org.bukkit.material.Wool;
 
-@Data
+@Getter
+@Setter
+@ToString
 @EqualsAndHashCode(of = {"signLocation", "meta"})
 public final class GameServerSign {
     private static enum ServerStateDisplayable {
@@ -66,6 +66,12 @@ public final class GameServerSign {
     private Server server;
     @NonNull private final MinigameMeta meta;
     @NonNull private final Location signLocation;
+
+    public GameServerSign(Server server, MinigameMeta meta, Location signLocation) {
+        this.server = server;
+        this.meta = meta;
+        this.signLocation = signLocation;
+    }
 
     public void updateSign() {
         if (server == null) {
