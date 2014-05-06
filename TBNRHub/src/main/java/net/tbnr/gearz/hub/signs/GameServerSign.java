@@ -85,6 +85,7 @@ public final class GameServerSign {
         s.setLine(1, meta.getMainColor() +  meta.getShortName().toUpperCase() + meta.getSecondaryColor() + " - " + meta.getMainColor() + server.getNumber());
         s.setLine(2, meta.getMainColor() + String.valueOf(server.getPlayerCount()) + meta.getSecondaryColor() + "/" + meta.getMainColor() + String.valueOf(server.getMaximumPlayers()));
         s.setLine(3, ChatColor.DARK_GREEN.toString() + ChatColor.BOLD + ">>" + ChatColor.GOLD + ChatColor.BOLD + "TBNR" + ChatColor.DARK_GREEN + ChatColor.BOLD + "<<");
+        System.out.println("Updated sign for " + server.toString());
         updateAttachedBlock(s, stateFor);
     }
 
@@ -96,7 +97,6 @@ public final class GameServerSign {
         signAtLocation.setLine(2, "");
         signAtLocation.setLine(3, "");
         updateAttachedBlock(signAtLocation, ServerStateDisplayable.DISABLED_SIGN);
-        int i = 0b1000;
     }
 
     private Sign getSignAtLocation() {
