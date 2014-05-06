@@ -116,11 +116,11 @@ public final class GameServerSign {
                 return;
         }
         attachedTo.setType(Material.WOOL);
-        Wool woolBlock = (Wool) attachedTo.getState();
-        woolBlock.setColor(state.getColor());
+        attachedTo.setData(state.getColor().getData());
     }
 
     public void handlePlayerTeleport(TBNRPlayer player) throws ServerJoinException {
+        if (server == null) return;
         ServerStateDisplayable state = ServerStateDisplayable.getStateFor(server);
         if (!state.isJoinable()) throw new ServerJoinException("This server cannot be joined at this time.");
         BouncyUtils.sendPlayerToServer(player.getPlayer(), server.getBungee_name());
