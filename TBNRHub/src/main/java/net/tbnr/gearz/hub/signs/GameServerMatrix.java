@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.Setter;
 import net.tbnr.gearz.game.MinigameMeta;
 import net.tbnr.gearz.server.Server;
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
@@ -30,6 +31,7 @@ public final class GameServerMatrix {
 
     public void regenerateSignList() {
         this.gameServerSigns = new ArrayList<>();
+        List<Location> locations = new ArrayList<>();
         Vector minimum = Vector.getMinimum(topPoint, bottomPoint);
         Vector maximum = Vector.getMaximum(topPoint, bottomPoint);
         for (int x = maximum.getBlockX(); x >= minimum.getBlockX(); x--) {
@@ -37,6 +39,8 @@ public final class GameServerMatrix {
                 for (int z = maximum.getBlockZ(); z >= minimum.getBlockZ(); z--) {
                     Block b = world.getBlockAt(x, y, z);
                     if (!(b.getState() instanceof Sign)) continue;
+                    if (locations.contains(b.getLocation())) continue;
+                    locations.add(b.getLocation());
                     this.gameServerSigns.add(new GameServerSign(null, meta, b.getLocation()));
                 }
             }
