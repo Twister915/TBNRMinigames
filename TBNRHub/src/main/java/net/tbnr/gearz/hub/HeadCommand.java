@@ -51,7 +51,7 @@ public class HeadCommand implements TCommandHandler {
                     if (uuid == null) {
                         sender.sendMessage(ChatColor.RED + "Player not found: " + username);
                     }
-                    m.setOwner(s);
+                    m.setOwner(uuid);
                     stack.setItemMeta(m);
                     ((Player) sender).getInventory().addItem(stack);
                 }
