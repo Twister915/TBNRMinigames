@@ -48,7 +48,7 @@ public abstract class TBNRMinigame extends GearzGame<TBNRPlayer, TBNRAbstractCla
 
     protected void addGPoints(TBNRPlayer player, Integer points) {
         this.pendingPoints.put(player, (this.pendingPoints.containsKey(player) ? this.pendingPoints.get(player) : 0) + points);
-        player.getTPlayer().sendMessage(formatUsingMeta(getGameMeta(), TBNRNetworkManager.getInstance().getFormat("points-added", true, new String[]{"<points>", String.valueOf(points)})));
+        player.getTPlayer().sendMessage(formatUsingMeta(getGameMeta(), TBNRNetworkManager.getInstance().getFormat("formats.points-added", true, new String[]{"<points>", String.valueOf(points)})));
     }
 
     protected abstract int xpForPlaying();
@@ -63,11 +63,11 @@ public abstract class TBNRMinigame extends GearzGame<TBNRPlayer, TBNRAbstractCla
                 }
                 player.addPoints(points);
                 player.addXp(xpForPlaying());
-                player.getTPlayer().sendMessage(formatUsingMeta(getGameMeta(), TBNRNetworkManager.getInstance().getFormat("xp-earned", true, new String[]{"<xp>", String.valueOf(xpForPlaying())})));
-                player.getTPlayer().sendMessage(formatUsingMeta(getGameMeta(), TBNRNetworkManager.getInstance().getFormat("points-earned", true, new String[]{"<points>", String.valueOf(points)})));
+                player.getTPlayer().sendMessage(formatUsingMeta(getGameMeta(), TBNRNetworkManager.getInstance().getFormat("formats.xp-earned", true, new String[]{"<xp>", String.valueOf(xpForPlaying())})));
+                player.getTPlayer().sendMessage(formatUsingMeta(getGameMeta(), TBNRNetworkManager.getInstance().getFormat("formats.points-earned", true, new String[]{"<points>", String.valueOf(points)})));
             }
         } else {
-            player.getTPlayer().sendMessage(TBNRNetworkManager.getInstance().getFormat("game-void"));
+            player.getTPlayer().sendMessage(TBNRNetworkManager.getInstance().getFormat("formats.game-void"));
         }
         if (player.isValid()) {
             player.setHideStats(false);
