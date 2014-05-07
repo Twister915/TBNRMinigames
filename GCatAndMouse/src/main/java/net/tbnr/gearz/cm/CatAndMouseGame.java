@@ -37,7 +37,7 @@ import java.util.logging.Logger;
  * @since 04/04/14
  */
 public class CatAndMouseGame extends TBNRMinigame {
-	private static final boolean debug = Gearz.getInstance().showDebug();
+	private static final boolean debug = Gearz.getInstance().isDebug();
 	private static final Logger log = Gearz.getInstance().getLogger();
 
 	CatAndMouseArena catAndMouseArena;

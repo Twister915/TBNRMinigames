@@ -22,6 +22,7 @@ import net.tbnr.gearz.hub.items.warpstar.WarpStarCommands;
 import net.tbnr.gearz.hub.signs.GameServerSignManager;
 import net.tbnr.gearz.server.Server;
 import net.tbnr.gearz.server.ServerManager;
+import net.tbnr.util.IPUtils;
 import net.tbnr.util.TPlugin;
 import net.tbnr.util.command.TCommandHandler;
 import org.bukkit.Bukkit;
@@ -119,7 +120,7 @@ public class TBNRHub extends TPlugin {
 		ServerManager.setOpenForJoining(true);
 		Server thisServer = ServerManager.getThisServer();
 		try {
-			thisServer.setAddress(Gearz.getExternalIP());
+			thisServer.setAddress(IPUtils.getExternalIP());
 		} catch (SocketException e) {
 			e.printStackTrace();
 		}
