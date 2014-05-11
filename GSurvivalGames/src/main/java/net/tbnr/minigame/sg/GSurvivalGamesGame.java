@@ -424,6 +424,12 @@ public final class GSurvivalGamesGame extends TBNRMinigame implements GameCountd
     public void removePlayerFromGame(TBNRPlayer player) {
         if (!isPlaying(player)) return;
         playerDied(player);
+        ItemStack[] stacks = player.getPlayer().getInventory().getContents();
+        for (ItemStack stack : stacks) {
+            if (canDropItem(player, stack)) {
+                player.getPlayer().getWorld().dropItem(player.getPlayer().getLocation(), stack);
+            }
+        }
     }
 
     @Override
