@@ -136,7 +136,7 @@ public class SnowballEXP implements Listener {
             ((Player) event.getDamager()).sendMessage(TBNRHub.getInstance().getFormat("formats.no-snowball-shake"));
             return;
         }
-        if (!TCooldownManager.canContinue(((Player) event.getEntity()).getName() + "snowball_shakedown", new TCooldown(TimeUnit.SECONDS.toMillis(15)))) {
+        if (!TCooldownManager.canContinueLocal(((Player) event.getEntity()).getName() + "snowball_shakedown", new TCooldown(TimeUnit.SECONDS.toMillis(15)))) {
             ((Player) event.getDamager()).sendMessage(TBNRHub.getInstance().getFormat("formats.no-snowball-shake"));
             return;
         }
