@@ -81,6 +81,7 @@ public final class GSurvivalGamesGame extends TBNRMinigame implements GameCountd
     private Integer startingPlayers;
     private double maxCornicopiaDistance;
     private List<Location> frozenBlocks = new ArrayList<>();
+    private long freezeLength;
 
     private TBNRPlayer victor = null;
 
@@ -128,7 +129,8 @@ public final class GSurvivalGamesGame extends TBNRMinigame implements GameCountd
         for (TBNRPlayer player : getPlayers()) {
             if (getClassFor(player) instanceof Trickster) player.sendMessage("Trickster!");
         }
-
+        //set the freeze length, default of 30 ticks
+        this.freezeLength = getPlugin().getConfig().getLong("freezelength", 30);
     }
 
     private void setupTier(ArenaIterator<Point> points, Tier tier) {
@@ -465,7 +467,7 @@ public final class GSurvivalGamesGame extends TBNRMinigame implements GameCountd
                                 frozenBlocks.remove(block.getLocation());
                             }
                         }
-                    }, getPlugin().getConfig().getLong("freezelength"));
+                    }, this.freezeLength);
                 }
             }
         }
