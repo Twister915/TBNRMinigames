@@ -11,6 +11,7 @@
 
 package net.tbnr.gearz.hub;
 
+import lombok.Data;
 import net.tbnr.gearz.Gearz;
 import net.tbnr.gearz.packets.wrapper.WrapperPlayServerWorldParticles;
 import net.tbnr.manager.TBNRNetworkManager;
@@ -57,7 +58,6 @@ public class SnowballEXP implements Listener {
 
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onSnowballJoin(final TPlayerJoinEvent event) {
-		event.getPlayer().store(TBNRHub.getInstance(), new SnowballInventoryCount(getSnowballsInInventory(event.getPlayer().getPlayer().getInventory())));
 		event.getPlayer().clearInventory();
 		new BukkitRunnable() {
 			@Override
@@ -180,16 +180,9 @@ public class SnowballEXP implements Listener {
 		player.store(TBNRHub.getInstance(), new SnowballInventoryCount(getSnowballsInInventory(event.getPlayer().getInventory())));
 	}
 
+    @Data
     private static class SnowballHitStorable implements TPlayerStorable {
         private int hits;
-
-        private int getHits() {
-            return hits;
-        }
-
-        private void setHits(int hits) {
-            this.hits = hits;
-        }
 
         @Override
         public String getName() {
@@ -202,16 +195,9 @@ public class SnowballEXP implements Listener {
         }
     }
 
+    @Data
     private static class SnowballHitByStorable implements TPlayerStorable {
         private int hits;
-
-        private int getHits() {
-            return hits;
-        }
-
-        private void setHits(int hits) {
-            this.hits = hits;
-        }
 
         @Override
         public String getName() {
