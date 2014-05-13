@@ -81,16 +81,16 @@ public class HubItems implements Listener {
 		    if (itemMeta == null) continue;
 		    if(itemMeta.hidden()) continue;
 
-		    if(player.hasPermission(itemMeta.permission()) ||
-				    itemMeta.permission().isEmpty()) {
-			    itemStack = item.getItems().get(0);
-			    itemInSlot = player.getInventory().getItem(itemMeta.slot());
-			    if(itemInSlot != null && itemInSlot.getType() != Material.AIR && itemMeta.slot() == -1) {
-				    player.getInventory().addItem(itemStack);
-				    continue;
-			    }
-			    player.getInventory().setItem(itemMeta.slot(), itemStack);
+		    if(!player.hasPermission(itemMeta.permission()) && !itemMeta.permission().isEmpty()) return;
+		    itemStack = item.getItems().get(0);
+		    if(itemMeta.slot() == -1) {
+			    player.getInventory().addItem(itemStack);
+			    continue;
 		    }
+
+		    itemInSlot = player.getInventory().getItem(itemMeta.slot());
+		    if(itemInSlot != null && itemInSlot.getType() != Material.AIR) return;
+			player.getInventory().setItem(itemMeta.slot(), itemStack);
 	    }
     }
 
