@@ -64,7 +64,7 @@ public class HubItems implements Listener {
 
     }
 
-    @EventHandler(priority= EventPriority.HIGHEST)
+    @EventHandler(priority= EventPriority.MONITOR)
     @SuppressWarnings("unused")
     public void onPlayerJoin(TPlayerJoinEvent event) {
 		Player player = event.getPlayer().getPlayer();

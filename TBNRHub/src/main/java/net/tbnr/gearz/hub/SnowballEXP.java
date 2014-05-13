@@ -47,30 +47,35 @@ import java.util.concurrent.TimeUnit;
  * To change this template use File | Settings | File Templates.
  */
 public class SnowballEXP implements Listener {
+
     @EventHandler(priority = EventPriority.MONITOR)
-    @SuppressWarnings("unused")
     public void onJoin(TPlayerJoinEvent event) {
-	    if (event.getPlayer().isFirstJoin()) {
-            event.getPlayer().giveItem(Material.SNOW_BALL, 32);
-            event.getPlayer().sendMessage(TBNRHub.getInstance().getFormat("formats.first-join-snowball"));
-        }
-    }
+	    final TPlayer player = event.getPlayer();
+	    if (player.isFirstJoin()) {
+			player.giveItem(Material.SNOW_BALL, 32);
+			player.sendMessage(TBNRHub.getInstance().getFormat("formats.first-join-snowball"));
+		    return;
+		}
+	    new BukkitRunnable() {
+
+		    @Override
+		    public void run() {
+			    // Snowballs given in EventPriority.MONITOR ~ as players are reset on HIGHEST
+			    Integer snowballs = (Integer) player.getStorable(TBNRHub.getInstance(), "snowballinventorycount");
+			    // If the player has no snowballs recorded in the database return
+			    if(snowballs == null) return;
+			    // Give the player his Snowballs
+			    player.giveItem(Material.SNOW_BALL, snowballs);
+		    }
+	    }.runTaskLater(TBNRHub.getInstance(), 5);
+	}
 
 	@EventHandler(priority = EventPriority.LOWEST)
-	public void onSnowballJoin(final TPlayerJoinEvent event) {
+	public void onSnowballJoin(TPlayerJoinEvent event) {
 		event.getPlayer().clearInventory();
-		new BukkitRunnable() {
-			@Override
-			public void run() {
-				Integer snowballs = (Integer) event.getPlayer().getStorable(TBNRHub.getInstance(), "snowballinventorycount");
-				if(snowballs == null) snowballs = 0;
-				event.getPlayer().giveItem(Material.SNOW_BALL, snowballs);
-			}
-		}.runTaskLater(TBNRHub.getInstance(), 5);
 	}
 
     @EventHandler(priority = EventPriority.MONITOR)
-    @SuppressWarnings("unused")
     public void onSnowballHit(EntityDamageByEntityEvent event) {
         if (!(event.getDamager() instanceof Snowball)) return;
         if (!(event.getEntity() instanceof Player)) return;
@@ -88,8 +93,8 @@ public class SnowballEXP implements Listener {
         }
         try {
             thrower.playParticleEffect(new TPlayer.TParticleEffect(hit.getPlayer().getLocation(), Gearz.getRandom().nextFloat(), 2, 15, 2, WrapperPlayServerWorldParticles.ParticleEffect.HEART, WrapperPlayServerWorldParticles.ParticleEffect.DRIP_LAVA, WrapperPlayServerWorldParticles.ParticleEffect.SMOKE));
-        } catch (Exception ignored) {
-        }
+        } catch (Exception ignored) {}
+
         thrower.playSound(Sound.CHICKEN_EGG_POP);
         thrower.playSound(Sound.ORB_PICKUP);
         thrower.getPlayer().hidePlayer(hit.getPlayer());
