@@ -40,6 +40,7 @@ public class HeadCommand implements TCommandHandler {
     @SuppressWarnings("unused")
     @TCommand(name = "head", permission = "gearz.head", senders = {TCommandSender.Player}, usage = "/head <name>", description = "Gives the sender the target players head")
     public TCommandStatus head(final CommandSender sender, TCommandSender type, TCommand meta, Command command, String[] args) {
+        if (args.length == 0) return TCommandStatus.FEW_ARGS;
         for (final String s : args) {
             final ItemStack stack = new ItemStack(Material.SKULL_ITEM, 1, (short) SkullType.PLAYER.ordinal());
             final ItemMeta itemMeta = stack.getItemMeta();
