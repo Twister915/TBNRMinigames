@@ -36,8 +36,7 @@ import java.util.concurrent.TimeUnit;
  * Latest Change:
  */
 @HubItemMeta(
-		key = "speedup",
-		slot = 4
+		key = "speedup"
 )
 public class SpeedUp extends HubItem {
 	final List<String> enabledFor = new ArrayList<>();
