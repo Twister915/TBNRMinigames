@@ -3,7 +3,6 @@ package net.tbnr.gearz.hub.signs;
 import com.mongodb.*;
 import lombok.Data;
 import net.tbnr.gearz.Gearz;
-import net.tbnr.gearz.activerecord.GModel;
 import net.tbnr.gearz.arena.ArenaFieldSerializer;
 import net.tbnr.gearz.arena.Point;
 import net.tbnr.gearz.game.MinigameMeta;
@@ -100,8 +99,7 @@ public final class GameServerMatrixInteractionManager implements TCommandHandler
     private static MinigameMeta getMetaForKey(String key) {
         DBObject one = TBNRHub.getInstance().getMongoDB().getCollection("minigamemetas").findOne(new BasicDBObject("key", key));
         if (one == null) return null;
-        MinigameMeta meta = new MinigameMeta(TBNRHub.getInstance().getMongoDB(), one);
-        return meta;
+        return new MinigameMeta(TBNRHub.getInstance().getMongoDB(), one);
     }
 
     @Override

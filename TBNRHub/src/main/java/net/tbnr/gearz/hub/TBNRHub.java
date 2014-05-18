@@ -42,7 +42,7 @@ import java.net.SocketException;
  * Time: 2:34 PM
  * To change this template use File | Settings | File Templates.
  */
-@SuppressWarnings({"FieldCanBeLocal"})
+@SuppressWarnings("FieldCanBeLocal")
 public class TBNRHub extends TPlugin {
 	private MultiserverCannons cannon;
 	@Getter private Spawn spawnHandler;

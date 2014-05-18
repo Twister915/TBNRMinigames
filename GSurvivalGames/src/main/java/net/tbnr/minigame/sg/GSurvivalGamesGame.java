@@ -77,7 +77,7 @@ public final class GSurvivalGamesGame extends TBNRMinigame implements GameCountd
 
     private SGState state;
     private Integer countdownSecondsRemain;
-    private final static Integer countdownLength = 30;
+    private static final Integer countdownLength = 30;
     private Integer startingPlayers;
     private double maxCornicopiaDistance;
     private List<Location> frozenBlocks = new ArrayList<>();

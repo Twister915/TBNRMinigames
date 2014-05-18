@@ -57,7 +57,7 @@ public final class MultiserverCannon implements ConfigurationSerializable, Liste
         this.labels.get(player).updateTag(TBNRHub.getInstance().getFormat("formats.connecting", false, new String[]{"<server>", server}));
     }
 
-    @EventHandler()
+    @EventHandler
     @SuppressWarnings("unused")
     public void onPlayerJoin(final TPlayerJoinEvent event) {
         Bukkit.getScheduler().runTaskLater(TBNRHub.getInstance(), new Runnable() {

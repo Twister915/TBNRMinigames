@@ -34,7 +34,7 @@ public final class AnnouncerManager implements AnnouncementStorageDelegate {
     private Integer effectIndex;
     private Integer runFrames;
 
-    private final static Integer effectRateTicks = 3;
+    private static final Integer effectRateTicks = 3;
     private Integer announcementSeconds;
 
     private List<Announcement> bufferedAnnouncementList = null;

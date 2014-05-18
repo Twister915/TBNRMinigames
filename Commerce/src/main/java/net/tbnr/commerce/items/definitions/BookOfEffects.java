@@ -41,7 +41,7 @@ public final class BookOfEffects extends CommerceItem {
     public void onPlayerJoin(PlayerJoinEvent event) {
         if (!Gearz.getInstance().isLobbyServer()) return;
         TBNRPlayer player = resolveTbnrPlayer(event.getPlayer());
-        if (!this.getPlayer().equals(player)) return;
+        //if (!this.getPlayer().equals(player)) return;
         //TPlayer tPlayer = player.getTPlayer();
         //TODO give the player a book, if they don't already have it.
     }

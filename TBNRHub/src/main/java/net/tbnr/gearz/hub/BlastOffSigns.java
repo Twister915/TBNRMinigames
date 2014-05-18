@@ -46,7 +46,7 @@ import java.util.Map;
  * Latest Change:
  */
 public class BlastOffSigns implements Listener {
-    final private Map<TPlayer, SignData> inUse = new HashMap<>();
+    private final Map<TPlayer, SignData> inUse = new HashMap<>();
 
     @EventHandler
     @SuppressWarnings("unused")

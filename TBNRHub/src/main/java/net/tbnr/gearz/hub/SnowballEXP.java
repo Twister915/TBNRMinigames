@@ -57,7 +57,6 @@ public class SnowballEXP implements Listener {
 		    return;
 		}
 	    new BukkitRunnable() {
-
 		    @Override
 		    public void run() {
 			    // Snowballs given in EventPriority.MONITOR ~ as players are reset on HIGHEST

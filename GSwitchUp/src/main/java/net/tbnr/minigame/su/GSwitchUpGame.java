@@ -48,8 +48,8 @@ import java.util.*;
 public final class GSwitchUpGame extends TBNRMinigame implements GameCountdownHandler {
     private int killsInRound = 0;
     private int roundsPlayed = 0;
-    private final static int killsPerRound = 15;
-    private final static int roundsPerGame = 5;
+    private static final int killsPerRound = 15;
+    private static final int roundsPerGame = 5;
     private GSwitchUpArena gSwitchUpArena;
     private final HashMap<TBNRPlayer, Integer> killsThisGame = new HashMap<>();
     private boolean gracePeriod = false;
