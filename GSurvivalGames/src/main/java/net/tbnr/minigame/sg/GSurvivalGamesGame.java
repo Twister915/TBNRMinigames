@@ -467,6 +467,7 @@ public final class GSurvivalGamesGame extends TBNRMinigame implements GameCountd
                         continue;
                     }
                     Bukkit.getScheduler().scheduleSyncDelayedTask(getPlugin(), new Runnable() {
+                        @Override
                         public void run() {
                             if (block.getType().equals(Material.ICE)) {
                                 block.setType(Material.AIR);

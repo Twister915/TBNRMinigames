@@ -70,6 +70,7 @@ public final class AnnouncerManager implements AnnouncementStorageDelegate {
         bufferedAnnouncementList = null;
     }
 
+    @Override
     public void reload() {
         stop();
         announcementSeconds = storage.getInterval();

@@ -152,6 +152,7 @@ public class TBNRHub extends TPlugin {
 		}
 	}
 
+	@Override
 	public String compile(String[] args, int min, int max) {
 		return Gearz.getInstance().compile(args, min, max);
 	}

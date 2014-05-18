@@ -238,6 +238,7 @@ public final class TBNRPlayer extends GearzPlayer {
         }
     }
 
+    @Override
     public TPlayer getTPlayer() {
         return this.tPlayer;
     }
