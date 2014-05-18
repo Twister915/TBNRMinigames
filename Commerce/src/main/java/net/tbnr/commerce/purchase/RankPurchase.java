@@ -15,7 +15,6 @@ import com.mongodb.DB;
 import com.mongodb.DBObject;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 import net.tbnr.commerce.GearzCommerce;
 import net.tbnr.gearz.activerecord.BasicField;
 import net.tbnr.util.player.TPlayerManager;
