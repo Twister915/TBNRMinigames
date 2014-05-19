@@ -49,24 +49,19 @@ import java.util.concurrent.TimeUnit;
 public class SnowballEXP implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
-    public void onJoin(TPlayerJoinEvent event) {
+    public synchronized void onJoin(TPlayerJoinEvent event) {
 	    final TPlayer player = event.getPlayer();
 	    if (player.isFirstJoin()) {
 			player.giveItem(Material.SNOW_BALL, 32);
 			player.sendMessage(TBNRHub.getInstance().getFormat("formats.first-join-snowball"));
 		    return;
 		}
-	    new BukkitRunnable() {
-		    @Override
-		    public void run() {
-			    // Snowballs given in EventPriority.MONITOR ~ as players are reset on HIGHEST
-			    Integer snowballs = (Integer) player.getStorable(TBNRHub.getInstance(), "snowballinventorycount");
-			    // If the player has no snowballs recorded in the database return
-			    if(snowballs == null) return;
-			    // Give the player his Snowballs
-			    player.giveItem(Material.SNOW_BALL, snowballs);
-		    }
-	    }.runTaskLater(TBNRHub.getInstance(), 5);
+	    // Snowballs given in EventPriority.MONITOR ~ as players are reset on HIGHEST
+	    Integer snowballs = (Integer) player.getStorable(TBNRHub.getInstance(), "snowballinventorycount");
+	    // If the player has no snowballs recorded in the database return
+	    if(snowballs == null) return;
+	    // Give the player his Snowballs
+	    player.giveItem(Material.SNOW_BALL, snowballs);
 	}
 
 	@EventHandler(priority = EventPriority.LOWEST)

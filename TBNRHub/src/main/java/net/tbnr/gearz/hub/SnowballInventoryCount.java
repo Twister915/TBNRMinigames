@@ -22,9 +22,9 @@ import net.tbnr.util.player.TPlayerStorable;
  */
 public class SnowballInventoryCount implements TPlayerStorable {
 
-	private int snowballCount;
+	private Integer snowballCount;
 
-	public SnowballInventoryCount(int snowballCount) {
+	public SnowballInventoryCount(Integer snowballCount) {
 		this.snowballCount = snowballCount;
 	}
 
