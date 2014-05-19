@@ -92,6 +92,7 @@ public class HubItems implements Listener {
 
 		    if(itemInSlot != null && itemInSlot.getType() != Material.AIR) {
 			    player.getInventory().addItem(itemStack);
+			    player.updateInventory();
 			    continue;
 		    }
 			player.getInventory().setItem(itemMeta.slot(), itemStack);
