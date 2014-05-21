@@ -1,6 +1,6 @@
 name: GSwitchUp
 version: 1.0
-main: net.tbnr.mc.minigame.su.GSwitchUp
+main: net.tbnr.minigame.su.GSwitchUp
 description: Switch Up Game
 authors: [Twister915]
 depend: [Gearz, TBNRNetwork]

@@ -1,5 +1,5 @@
 name: GDeathball
-main: net.tbnr.mc.minigame.db.GDeathball
+main: net.tbnr.minigame.db.GDeathball
 version: 1.0
 authors: [Rigi]
 depend: [Gearz, TBNRNetwork]

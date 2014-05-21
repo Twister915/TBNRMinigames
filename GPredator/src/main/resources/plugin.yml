@@ -1,6 +1,6 @@
 name: GPredator
 version: 1.0
-main: net.tbnr.mc.minigame.predator.GPredator
+main: net.tbnr.minigame.predator.GPredator
 description: dat' Predator
 website: http://tbnr.net
 authors: [pokuit]

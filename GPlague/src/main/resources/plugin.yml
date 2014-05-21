@@ -1,6 +1,6 @@
 name: GPlague
 authors: [pokuit]
 version: 1.0
-main: net.tbnr.mc.minigame.pl.GPlague
+main: net.tbnr.gearz.pl.GPlague
 description: Plague Game
 depend: [Gearz, TBNRNetwork]

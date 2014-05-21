@@ -1,6 +1,6 @@
 name: TBNRHub
 version: 1.0
-main: net.tbnr.mc.hub.TBNRHub
+main: net.tbnr.gearz.hub.TBNRHub
 description: TBNR Hub
 website: http://tbnr.net
 authors: [Twister915, Thecraftgod, NoyHillel1]
