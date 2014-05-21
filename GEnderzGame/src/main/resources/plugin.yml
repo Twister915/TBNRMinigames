@@ -2,5 +2,5 @@ name: GEnderzGame
 version: 1.0
 authors: [Twister915]
 depend: [Gearz, TBNRNetwork]
-main: net.tbnr.minigame.eg.GEnderzGame
+main: net.tbnr.mc.minigame.eg.GEnderzGame
 description: EnderzGame

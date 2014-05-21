@@ -1,5 +1,5 @@
 name: ZGSurvivalGames
 depend: [Gearz, TBNRNetwork]
-main: net.tbnr.minigame.sg.GSurvivalGames
+main: net.tbnr.mc.minigame.sg.GSurvivalGames
 version: 1.0
 authors: [Twister915]

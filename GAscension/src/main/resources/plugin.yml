@@ -1,5 +1,5 @@
 name: ZAscensionGame
-main: net.tbnr.minigame.ascension.GAscension
+main: net.tbnr.mc.minigame.ascension.GAscension
 version: 1.0
 description: Ascension plugin!
 website: http://tbnr.net

@@ -1,6 +1,6 @@
 name: ZGHeadHunter
 authors: [Twister915]
 version: 1.0
-main: net.tbnr.gearz.hh.GHeadHunter
+main: net.tbnr.mc.minigame.hh.GHeadHunter
 description: HeadHunter game!
 depend: [Gearz, TBNRNetwork]

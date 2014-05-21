@@ -2,5 +2,5 @@ name: TBNRCommerce
 version: 1.0
 authors: [Twister915]
 depend: [Gearz, TBNRNetwork]
-main: net.tbnr.commerce.GearzCommerce
+main: net.tbnr.mc.commerce.GearzCommerce
 description: dem cactus pointz
