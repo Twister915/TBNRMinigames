@@ -99,11 +99,11 @@ public abstract class HubItem implements Listener {
 	 * @see net.tbnr.util.TPlugin#getFormat(String)
 	 */
 	public final String getProperty(@NonNull String property) {
-		return getProperty(property, false, new String[]{});
+		return getProperty(property, false, null);
 	}
 
 	public final String getProperty(@NonNull String property, @NonNull boolean prefix) {
-		return getProperty(property, prefix, new String[]{});
+		return getProperty(property, prefix, null);
 	}
 
 	public final String getProperty(@NonNull String property, @NonNull boolean prefix, String[]... replacements) {
